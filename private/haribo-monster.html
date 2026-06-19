@@ -1,11 +1,253 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<title>Harribo-Monster</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Haribo-Monster</title>
 </head>
 <body>
-<h1>Harribo-Monster</h1>
-<p>— coming soon —</p>
+
+  <h1>Haribo-Monster</h1>
+  <p><a href="#haribo">Haribo</a> | <a href="#monster">Monster Energy</a></p>
+
+  <hr>
+
+  <section id="haribo">
+    <h2>Haribo</h2>
+
+    <div id="haribo-carousel">
+      <button onclick="carouselPrev('haribo')">◀</button>
+      <div id="haribo-slide-wrapper"></div>
+      <button onclick="carouselNext('haribo')">▶</button>
+      <p id="haribo-caption"></p>
+      <p id="haribo-counter"></p>
+    </div>
+
+    <hr>
+
+    <h3 class="tier-s">S-Tier</h3>
+    <ul>
+      <li>Fruity-Bussi</li>
+      <li>Super Gurken</li>
+      <li>Wackelgeister</li>
+      <li>Wine Gums <em>(nicht Weinland!)</em></li>
+      <li>Waldgeister</li>
+    </ul>
+
+    <h3 class="tier-a">A-Tier</h3>
+    <ul>
+      <li>Annakondas</li>
+      <li>PärchenBärchen</li>
+      <li>Vulcano</li>
+      <li>Tropifrutti</li>
+      <li>Starmix</li>
+      <li>Rainbow Sauer</li>
+      <li>Milchbären</li>
+      <li>Frösche</li>
+    </ul>
+
+    <h3 class="tier-b">B-Tier</h3>
+    <ul>
+      <li>Pico Balla</li>
+      <li>Goldbären (div. Varianten)</li>
+      <li>Meterstangen (Erdbeere / Schwarze Johannisbeere)</li>
+      <li>Berries</li>
+      <li>Brixx</li>
+      <li>Cherries</li>
+      <li>Spiegeleier</li>
+      <li>Erdbeeren</li>
+      <li>Pfirsiche</li>
+    </ul>
+
+    <h3 class="tier-c">C-Tier</h3>
+    <ul>
+      <li>Fruitmania</li>
+      <li>Phantasia</li>
+      <li>Cola</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <section id="monster">
+    <h2>Monster Energy</h2>
+
+    <div id="monster-carousel">
+      <button onclick="carouselPrev('monster')">◀</button>
+      <div id="monster-slide-wrapper"></div>
+      <button onclick="carouselNext('monster')">▶</button>
+      <p id="monster-caption"></p>
+      <p id="monster-counter"></p>
+    </div>
+
+    <hr>
+
+    <h3 class="tier-s">S-Tier</h3>
+    <ul>
+      <li>Mango Loco</li>
+      <li>Pipeline Punch</li>
+      <li>Pacific Punch</li>
+      <li>Rio Punch</li>
+      <li>Recover Lemonade</li>
+      <li>Recover Peach</li>
+      <li>Recover Wild Berry</li>
+      <li>Ultra Strawberry Dreams</li>
+    </ul>
+
+    <h3 class="tier-a">A-Tier</h3>
+    <ul>
+      <li>Ultra Golden Pineapple</li>
+      <li>Khaotic</li>
+      <li>Aussie Lemonade</li>
+      <li>Lando Norris</li>
+      <li>Ginger Brew</li>
+    </ul>
+
+    <h3 class="tier-b">B-Tier</h3>
+    <ul>
+      <li>White Pineapple</li>
+      <li>Ultra Paradise</li>
+      <li>Ultra Fiesta</li>
+      <li>MIXXD</li>
+      <li>VR46 (Sun &amp; Moon)</li>
+      <li>Bad Apple</li>
+      <li>Viking Berry</li>
+    </ul>
+
+    <h3 class="tier-c">C-Tier</h3>
+    <ul>
+      <li>Super Dry / Niro</li>
+      <li>Watermelon</li>
+      <li>VR46 The Dr.</li>
+      <li>Ultra Violet</li>
+      <li>Papillon</li>
+    </ul>
+
+    <h3 class="tier-d">D-Tier</h3>
+    <ul>
+      <li>Grün / Normal (inkl. Zero)</li>
+      <li>Lewis Hamilton Zero</li>
+      <li>Reserve Orange Dreams</li>
+      <li>Cosmic Peach</li>
+      <li>Ultra Rosa</li>
+      <li>Ultra Fantasy Ruby Red</li>
+    </ul>
+
+    <h3 class="tier-f">F-Tier</h3>
+    <ul>
+      <li>White</li>
+      <li>Blue</li>
+      <li>Fiesta Watermelon</li>
+      <li>Ultra Peachy Keen</li>
+      <li>Assault</li>
+    </ul>
+  </section>
+
+  <hr>
+  <p><a href="../index.html">← Zurück</a></p>
+
+  <script>
+    const hariboSlides = [
+      { name: "Fruity-Bussi",   tier: "S", src: "img/haribo/fruity-bussi.jpg" },
+      { name: "Super Gurken",   tier: "S", src: "img/haribo/super-gurken.jpg" },
+      { name: "Wackelgeister",  tier: "S", src: "img/haribo/wackelgeister.jpg" },
+      { name: "Wine Gums",      tier: "S", src: "img/haribo/wine-gums.jpg" },
+      { name: "Waldgeister",    tier: "S", src: "img/haribo/waldgeister.jpg" },
+      { name: "Annakondas",     tier: "A", src: "img/haribo/annakondas.jpg" },
+      { name: "PärchenBärchen", tier: "A", src: "img/haribo/paerchenbaerchen.jpg" },
+      { name: "Vulcano",        tier: "A", src: "img/haribo/vulcano.jpg" },
+      { name: "Tropifrutti",    tier: "A", src: "img/haribo/tropifrutti.jpg" },
+      { name: "Starmix",        tier: "A", src: "img/haribo/starmix.jpg" },
+      { name: "Rainbow Sauer",  tier: "A", src: "img/haribo/rainbow-sauer.jpg" },
+      { name: "Milchbären",     tier: "A", src: "img/haribo/milchbaeren.jpg" },
+      { name: "Frösche",        tier: "A", src: "img/haribo/froesche.jpg" },
+      { name: "Pico Balla",     tier: "B", src: "img/haribo/pico-balla.jpg" },
+      { name: "Goldbären",      tier: "B", src: "img/haribo/goldbaeren.jpg" },
+      { name: "Meterstangen",   tier: "B", src: "img/haribo/meterstangen.jpg" },
+      { name: "Berries",        tier: "B", src: "img/haribo/berries.jpg" },
+      { name: "Brixx",          tier: "B", src: "img/haribo/brixx.jpg" },
+      { name: "Cherries",       tier: "B", src: "img/haribo/cherries.jpg" },
+      { name: "Spiegeleier",    tier: "B", src: "img/haribo/spiegeleier.jpg" },
+      { name: "Erdbeeren",      tier: "B", src: "img/haribo/erdbeeren.jpg" },
+      { name: "Pfirsiche",      tier: "B", src: "img/haribo/pfirsiche.jpg" },
+      { name: "Fruitmania",     tier: "C", src: "img/haribo/fruitmania.jpg" },
+      { name: "Phantasia",      tier: "C", src: "img/haribo/phantasia.jpg" },
+      { name: "Cola",           tier: "C", src: "img/haribo/cola.jpg" },
+    ];
+
+    const monsterSlides = [
+      { name: "Mango Loco",              tier: "S", src: "img/monster/mango-loco.jpg" },
+      { name: "Pipeline Punch",          tier: "S", src: "img/monster/pipeline-punch.jpg" },
+      { name: "Pacific Punch",           tier: "S", src: "img/monster/pacific-punch.jpg" },
+      { name: "Rio Punch",               tier: "S", src: "img/monster/rio-punch.jpg" },
+      { name: "Recover Lemonade",        tier: "S", src: "img/monster/recover-lemonade.jpg" },
+      { name: "Recover Peach",           tier: "S", src: "img/monster/recover-peach.jpg" },
+      { name: "Recover Wild Berry",      tier: "S", src: "img/monster/recover-wild-berry.jpg" },
+      { name: "Ultra Strawberry Dreams", tier: "S", src: "img/monster/ultra-strawberry-dreams.jpg" },
+      { name: "Ultra Golden Pineapple",  tier: "A", src: "img/monster/ultra-golden-pineapple.jpg" },
+      { name: "Khaotic",                 tier: "A", src: "img/monster/khaotic.jpg" },
+      { name: "Aussie Lemonade",         tier: "A", src: "img/monster/aussie-lemonade.jpg" },
+      { name: "Lando Norris",            tier: "A", src: "img/monster/lando-norris.jpg" },
+      { name: "Ginger Brew",             tier: "A", src: "img/monster/ginger-brew.jpg" },
+      { name: "White Pineapple",         tier: "B", src: "img/monster/white-pineapple.jpg" },
+      { name: "Ultra Paradise",          tier: "B", src: "img/monster/ultra-paradise.jpg" },
+      { name: "Ultra Fiesta",            tier: "B", src: "img/monster/ultra-fiesta.jpg" },
+      { name: "MIXXD",                   tier: "B", src: "img/monster/mixxd.jpg" },
+      { name: "VR46 Sun & Moon",         tier: "B", src: "img/monster/vr46-sun-moon.jpg" },
+      { name: "Bad Apple",               tier: "B", src: "img/monster/bad-apple.jpg" },
+      { name: "Viking Berry",            tier: "B", src: "img/monster/viking-berry.jpg" },
+      { name: "Super Dry / Niro",        tier: "C", src: "img/monster/super-dry.jpg" },
+      { name: "Watermelon",              tier: "C", src: "img/monster/watermelon.jpg" },
+      { name: "VR46 The Dr.",            tier: "C", src: "img/monster/vr46-the-dr.jpg" },
+      { name: "Ultra Violet",            tier: "C", src: "img/monster/ultra-violet.jpg" },
+      { name: "Papillon",                tier: "C", src: "img/monster/papillon.jpg" },
+      { name: "Grün / Normal",           tier: "D", src: "img/monster/gruen.jpg" },
+      { name: "Lewis Hamilton Zero",     tier: "D", src: "img/monster/lewis-hamilton-zero.jpg" },
+      { name: "Reserve Orange Dreams",   tier: "D", src: "img/monster/reserve-orange-dreams.jpg" },
+      { name: "Cosmic Peach",            tier: "D", src: "img/monster/cosmic-peach.jpg" },
+      { name: "Ultra Rosa",              tier: "D", src: "img/monster/ultra-rosa.jpg" },
+      { name: "Ultra Fantasy Ruby Red",  tier: "D", src: "img/monster/ultra-fantasy-ruby-red.jpg" },
+      { name: "White",                   tier: "F", src: "img/monster/white.jpg" },
+      { name: "Blue",                    tier: "F", src: "img/monster/blue.jpg" },
+      { name: "Fiesta Watermelon",       tier: "F", src: "img/monster/fiesta-watermelon.jpg" },
+      { name: "Ultra Peachy Keen",       tier: "F", src: "img/monster/ultra-peachy-keen.jpg" },
+      { name: "Assault",                 tier: "F", src: "img/monster/assault.jpg" },
+    ];
+
+    const carouselState = {
+      haribo:   { index: 0, slides: hariboSlides },
+      monster:  { index: 0, slides: monsterSlides }
+    };
+
+    function renderCarousel(id) {
+      const state = carouselState[id];
+      const slide = state.slides[state.index];
+      document.getElementById(id + "-slide-wrapper").innerHTML = `
+        <figure>
+          <img src="${slide.src}" alt="${slide.name}" width="300"
+            onerror="this.outerHTML='<p>[${slide.name}]</p>'">
+          <figcaption>${slide.name}</figcaption>
+        </figure>`;
+      document.getElementById(id + "-caption").textContent = "Tier: " + slide.tier;
+      document.getElementById(id + "-counter").textContent =
+        (state.index + 1) + " / " + state.slides.length;
+    }
+
+    function carouselNext(id) {
+      const s = carouselState[id];
+      s.index = (s.index + 1) % s.slides.length;
+      renderCarousel(id);
+    }
+
+    function carouselPrev(id) {
+      const s = carouselState[id];
+      s.index = (s.index - 1 + s.slides.length) % s.slides.length;
+      renderCarousel(id);
+    }
+
+    renderCarousel("haribo");
+    renderCarousel("monster");
+  </script>
+
 </body>
 </html>
