@@ -173,6 +173,9 @@
       min-width: 0;
       display: flex;
       justify-content: center;
+      aspect-ratio: 1;
+      max-width: 100%;
+      transition: opacity 240ms var(--ease-out);
     }
 
     figure {
@@ -182,7 +185,8 @@
 
     figure img {
       max-width: 100%;
-      height: auto;
+      height: 100%;
+      object-fit: contain;
       border-radius: var(--radius-md);
       background: var(--paper);
       display: block;
@@ -560,70 +564,70 @@
 
   <script>
     const hariboSlides = [
-      { name: "Fruity-Bussi",   tier: "S", src: "https://www.haribo.com/en/products/img/fruity-bussi.jpg" },
-      { name: "Super Gurken",   tier: "S", src: "https://www.haribo.com/en/products/img/super-gurken.jpg" },
-      { name: "Wackelgeister",  tier: "S", src: "https://www.haribo.com/en/products/img/wackelgeister.jpg" },
-      { name: "Wine Gums",      tier: "S", src: "https://www.haribo.com/en/products/img/wine-gums.jpg" },
-      { name: "Waldgeister",    tier: "S", src: "https://www.haribo.com/en/products/img/waldgeister.jpg" },
-      { name: "Annakondas",     tier: "A", src: "https://www.haribo.com/en/products/img/annakondas.jpg" },
-      { name: "PärchenBärchen", tier: "A", src: "https://www.haribo.com/en/products/img/paerchenbaerchen.jpg" },
-      { name: "Vulcano",        tier: "A", src: "https://www.haribo.com/en/products/img/vulcano.jpg" },
-      { name: "Tropifrutti",    tier: "A", src: "https://www.haribo.com/en/products/img/tropifrutti.jpg" },
-      { name: "Starmix",        tier: "A", src: "https://www.haribo.com/en/products/img/starmix.jpg" },
-      { name: "Rainbow Sauer",  tier: "A", src: "https://www.haribo.com/en/products/img/rainbow-sauer.jpg" },
-      { name: "Milchbären",     tier: "A", src: "https://www.haribo.com/en/products/img/milchbaeren.jpg" },
-      { name: "Frösche",        tier: "A", src: "https://www.haribo.com/en/products/img/froesche.jpg" },
-      { name: "Pico Balla",     tier: "B", src: "https://www.haribo.com/en/products/img/pico-balla.jpg" },
-      { name: "Goldbären",      tier: "B", src: "https://www.haribo.com/en/products/img/goldbaeren.jpg" },
-      { name: "Meterstangen",   tier: "B", src: "https://www.haribo.com/en/products/img/meterstangen.jpg" },
-      { name: "Berries",        tier: "B", src: "https://www.haribo.com/en/products/img/berries.jpg" },
-      { name: "Brixx",          tier: "B", src: "https://www.haribo.com/en/products/img/brixx.jpg" },
-      { name: "Cherries",       tier: "B", src: "https://www.haribo.com/en/products/img/cherries.jpg" },
-      { name: "Spiegeleier",    tier: "B", src: "https://www.haribo.com/en/products/img/spiegeleier.jpg" },
-      { name: "Erdbeeren",      tier: "B", src: "https://www.haribo.com/en/products/img/erdbeeren.jpg" },
-      { name: "Pfirsiche",      tier: "B", src: "https://www.haribo.com/en/products/img/pfirsiche.jpg" },
-      { name: "Fruitmania",     tier: "C", src: "https://www.haribo.com/en/products/img/fruitmania.jpg" },
-      { name: "Phantasia",      tier: "C", src: "https://www.haribo.com/en/products/img/phantasia.jpg" },
-      { name: "Cola",           tier: "C", src: "https://www.haribo.com/en/products/img/cola.jpg" },
+      { name: "Fruity-Bussi",   tier: "S", src: "img/haribo/fruity-bussi.png" },
+      { name: "Super Gurken",   tier: "S", src: "img/haribo/super-gurken.png" },
+      { name: "Wackelgeister",  tier: "S", src: "img/haribo/wackelgeister.png" },
+      { name: "Wine Gums",      tier: "S", src: "img/haribo/wine-gums.png" },
+      { name: "Waldgeister",    tier: "S", src: "img/haribo/waldgeister.png" },
+      { name: "Annakondas",     tier: "A", src: "img/haribo/annakondas.png" },
+      { name: "PärchenBärchen", tier: "A", src: "img/haribo/paerchenbaerchen.png" },
+      { name: "Vulcano",        tier: "A", src: "img/haribo/vulcano.png" },
+      { name: "Tropifrutti",    tier: "A", src: "img/haribo/tropifrutti.png" },
+      { name: "Starmix",        tier: "A", src: "img/haribo/starmix.png" },
+      { name: "Rainbow Sauer",  tier: "A", src: "img/haribo/rainbow-sauer.png" },
+      { name: "Milchbären",     tier: "A", src: "img/haribo/milchbaeren.png" },
+      { name: "Frösche",        tier: "A", src: "img/haribo/froesche.png" },
+      { name: "Pico Balla",     tier: "B", src: "img/haribo/pico-balla.png" },
+      { name: "Goldbären",      tier: "B", src: "img/haribo/goldbaeren.png" },
+      { name: "Meterstangen",   tier: "B", src: "img/haribo/meterstangen.png" },
+      { name: "Berries",        tier: "B", src: "img/haribo/berries.png" },
+      { name: "Brixx",          tier: "B", src: "img/haribo/brixx.png" },
+      { name: "Cherries",       tier: "B", src: "img/haribo/cherries.png" },
+      { name: "Spiegeleier",    tier: "B", src: "img/haribo/spiegeleier.png" },
+      { name: "Erdbeeren",      tier: "B", src: "img/haribo/erdbeeren.png" },
+      { name: "Pfirsiche",      tier: "B", src: "img/haribo/pfirsiche.png" },
+      { name: "Fruitmania",     tier: "C", src: "img/haribo/fruitmania.png" },
+      { name: "Phantasia",      tier: "C", src: "img/haribo/phantasia.png" },
+      { name: "Cola",           tier: "C", src: "img/haribo/cola.png" },
     ];
 
     const monsterSlides = [
-      { name: "Mango Loco",              tier: "S", src: "https://www.monsterenergy.com/en/products/mango-loco.jpg" },
-      { name: "Pipeline Punch",          tier: "S", src: "https://www.monsterenergy.com/en/products/pipeline-punch.jpg" },
-      { name: "Pacific Punch",           tier: "S", src: "https://www.monsterenergy.com/en/products/pacific-punch.jpg" },
-      { name: "Rio Punch",               tier: "S", src: "https://www.monsterenergy.com/en/products/rio-punch.jpg" },
-      { name: "Recover Lemonade",        tier: "S", src: "https://www.monsterenergy.com/en/products/recover-lemonade.jpg" },
-      { name: "Recover Peach",           tier: "S", src: "https://www.monsterenergy.com/en/products/recover-peach.jpg" },
-      { name: "Recover Wild Berry",      tier: "S", src: "https://www.monsterenergy.com/en/products/recover-wild-berry.jpg" },
-      { name: "Ultra Strawberry Dreams", tier: "S", src: "https://www.monsterenergy.com/en/products/ultra-strawberry-dreams.jpg" },
-      { name: "Ultra Golden Pineapple",  tier: "A", src: "https://www.monsterenergy.com/en/products/ultra-golden-pineapple.jpg" },
-      { name: "Khaotic",                 tier: "A", src: "https://www.monsterenergy.com/en/products/khaotic.jpg" },
-      { name: "Aussie Lemonade",         tier: "A", src: "https://www.monsterenergy.com/en/products/aussie-lemonade.jpg" },
-      { name: "Lando Norris",            tier: "A", src: "https://www.monsterenergy.com/en/products/lando-norris.jpg" },
-      { name: "Ginger Brew",             tier: "A", src: "https://www.monsterenergy.com/en/products/ginger-brew.jpg" },
-      { name: "White Pineapple",         tier: "B", src: "https://www.monsterenergy.com/en/products/white-pineapple.jpg" },
-      { name: "Ultra Paradise",          tier: "B", src: "https://www.monsterenergy.com/en/products/ultra-paradise.jpg" },
-      { name: "Ultra Fiesta",            tier: "B", src: "https://www.monsterenergy.com/en/products/ultra-fiesta.jpg" },
-      { name: "MIXXD",                   tier: "B", src: "https://www.monsterenergy.com/en/products/mixxd.jpg" },
-      { name: "VR46 Sun & Moon",         tier: "B", src: "https://www.monsterenergy.com/en/products/vr46-sun-moon.jpg" },
-      { name: "Bad Apple",               tier: "B", src: "https://www.monsterenergy.com/en/products/bad-apple.jpg" },
-      { name: "Viking Berry",            tier: "B", src: "https://www.monsterenergy.com/en/products/viking-berry.jpg" },
-      { name: "Super Dry / Niro",        tier: "C", src: "https://www.monsterenergy.com/en/products/super-dry.jpg" },
-      { name: "Watermelon",              tier: "C", src: "https://www.monsterenergy.com/en/products/watermelon.jpg" },
-      { name: "VR46 The Dr.",            tier: "C", src: "https://www.monsterenergy.com/en/products/vr46-the-dr.jpg" },
-      { name: "Ultra Violet",            tier: "C", src: "https://www.monsterenergy.com/en/products/ultra-violet.jpg" },
-      { name: "Papillon",                tier: "C", src: "https://www.monsterenergy.com/en/products/papillon.jpg" },
-      { name: "Grün / Normal",           tier: "D", src: "https://www.monsterenergy.com/en/products/green.jpg" },
-      { name: "Lewis Hamilton Zero",     tier: "D", src: "https://www.monsterenergy.com/en/products/lewis-hamilton-zero.jpg" },
-      { name: "Reserve Orange Dreams",   tier: "D", src: "https://www.monsterenergy.com/en/products/reserve-orange-dreams.jpg" },
-      { name: "Cosmic Peach",            tier: "D", src: "https://www.monsterenergy.com/en/products/cosmic-peach.jpg" },
-      { name: "Ultra Rosa",              tier: "D", src: "https://www.monsterenergy.com/en/products/ultra-rosa.jpg" },
-      { name: "Ultra Fantasy Ruby Red",  tier: "D", src: "https://www.monsterenergy.com/en/products/ultra-fantasy-ruby-red.jpg" },
-      { name: "White",                   tier: "F", src: "https://www.monsterenergy.com/en/products/white.jpg" },
-      { name: "Blue",                    tier: "F", src: "https://www.monsterenergy.com/en/products/blue.jpg" },
-      { name: "Fiesta Watermelon",       tier: "F", src: "https://www.monsterenergy.com/en/products/fiesta-watermelon.jpg" },
-      { name: "Ultra Peachy Keen",       tier: "F", src: "https://www.monsterenergy.com/en/products/ultra-peachy-keen.jpg" },
-      { name: "Assault",                 tier: "F", src: "https://www.monsterenergy.com/en/products/assault.jpg" },
+      { name: "Mango Loco",              tier: "S", src: "img/monster/mango-loco.webp" },
+      { name: "Pipeline Punch",          tier: "S", src: "img/monster/pipeline-punch.png" },
+      { name: "Pacific Punch",           tier: "S", src: "img/monster/pacific-punch.png" },
+      { name: "Rio Punch",               tier: "S", src: "img/monster/rio-punch.png" },
+      { name: "Recover Lemonade",        tier: "S", src: "img/monster/recover-lemonade.png" },
+      { name: "Recover Peach",           tier: "S", src: "img/monster/recover-peach.png" },
+      { name: "Recover Wild Berry",      tier: "S", src: "img/monster/recover-wild-berry.png" },
+      { name: "Ultra Strawberry Dreams", tier: "S", src: "img/monster/ultra-strawberry-dreams.png" },
+      { name: "Ultra Golden Pineapple",  tier: "A", src: "img/monster/ultra-golden-pineapple.png" },
+      { name: "Khaotic",                 tier: "A", src: "img/monster/khaotic.png" },
+      { name: "Aussie Lemonade",         tier: "A", src: "img/monster/aussie-lemonade.png" },
+      { name: "Lando Norris",            tier: "A", src: "img/monster/lando-norris.png" },
+      { name: "Ginger Brew",             tier: "A", src: "img/monster/ginger-brew.png" },
+      { name: "White Pineapple",         tier: "B", src: "img/monster/white-pineapple.png" },
+      { name: "Ultra Paradise",          tier: "B", src: "img/monster/ultra-paradise.png" },
+      { name: "Ultra Fiesta",            tier: "B", src: "img/monster/ultra-fiesta.png" },
+      { name: "MIXXD",                   tier: "B", src: "img/monster/mixxd.png" },
+      { name: "VR46 Sun & Moon",         tier: "B", src: "img/monster/vr46-sun-moon.png" },
+      { name: "Bad Apple",               tier: "B", src: "img/monster/bad-apple.png" },
+      { name: "Viking Berry",            tier: "B", src: "img/monster/viking-berry.png" },
+      { name: "Super Dry / Niro",        tier: "C", src: "img/monster/super-dry.png" },
+      { name: "Watermelon",              tier: "C", src: "img/monster/watermelon.png" },
+      { name: "VR46 The Dr.",            tier: "C", src: "img/monster/vr46-the-dr.png" },
+      { name: "Ultra Violet",            tier: "C", src: "img/monster/ultra-violet.png" },
+      { name: "Papillon",                tier: "C", src: "img/monster/papillon.png" },
+      { name: "Grün / Normal",           tier: "D", src: "img/monster/gruen.png" },
+      { name: "Lewis Hamilton Zero",     tier: "D", src: "img/monster/lewis-hamilton-zero.png" },
+      { name: "Reserve Orange Dreams",   tier: "D", src: "img/monster/reserve-orange-dreams.png" },
+      { name: "Cosmic Peach",            tier: "D", src: "img/monster/cosmic-peach.png" },
+      { name: "Ultra Rosa",              tier: "D", src: "img/monster/ultra-rosa.png" },
+      { name: "Ultra Fantasy Ruby Red",  tier: "D", src: "img/monster/ultra-fantasy-ruby-red.png" },
+      { name: "White",                   tier: "F", src: "img/monster/white.png" },
+      { name: "Blue",                    tier: "F", src: "img/monster/blue.png" },
+      { name: "Fiesta Watermelon",       tier: "F", src: "img/monster/fiesta-watermelon.png" },
+      { name: "Ultra Peachy Keen",       tier: "F", src: "img/monster/ultra-peachy-keen.png" },
+      { name: "Assault",                 tier: "F", src: "img/monster/assault.png" },
     ];
 
     const carouselState = {
@@ -636,12 +640,17 @@
       const slide = state.slides[state.index];
       const wrapper = document.getElementById(id + "-slide-wrapper");
 
-      wrapper.innerHTML = `
-        <figure>
-          <img src="${slide.src}" alt="${slide.name}" width="300"
-            onerror="this.alt='[${slide.name} - Bild nicht verfügbar]'; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22300%22%3E%3Crect fill=%22%23E2DACB%22 width=%22300%22 height=%22300%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-family=%22SF Pro Display%22 font-size=%2214%22 fill=%22%23999%22%3E${slide.name}%3C/text%3E%3C/svg%3E'">
-          <figcaption>${slide.name}</figcaption>
-        </figure>`;
+      wrapper.style.opacity = "0";
+
+      setTimeout(() => {
+        wrapper.innerHTML = `
+          <figure>
+            <img src="${slide.src}" alt="${slide.name}"
+              onerror="this.alt='[${slide.name}]'; this.style.opacity='0.3';">
+            <figcaption>${slide.name}</figcaption>
+          </figure>`;
+        wrapper.style.opacity = "1";
+      }, 120);
 
       document.getElementById(id + "-caption").textContent = "Tier: " + slide.tier;
       document.getElementById(id + "-counter").textContent =
