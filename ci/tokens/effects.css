@@ -1,0 +1,51 @@
+/* ============================================================
+   EFFECTS — radii, soft shadows, blur, and the signature
+   COLORED GRADIENT GLOWS cast by black abstract shapes.
+   No hard drop shadows anywhere in the brand.
+   ============================================================ */
+
+:root {
+  /* ---- Corner radii (Apple-generous, continuous feel) ---- */
+  --radius-xs:   8px;
+  --radius-sm:   12px;
+  --radius-md:   18px;
+  --radius-lg:   24px;
+  --radius-xl:   32px;
+  --radius-2xl:  44px;
+  --radius-pill: 999px;
+  --radius-card: var(--radius-lg);
+
+  /* ---- Soft elevation shadows (warm-tinted, diffuse, never harsh) ---- */
+  --shadow-sm:  0 1px 2px rgba(22,20,15,0.04), 0 2px 6px rgba(22,20,15,0.05);
+  --shadow-md:  0 2px 8px rgba(22,20,15,0.05), 0 12px 28px rgba(22,20,15,0.07);
+  --shadow-lg:  0 4px 16px rgba(22,20,15,0.06), 0 28px 60px rgba(22,20,15,0.10);
+  --shadow-inset: inset 0 1px 0 rgba(255,255,255,0.6);
+
+  /* ---- Glass / blur ---- */
+  --blur-sm:  blur(8px); /* @kind other */
+  --blur-md:  blur(18px); /* @kind other */
+  --blur-lg:  blur(40px); /* @kind other */
+  --glass-light: rgba(250,247,241,0.72);
+  --glass-dark:  rgba(20,21,29,0.55);
+
+  /* ---- SIGNATURE GRADIENT GLOWS ----
+     Soft radial color halos placed BEHIND/UNDER near-black shapes.
+     Use on light surfaces. On .on-navy / .on-sienna use --glow-white. */
+  --glow-sienna: radial-gradient(closest-side,
+                  rgba(232,154,92,0.85), rgba(188,90,55,0.45) 55%, transparent 80%); /* @kind other */
+  --glow-amber:  radial-gradient(closest-side,
+                  rgba(226,161,76,0.80), rgba(226,161,76,0.30) 55%, transparent 80%); /* @kind other */
+  --glow-navy:   radial-gradient(closest-side,
+                  rgba(91,124,192,0.75), rgba(28,44,76,0.40) 55%, transparent 80%); /* @kind other */
+  --glow-duo:    radial-gradient(closest-side at 35% 35%,
+                  rgba(232,154,92,0.80), transparent 70%),
+                 radial-gradient(closest-side at 70% 70%,
+                  rgba(91,124,192,0.65), transparent 72%); /* @kind other */
+  /* Inverted: white halo for black shapes on dark accent surfaces */
+  --glow-white:  radial-gradient(closest-side,
+                  rgba(255,255,255,0.55), rgba(255,255,255,0.18) 55%, transparent 80%); /* @kind other */
+
+  /* Box-shadow form of the glow (for elements that can't host a pseudo-bg) */
+  --glow-shadow-sienna: 0 24px 80px -20px rgba(188,90,55,0.55);
+  --glow-shadow-navy:   0 24px 80px -20px rgba(28,44,76,0.55);
+}

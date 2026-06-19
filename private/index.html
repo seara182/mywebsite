@@ -2,23 +2,233 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Private</title>
+<link rel="stylesheet" href="../ci/styles.css">
+<style>
+  body {
+    margin: 0;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--navy) 0%, #0d1620 100%);
+    overflow: hidden;
+  }
+
+  .mystical-container {
+    position: relative;
+    width: 100%;
+    height: 100svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .glow-backdrop {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, var(--glow-duo) 0%, transparent 70%);
+    border-radius: 50%;
+    opacity: 0.3;
+    animation: drift 20s ease-in-out infinite;
+  }
+
+  .glow-backdrop:nth-child(1) {
+    top: 10%;
+    left: 5%;
+    width: 250px;
+    height: 250px;
+    animation-delay: 0s;
+  }
+
+  .glow-backdrop:nth-child(2) {
+    bottom: 15%;
+    right: 10%;
+    width: 350px;
+    height: 350px;
+    animation-delay: 7s;
+    background: radial-gradient(circle, var(--glow-white) 0%, transparent 70%);
+  }
+
+  @keyframes drift {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(30px, -30px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .glow-backdrop {
+      animation: none;
+    }
+  }
+
+  .login-card {
+    position: relative;
+    z-index: 10;
+    background: var(--paper);
+    padding: clamp(40px, 8vw, 80px);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    max-width: 420px;
+    width: 90%;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+  }
+
+  .login-card h1 {
+    font-family: var(--font-display);
+    font-size: clamp(24px, 5vw, 32px);
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0 0 8px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .login-card p {
+    font-family: var(--font-text);
+    font-size: var(--t-label);
+    color: var(--text-secondary);
+    margin: 0 0 32px 0;
+    opacity: 0.8;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  label {
+    display: block;
+    font-family: var(--font-text);
+    font-size: var(--t-label);
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  input[type="password"] {
+    width: 100%;
+    padding: 12px 16px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: white;
+    color: var(--ink);
+    box-sizing: border-box;
+    transition: border-color 240ms var(--ease-glide);
+  }
+
+  input[type="password"]:focus {
+    outline: none;
+    border-color: var(--sienna);
+    box-shadow: 0 0 0 3px rgba(188, 90, 55, 0.1);
+  }
+
+  button {
+    width: 100%;
+    padding: 14px 24px;
+    font-family: var(--font-display);
+    font-size: var(--t-label);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: var(--sienna);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 240ms var(--ease-glide);
+  }
+
+  button:hover {
+    background: #a84c2f;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  button:active {
+    transform: translateY(0);
+  }
+
+  .error-message {
+    color: #d32f2f;
+    font-size: var(--t-label);
+    margin-top: 12px;
+    font-weight: 500;
+    min-height: 20px;
+  }
+
+  #content {
+    position: relative;
+    z-index: 10;
+  }
+
+  .content-nav {
+    background: var(--paper);
+    padding: clamp(40px, 8vw, 80px);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    max-width: 420px;
+    width: 90%;
+    border: 1px solid var(--border);
+  }
+
+  .content-nav h2 {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 4vw, 28px);
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0 0 24px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .content-nav a {
+    display: block;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    background: var(--navy);
+    color: white;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    font-family: var(--font-display);
+    font-size: var(--t-label);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 240ms var(--ease-glide);
+  }
+
+  .content-nav a:hover {
+    background: #0f1a2a;
+    transform: translateX(8px);
+  }
+</style>
 </head>
 <body>
-<h1>Private Area</h1>
+<div class="mystical-container">
+  <div class="glow-backdrop"></div>
+  <div class="glow-backdrop"></div>
 
-<form id="login-form">
-<label for="password">Password</label>
-<input type="password" id="password" name="password">
-<button type="submit">Enter</button>
-</form>
+  <form id="login-form" class="login-card">
+    <h1>Portal</h1>
+    <p>Geheime Archive</p>
+    <div class="form-group">
+      <label for="password">Passwort</label>
+      <input type="password" id="password" name="password" autocomplete="current-password">
+    </div>
+    <button type="submit">Betreten</button>
+    <div id="error-message" class="error-message"></div>
+  </form>
 
-<p id="error-message"></p>
-
-<div id="content" hidden>
-<ul>
-<li><a href="haribo-monster.html">Harribo-Monster</a></li>
-</ul>
+  <div id="content" hidden class="content-nav">
+    <h2>Archive</h2>
+    <a href="haribo-monster.html">Haribo & Monster Tier List</a>
+  </div>
 </div>
 
 <script>
@@ -51,7 +261,7 @@ document.getElementById("login-form").addEventListener("submit", async (event) =
     errorMessage.textContent = "";
     showContent();
   } else {
-    errorMessage.textContent = "Incorrect password.";
+    errorMessage.textContent = "Passwort falsch.";
   }
 });
 </script>

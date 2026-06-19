@@ -1,0 +1,91 @@
+/* ============================================================
+   COLORS — Mika Jeske personal brand
+   Warm take on Apple's design language. Off-white surfaces,
+   near-black abstract shapes, navy + burnt-sienna accents,
+   colored gradient glows instead of hard drop shadows.
+   ============================================================ */
+
+:root {
+  /* ---- Base neutrals (warm, never pure white/black) ---- */
+  --paper:        #FAF7F1;  /* primary surface — warm off-white */
+  --paper-2:      #F3EEE4;  /* recessed / alternating surface */
+  --paper-3:      #EAE3D5;  /* hairline fills, track backgrounds */
+  --ink:          #16140F;  /* near-black — the shape/icon color, headings */
+  --ink-soft:     #211E18;  /* slightly lifted black for large fills */
+
+  /* ---- Text on light surfaces ---- */
+  --text-strong:  #16140F;  /* headings */
+  --text-body:    #3A362E;  /* body copy */
+  --text-muted:   #756F62;  /* captions, meta, labels */
+  --text-faint:   #A39C8C;  /* disabled, watermark */
+  --hairline:     #E2DACB;  /* borders, dividers */
+  --hairline-strong: #D2C8B4;
+
+  /* ---- Navy accent (contrast surface) ---- */
+  --navy:         #1C2C4C;  /* navy surface */
+  --navy-deep:    #14213B;  /* darker navy */
+  --navy-soft:    #2A3E66;  /* lifted navy for cards on navy */
+  --navy-glow:    #5B7CC0;  /* dusty blue used in glows */
+
+  /* ---- Burnt sienna accent (contrast surface) ---- */
+  --sienna:       #BC5A37;  /* burnt sienna surface */
+  --sienna-deep:  #9C4525;  /* darker sienna */
+  --sienna-soft:  #D07A50;  /* lifted sienna */
+  --sienna-glow:  #E89A5C;  /* warm amber used in glows */
+  --amber:        #E2A14C;  /* secondary warm glow tone */
+
+  /* ---- Text on dark/accent surfaces ---- */
+  --on-dark-strong: #FBF8F2;
+  --on-dark-body:   #E6DFD2;
+  --on-dark-muted:  #B9B1A0;
+  --on-dark-hairline: rgba(255,255,255,0.14);
+
+  /* ============================================================
+     SEMANTIC ALIASES — prefer these in components
+     ============================================================ */
+  --bg:              var(--paper);
+  --bg-alt:          var(--paper-2);
+  --surface-card:    var(--paper);
+  --surface-sunken:  var(--paper-2);
+  --border:          var(--hairline);
+  --border-strong:   var(--hairline-strong);
+
+  --text:            var(--text-body);
+  --heading:         var(--text-strong);
+  --label:           var(--text-muted);
+
+  --accent:          var(--sienna);      /* primary brand accent */
+  --accent-2:        var(--navy);        /* secondary accent */
+  --accent-on:       var(--on-dark-strong);
+
+  /* Interaction tints (Apple-style subtle press/hover) */
+  --press-tint:      rgba(22,20,15,0.05);
+  --hover-tint:      rgba(22,20,15,0.035);
+  --focus-ring:      rgba(188,90,55,0.45); /* sienna @ 45% */
+}
+
+/* Dark/accent section scope — opt-in by adding class to a section.
+   Flips text + the glow logic (shapes glow white on dark). */
+.on-navy {
+  --bg: var(--navy);
+  --surface-card: var(--navy-soft);
+  --border: var(--on-dark-hairline);
+  --text: var(--on-dark-body);
+  --heading: var(--on-dark-strong);
+  --label: var(--on-dark-muted);
+  --accent: var(--sienna-glow);
+  color: var(--on-dark-body);
+  background: var(--navy);
+}
+
+.on-sienna {
+  --bg: var(--sienna);
+  --surface-card: var(--sienna-soft);
+  --border: var(--on-dark-hairline);
+  --text: var(--on-dark-body);
+  --heading: var(--on-dark-strong);
+  --label: var(--on-dark-muted);
+  --accent: var(--on-dark-strong);
+  color: var(--on-dark-body);
+  background: var(--sienna);
+}

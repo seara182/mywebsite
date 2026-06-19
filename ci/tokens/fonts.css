@@ -1,0 +1,34 @@
+/* ============================================================
+   FONTS — SF Pro Display (Apple). Provided as OTF.
+   Display weights cover the whole system; the text token reuses
+   Display (the SF Pro *Text* optical cut was not provided).
+   ============================================================ */
+
+@font-face {
+  font-family: "SF Pro Display";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local("SF Pro Display"), url("../assets/fonts/SF-Pro-Display-Regular.otf") format("opentype");
+}
+@font-face {
+  font-family: "SF Pro Display";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: local("SF Pro Display Medium"), url("../assets/fonts/SF-Pro-Display-Medium.otf") format("opentype");
+}
+@font-face {
+  font-family: "SF Pro Display";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local("SF Pro Display Semibold"), url("../assets/fonts/SF-Pro-Display-Semibold.otf") format("opentype");
+}
+@font-face {
+  font-family: "SF Pro Display";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local("SF Pro Display Bold"), url("../assets/fonts/SF-Pro-Display-Bold.otf") format("opentype");
+}
