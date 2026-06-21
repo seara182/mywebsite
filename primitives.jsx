@@ -86,11 +86,11 @@ function Badge({ children, variant = "neutral" }) {
   return <span style={{ display: "inline-flex", alignItems: "center", padding: "5px 12px", fontFamily: "var(--font-text)", fontSize: "var(--fs-caption)", fontWeight: 600, borderRadius: 999, whiteSpace: "nowrap", ...v }}>{children}</span>;
 }
 
-function GlowShape({ shape = "blob", glow = "sienna", size = 220, drift = false, style = {} }) {
+function GlowShape({ shape = "blob", glow = "sienna", size = 220, drift = false, className = "", style = {} }) {
   const shapes = { blob: "60% 40% 55% 45% / 55% 50% 50% 45%", circle: "50%", squircle: "34%", capsule: "999px", arch: "50% 50% 12% 12% / 70% 70% 12% 12%" };
   const glowBg = { sienna: "var(--glow-sienna)", amber: "var(--glow-amber)", navy: "var(--glow-navy)", duo: "var(--glow-duo)", white: "var(--glow-white)" }[glow];
   return (
-    <div style={{ position: "relative", width: size, height: size, display: "grid", placeItems: "center", ...style }}>
+    <div className={className} style={{ position: "relative", width: size, height: size, display: "grid", placeItems: "center", ...style }}>
       <div aria-hidden style={{ position: "absolute", width: size * 1.5, height: size * 1.5, top: "58%", left: "50%", transform: "translate(-50%,-50%)", background: glowBg, filter: "var(--blur-md)", borderRadius: "50%", pointerEvents: "none" }} />
       <div className={drift ? "drift" : ""} style={{ position: "relative", zIndex: 1, width: "100%", height: "100%", background: "var(--ink)", borderRadius: shapes[shape] }} />
     </div>
