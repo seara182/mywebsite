@@ -87,8 +87,8 @@ function Engagement() {
   const engagement = t("engagement");
   return (
     <section className="on-sienna" style={{ position: "relative", overflow: "hidden", padding: "var(--section-y) 0" }}>
+      {/* paper (Cleanroom) above laps DOWN over this sienna band; bottom seam is handled by ConfiTear's top wave (sienna laps over paper) */}
       <WaveBlend edge="top" color="var(--paper)" seed={31} shadow="rgba(120,52,28,0.5)" />
-      <WaveBlend edge="bottom" color="var(--paper)" seed={43} shadow="rgba(120,52,28,0.5)" />
       <GlowShape shape="blob" glow="amber" size={340} ink="var(--sienna-deep)" style={{ position: "absolute", bottom: "6%", right: "-4%", pointerEvents: "none" }} />
       <div className="container" style={{ position: "relative", zIndex: 1 }}>
         <div style={{ marginBottom: "clamp(32px,5vw,56px)" }}>
@@ -199,11 +199,11 @@ function Footer() {
 function SideOrbs() {
   return (
     <div className="side-orbs" aria-hidden="true">
-      <GlowShape shape="blob"     glow="sienna" size={190} drift style={{ position: "absolute", left: "1.5vw",  top: "10%", opacity: 0.8 }} />
-      <GlowShape shape="circle"   glow="duo"    size={150} drift style={{ position: "absolute", right: "1vw",   top: "30%", opacity: 0.8 }} />
-      <GlowShape shape="squircle" glow="amber"  size={140} drift style={{ position: "absolute", left: "2.5vw",  top: "52%", opacity: 0.8 }} />
-      <GlowShape shape="blob"     glow="navy"   size={175} drift style={{ position: "absolute", right: "2vw",   top: "70%", opacity: 0.8 }} />
-      <GlowShape shape="circle"   glow="duo"    size={150} drift style={{ position: "absolute", left: "1vw",    top: "88%", opacity: 0.8 }} />
+      <GlowShape shape="circle"   glow="duo"    size={150} drift style={{ position: "absolute", right: "1vw",   top: "22%" }} />
+      <GlowShape shape="blob"     glow="sienna" size={180} drift style={{ position: "absolute", left: "1.5vw",  top: "40%" }} />
+      <GlowShape shape="squircle" glow="amber"  size={140} drift style={{ position: "absolute", right: "2vw",   top: "58%" }} />
+      <GlowShape shape="blob"     glow="navy"   size={170} drift style={{ position: "absolute", left: "1vw",    top: "76%" }} />
+      <GlowShape shape="circle"   glow="duo"    size={150} drift style={{ position: "absolute", right: "1.5vw", top: "90%" }} />
     </div>
   );
 }
