@@ -46,7 +46,7 @@ function Intro() {
     <section className="on-navy" style={{ position: "relative", overflow: "hidden", padding: "var(--section-y) 0" }}>
       <WaveBlend edge="top" color="var(--paper)" seed={5} />
       <WaveBlend edge="bottom" color="var(--paper)" seed={17} />
-      <GlowShape shape="circle" glow="white" size={300} style={{ position: "absolute", top: "-10%", right: "4%", opacity: 0.5, pointerEvents: "none" }} />
+      <GlowShape shape="circle" glow="sienna" size={300} style={{ position: "absolute", top: "-10%", right: "4%", opacity: 0.6, pointerEvents: "none" }} />
       <div className="container" style={{ position: "relative", zIndex: 1 }}>
         <Reveal><Eyebrow color="var(--sienna-glow)">{t("intro.eyebrow")}</Eyebrow></Reveal>
         <Reveal delay={80}>

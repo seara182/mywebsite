@@ -89,7 +89,7 @@ function Engagement() {
     <section className="on-sienna" style={{ position: "relative", overflow: "hidden", padding: "var(--section-y) 0" }}>
       <WaveBlend edge="top" color="var(--paper)" seed={31} />
       <WaveBlend edge="bottom" color="var(--paper)" seed={43} />
-      <GlowShape shape="blob" glow="white" size={340} style={{ position: "absolute", bottom: "-12%", right: "-4%", opacity: 0.4, pointerEvents: "none" }} />
+      <GlowShape shape="blob" glow="amber" size={340} style={{ position: "absolute", bottom: "-12%", right: "-4%", opacity: 0.55, pointerEvents: "none" }} />
       <div className="container" style={{ position: "relative", zIndex: 1 }}>
         <div style={{ marginBottom: "clamp(32px,5vw,56px)" }}>
           <Reveal><Eyebrow color="var(--on-dark-strong)">{s.eyebrow}</Eyebrow></Reveal>
@@ -190,9 +190,27 @@ function Footer() {
   );
 }
 
+/* ---------- ambient side orbs ----------
+   A few drifting, colour-glowing shapes pinned in the side gutters.
+   Only shown on 16:9-and-wider displays (see .side-orbs in index.html),
+   where the centred content column leaves the margins feeling empty.
+   Fixed layer sits behind the content; the navy/sienna bands cover it,
+   so the orbs only read over the paper sections. */
+function SideOrbs() {
+  return (
+    <div className="side-orbs" aria-hidden="true">
+      <GlowShape shape="blob" glow="sienna" size={190} drift style={{ position: "absolute", left: "1.5vw", top: "16vh", opacity: 0.55 }} />
+      <GlowShape shape="circle" glow="duo" size={150} drift style={{ position: "absolute", right: "1vw", top: "44vh", opacity: 0.5 }} />
+      <GlowShape shape="squircle" glow="amber" size={130} drift style={{ position: "absolute", left: "2.5vw", top: "73vh", opacity: 0.45 }} />
+      <GlowShape shape="blob" glow="navy" size={170} drift style={{ position: "absolute", right: "2vw", top: "82vh", opacity: 0.45 }} />
+    </div>
+  );
+}
+
 function App() {
   return (
     <main>
+      <SideOrbs />
       <LanguageSwitcherMount />
       <ContactChipMount />
       <Hero />
