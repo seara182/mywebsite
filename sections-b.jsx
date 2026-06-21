@@ -1,7 +1,7 @@
 /* ============================================================
    Mika Jeske — résumé, engagement, projects, footer + App shell
    ============================================================ */
-const { Reveal, Eyebrow, Badge, GlowShape, TimelineEntry, useLang, LanguageSwitcherMount, ContactChipMount } = window.MJ;
+const { Reveal, Eyebrow, Badge, GlowShape, WaveBlend, TimelineEntry, useLang, LanguageSwitcherMount, ContactChipMount } = window.MJ;
 const { Hero, Intro } = window.SECTIONS_A;
 const { Story, CleanroomTear, ConfiTear, Reunion } = window.SECTIONS_NEW;
 
@@ -87,6 +87,8 @@ function Engagement() {
   const engagement = t("engagement");
   return (
     <section className="on-sienna" style={{ position: "relative", overflow: "hidden", padding: "var(--section-y) 0" }}>
+      <WaveBlend edge="top" color="var(--paper)" seed={31} />
+      <WaveBlend edge="bottom" color="var(--paper)" seed={43} />
       <GlowShape shape="blob" glow="white" size={340} style={{ position: "absolute", bottom: "-12%", right: "-4%", opacity: 0.4, pointerEvents: "none" }} />
       <div className="container" style={{ position: "relative", zIndex: 1 }}>
         <div style={{ marginBottom: "clamp(32px,5vw,56px)" }}>

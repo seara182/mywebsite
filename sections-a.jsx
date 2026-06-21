@@ -1,7 +1,7 @@
 /* ===========================================================
    Mika Jeske — landing page sections (single-scroll narrative)
    ============================================================ */
-const { Reveal, Eyebrow, Badge, GlowShape, TimelineEntry, useLang } = window.MJ;
+const { Reveal, Eyebrow, Badge, GlowShape, WaveBlend, TimelineEntry, useLang } = window.MJ;
 
 /* ---------- Hero ---------- */
 function Hero() {
@@ -13,7 +13,7 @@ function Hero() {
     <section className="hero" style={{ position: "relative", display: "flex", flexDirection: "column", justifyContent: "center", overflow: "hidden", padding: "0 var(--gutter)" }}>
       {/* ambient drifting shapes */}
       <GlowShape shape="blob" glow="duo" size={420} drift style={{ position: "absolute", top: "-8%", right: "-6%", opacity: 0.9, transition: "opacity 1.2s ease", pointerEvents: "none" }} />
-      <GlowShape shape="arch" glow="navy" size={240} drift style={{ position: "absolute", bottom: "6%", left: "-4%", opacity: 0.75, pointerEvents: "none" }} />
+      <GlowShape shape="arch" glow="navy" size={240} drift style={{ position: "absolute", bottom: 0, left: "-4%", opacity: 0.75, pointerEvents: "none" }} />
       <div style={{ position: "relative", zIndex: 2, maxWidth: "var(--content-wide)", margin: "0 auto", width: "100%" }}>
         <div style={{ overflow: "hidden", marginBottom: 8 }}>
           <span style={{ display: "inline-block", fontFamily: "var(--font-text)", fontSize: "var(--fs-label)", fontWeight: 600, letterSpacing: "var(--ls-label)", textTransform: "uppercase", color: "var(--label)", transform: mounted ? "none" : "translateY(120%)", opacity: mounted ? 1 : 0, transition: "transform 0.7s var(--ease-glide) 0.5s, opacity 0.7s ease 0.5s" }}>
@@ -44,8 +44,10 @@ function Intro() {
   const [, t] = useLang();
   return (
     <section className="on-navy" style={{ position: "relative", overflow: "hidden", padding: "var(--section-y) 0" }}>
+      <WaveBlend edge="top" color="var(--paper)" seed={5} />
+      <WaveBlend edge="bottom" color="var(--paper)" seed={17} />
       <GlowShape shape="circle" glow="white" size={300} style={{ position: "absolute", top: "-10%", right: "4%", opacity: 0.5, pointerEvents: "none" }} />
-      <div className="container">
+      <div className="container" style={{ position: "relative", zIndex: 1 }}>
         <Reveal><Eyebrow color="var(--sienna-glow)">{t("intro.eyebrow")}</Eyebrow></Reveal>
         <Reveal delay={80}>
           <p style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h2)", lineHeight: 1.22, letterSpacing: "var(--ls-heading)", color: "var(--on-dark-strong)", margin: "20px 0 0", maxWidth: "20ch" }}>
