@@ -3,6 +3,7 @@
    ============================================================ */
 const { Reveal, Eyebrow, Badge, GlowShape, TimelineEntry } = window.MJ;
 const { Hero, Intro, EXPERIENCE, EDUCATION, ENGAGEMENT, SKILLS } = window.SECTIONS_A;
+const { Story, Reunion } = window.SECTIONS_NEW;
 
 const LINKEDIN = "https://www.linkedin.com/in/mika-jeske-835092313/";
 
@@ -121,7 +122,7 @@ function Projects() {
               </a>
             </div>
             {/* preview tile */}
-            <div style={{ position: "relative", aspectRatio: "16/10", minHeight: 300, display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 16, padding: 26, borderRadius: "var(--radius-xl)", overflow: "hidden", background: "#14151D", boxShadow: "var(--shadow-lg)", border: "1px solid var(--border)" }}>
+            <div style={{ position: "relative", minWidth: 0, aspectRatio: "16/10", minHeight: 300, display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 16, padding: 26, borderRadius: "var(--radius-xl)", overflow: "hidden", background: "#14151D", boxShadow: "var(--shadow-lg)", border: "1px solid var(--border)" }}>
               <div style={{ position: "absolute", inset: 0, background: "radial-gradient(120% 120% at 80% 0%, rgba(232,154,92,0.5), transparent 55%)" }} />
               <div style={{ position: "relative", padding: "20px 22px", borderRadius: "var(--radius-lg)", background: "linear-gradient(110deg, var(--sienna-deep), var(--amber))", color: "#fff" }}>
                 <div style={{ fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", opacity: 0.85, fontWeight: 600 }}>Next Game · Week 25</div>
@@ -169,8 +170,10 @@ function App() {
     <main>
       <Hero />
       <Intro />
+      <Story />
       <Resume />
       <Engagement />
+      <Reunion />
       <Projects />
       <Footer />
     </main>
