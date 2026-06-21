@@ -1,11 +1,13 @@
 /* ============================================================
    Mika Jeske — résumé, engagement, projects, footer + App shell
    ============================================================ */
-const { Reveal, Eyebrow, Badge, GlowShape, TimelineEntry } = window.MJ;
-const { Hero, Intro, EXPERIENCE, EDUCATION, ENGAGEMENT, SKILLS } = window.SECTIONS_A;
+const { Reveal, Eyebrow, Badge, GlowShape, TimelineEntry, useLang, LanguageSwitcherMount, ContactChipMount } = window.MJ;
+const { Hero, Intro } = window.SECTIONS_A;
 const { Story, CleanroomTear, ConfiTear, Reunion } = window.SECTIONS_NEW;
 
 const LINKEDIN = "https://www.linkedin.com/in/mika-jeske-835092313/";
+const EMAIL = "mailto:mikajeske@gmail.com";
+const PHONE = "tel:+491774866584";
 
 function SectionHead({ kicker, title, glow = "sienna", shape = "blob" }) {
   return (
@@ -21,28 +23,33 @@ function SectionHead({ kicker, title, glow = "sienna", shape = "blob" }) {
 
 /* ---------- Résumé ---------- */
 function Resume() {
+  const [, t] = useLang();
+  const r = t("resume");
+  const experience = t("experience");
+  const education = t("education");
+  const skills = t("skills");
   return (
     <section style={{ padding: "var(--section-y) 0" }}>
       <div className="container">
-        <SectionHead kicker="Lebenslauf" title="Beruflicher Werdegang" />
+        <SectionHead kicker={r.kicker} title={r.title} />
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(420px,100%),1fr))", gap: "clamp(32px,5vw,72px)" }}>
           <div>
-            <Reveal><h3 className="t-h3" style={{ marginBottom: 28 }}>Berufserfahrung</h3></Reveal>
-            <Reveal delay={60}><div>{EXPERIENCE.map((e, i) => <TimelineEntry key={i} {...e} last={i === EXPERIENCE.length - 1} />)}</div></Reveal>
+            <Reveal><h3 className="t-h3" style={{ marginBottom: 28 }}>{r.experienceHeading}</h3></Reveal>
+            <Reveal delay={60}><div>{experience.map((e, i) => <TimelineEntry key={i} {...e} last={i === experience.length - 1} />)}</div></Reveal>
           </div>
           <div>
-            <Reveal><h3 className="t-h3" style={{ marginBottom: 28 }}>Bildungsweg</h3></Reveal>
-            <Reveal delay={60}><div>{EDUCATION.map((e, i) => <TimelineEntry key={i} {...e} last={i === EDUCATION.length - 1} />)}</div></Reveal>
+            <Reveal><h3 className="t-h3" style={{ marginBottom: 28 }}>{r.educationHeading}</h3></Reveal>
+            <Reveal delay={60}><div>{education.map((e, i) => <TimelineEntry key={i} {...e} last={i === education.length - 1} />)}</div></Reveal>
           </div>
         </div>
 
         {/* skills */}
         <Reveal style={{ marginTop: "clamp(48px,6vw,88px)" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 28 }}>
-            <Eyebrow>Kompetenzen</Eyebrow>
+            <Eyebrow>{r.skillsEyebrow}</Eyebrow>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(240px,100%),1fr))", gap: "clamp(20px,2.5vw,32px)" }}>
-            {SKILLS.map((s, i) => (
+            {skills.map((s, i) => (
               <div key={i}>
                 <div style={{ fontFamily: "var(--font-text)", fontSize: "var(--fs-small)", fontWeight: 600, color: "var(--heading)", marginBottom: 14 }}>{s.group}</div>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
@@ -59,12 +66,12 @@ function Resume() {
             <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
               <GlowShape shape="squircle" glow="amber" size={64} />
               <div>
-                <div style={{ fontSize: "var(--fs-caption)", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--label)", fontWeight: 600, marginBottom: 4 }}>Auszeichnung</div>
-                <div style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-title)", color: "var(--heading)" }}>DGZfP Science Student Award 2025</div>
+                <div style={{ fontSize: "var(--fs-caption)", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--label)", fontWeight: 600, marginBottom: 4 }}>{r.awardLabel}</div>
+                <div style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-title)", color: "var(--heading)" }}>{r.awardName}</div>
               </div>
             </div>
             <a href={LINKEDIN} target="_blank" rel="noopener" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "12px 22px", background: "var(--ink)", color: "var(--paper)", borderRadius: "var(--radius-md)", fontFamily: "var(--font-text)", fontSize: "var(--fs-body)", fontWeight: 600 }}>
-              LinkedIn <span aria-hidden>→</span>
+              {r.linkedinLabel} <span aria-hidden>→</span>
             </a>
           </div>
         </Reveal>
@@ -75,17 +82,20 @@ function Resume() {
 
 /* ---------- Engagement (sienna accent band) ---------- */
 function Engagement() {
+  const [, t] = useLang();
+  const s = t("engagementSection");
+  const engagement = t("engagement");
   return (
     <section className="on-sienna" style={{ position: "relative", overflow: "hidden", padding: "var(--section-y) 0" }}>
       <GlowShape shape="blob" glow="white" size={340} style={{ position: "absolute", bottom: "-12%", right: "-4%", opacity: 0.4, pointerEvents: "none" }} />
       <div className="container" style={{ position: "relative", zIndex: 1 }}>
         <div style={{ marginBottom: "clamp(32px,5vw,56px)" }}>
-          <Reveal><Eyebrow color="var(--on-dark-strong)">Ehrenamt</Eyebrow></Reveal>
-          <Reveal delay={80}><h2 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h1)", letterSpacing: "var(--ls-heading)", color: "var(--on-dark-strong)", margin: "16px 0 0", maxWidth: "18ch" }}>Engagement, das mir wichtig ist</h2></Reveal>
+          <Reveal><Eyebrow color="var(--on-dark-strong)">{s.eyebrow}</Eyebrow></Reveal>
+          <Reveal delay={80}><h2 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h1)", letterSpacing: "var(--ls-heading)", color: "var(--on-dark-strong)", margin: "16px 0 0", maxWidth: "18ch" }}>{s.heading}</h2></Reveal>
         </div>
         <Reveal delay={60}>
           <div style={{ "--ink": "var(--on-dark-strong)", "--accent": "var(--on-dark-strong)", "--heading": "var(--on-dark-strong)", "--text": "var(--on-dark-body)", "--text-body": "var(--on-dark-body)", "--label": "var(--on-dark-muted)", "--border": "var(--on-dark-hairline)", "--paper-2": "rgba(0,0,0,0.12)", maxWidth: "var(--content-narrow)" }}>
-            {ENGAGEMENT.map((e, i) => <TimelineEntry key={i} {...e} last={i === ENGAGEMENT.length - 1} />)}
+            {engagement.map((e, i) => <TimelineEntry key={i} {...e} last={i === engagement.length - 1} />)}
           </div>
         </Reveal>
       </div>
@@ -95,30 +105,30 @@ function Engagement() {
 
 /* ---------- Projects (Bay Window showcase) ---------- */
 function Projects() {
-  const features = ["Dashboard mit Countdown", "Player-Spotlight", "Lineup-Diagramm", "Standings & Venue", "History & Playoffs", "Roster mit Filter"];
-  const stack = ["Tauri 2 · Rust", "React 19 · TS", "Vite 7", "ESPN JSON-API", "i18next EN/DE"];
+  const [, t] = useLang();
+  const p = t("projects");
   return (
     <section style={{ padding: "var(--section-y) 0" }}>
       <div className="container">
-        <SectionHead kicker="Projekt" title="Bay Window" glow="navy" shape="arch" />
+        <SectionHead kicker={p.kicker} title={p.title} glow="navy" shape="arch" />
         <Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(340px,100%),1fr))", gap: "clamp(28px,4vw,56px)", alignItems: "center" }}>
             <div>
               <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: 0, maxWidth: "46ch" }}>
-                Eine Desktop-App, die auf einen Blick den Stand zweier Lieblings-Sportteams zeigt: Spiele, Tabelle, Kader und Geschichte. Gebaut für den kurzen Blick beim Hochfahren, der Cache zeigt sofort Daten und aktualisiert im Hintergrund.
+                {p.description}
               </p>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 28 }}>
-                {stack.map((s, i) => <Badge key={i} variant="navy">{s}</Badge>)}
+                {p.stack.map((s, i) => <Badge key={i} variant="navy">{s}</Badge>)}
               </div>
               <div style={{ display: "flex", flexWrap: "wrap", gap: "10px 24px", marginTop: 28 }}>
-                {features.map((f, i) => (
+                {p.features.map((f, i) => (
                   <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-small)", color: "var(--text-body)" }}>
                     <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--accent)" }} />{f}
                   </div>
                 ))}
               </div>
               <a href="projects/bay-window/" style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, padding: "13px 24px", border: "1px solid var(--border-strong)", borderRadius: "var(--radius-md)", fontFamily: "var(--font-text)", fontSize: "var(--fs-body)", fontWeight: 600, color: "var(--heading)" }}>
-                Bay Window ansehen <span aria-hidden>→</span>
+                {p.cta} <span aria-hidden>→</span>
               </a>
             </div>
             {/* preview tile */}
@@ -147,14 +157,27 @@ function Projects() {
 
 /* ---------- Footer ---------- */
 function Footer() {
+  const [, t] = useLang();
+  const f = t("footer");
   return (
     <footer style={{ padding: "clamp(48px,6vw,88px) 0 40px", borderTop: "1px solid var(--border)" }}>
       <div className="container" style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 24 }}>
         <div style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h3)", color: "var(--heading)", letterSpacing: "var(--ls-heading)" }}>Mika Jeske</div>
-        <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
-          <a href={LINKEDIN} target="_blank" rel="noopener" style={{ fontSize: "var(--fs-body)", color: "var(--text-body)", fontWeight: 500 }}>LinkedIn</a>
-          <span style={{ fontFamily: "var(--font-mono)", fontSize: "var(--fs-caption)", color: "var(--text-faint)" }}>Made by Mika</span>
+        <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 24 }}>
+          <a href={LINKEDIN} target="_blank" rel="noopener" style={{ fontSize: "var(--fs-body)", color: "var(--text-body)", fontWeight: 500 }}>{f.linkedinLabel}</a>
+          <a href={EMAIL} aria-label={f.emailAria} style={{ display: "inline-flex", alignItems: "center", gap: 7, fontSize: "var(--fs-body)", color: "var(--text-body)", fontWeight: 500 }}>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m4 7 8 6 8-6" /></svg>
+            {f.email}
+          </a>
+          <a href={PHONE} aria-label={f.phoneAria} style={{ display: "inline-flex", alignItems: "center", gap: 7, fontSize: "var(--fs-body)", color: "var(--text-body)", fontWeight: 500 }}>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
+            {f.phone}
+          </a>
+          <span style={{ fontFamily: "var(--font-mono)", fontSize: "var(--fs-caption)", color: "var(--text-faint)" }}>{f.madeBy}</span>
         </div>
+      </div>
+      <div className="container">
+        <p className="i18n-disclaimer">{f.disclaimer}</p>
       </div>
       <div style={{ display: "flex", justifyContent: "center", marginTop: 32 }}>
         <a href="private/" style={{ display: "inline-flex", padding: 8, color: "var(--text-faint)", opacity: 0.35 }}>
@@ -168,6 +191,8 @@ function Footer() {
 function App() {
   return (
     <main>
+      <LanguageSwitcherMount />
+      <ContactChipMount />
       <Hero />
       <Intro />
       <Story />

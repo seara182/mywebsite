@@ -1,0 +1,85 @@
+/* ============================================================
+   i18n-ui.css — language switcher, contact chip, disclaimer.
+   Built on the existing design-system tokens (ci/styles.css).
+   ============================================================ */
+
+/* ---------- language switcher ---------- */
+.lang-switcher { position: fixed; top: 18px; left: 18px; z-index: 60; }
+
+.lang-globe {
+  position: relative; z-index: 2;
+  width: 48px; height: 48px;
+  display: grid; place-items: center;
+  background: var(--paper); color: var(--ink);
+  border: 1px solid var(--border); border-radius: 60% 40% 55% 45% / 55% 50% 50% 45%;
+  box-shadow: var(--shadow-md);
+  cursor: pointer;
+  transition: transform .24s var(--ease-spring), box-shadow .24s var(--ease-out);
+}
+.lang-globe:hover { transform: scale(1.06); box-shadow: var(--shadow-lg); }
+.lang-globe svg { width: 22px; height: 22px; }
+
+.lang-hint {
+  position: absolute; top: 50%; left: calc(100% + 14px);
+  transform: translateY(-50%);
+  display: inline-flex; white-space: nowrap;
+  font-family: var(--font-text); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted);
+  pointer-events: none;
+  transition: opacity .4s ease;
+}
+.lang-hint.is-hidden { opacity: 0; }
+.lang-hint-char { display: inline-block; animation: lang-wave 1.4s cubic-bezier(0.45,0,0.55,1) infinite; }
+@keyframes lang-wave { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+@media (prefers-reduced-motion: reduce) { .lang-hint-char { animation: none; } }
+
+.lang-menu {
+  position: absolute; top: 56px; left: 0;
+  display: flex; flex-direction: column; gap: 8px;
+  pointer-events: none;
+}
+.lang-menu.is-open { pointer-events: auto; }
+
+.lang-option {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 9px 16px;
+  background: var(--paper); border: 1px solid var(--border); border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-sm);
+  font-family: var(--font-text); font-size: var(--fs-small); font-weight: 600; color: var(--text-body);
+  cursor: pointer;
+  opacity: 0; transform: translateY(-10px) scale(0.5);
+  transition: opacity .3s var(--ease-spring), transform .3s var(--ease-spring);
+}
+.lang-menu.is-open .lang-option { opacity: 1; transform: translateY(0) scale(1); }
+.lang-option[aria-current="true"] { color: var(--sienna-deep); border-color: rgba(188,90,55,0.35); background: rgba(188,90,55,0.08); }
+.lang-option:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .lang-option { transition: opacity .2s ease; transform: none !important; }
+}
+
+/* ---------- contact chip ---------- */
+.contact-chip-wrap {
+  position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 55;
+  transition: opacity .3s ease;
+}
+.contact-chip-wrap.is-faded { opacity: 0; pointer-events: none; }
+
+.contact-chip {
+  display: inline-flex; flex-direction: column; align-items: flex-start; gap: 2px;
+  background: none; border: none; padding: 4px 2px; margin: 0; cursor: pointer;
+  font-family: var(--font-text); font-size: var(--fs-small); font-weight: 600;
+  color: var(--text-muted);
+  transition: color .15s ease;
+}
+.contact-chip:hover, .contact-chip:focus-visible { color: var(--text-body); }
+.contact-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 6px; }
+.contact-chip svg path { transition: stroke-dashoffset .5s var(--ease-out); }
+.contact-chip:hover svg path { stroke-dashoffset: 0; }
+
+/* ---------- AI translation disclaimer ---------- */
+.i18n-disclaimer {
+  font-size: 0.75rem;
+  color: var(--text-faint);
+  margin-top: 12px;
+}
