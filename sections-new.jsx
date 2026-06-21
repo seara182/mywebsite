@@ -4,7 +4,7 @@
    Built on the design-system tokens + window.MJ primitives.
    ============================================================ */
 const { useState, useRef, useEffect } = React;
-const { Reveal, Eyebrow, GlowShape, useLang } = window.MJ;
+const { Reveal, Eyebrow, GlowShape, WaveBlend, useLang } = window.MJ;
 
 /* ---------- torn-paper edge generator ----------
    Deterministic jagged path so each tear looks hand-ripped
@@ -179,6 +179,8 @@ function Story() {
   const [, t] = useLang();
   return (
     <section style={{ padding: "var(--section-y) 0", position: "relative", overflow: "hidden" }}>
+      {/* navy band above laps DOWN over this paper section, casting a navy shadow on the white */}
+      <WaveBlend edge="top" color="var(--navy)" seed={63} shadow="rgba(28,44,76,0.45)" />
       <GlowShape shape="squircle" glow="amber" size={200} drift style={{ position: "absolute", top: "8%", left: "-5%", opacity: 0.35, pointerEvents: "none" }} />
       <div className="container">
         {/* header */}
@@ -257,7 +259,9 @@ function ConfiTear() {
   const c = t("confiTear");
   return (
     <section style={{ position: "relative", padding: "clamp(40px,6vw,80px) 0 clamp(40px,6vw,80px)" }}>
-      <div className="container">
+      {/* sienna band above laps DOWN over this paper section, casting a sienna shadow on the white */}
+      <WaveBlend edge="top" color="var(--sienna)" seed={71} shadow="rgba(188,90,55,0.45)" />
+      <div className="container" style={{ position: "relative", zIndex: 1 }}>
         <Reveal>
           <p style={{ fontSize: "var(--fs-small)", color: "var(--text-muted)", margin: 0, maxWidth: "54ch" }}>
             {c.intro}
