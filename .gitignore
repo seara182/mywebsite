@@ -1,5 +1,6 @@
 .claude/
-projects/
+projects/*
+!projects/bay-window/
 design-brief.local.md
 Mika Jeske Design System.zip
 Mika Jeske Design System

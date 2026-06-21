@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bay Window — Mika Jeske</title>
+  <link rel="icon" href="../../ci/icons/Favicon32x.ico">
+  <link rel="apple-touch-icon" href="../../ci/icons/Favicon128x.ico">
+  <link rel="stylesheet" href="../../ci/styles.css">
+  <style>
+    body {
+      background: var(--paper);
+      color: var(--text);
+      margin: 0;
+      overflow-x: hidden;
+    }
+    .wrap { max-width: var(--content-wide); margin: 0 auto; padding: 0 var(--gutter, clamp(20px,5vw,64px)); }
+
+    /* ---- reveal ---- */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .76s var(--ease-glide), transform .76s var(--ease-glide); }
+    .reveal.seen { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1 !important; transform: none !important; } }
+
+    /* ---- top bar ---- */
+    .topbar { display: flex; align-items: center; justify-content: space-between; padding: clamp(20px,3vw,32px) 0; }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 8px; padding: 9px 18px;
+      border: 1px solid var(--border-strong); border-radius: var(--radius-pill);
+      font-family: var(--font-text); font-size: var(--fs-caption); font-weight: 600;
+      letter-spacing: 0.04em; text-transform: uppercase; color: var(--heading);
+      text-decoration: none; transition: all .24s var(--ease-out);
+    }
+    .back-link:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); transform: translateX(-3px); }
+    .made { font-family: var(--font-mono); font-size: var(--fs-caption); color: var(--text-faint); }
+
+    /* ---- hero ---- */
+    .hero { position: relative; padding: clamp(40px,7vw,96px) 0 clamp(48px,8vw,104px); overflow: hidden; }
+    .hero-glow {
+      position: absolute; width: 620px; height: 620px; top: -180px; right: -160px; z-index: 0; pointer-events: none;
+      background: var(--glow-navy); filter: blur(70px); opacity: 0.5; border-radius: 50%;
+    }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-text);
+      font-size: var(--fs-label); font-weight: 600; letter-spacing: var(--ls-label);
+      text-transform: uppercase; color: var(--label);
+    }
+    .eyebrow::before { content: ''; width: 22px; height: 2px; border-radius: 2px; background: var(--accent); }
+    h1 {
+      font-family: var(--font-display); font-weight: 700; letter-spacing: -0.025em; line-height: 1.0;
+      font-size: var(--fs-display); color: var(--ink); margin: 18px 0 0; position: relative; z-index: 1;
+    }
+    .hero-sub {
+      font-size: var(--fs-lead); line-height: var(--lh-relaxed); color: var(--text-body);
+      max-width: 60ch; margin: 22px 0 0; position: relative; z-index: 1;
+    }
+    .stack { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; position: relative; z-index: 1; }
+    .chip {
+      display: inline-flex; align-items: center; padding: 6px 13px; font-family: var(--font-text);
+      font-size: var(--fs-caption); font-weight: 600; border-radius: var(--radius-pill); white-space: nowrap;
+      background: rgba(28,44,76,0.10); color: var(--navy); border: 1px solid rgba(28,44,76,0.20);
+    }
+
+    /* ---- hero showcase (off-centre big screenshot) ---- */
+    .showcase { position: relative; margin-top: clamp(40px,6vw,72px); z-index: 1; }
+    .showcase .frame {
+      width: min(100%, 1040px); margin-left: auto; border-radius: var(--radius-xl); overflow: hidden;
+      box-shadow: var(--shadow-lg); border: 1px solid var(--border); background: var(--ink);
+      transform: rotate(-0.6deg);
+    }
+    .showcase .frame img { display: block; width: 100%; height: auto; }
+    .showcase .tag {
+      position: absolute; left: 0; bottom: -18px; max-width: 320px;
+      background: var(--paper); border: 1px solid var(--border); border-radius: var(--radius-md);
+      box-shadow: var(--shadow-md); padding: 16px 20px;
+    }
+    .showcase .tag .k { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--sienna); font-weight: 600; }
+    .showcase .tag .v { font-size: var(--fs-small); color: var(--text-body); margin-top: 6px; line-height: 1.5; }
+
+    /* ---- section scaffolding ---- */
+    section { padding: clamp(56px,8vw,112px) 0; }
+    .section-label { font-family: var(--font-mono); font-size: clamp(11px,1.2vw,13px); font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--sienna); }
+    h2 { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h1); letter-spacing: var(--ls-heading); line-height: 1.12; color: var(--heading); margin: 14px 0 0; max-width: 18ch; }
+    .lede { font-size: var(--fs-lead); line-height: var(--lh-relaxed); color: var(--text-body); max-width: 62ch; margin: 22px 0 0; }
+
+    /* ---- alternating feature + shot rows ---- */
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px,5vw,72px); align-items: center; margin-top: clamp(40px,6vw,80px); }
+    .row.flip .copy { order: 2; }
+    .row.flip .media { order: 1; }
+    .row .copy h3 { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); color: var(--heading); margin: 0 0 14px; letter-spacing: var(--ls-heading); }
+    .row .copy p { font-size: var(--fs-body); line-height: var(--lh-relaxed); color: var(--text); margin: 0 0 18px; max-width: 50ch; }
+    .ticks { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 11px; }
+    .ticks li { display: flex; gap: 12px; font-size: var(--fs-small); color: var(--text-body); line-height: 1.5; }
+    .ticks li::before { content: '→'; color: var(--sienna); font-weight: 700; flex: none; }
+    .shot { border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow-md); background: var(--ink); cursor: zoom-in; transition: transform .3s var(--ease-out), box-shadow .3s var(--ease-out); }
+    .shot:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+    .shot img { display: block; width: 100%; height: auto; }
+    .media.tilt-l .shot { transform: rotate(-1deg); }
+    .media.tilt-r .shot { transform: rotate(1deg); }
+    .media.tilt-l .shot:hover, .media.tilt-r .shot:hover { transform: rotate(0) translateY(-4px); }
+    .media.offset-r { padding-left: clamp(0px,4vw,56px); }
+    .media.offset-l { padding-right: clamp(0px,4vw,56px); }
+
+    /* ---- feature grid (overview) ---- */
+    .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(248px,100%),1fr)); gap: clamp(16px,2vw,22px); margin-top: clamp(40px,5vw,64px); }
+    .feature-card { padding: clamp(20px,2.5vw,28px); background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); transition: transform .24s var(--ease-out), box-shadow .24s var(--ease-out); }
+    .feature-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+    .feature-card .dot { width: 28px; height: 28px; border-radius: 9px; background: linear-gradient(135deg, var(--sienna), var(--amber)); margin-bottom: 14px; }
+    .feature-card h4 { font-family: var(--font-display); font-size: var(--fs-title); font-weight: 600; color: var(--heading); margin: 0 0 8px; }
+    .feature-card p { font-size: var(--fs-small); line-height: 1.5; color: var(--text-body); margin: 0; }
+
+    /* ---- phones band (navy) ---- */
+    .phones { background: var(--navy); color: var(--on-dark-body); position: relative; overflow: hidden; }
+    .phones .section-label { color: var(--sienna-glow); }
+    .phones h2 { color: var(--on-dark-strong); }
+    .phones .lede { color: var(--on-dark-body); }
+    .phone-row { display: flex; gap: clamp(16px,3vw,40px); justify-content: center; align-items: flex-end; flex-wrap: wrap; margin-top: clamp(40px,6vw,72px); }
+    .phone { width: clamp(150px, 20vw, 220px); flex: none; filter: drop-shadow(0 30px 50px rgba(0,0,0,0.4)); }
+    .phone img { display: block; width: 100%; height: auto; }
+    .phone:nth-child(odd) { transform: translateY(-18px) rotate(-2deg); }
+    .phone:nth-child(even) { transform: translateY(10px) rotate(2deg); }
+    .phones-glow { position: absolute; width: 520px; height: 520px; left: 50%; top: 30%; transform: translateX(-50%); background: var(--glow-white); filter: blur(60px); opacity: .25; pointer-events: none; border-radius: 50%; }
+
+    /* ---- tech spec ---- */
+    .spec { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px,100%),1fr)); gap: clamp(20px,3vw,40px); margin-top: clamp(40px,5vw,64px); }
+    .spec dl { margin: 0; }
+    .spec dt { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--sienna); font-weight: 600; margin-bottom: 6px; }
+    .spec dd { margin: 0 0 22px; font-size: var(--fs-small); line-height: 1.55; color: var(--text-body); }
+    .spec dd strong { color: var(--heading); font-weight: 600; }
+
+    /* ---- coming soon ---- */
+    .coming { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; padding: clamp(28px,3.5vw,40px); background: var(--ink); color: var(--on-dark-strong); border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); margin-top: clamp(40px,5vw,64px); }
+    .coming .badge { display: inline-flex; padding: 5px 14px; font-family: var(--font-text); font-size: var(--fs-caption); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; border-radius: var(--radius-pill); background: rgba(255,255,255,0.12); color: var(--on-dark-strong); margin-bottom: 12px; }
+    .coming p { margin: 0; font-size: var(--fs-body); color: var(--on-dark-body); max-width: 46ch; }
+    .gh { display: inline-flex; align-items: center; gap: 8px; padding: 13px 24px; background: var(--paper); color: var(--ink); border-radius: var(--radius-md); font-family: var(--font-text); font-size: var(--fs-body); font-weight: 600; text-decoration: none; flex: none; opacity: .85; cursor: not-allowed; }
+
+    footer { padding: clamp(48px,6vw,80px) 0; border-top: 1px solid var(--border); }
+    .footrow { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: center; }
+
+    /* ---- lightbox ---- */
+    .lb { position: fixed; inset: 0; background: rgba(20,18,14,0.86); backdrop-filter: blur(6px); display: none; align-items: center; justify-content: center; z-index: 100; padding: 4vw; cursor: zoom-out; }
+    .lb.on { display: flex; }
+    .lb img { max-width: 95vw; max-height: 92vh; border-radius: var(--radius-md); box-shadow: var(--shadow-lg); }
+
+    @media (max-width: 760px) {
+      .row, .row.flip { grid-template-columns: 1fr; }
+      .row.flip .copy, .row.flip .media { order: initial; }
+      .media.offset-r, .media.offset-l { padding: 0; }
+      .showcase .frame { transform: none; }
+      .showcase .tag { position: static; max-width: none; margin-top: 16px; }
+      .phone:nth-child(odd), .phone:nth-child(even) { transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <a class="back-link" href="../../index.html"><span aria-hidden>←</span> Startseite</a>
+      <span class="made">Made by Mika</span>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-glow"></div>
+    <div class="wrap">
+      <span class="eyebrow">Projekt</span>
+      <h1>Bay&nbsp;Window</h1>
+      <p class="hero-sub">Ein persönliches Sport-Dashboard als native Desktop-App — gebaut für den kurzen Blick beim Hochfahren. Der Cache zeigt sofort relevante Daten, während im Hintergrund frische Stände nachgeladen werden. Standardmäßig die San Francisco 49ers (NFL) und Giants (MLB) — jedes der 32 NFL- bzw. 30 MLB-Teams lässt sich als aktives Team wählen.</p>
+      <div class="stack">
+        <span class="chip">Tauri 2 · Rust</span>
+        <span class="chip">React 19 · TS</span>
+        <span class="chip">Vite 7</span>
+        <span class="chip">ESPN JSON-API</span>
+        <span class="chip">i18next EN/DE</span>
+      </div>
+
+      <div class="showcase reveal">
+        <div class="frame"><img src="../../ci/assets/Bilder/BayWindow/Main_Baseball_Light.png" alt="Bay Window Dashboard im Light Mode — Hero-Karte zum nächsten Spiel, Player-Spotlight und Lineup-Diagramm" data-zoom></div>
+        <div class="tag">
+          <div class="k">Dashboard</div>
+          <div class="v">Nächstes Spiel, Player-Spotlight und Aufstellung — alles auf einen Blick, sobald die App startet.</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- OVERVIEW FEATURES -->
+  <section id="features">
+    <div class="wrap">
+      <span class="section-label reveal">Funktionen</span>
+      <h2 class="reveal">Was die App kann</h2>
+      <p class="lede reveal">Jeder Endpunkt wird unabhängig abgerufen — fällt einer aus, bleiben die übrigen Bereiche funktionsfähig. Fehlende oder fehlerhafte Daten werden zu „—“ statt zu einem Absturz.</p>
+      <div class="feature-grid">
+        <div class="feature-card reveal"><div class="dot"></div><h4>Live-Dashboard</h4><p>Hero-Karte zum nächsten Spiel mit Gegner, Anstoßzeit, Spielort und TV-Sender — inklusive Countdown bis zum Kickoff.</p></div>
+        <div class="feature-card reveal"><div class="dot"></div><h4>Player-Spotlight</h4><p>Automatisch gewählte Schlüsselspieler-Karte (QB bzw. Starting Pitcher) mit Saisonwerten und Trend gegenüber dem Karrieremittel.</p></div>
+        <div class="feature-card reveal"><div class="dot"></div><h4>Formations-Diagramm</h4><p>Visuelle Aufstellung auf Feld oder Diamond, angepasst an die Sportart — Offense-Gruppen im Football, Feldpositionen im Baseball.</p></div>
+        <div class="feature-card reveal"><div class="dot"></div><h4>Division-Tabelle</h4><p>Vollständige Standings mit W/L, Heim/Auswärts, Run-Differential und Streak — plus Glossar-Tooltips für jede Abkürzung.</p></div>
+        <div class="feature-card reveal"><div class="dot"></div><h4>Venue &amp; History</h4><p>Stadiondaten (Baujahr, Kapazität, Maße, Belag) neben kuratierter Saisonhistorie: Trendkurven, Meistertitel, All-Time-Rekorde.</p></div>
+        <div class="feature-card reveal"><div class="dot"></div><h4>Roster &amp; Playoffs</h4><p>Filterbare Kaderliste nach Positionsgruppe, suchbar nach Name und Nummer — plus automatische Playoff-Brackets in der Postseason.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEEP DIVE: HISTORY (dark shot, off-centre) -->
+  <section>
+    <div class="wrap">
+      <div class="row">
+        <div class="copy reveal">
+          <span class="section-label">Tiefe statt Oberfläche</span>
+          <h3 style="margin-top:14px">History, die Geschichten erzählt</h3>
+          <p>Die History-Ansicht verdichtet Jahrzehnte in wenige Blicke: eine Win/Loss-Trendkurve über die letzten Saisons, die Meistertitel als Banner-Reihe und die Team-ERA der jüngsten Jahre als Balken.</p>
+          <ul class="ticks">
+            <li>Trendkurve mit markierten Playoff- und Championship-Saisons</li>
+            <li>All-Time-Wins, beste Modern-Season, längste Siegesserie</li>
+            <li>Dunkles, team-gefärbtes Thema — bewusst abgesetzt vom hellen Dashboard</li>
+          </ul>
+        </div>
+        <div class="media tilt-r offset-r reveal">
+          <div class="shot"><img src="../../ci/assets/Bilder/BayWindow/History_Dark.png" alt="History-Ansicht im Dark Mode mit Win/Loss-Trend, Championship-Bannern und Team-ERA-Balken" data-zoom></div>
+        </div>
+      </div>
+
+      <!-- team selector + settings (flipped) -->
+      <div class="row flip">
+        <div class="media tilt-l offset-l reveal">
+          <div class="shot"><img src="../../ci/assets/Bilder/BayWindow/Settings_Light.png" alt="Einstellungen im Light Mode" data-zoom></div>
+        </div>
+        <div class="copy reveal">
+          <span class="section-label">Dein Team, deine Sprache</span>
+          <h3 style="margin-top:14px">Für beide Ligen gebaut</h3>
+          <p>NFL und MLB teilen sich dieselbe Oberfläche — der Team-Selektor wechselt zwischen allen 62 Teams, die Glossare und Diagramme passen sich der Sportart an. Einstellungen für Sprache (DE/EN), Theme und Standardteam sind ein Klick entfernt.</p>
+          <ul class="ticks">
+            <li>Zweisprachig über i18next, mit sportartspezifischen Glossaren</li>
+            <li>Light- und Dark-Theme, team-gefärbte Akzente</li>
+            <li>Demo-Modus zum Testen ohne Netzwerk</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHONES (navy band) -->
+  <section class="phones">
+    <div class="phones-glow"></div>
+    <div class="wrap" style="position:relative;z-index:1">
+      <span class="section-label reveal">Überall zu Hause</span>
+      <h2 class="reveal">Läuft auf Handy, Mac und Windows</h2>
+      <p class="lede reveal">Dieselbe defensive Architektur, dieselben Daten — responsiv vom Desktop bis aufs Telefon. Die Seitennavigation merkt sich die Scroll-Position, sodass sich Bereiche sofort anspringen lassen.</p>
+      <div class="phone-row">
+        <div class="phone reveal"><img src="../../ci/assets/Bilder/BayWindow/phone_main_light.png" alt="Bay Window Dashboard auf dem Smartphone" data-zoom></div>
+        <div class="phone reveal"><img src="../../ci/assets/Bilder/BayWindow/phone_card_light.png" alt="Spieler-Karte auf dem Smartphone" data-zoom></div>
+        <div class="phone reveal"><img src="../../ci/assets/Bilder/BayWindow/phone_standings_dark.png" alt="Standings im Dark Mode auf dem Smartphone" data-zoom></div>
+        <div class="phone reveal"><img src="../../ci/assets/Bilder/BayWindow/phone_playoffs_light.png" alt="Playoff-Bracket auf dem Smartphone" data-zoom></div>
+        <div class="phone reveal"><img src="../../ci/assets/Bilder/BayWindow/phone_side_dark.png" alt="Seitennavigation im Dark Mode auf dem Smartphone" data-zoom></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TECH + PHILOSOPHY -->
+  <section>
+    <div class="wrap">
+      <span class="section-label reveal">Unter der Haube</span>
+      <h2 class="reveal">Technisches Fundament</h2>
+      <p class="lede reveal">Cache-first und ausfallsicher: Daten sind beim ersten Start sichtbar, jeder API-Aufruf läuft isoliert, und Updates kommen signiert über GitHub.</p>
+      <div class="spec">
+        <dl class="reveal">
+          <dt>Plattform</dt>
+          <dd><strong>Tauri 2</strong> auf Rust-Basis für native, plattformübergreifende Performance — ein Binary für Windows, macOS und mobile Layouts.</dd>
+          <dt>Frontend</dt>
+          <dd><strong>React 19 + TypeScript</strong>, kompiliert mit <strong>Vite 7</strong>. Komponentenbasiert, typsicher, schnell im Build.</dd>
+        </dl>
+        <dl class="reveal">
+          <dt>Architektur</dt>
+          <dd>Defensiv gedacht: jeder Endpunkt wird unabhängig gefetcht, ein Ausfall kaskadiert nicht. Fehlende Daten werden zu <strong>„—“</strong> statt zum Crash.</dd>
+          <dt>Daten &amp; Offline</dt>
+          <dd>Live-Daten aus der öffentlichen <strong>ESPN-JSON-API</strong>, persistent gecacht. Offline nutzbar, mit Demo-Modus für Tests ohne Netz.</dd>
+        </dl>
+        <dl class="reveal">
+          <dt>Sprache</dt>
+          <dd><strong>i18next</strong> mit Deutsch/Englisch und sportartspezifischen Glossaren — Tooltips erklären jede Abkürzung.</dd>
+          <dt>Updates</dt>
+          <dd>Automatische, <strong>signierte Auslieferung</strong> über GitHub — Installation mit einem Klick.</dd>
+        </dl>
+      </div>
+
+      <div style="margin-top:clamp(48px,6vw,80px); max-width:62ch" class="reveal">
+        <span class="section-label">Designphilosophie</span>
+        <p class="lede" style="margin-top:14px">Die App ist auf <strong style="color:var(--heading);font-weight:600">geringe kognitive Last</strong> und schnelles Scannen ausgelegt. Der Cache-first-Ansatz macht Daten beim Start sofort sichtbar; die Seitennavigation mit Scroll-Tracking lässt zwischen Bereichen springen. Tooltips erklären durchgehend die Fachbegriffe — auch für alle, die mit US-Sport (noch) nicht vertraut sind.</p>
+      </div>
+
+      <div class="coming reveal">
+        <div>
+          <span class="badge">Coming Soon</span>
+          <p>Der Quellcode wird bald öffentlich auf GitHub verfügbar sein.</p>
+        </div>
+        <!-- TODO: GitHub URL -->
+        <a class="gh" href="#" aria-disabled="true">GitHub-Repo <span aria-hidden>→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap reveal" style="display:flex; justify-content:center; padding-bottom:clamp(24px,4vw,48px)">
+    <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.14/dist/dotlottie-wc.js" type="module"></script>
+    <dotlottie-wc src="https://lottie.host/0caf9409-4c20-463f-adb2-1888ab19648b/AYjitS8tKr.lottie" style="width: 300px;height: 300px" autoplay loop></dotlottie-wc>
+  </div>
+
+  <footer>
+    <div class="wrap footrow">
+      <a class="back-link" href="../../index.html"><span aria-hidden>←</span> Zurück zur Startseite</a>
+      <span class="made">Bay Window · Made by Mika</span>
+    </div>
+  </footer>
+
+  <div class="lb" id="lb"><img id="lbImg" src="" alt=""></div>
+
+  <script>
+    // scroll reveals
+    (function () {
+      var els = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window)) { els.forEach(function (e) { e.classList.add('seen'); }); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('seen'); io.unobserve(en.target); } });
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      els.forEach(function (e) { io.observe(e); });
+    })();
+    // lightbox
+    (function () {
+      var lb = document.getElementById('lb'), img = document.getElementById('lbImg');
+      document.querySelectorAll('[data-zoom]').forEach(function (el) {
+        el.addEventListener('click', function () { img.src = el.src; img.alt = el.alt; lb.classList.add('on'); });
+      });
+      lb.addEventListener('click', function () { lb.classList.remove('on'); img.src = ''; });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { lb.classList.remove('on'); img.src = ''; } });
+    })();
+  </script>
+</body>
+</html>
