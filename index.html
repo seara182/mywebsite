@@ -27,6 +27,15 @@
   @media (prefers-reduced-motion: reduce) {
     .loose-photo, .polaroid { transition: none !important; }
   }
+
+  /* hero: progressive-enhancement fallback for browsers without svh */
+  .hero { min-height: 100vh; min-height: 100svh; }
+
+  /* section headers: stack the heading above the decorative glow on phones */
+  @media (max-width: 560px) {
+    .section-head { flex-direction: column; align-items: flex-start; gap: 20px; }
+    .section-head__deco { align-self: flex-end; }
+  }
 </style>
 </head>
 <body>

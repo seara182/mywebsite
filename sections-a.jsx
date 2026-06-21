@@ -10,7 +10,7 @@ function Hero() {
   React.useEffect(() => { const timer = setTimeout(() => setMounted(true), 80); return () => clearTimeout(timer); }, []);
   const words = ["Mika", "Jeske"];
   return (
-    <section style={{ position: "relative", minHeight: "100svh", display: "flex", flexDirection: "column", justifyContent: "center", overflow: "hidden", padding: "0 var(--gutter)" }}>
+    <section className="hero" style={{ position: "relative", display: "flex", flexDirection: "column", justifyContent: "center", overflow: "hidden", padding: "0 var(--gutter)" }}>
       {/* ambient drifting shapes */}
       <GlowShape shape="blob" glow="duo" size={420} drift style={{ position: "absolute", top: "-8%", right: "-6%", opacity: 0.9, transition: "opacity 1.2s ease", pointerEvents: "none" }} />
       <GlowShape shape="arch" glow="navy" size={240} drift style={{ position: "absolute", bottom: "6%", left: "-4%", opacity: 0.75, pointerEvents: "none" }} />
@@ -22,7 +22,7 @@ function Hero() {
         </div>
         <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "var(--fs-display)", lineHeight: 0.98, letterSpacing: "var(--ls-display)", color: "var(--ink)", margin: 0 }}>
           {words.map((w, i) => (
-            <span key={i} style={{ display: "block", overflow: "hidden" }}>
+            <span key={i} style={{ display: "block", overflow: "hidden", paddingBottom: "0.14em", marginBottom: "-0.14em" }}>
               <span style={{ display: "inline-block", transform: mounted ? "none" : "translateY(108%) rotate(4deg)", opacity: mounted ? 1 : 0, transition: `transform 0.9s var(--ease-glide) ${0.1 + i * 0.12}s, opacity 0.9s ease ${0.1 + i * 0.12}s` }}>{w}</span>
             </span>
           ))}
