@@ -17,6 +17,16 @@
   body { margin: 0; background: var(--paper); overflow-x: hidden; }
   @keyframes scrollHint { 0% { transform: translateY(-100%); } 60%,100% { transform: translateY(220%); } }
 
+  /* ambient side orbs — only where wide displays leave the gutters empty.
+     #root becomes the stacking context; the orb layer sits behind the
+     content (z-index:-1) but above the paper backdrop, so it shows in the
+     side margins of the paper sections and is covered by the colour bands. */
+  #root { position: relative; z-index: 0; }
+  .side-orbs { display: none; }
+  @media (min-aspect-ratio: 16 / 9) {
+    .side-orbs { display: block; position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+  }
+
   /* torn-paper deep-dives + photo treatments */
   .tear-trigger:hover .tear-label { color: var(--sienna); }
   .tear-trigger:hover .tear-label > span:last-child { background: rgba(188,90,55,0.10); border-color: rgba(188,90,55,0.30); }
