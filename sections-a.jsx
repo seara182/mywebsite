@@ -76,17 +76,17 @@ function Intro() {
         <Reveal><Eyebrow color="var(--sienna-glow)">Hallo</Eyebrow></Reveal>
         <Reveal delay={80}>
           <p style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h2)", lineHeight: 1.22, letterSpacing: "var(--ls-heading)", color: "var(--on-dark-strong)", margin: "20px 0 0", maxWidth: "20ch" }}>
-            Ich bin Mika. Ich mache Werkstoffe messbar — und erklärbar.
+            Ich bin Mika. Ich messe Werkstoffe und erkläre, was die Zahlen bedeuten.
           </p>
         </Reveal>
         <Reveal delay={160}>
           <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--on-dark-body)", margin: "24px 0 0", maxWidth: "54ch" }}>
-            Werkstoffwissenschaft, Mess- und Sensortechnik, zerstörungsfreie Prüfung: Mich fasziniert, was im Mikrometerbereich passiert, lange bevor ein Bauteil in Serie geht. Ich messe genau, halte Prozesse sauber und sage, was die Daten wirklich hergeben.
+            Werkstoffwissenschaft, Mess- und Sensortechnik und zerstörungsfreie Prüfung sind mein Feld. Mich interessiert, was im Mikrometerbereich passiert, lange bevor ein Bauteil in Serie geht. Ich messe genau und sage offen, was in den Daten steht, auch wenn das Ergebnis unbequem ist.
           </p>
         </Reveal>
         <Reveal delay={220}>
           <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--on-dark-body)", margin: "16px 0 0", maxWidth: "54ch" }}>
-            Diese Seite ist kein Lebenslauf zum Überfliegen — sie ist eine kurze Erzählung. Bleiben Sie einen Moment, es lohnt sich.
+            Statt Stichpunkten zum Überfliegen finden Sie hier eine kurze Geschichte. Nehmen Sie sich den Moment, er lohnt sich.
           </p>
         </Reveal>
       </div>

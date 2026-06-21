@@ -44,8 +44,10 @@ function TornEdge({ side, seed, color = "var(--paper)" }) {
 
 /* ---------- the torn-open deep dive ----------
    Closed: a faint perforated seam inviting a pull.
-   Open: the page tears, a recessed "under-surface" panel
-   pushes the content below it down (inline, not overlay). */
+   Open: the page tears edge-to-edge across the viewport and a
+   recessed "under-surface" pushes the content below it down
+   (inline, not overlay). The seam and the panel's text stay in
+   the reading column; only the rip itself runs full-bleed. */
 function TornSection({ label, seed = 7, children }) {
   const [open, setOpen] = useState(false);
   const [h, setH] = useState(0);
@@ -65,47 +67,49 @@ function TornSection({ label, seed = 7, children }) {
 
   return (
     <div style={{ margin: "clamp(24px,4vw,40px) 0" }}>
-      {/* trigger — the seam */}
-      <button
-        onClick={() => setOpen(o => !o)}
-        aria-expanded={open}
-        className="tear-trigger"
-        style={{
-          width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 14,
-          padding: "16px 20px", cursor: "pointer", background: "transparent", border: "none",
-          fontFamily: "var(--font-text)", color: "var(--text-muted)", position: "relative",
-        }}>
-        <span aria-hidden style={{ flex: 1, height: 0, borderTop: "2px dashed var(--hairline-strong)", opacity: 0.7 }} />
-        <span className="tear-label" style={{
-          display: "inline-flex", alignItems: "center", gap: 10, flex: "none",
-          fontSize: "var(--fs-label)", fontWeight: 600, letterSpacing: "var(--ls-label)",
-          textTransform: "uppercase", color: "var(--text-muted)", whiteSpace: "nowrap",
-        }}>
-          {label}
-          <span aria-hidden style={{
-            display: "inline-grid", placeItems: "center", width: 22, height: 22, borderRadius: "50%",
-            background: "var(--paper-2)", border: "1px solid var(--hairline-strong)",
-            transform: open ? "rotate(180deg)" : "none", transition: "transform .4s var(--ease-glide)",
-            fontSize: 12, lineHeight: 1, color: "var(--sienna)",
-          }}>↓</span>
-        </span>
-        <span aria-hidden style={{ flex: 1, height: 0, borderTop: "2px dashed var(--hairline-strong)", opacity: 0.7 }} />
-      </button>
+      {/* trigger — the seam, kept in the reading column */}
+      <div className="container">
+        <button
+          onClick={() => setOpen(o => !o)}
+          aria-expanded={open}
+          className="tear-trigger"
+          style={{
+            width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 14,
+            padding: "16px 20px", cursor: "pointer", background: "transparent", border: "none",
+            fontFamily: "var(--font-text)", color: "var(--text-muted)", position: "relative",
+          }}>
+          <span aria-hidden style={{ flex: 1, height: 0, borderTop: "2px dashed var(--hairline-strong)", opacity: 0.7 }} />
+          <span className="tear-label" style={{
+            display: "inline-flex", alignItems: "center", gap: 10, flex: "none",
+            fontSize: "var(--fs-label)", fontWeight: 600, letterSpacing: "var(--ls-label)",
+            textTransform: "uppercase", color: "var(--text-muted)", whiteSpace: "nowrap",
+          }}>
+            {label}
+            <span aria-hidden style={{
+              display: "inline-grid", placeItems: "center", width: 22, height: 22, borderRadius: "50%",
+              background: "var(--paper-2)", border: "1px solid var(--hairline-strong)",
+              transform: open ? "rotate(180deg)" : "none", transition: "transform .4s var(--ease-glide)",
+              fontSize: 12, lineHeight: 1, color: "var(--sienna)",
+            }}>↓</span>
+          </span>
+          <span aria-hidden style={{ flex: 1, height: 0, borderTop: "2px dashed var(--hairline-strong)", opacity: 0.7 }} />
+        </button>
+      </div>
 
-      {/* the hole that tears open */}
+      {/* the hole that tears open — full-bleed to the page edges */}
       <div style={{
         maxHeight: open ? (reduce ? "none" : h + 80) : 0,
         overflow: "hidden",
         transition: reduce ? "none" : "max-height .8s var(--ease-glide)",
       }}>
-        <div ref={inner} style={{ position: "relative" }}>
-          <div style={{ position: "relative", overflow: "hidden", borderRadius: 4 }}>
+        <div ref={inner}>
+          <div style={{ position: "relative", overflow: "hidden" }}>
             <TornEdge side="top" seed={seed} />
             <TornEdge side="bottom" seed={seed + 31} />
-            {/* recessed under-surface */}
+            {/* recessed under-surface, spanning the full viewport width */}
             <div style={{
               position: "relative", zIndex: 1,
-              padding: "clamp(40px,6vw,68px) clamp(20px,4vw,52px)",
+              padding: "clamp(44px,6vw,72px) 0",
               background:
                 "radial-gradient(120% 80% at 50% -10%, rgba(22,20,15,0.10), transparent 60%)," +
                 "linear-gradient(180deg, var(--paper-3), var(--paper-2) 22%, var(--paper-2))",
@@ -116,7 +120,7 @@ function TornSection({ label, seed = 7, children }) {
                 position: "absolute", inset: 0, pointerEvents: "none", opacity: 0.5,
                 backgroundImage: "repeating-linear-gradient(92deg, rgba(22,20,15,0.022) 0 2px, transparent 2px 6px)",
               }} />
-              <div style={{ position: "relative" }}>{children}</div>
+              <div className="container" style={{ position: "relative" }}>{children}</div>
             </div>
           </div>
         </div>
@@ -190,82 +194,105 @@ function Story() {
         <div style={{ maxWidth: "var(--content-narrow, 64ch)" }}>
           <Reveal delay={40}>
             <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 22px", maxWidth: "62ch" }}>
-              Physik und Chemie haben mich schon im Abitur gepackt — aber ich wollte mit ihnen etwas <em>tun</em>, nicht nur weiter Theorie lesen. Eine Weile sah es so aus, als ginge ich in die Pharmazie; das ist bei uns ein bisschen Familiensache. Dann tauchte die Werkstoffwissenschaft auf — genau der angewandte Brückenschlag, den ich gesucht hatte.
+              Physik und Chemie haben mich schon in der Schule gepackt. Nur wollte ich mit ihnen etwas anfangen und nicht weiter nur Theorie lesen. Eine Weile sah es nach Pharmazie aus, das ist bei uns ein bisschen Familiensache. Dann kam die Werkstoffwissenschaft dazwischen, genau der angewandte Brückenschlag, den ich gesucht hatte.
             </p>
           </Reveal>
           <Reveal delay={80}>
             <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: 0, maxWidth: "62ch" }}>
-              Was mich bis heute fesselt, ist der Mikro- und Nanobereich: filigran, präzise, fast schon ästhetisch. Ich habe lange getanzt, auf Turnierniveau — und die Parallele ist keine Cover-Letter-Metapher, sondern echt. Es geht um Eleganz im Detail. Genau dieser Faden verbindet das Tanzen, die Dünnschichten und die Messtechnik.
+              Geblieben bin ich beim Mikro- und Nanobereich: filigran, präzise, fast schon schön. Ich habe lange getanzt, auf Turnierniveau, und die Parallele meine ich ernst. Das ist kein Anschreiben-Sprech. Beides lebt von Eleganz im Detail, und dieser Faden zieht sich vom Tanzen über die Dünnschichten bis in die Messtechnik.
             </p>
           </Reveal>
         </div>
+      </div>
+    </section>
+  );
+}
 
-        {/* invitation to tear */}
-        <Reveal delay={60}>
-          <p style={{ fontSize: "var(--fs-small)", color: "var(--text-muted)", margin: "clamp(28px,4vw,44px) 0 0", maxWidth: "52ch" }}>
-            Zwei Orte haben das geprägt. Reißen Sie sie auf —
+/* ============================================================
+   CLEANROOM TEAR — sits directly under the CV; the dry line
+   in the résumé torn open to show what the work was really like
+   ============================================================ */
+function CleanroomTear() {
+  return (
+    <section style={{ position: "relative", paddingBottom: "clamp(40px,6vw,80px)" }}>
+      <div className="container">
+        <Reveal>
+          <p style={{ fontSize: "var(--fs-small)", color: "var(--text-muted)", margin: 0, maxWidth: "54ch" }}>
+            Die nüchternste Zeile in diesem Lebenslauf war für mich die spannendste Zeit. Ein Blick unter die Oberfläche:
           </p>
         </Reveal>
-
-        {/* ZMN — under the surface, the science */}
-        <TornSection label="Reinraum aufreißen" seed={11}>
-          <div style={{ maxWidth: "var(--content)", margin: "0 auto" }}>
-            <Eyebrow color="var(--sienna)">ZMN · Zentrum für Mikro- und Nanotechnik</Eyebrow>
-            <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-title)", color: "var(--heading)", margin: "14px 0 18px", maxWidth: "22ch" }}>
-              Unter der Oberfläche, im ISO-2-Reinraum
-            </h3>
-            <div style={{ maxWidth: "62ch" }}>
-              <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 16px" }}>
-                Ein halbes Jahr im ISO-2-Reinraum der TU Ilmenau: Magnetron-Sputtern, Profilometrie, REM/EDX, TiOₓ-Dünnschichten. Klingt nüchtern — war es nicht. Der Kontrast ist fast absurd: eine bis ins Letzte kontrollierte Umgebung, und mittendrin Proben unter einem Quadratmillimeter, die sich trotzdem partout nicht so verhalten wollen, wie sie sollen.
-              </p>
-              <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 16px" }}>
-                Ehrlich: Es war einfach großartig, dort zu arbeiten. Endlich das tun, dessen Theorie ich gelernt hatte — und dabei dieses Gefühl von <em>echter</em> Wissenschaft, so wie man sich als Kind „Forschung“ vorstellt. Das Kind in mir war ziemlich aus dem Häuschen.
-              </p>
-              <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: 0 }}>
-                Konkret: Ag-, Al-, Ni- und Bi-Schichten, der TFA-Aufbau und temperaturabhängige Transportmessungen — Letztere bilden die Grundlage meiner Bachelorarbeit.
-              </p>
-            </div>
-            {/* relaxed photo row */}
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "clamp(16px,2.4vw,30px)", alignItems: "flex-start", marginTop: "clamp(28px,4vw,44px)" }}>
-              <LoosePhoto src="ci/assets/Bilder/ZMN/ZMN_Sputter.jpeg" caption="Sputterkammer — Schichtwachstum im Vakuum" rot={-2.5} w={340} />
-              <LoosePhoto src="ci/assets/Bilder/ZMN/ZMN_Me.jpeg" caption="ISO-2-Reinraum, voll vermummt" rot={2.5} w={210} />
-              <LoosePhoto src="ci/assets/Bilder/ZMN/ZMN_Profilo.jpeg" caption="Profilometrie — Schichtdicke nachmessen" rot={1.5} w={330} />
-              <LoosePhoto src="ci/assets/Bilder/ZMN/ZMN_Proben.jpeg" caption="Proben, kleiner als ein Fingernagel" rot={-1.5} w={205} />
-            </div>
-          </div>
-        </TornSection>
-
-        {/* Konfi — under the surface, the heart */}
-        <TornSection label="Jugendarbeit aufreißen" seed={23}>
-          <div style={{ maxWidth: "var(--content)", margin: "0 auto" }}>
-            <Eyebrow color="var(--sienna)">EKM Ilmenau · Konfi- & Jugendarbeit</Eyebrow>
-            <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-title)", color: "var(--heading)", margin: "14px 0 18px", maxWidth: "24ch" }}>
-              Da sein, verlässlich bleiben
-            </h3>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px,100%),1fr))", gap: "clamp(28px,4vw,56px)", alignItems: "start" }}>
-              <div style={{ maxWidth: "58ch" }}>
-                <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 16px" }}>
-                  Mehrere Jahre Gruppenleitung in der Konfi- und offenen Jugendarbeit der Evangelischen Kirche in Ilmenau. Die Aufgabe lässt sich schwer in einen Lebenslauf pressen: da sein. Verlässlich sein. Ansprechbar bleiben für Jugendliche, die gerade Glauben, Zweifel und das ganz normale Erwachsenwerden sortieren.
-                </p>
-                <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 16px" }}>
-                  Das steht hier nicht, weil es sich gut macht. Es steht hier, weil mir diese Jugendlichen wirklich am Herzen liegen — und weil ich in Friedrichshafen gerade daran arbeite, wieder in genau diese Rolle hineinzuwachsen.
-                </p>
-                <p style={{ fontSize: "var(--fs-small)", lineHeight: "var(--lh-relaxed)", color: "var(--text-muted)", margin: 0, fontStyle: "italic" }}>
-                  Auf Fotos bin ich selten zu sehen — meistens stehe ich dahinter oder jage gerade jemandem hinterher, der jemand anderem das Handy geklaut hat.
-                </p>
-              </div>
-              {/* hand-glued polaroids */}
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "clamp(18px,2.4vw,30px)", padding: "8px clamp(4px,2vw,20px) 18px" }}>
-                <div style={{ gridColumn: "1 / -1", maxWidth: 360, justifySelf: "center" }}>
-                  <Polaroid src="ci/assets/Bilder/Konfi/Konfi_speach.jpeg" caption="Ausnahmsweise mal vor der Kamera" rot={-2.5} tape />
-                </div>
-                <Polaroid src="ci/assets/Bilder/Konfi/Konfi_Phe.jpeg" caption="Mittendrin" rot={3} />
-                <Polaroid src="ci/assets/Bilder/Konfi/Konfi_Party.jpeg" caption="Abendprogramm auf Freizeit" rot={-3.5} />
-              </div>
-            </div>
-          </div>
-        </TornSection>
       </div>
+
+      <TornSection label="Reinraum aufreißen" seed={11}>
+        <Eyebrow color="var(--sienna)">ZMN · Zentrum für Mikro- und Nanotechnik</Eyebrow>
+        <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-title)", color: "var(--heading)", margin: "14px 0 18px", maxWidth: "22ch" }}>
+          Unter der Oberfläche, im ISO-2-Reinraum
+        </h3>
+        <div style={{ maxWidth: "62ch" }}>
+          <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 16px" }}>
+            Ein halbes Jahr im ISO-2-Reinraum der TU Ilmenau: Magnetron-Sputtern, Profilometrie, REM/EDX, TiOₓ-Dünnschichten. Das klingt nüchtern, war es aber nicht. Der Kontrast ist fast absurd: eine bis ins Letzte kontrollierte Umgebung, und mittendrin Proben unter einem Quadratmillimeter, die sich partout nicht so verhalten wollen, wie sie sollen.
+          </p>
+          <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 16px" }}>
+            Ehrlich gesagt war es einfach großartig, dort zu arbeiten. Endlich das tun, dessen Theorie ich gelernt hatte, und dabei dieses Gefühl von echter Wissenschaft, so wie man sich als Kind „Forschung“ vorstellt. Das Kind in mir war ziemlich aus dem Häuschen.
+          </p>
+          <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: 0 }}>
+            Konkret waren das Ag-, Al-, Ni- und Bi-Schichten, der TFA-Aufbau und temperaturabhängige Transportmessungen. Die Messungen bilden die Grundlage meiner Bachelorarbeit.
+          </p>
+        </div>
+        {/* relaxed photo row */}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "clamp(16px,2.4vw,30px)", alignItems: "flex-start", marginTop: "clamp(28px,4vw,44px)" }}>
+          <LoosePhoto src="ci/assets/Bilder/ZMN/ZMN_Sputter.jpeg" caption="Sputterkammer — Schichtwachstum im Vakuum" rot={-2.5} w={340} />
+          <LoosePhoto src="ci/assets/Bilder/ZMN/ZMN_Me.jpeg" caption="ISO-2-Reinraum, voll vermummt" rot={2.5} w={210} />
+          <LoosePhoto src="ci/assets/Bilder/ZMN/ZMN_Profilo.jpeg" caption="Profilometrie — Schichtdicke nachmessen" rot={1.5} w={330} />
+          <LoosePhoto src="ci/assets/Bilder/ZMN/ZMN_Proben.jpeg" caption="Proben, kleiner als ein Fingernagel" rot={-1.5} w={205} />
+        </div>
+      </TornSection>
+    </section>
+  );
+}
+
+/* ============================================================
+   CONFI TEAR — sits directly under the Ehrenamt band; the
+   youth-work line opened up into the human side of it
+   ============================================================ */
+function ConfiTear() {
+  return (
+    <section style={{ position: "relative", padding: "clamp(40px,6vw,80px) 0 clamp(40px,6vw,80px)" }}>
+      <div className="container">
+        <Reveal>
+          <p style={{ fontSize: "var(--fs-small)", color: "var(--text-muted)", margin: 0, maxWidth: "54ch" }}>
+            Ein Ehrenamt schrumpft im Lebenslauf schnell auf zwei Zeilen. Hinter diesem steckt deutlich mehr:
+          </p>
+        </Reveal>
+      </div>
+
+      <TornSection label="Jugendarbeit aufreißen" seed={23}>
+        <Eyebrow color="var(--sienna)">EKM Ilmenau · Konfi- & Jugendarbeit</Eyebrow>
+        <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-title)", color: "var(--heading)", margin: "14px 0 18px", maxWidth: "24ch" }}>
+          Da sein und verlässlich bleiben
+        </h3>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px,100%),1fr))", gap: "clamp(28px,4vw,56px)", alignItems: "start" }}>
+          <div style={{ maxWidth: "58ch" }}>
+            <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 16px" }}>
+              Mehrere Jahre habe ich Gruppen in der Konfi- und offenen Jugendarbeit der Evangelischen Kirche in Ilmenau geleitet. Die eigentliche Aufgabe passt schlecht in eine Lebenslaufzeile: für Jugendliche ansprechbar bleiben, während sie Glauben, Zweifel und das ganz normale Erwachsenwerden für sich sortieren.
+            </p>
+            <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 16px" }}>
+              Ich schreibe das nicht, weil es sich im Lebenslauf gut macht. Diese Jugendlichen liegen mir wirklich am Herzen, und in Friedrichshafen arbeite ich gerade daran, wieder in genau diese Rolle hineinzuwachsen.
+            </p>
+            <p style={{ fontSize: "var(--fs-small)", lineHeight: "var(--lh-relaxed)", color: "var(--text-muted)", margin: 0, fontStyle: "italic" }}>
+              Auf Fotos bin ich selten zu sehen. Meistens stehe ich dahinter oder jage gerade jemandem hinterher, der jemand anderem das Handy geklaut hat.
+            </p>
+          </div>
+          {/* hand-glued polaroids */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "clamp(18px,2.4vw,30px)", padding: "8px clamp(4px,2vw,20px) 18px" }}>
+            <div style={{ gridColumn: "1 / -1", maxWidth: 360, justifySelf: "center" }}>
+              <Polaroid src="ci/assets/Bilder/Konfi/Konfi_speach.jpeg" caption="Ausnahmsweise mal vor der Kamera" rot={-2.5} tape />
+            </div>
+            <Polaroid src="ci/assets/Bilder/Konfi/Konfi_Phe.jpeg" caption="Mittendrin" rot={3} />
+            <Polaroid src="ci/assets/Bilder/Konfi/Konfi_Party.jpeg" caption="Abendprogramm auf Freizeit" rot={-3.5} />
+          </div>
+        </div>
+      </TornSection>
     </section>
   );
 }
@@ -294,10 +321,10 @@ function Reunion() {
                 Ein Wiedersehen planen
               </h2>
               <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 16px", maxWidth: "54ch" }}>
-                Nebenbei betreue ich <strong>ggi-abitur2022.de</strong> — die Seite zum Abitreffen meines Jahrgangs. Eine Karte, die zeigt, wie weit wir uns verteilt haben (und wie sehr die Wurzeln bleiben). Ein Countdown, der einfach Vorfreude ist. Und ein Kontaktformular, weil ich gern in Verbindung bleibe.
+                Nebenbei betreue ich <strong>ggi-abitur2022.de</strong>, die Seite zum Abitreffen meines Jahrgangs. Es gibt eine Karte, die zeigt, wie weit wir uns inzwischen verteilt haben und wie sehr die Wurzeln trotzdem bleiben, dazu einen Countdown aus reiner Vorfreude und ein Kontaktformular, über das man sich meldet.
               </p>
               <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text-body)", margin: "0 0 26px", maxWidth: "54ch" }}>
-                Ich habe bewusst die alten Schulfarben genommen — das fühlte sich einfach richtig an. Am liebsten schreibe ich den Newsletter an den Jahrgang; die Antworten, die zurückkommen, sind mit das Schönste daran.
+                Die alten Schulfarben habe ich bewusst genommen, das fühlte sich einfach richtig an. Am liebsten schreibe ich den Newsletter an den Jahrgang; die Antworten, die zurückkommen, sind fast das Schönste daran.
               </p>
               <a href={GGI} target="_blank" rel="noopener" className="ggi-link" style={{
                 display: "inline-flex", alignItems: "center", gap: 8, padding: "12px 22px",
@@ -330,4 +357,4 @@ function Reunion() {
   );
 }
 
-window.SECTIONS_NEW = { Story, Reunion };
+window.SECTIONS_NEW = { Story, CleanroomTear, ConfiTear, Reunion };
