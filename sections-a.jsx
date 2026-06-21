@@ -1,4 +1,4 @@
-/* ============================================================
+/* ===========================================================
    Mika Jeske — landing page sections (single-scroll narrative)
    ============================================================ */
 const { Reveal, Eyebrow, Badge, GlowShape, TimelineEntry } = window.MJ;
