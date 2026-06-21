@@ -12,7 +12,7 @@ function Hero() {
   return (
     <section className="hero" style={{ position: "relative", display: "flex", flexDirection: "column", justifyContent: "center", overflow: "hidden", padding: "0 var(--gutter)" }}>
       {/* ambient drifting shapes */}
-      <GlowShape shape="blob" glow="duo" size={420} drift style={{ position: "absolute", top: "-8%", right: "-6%", opacity: 0.9, transition: "opacity 1.2s ease", pointerEvents: "none" }} />
+      <GlowShape shape="blob" glow="duo" size={420} drift className="hero-glow-blob" style={{ position: "absolute", top: "-8%", right: "-6%", opacity: 0.9, transition: "opacity 1.2s ease", pointerEvents: "none" }} />
       <GlowShape shape="arch" glow="navy" size={240} drift style={{ position: "absolute", bottom: 0, left: "-4%", opacity: 0.75, pointerEvents: "none" }} />
       <div style={{ position: "relative", zIndex: 2, maxWidth: "var(--content-wide)", margin: "0 auto", width: "100%" }}>
         <div style={{ overflow: "hidden", marginBottom: 8 }}>

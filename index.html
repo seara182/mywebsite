@@ -41,10 +41,21 @@
   /* hero: progressive-enhancement fallback for browsers without svh */
   .hero { min-height: 100vh; min-height: 100svh; }
 
-  /* section headers: stack the heading above the decorative glow on phones */
+  /* mobile-only layout fixes — none of these apply at desktop widths */
   @media (max-width: 560px) {
+    /* section headers: stack the heading above the decorative glow on phones */
     .section-head { flex-direction: column; align-items: flex-start; gap: 20px; }
     .section-head__deco { align-self: flex-end; }
+
+    /* hero: shrink the ambient blob into the top-right corner so it clears the
+       name and the fixed top-left language switcher; hide the decorative,
+       self-dismissing "select language" hint (unreadable over the dark blob) */
+    .hero-glow-blob { transform: scale(0.6); transform-origin: top right; opacity: 0.7 !important; }
+    .lang-hint { display: none !important; }
+
+    /* Next-Game preview tile: let it grow to fit its content instead of clipping
+       the wrapped stat row inside a fixed 16/10 box */
+    .bay-preview { aspect-ratio: auto !important; min-height: 0 !important; }
   }
 </style>
 </head>
