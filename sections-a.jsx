@@ -11,15 +11,15 @@ const EXPERIENCE = [
     points: ["Sputter-Abscheidung metallischer Dünnschichten (Al, Ag, Ti, Si) und Strukturierung per Lift-off im Reinraum", "Profilometrie, REM-Topografieanalyse und elektrische Charakterisierung (Van-der-Pauw)"] },
 ];
 const EDUCATION = [
-  { role: "B.Sc. Werkstoffwissenschaft", org: "Technische Universität Ilmenau", period: "10.2022 – 05.2026",
+  { role: "B.Sc. Werkstoffwissenschaft", org: "Technische Universität Ilmenau", period: "10.2022 – 06.2026",
     points: ["Schwerpunkt metallische Werkstoffe, Dünnschichttechnik und Fertigungsverfahren", "Bachelorarbeit: Temperaturabhängige elektrische Eigenschaften gesputterter Dünnschichten", "Nominierung für die Studienstiftung des deutschen Volkes"] },
   { role: "Allgemeine Hochschulreife · 1,8", org: "Gymnasium Groß Ilsede", period: "2013 – 2022", points: [] },
 ];
 const ENGAGEMENT = [
   { role: "Helfer in Grundausbildung", org: "Technisches Hilfswerk · OV Friedrichshafen", period: "seit 10.2025", accent: true,
     points: ["Grundausbildung im Zivil- und Katastrophenschutz, Ausrichtung auf Fachberatung CBRN-Abwehr"] },
-  { role: "Berater in Ausbildung · Nummer gegen Kummer", org: "Kinderschutzbund · Friedrichshafen", period: "seit 02.2026",
-    points: ["Ausbildung zur telefonischen Beratung für Kinder und Jugendliche in Krisensituationen"] },
+  { role: "Telofinist/Clientenberater · Nummer gegen Kummer", org: "Kinderschutzbund · Friedrichshafen", period: "seit 02.2026",
+    points: ["Ausbildung zur telefonischen Beratung für Kinder und Jugendliche in Krisensituationen", "Aktive Beratung auf system-psychologischen Grundlagen"] },
   { role: "Ehrenamtliche Gruppenleitung", org: "Evangelische Kirche Mitteldeutschland · Ilmenau", period: "2022 – 2025",
     points: ["Dreijährige Gruppenleitung in Konfirmations- und offener Jugendarbeit", "Leitung auf Freizeiten und Events mit bis zu 120 Teilnehmenden"] },
   { role: "Gewähltes Mitglied der Studierendenvertretung", org: "TU Ilmenau", period: "2024 – 2026", last: true,

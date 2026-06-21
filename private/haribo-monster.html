@@ -23,6 +23,18 @@
       opacity: 0;
       transform: translateY(28px);
       animation: revealUp 760ms var(--ease-glide) forwards;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: -48px -32px;
+      background: var(--glow-sienna);
+      border-radius: var(--radius-xl);
+      z-index: -1;
+      opacity: 0.4;
+      filter: blur(64px);
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -30,6 +42,10 @@
         animation: none;
         opacity: 1;
         transform: none;
+      }
+
+      .hero::before {
+        display: none;
       }
     }
 
@@ -48,6 +64,8 @@
       line-height: 1.04;
       color: var(--ink);
       margin: 0 0 16px 0;
+      position: relative;
+      z-index: 1;
     }
 
     .hero-subtitle {
@@ -55,8 +73,10 @@
       font-size: clamp(16px, 2vw, 20px);
       font-weight: 400;
       line-height: 1.65;
-      color: #666;
+      color: var(--text-body);
       max-width: 640px;
+      position: relative;
+      z-index: 1;
     }
 
     nav {
@@ -64,6 +84,7 @@
       gap: 12px;
       margin-bottom: clamp(56px, 8vw, 96px);
       flex-wrap: wrap;
+      margin-top: 24px;
     }
 
     nav a {
@@ -85,6 +106,98 @@
       background: var(--sienna);
       border-color: var(--sienna);
       transform: translateY(-2px);
+    }
+
+    .carousel-scroll {
+      position: relative;
+      background: var(--paper-2);
+      border-radius: var(--radius-lg);
+      margin-bottom: clamp(48px, 6vw, 80px);
+      overflow: hidden;
+      box-shadow: inset 0 0 32px rgba(0, 0, 0, 0.05);
+    }
+
+    .carousel-scroll::before,
+    .carousel-scroll::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: clamp(80px, 15vw, 200px);
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    .carousel-scroll::before {
+      left: 0;
+      background: linear-gradient(to right, var(--paper-2), rgba(243, 238, 228, 0.3));
+    }
+
+    .carousel-scroll::after {
+      right: 0;
+      background: linear-gradient(to left, var(--paper-2), rgba(243, 238, 228, 0.3));
+    }
+
+    .carousel-scroll-container {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      width: 100%;
+      gap: clamp(20px, 3vw, 32px);
+      padding: clamp(24px, 3vw, 40px) 0;
+      padding-left: clamp(24px, 4vw, 48px);
+      padding-right: clamp(24px, 4vw, 48px);
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      align-items: center;
+      cursor: grab;
+      scrollbar-width: none;
+    }
+
+    .carousel-scroll-container.dragging {
+      cursor: grabbing;
+      scroll-behavior: auto;
+    }
+
+    .carousel-scroll-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    .carousel-item {
+      flex: 0 0 clamp(120px, 18vw, 160px);
+      min-height: clamp(160px, 25vw, 220px);
+      scroll-snap-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      transition: transform 240ms var(--ease-out);
+      padding: 16px;
+    }
+
+    .carousel-item:hover img {
+      transform: scale(1.08);
+    }
+
+    .carousel-item img {
+      width: 100%;
+      max-height: 70%;
+      object-fit: contain;
+      display: block;
+      transition: transform 240ms var(--ease-out);
+    }
+
+    .carousel-item-label {
+      margin-top: 12px;
+      font-family: var(--font-text);
+      font-size: clamp(10px, 1.1vw, 12px);
+      font-weight: 500;
+      color: var(--text-muted);
+      line-height: 1.2;
+      word-break: break-word;
+      flex-shrink: 0;
     }
 
     section {
@@ -121,103 +234,6 @@
       line-height: 1.1;
       color: var(--ink);
       margin: 0 0 clamp(40px, 6vw, 64px) 0;
-    }
-
-    .carousel-container {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: clamp(24px, 4vw, 48px);
-      margin-bottom: clamp(48px, 6vw, 80px);
-      box-shadow: var(--shadow-md);
-    }
-
-    #haribo-carousel,
-    #monster-carousel {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: clamp(16px, 3vw, 32px);
-      margin-bottom: clamp(24px, 3vw, 40px);
-    }
-
-    button {
-      padding: clamp(10px, 1.2vw, 14px) clamp(18px, 2.5vw, 28px);
-      background: var(--ink);
-      color: var(--paper);
-      border: none;
-      border-radius: var(--radius-md);
-      font-family: var(--font-display);
-      font-size: clamp(16px, 2vw, 22px);
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 240ms var(--ease-out);
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    button:hover {
-      background: var(--sienna);
-      transform: translateY(-2px);
-    }
-
-    button:active {
-      transform: scale(0.97);
-    }
-
-    #haribo-slide-wrapper,
-    #monster-slide-wrapper {
-      flex: 1;
-      min-width: 0;
-      display: flex;
-      justify-content: center;
-      aspect-ratio: 1;
-      max-width: 100%;
-      transition: opacity 240ms var(--ease-out);
-    }
-
-    figure {
-      margin: 0;
-      text-align: center;
-    }
-
-    figure img {
-      max-width: 100%;
-      height: 100%;
-      object-fit: contain;
-      border-radius: var(--radius-md);
-      background: var(--paper);
-      display: block;
-    }
-
-    figure figcaption {
-      font-family: var(--font-display);
-      font-size: clamp(15px, 1.8vw, 18px);
-      font-weight: 600;
-      margin-top: clamp(12px, 1.5vw, 20px);
-      color: var(--ink);
-    }
-
-    .carousel-info {
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-      padding-top: clamp(16px, 2vw, 24px);
-      border-top: 1px solid var(--border);
-    }
-
-    #haribo-caption,
-    #haribo-counter,
-    #monster-caption,
-    #monster-counter {
-      font-family: var(--font-mono);
-      font-size: clamp(12px, 1.3vw, 14px);
-      font-weight: 600;
-      color: var(--ink);
-      margin: 0;
     }
 
     .tiers {
@@ -257,22 +273,22 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-width: 48px;
-      height: 48px;
+      min-width: 56px;
+      height: 56px;
       border-radius: var(--radius-md);
       font-family: var(--font-display);
-      font-size: clamp(16px, 1.8vw, 20px);
+      font-size: clamp(18px, 2vw, 24px);
       font-weight: 700;
       color: white;
       flex-shrink: 0;
     }
 
-    .tier-badge.tier-s { background: #d4a574; }
+    .tier-badge.tier-s { background: #c17a45; }
     .tier-badge.tier-a { background: var(--sienna); }
     .tier-badge.tier-b { background: var(--navy); }
     .tier-badge.tier-c { background: #6b5b4f; }
-    .tier-badge.tier-d { background: #8a8a8a; }
-    .tier-badge.tier-f { background: #a0a0a0; }
+    .tier-badge.tier-d { background: #9a8a7a; }
+    .tier-badge.tier-f { background: #b0a0a0; }
 
     .tier-label {
       font-family: var(--font-display);
@@ -292,14 +308,27 @@
     }
 
     li {
+      padding: 0;
+    }
+
+    li a {
+      display: block;
       padding: clamp(12px, 1.5vw, 16px);
-      background: rgba(188, 90, 55, 0.05);
+      background: rgba(188, 90, 55, 0.06);
       border-left: 3px solid var(--sienna);
       border-radius: 0 var(--radius-md) var(--radius-md) 0;
       font-family: var(--font-text);
       font-size: clamp(13px, 1.5vw, 15px);
       line-height: 1.5;
       color: var(--ink);
+      text-decoration: none;
+      transition: all 240ms var(--ease-out);
+    }
+
+    li a:hover {
+      background: rgba(188, 90, 55, 0.12);
+      border-left-color: var(--sienna);
+      transform: translateX(4px);
     }
 
     li em {
@@ -352,6 +381,74 @@
       display: block;
       margin-bottom: 8px;
     }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 24px 16px;
+        padding-top: clamp(32px, 6vw, 64px);
+      }
+
+      main {
+        max-width: 100%;
+      }
+
+      h1 {
+        font-size: clamp(28px, 7vw, 40px);
+      }
+
+      h2 {
+        font-size: clamp(24px, 6vw, 36px);
+        margin-bottom: clamp(32px, 5vw, 48px);
+      }
+
+      .hero {
+        margin-bottom: clamp(48px, 8vw, 72px);
+      }
+
+      .hero::before {
+        inset: -32px -16px;
+        filter: blur(48px);
+      }
+
+      ul {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      nav {
+        margin-bottom: clamp(40px, 6vw, 64px);
+        gap: 8px;
+      }
+
+      nav a {
+        padding: 8px 16px;
+        font-size: 12px;
+      }
+
+      .carousel-scroll {
+        margin-left: -16px;
+        margin-right: -16px;
+        margin-bottom: clamp(32px, 5vw, 48px);
+      }
+
+      .carousel-scroll-container {
+        padding-left: 16px;
+        padding-right: 16px;
+        padding-top: 16px;
+        padding-bottom: 16px;
+      }
+
+      .carousel-item {
+        flex: 0 0 clamp(100px, 22vw, 130px);
+        min-height: clamp(140px, 30vw, 180px);
+        padding: 12px;
+      }
+
+      .carousel-item-label {
+        font-size: 9px;
+        margin-top: 8px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -372,18 +469,6 @@
       <span class="section-label">Kategorie 1</span>
       <h2>Haribo Gummibärchen</h2>
 
-      <div class="carousel-container">
-        <div id="haribo-carousel">
-          <button onclick="carouselPrev('haribo')" aria-label="Vorheriges Produkt">←</button>
-          <div id="haribo-slide-wrapper"></div>
-          <button onclick="carouselNext('haribo')" aria-label="Nächstes Produkt">→</button>
-        </div>
-        <div class="carousel-info">
-          <p id="haribo-caption"></p>
-          <p id="haribo-counter"></p>
-        </div>
-      </div>
-
       <div class="tiers">
         <div class="tier-group">
           <div class="tier-header">
@@ -391,11 +476,11 @@
             <h3 class="tier-label">S-Tier — Meisterklasse</h3>
           </div>
           <ul>
-            <li>Fruity-Bussi</li>
-            <li>Super Gurken</li>
-            <li>Wackelgeister</li>
-            <li>Wine Gums <em>(nicht Weinland!)</em></li>
-            <li>Waldgeister</li>
+            <li><a href="https://www.google.de/search?q=Fruity-Bussi+Haribo" target="_blank" rel="noopener noreferrer">Fruity-Bussi</a></li>
+            <li><a href="https://www.google.de/search?q=Super+Gurken+Haribo" target="_blank" rel="noopener noreferrer">Super Gurken</a></li>
+            <li><a href="https://www.google.de/search?q=Wackelgeister+Haribo" target="_blank" rel="noopener noreferrer">Wackelgeister</a></li>
+            <li><a href="https://www.google.de/search?q=Wine+Gums+Haribo" target="_blank" rel="noopener noreferrer">Wine Gums <em>(nicht Weinland!)</em></a></li>
+            <li><a href="https://www.google.de/search?q=Waldgeister+Haribo" target="_blank" rel="noopener noreferrer">Waldgeister</a></li>
           </ul>
         </div>
 
@@ -405,14 +490,14 @@
             <h3 class="tier-label">A-Tier — Ausgezeichnet</h3>
           </div>
           <ul>
-            <li>Annakondas</li>
-            <li>PärchenBärchen</li>
-            <li>Vulcano</li>
-            <li>Tropifrutti</li>
-            <li>Starmix</li>
-            <li>Rainbow Sauer</li>
-            <li>Milchbären</li>
-            <li>Frösche</li>
+            <li><a href="https://www.google.de/search?q=Annakondas+Haribo" target="_blank" rel="noopener noreferrer">Annakondas</a></li>
+            <li><a href="https://www.google.de/search?q=PärchenBärchen+Haribo" target="_blank" rel="noopener noreferrer">PärchenBärchen</a></li>
+            <li><a href="https://www.google.de/search?q=Vulcano+Haribo" target="_blank" rel="noopener noreferrer">Vulcano</a></li>
+            <li><a href="https://www.google.de/search?q=Tropifrutti+Haribo" target="_blank" rel="noopener noreferrer">Tropifrutti</a></li>
+            <li><a href="https://www.google.de/search?q=Starmix+Haribo" target="_blank" rel="noopener noreferrer">Starmix</a></li>
+            <li><a href="https://www.google.de/search?q=Rainbow+Sauer+Haribo" target="_blank" rel="noopener noreferrer">Rainbow Sauer</a></li>
+            <li><a href="https://www.google.de/search?q=Milchbären+Haribo" target="_blank" rel="noopener noreferrer">Milchbären</a></li>
+            <li><a href="https://www.google.de/search?q=Frösche+Haribo" target="_blank" rel="noopener noreferrer">Frösche</a></li>
           </ul>
         </div>
 
@@ -422,15 +507,15 @@
             <h3 class="tier-label">B-Tier — Gut</h3>
           </div>
           <ul>
-            <li>Pico Balla</li>
-            <li>Goldbären (div. Varianten)</li>
-            <li>Meterstangen (Erdbeere / Schwarze Johannisbeere)</li>
-            <li>Berries</li>
-            <li>Brixx</li>
-            <li>Cherries</li>
-            <li>Spiegeleier</li>
-            <li>Erdbeeren</li>
-            <li>Pfirsiche</li>
+            <li><a href="https://www.google.de/search?q=Pico+Balla+Haribo" target="_blank" rel="noopener noreferrer">Pico Balla</a></li>
+            <li><a href="https://www.google.de/search?q=Goldbären+Haribo" target="_blank" rel="noopener noreferrer">Goldbären (div. Varianten)</a></li>
+            <li><a href="https://www.google.de/search?q=Meterstangen+Haribo" target="_blank" rel="noopener noreferrer">Meterstangen (Erdbeere / Schwarze Johannisbeere)</a></li>
+            <li><a href="https://www.google.de/search?q=Berries+Haribo" target="_blank" rel="noopener noreferrer">Berries</a></li>
+            <li><a href="https://www.google.de/search?q=Brixx+Haribo" target="_blank" rel="noopener noreferrer">Brixx</a></li>
+            <li><a href="https://www.google.de/search?q=Cherries+Haribo" target="_blank" rel="noopener noreferrer">Cherries</a></li>
+            <li><a href="https://www.google.de/search?q=Spiegeleier+Haribo" target="_blank" rel="noopener noreferrer">Spiegeleier</a></li>
+            <li><a href="https://www.google.de/search?q=Erdbeeren+Haribo" target="_blank" rel="noopener noreferrer">Erdbeeren</a></li>
+            <li><a href="https://www.google.de/search?q=Pfirsiche+Haribo" target="_blank" rel="noopener noreferrer">Pfirsiche</a></li>
           </ul>
         </div>
 
@@ -440,9 +525,9 @@
             <h3 class="tier-label">C-Tier — Durchschnitt</h3>
           </div>
           <ul>
-            <li>Fruitmania</li>
-            <li>Phantasia</li>
-            <li>Cola</li>
+            <li><a href="https://www.google.de/search?q=Fruitmania+Haribo" target="_blank" rel="noopener noreferrer">Fruitmania</a></li>
+            <li><a href="https://www.google.de/search?q=Phantasia+Haribo" target="_blank" rel="noopener noreferrer">Phantasia</a></li>
+            <li><a href="https://www.google.de/search?q=Cola+Haribo" target="_blank" rel="noopener noreferrer">Cola</a></li>
           </ul>
         </div>
       </div>
@@ -452,15 +537,9 @@
       <span class="section-label">Kategorie 2</span>
       <h2>Monster Energy Drinks</h2>
 
-      <div class="carousel-container">
-        <div id="monster-carousel">
-          <button onclick="carouselPrev('monster')" aria-label="Vorheriges Produkt">←</button>
-          <div id="monster-slide-wrapper"></div>
-          <button onclick="carouselNext('monster')" aria-label="Nächstes Produkt">→</button>
-        </div>
-        <div class="carousel-info">
-          <p id="monster-caption"></p>
-          <p id="monster-counter"></p>
+      <div class="carousel-scroll">
+        <div class="carousel-scroll-container" id="monster-carousel">
+          <!-- Populated by JavaScript -->
         </div>
       </div>
 
@@ -471,14 +550,14 @@
             <h3 class="tier-label">S-Tier — Meisterklasse</h3>
           </div>
           <ul>
-            <li>Mango Loco</li>
-            <li>Pipeline Punch</li>
-            <li>Pacific Punch</li>
-            <li>Rio Punch</li>
-            <li>Recover Lemonade</li>
-            <li>Recover Peach</li>
-            <li>Recover Wild Berry</li>
-            <li>Ultra Strawberry Dreams</li>
+            <li><a href="https://www.google.de/search?q=Mango+Loco+Monster" target="_blank" rel="noopener noreferrer">Mango Loco</a></li>
+            <li><a href="https://www.google.de/search?q=Pipeline+Punch+Monster" target="_blank" rel="noopener noreferrer">Pipeline Punch</a></li>
+            <li><a href="https://www.google.de/search?q=Pacific+Punch+Monster" target="_blank" rel="noopener noreferrer">Pacific Punch</a></li>
+            <li><a href="https://www.google.de/search?q=Rio+Punch+Monster" target="_blank" rel="noopener noreferrer">Rio Punch</a></li>
+            <li><a href="https://www.google.de/search?q=Recover+Lemonade+Monster" target="_blank" rel="noopener noreferrer">Recover Lemonade</a></li>
+            <li><a href="https://www.google.de/search?q=Recover+Peach+Monster" target="_blank" rel="noopener noreferrer">Recover Peach</a></li>
+            <li><a href="https://www.google.de/search?q=Recover+Wild+Berry+Monster" target="_blank" rel="noopener noreferrer">Recover Wild Berry</a></li>
+            <li><a href="https://www.google.de/search?q=Ultra+Strawberry+Dreams+Monster" target="_blank" rel="noopener noreferrer">Ultra Strawberry Dreams</a></li>
           </ul>
         </div>
 
@@ -488,11 +567,11 @@
             <h3 class="tier-label">A-Tier — Ausgezeichnet</h3>
           </div>
           <ul>
-            <li>Ultra Golden Pineapple</li>
-            <li>Khaotic</li>
-            <li>Aussie Lemonade</li>
-            <li>Lando Norris</li>
-            <li>Ginger Brew</li>
+            <li><a href="https://www.google.de/search?q=Ultra+Golden+Pineapple+Monster" target="_blank" rel="noopener noreferrer">Ultra Golden Pineapple</a></li>
+            <li><a href="https://www.google.de/search?q=Khaotic+Monster" target="_blank" rel="noopener noreferrer">Khaotic</a></li>
+            <li><a href="https://www.google.de/search?q=Aussie+Lemonade+Monster" target="_blank" rel="noopener noreferrer">Aussie Lemonade</a></li>
+            <li><a href="https://www.google.de/search?q=Lando+Norris+Monster" target="_blank" rel="noopener noreferrer">Lando Norris</a></li>
+            <li><a href="https://www.google.de/search?q=Ginger+Brew+Monster" target="_blank" rel="noopener noreferrer">Ginger Brew</a></li>
           </ul>
         </div>
 
@@ -502,13 +581,13 @@
             <h3 class="tier-label">B-Tier — Gut</h3>
           </div>
           <ul>
-            <li>White Pineapple</li>
-            <li>Ultra Paradise</li>
-            <li>Ultra Fiesta</li>
-            <li>MIXXD</li>
-            <li>VR46 (Sun &amp; Moon)</li>
-            <li>Bad Apple</li>
-            <li>Viking Berry</li>
+            <li><a href="https://www.google.de/search?q=White+Pineapple+Monster" target="_blank" rel="noopener noreferrer">White Pineapple</a></li>
+            <li><a href="https://www.google.de/search?q=Ultra+Paradise+Monster" target="_blank" rel="noopener noreferrer">Ultra Paradise</a></li>
+            <li><a href="https://www.google.de/search?q=Ultra+Fiesta+Monster" target="_blank" rel="noopener noreferrer">Ultra Fiesta</a></li>
+            <li><a href="https://www.google.de/search?q=MIXXD+Monster" target="_blank" rel="noopener noreferrer">MIXXD</a></li>
+            <li><a href="https://www.google.de/search?q=VR46+Sun+Moon+Monster" target="_blank" rel="noopener noreferrer">VR46 (Sun &amp; Moon)</a></li>
+            <li><a href="https://www.google.de/search?q=Bad+Apple+Monster" target="_blank" rel="noopener noreferrer">Bad Apple</a></li>
+            <li><a href="https://www.google.de/search?q=Viking+Berry+Monster" target="_blank" rel="noopener noreferrer">Viking Berry</a></li>
           </ul>
         </div>
 
@@ -518,11 +597,12 @@
             <h3 class="tier-label">C-Tier — Durchschnitt</h3>
           </div>
           <ul>
-            <li>Super Dry / Niro</li>
-            <li>Watermelon</li>
-            <li>VR46 The Dr.</li>
-            <li>Ultra Violet</li>
-            <li>Papillon</li>
+            <li><a href="https://www.google.de/search?q=Super+Dry+Niro+Monster" target="_blank" rel="noopener noreferrer">Super Dry / Niro</a></li>
+            <li><a href="https://www.google.de/search?q=Watermelon+Monster" target="_blank" rel="noopener noreferrer">Watermelon</a></li>
+            <li><a href="https://www.google.de/search?q=VR46+The+Dr+Monster" target="_blank" rel="noopener noreferrer">VR46 The Dr.</a></li>
+            <li><a href="https://www.google.de/search?q=Ultra+Violet+Monster" target="_blank" rel="noopener noreferrer">Ultra Violet</a></li>
+            <li><a href="https://www.google.de/search?q=Papillon+Monster" target="_blank" rel="noopener noreferrer">Papillon</a></li>
+            <li><a href="https://www.google.de/search?q=Monarch+Monster" target="_blank" rel="noopener noreferrer">Monarch</a></li>
           </ul>
         </div>
 
@@ -532,12 +612,14 @@
             <h3 class="tier-label">D-Tier — Schwach</h3>
           </div>
           <ul>
-            <li>Grün / Normal (inkl. Zero)</li>
-            <li>Lewis Hamilton Zero</li>
-            <li>Reserve Orange Dreams</li>
-            <li>Cosmic Peach</li>
-            <li>Ultra Rosa</li>
-            <li>Ultra Fantasy Ruby Red</li>
+            <li><a href="https://www.google.de/search?q=Grün+Normal+Monster" target="_blank" rel="noopener noreferrer">Grün / Normal (inkl. Zero)</a></li>
+            <li><a href="https://www.google.de/search?q=Lewis+Hamilton+Zero+Monster" target="_blank" rel="noopener noreferrer">Lewis Hamilton Zero</a></li>
+            <li><a href="https://www.google.de/search?q=Reserve+Orange+Dreams+Monster" target="_blank" rel="noopener noreferrer">Reserve Orange Dreams</a></li>
+            <li><a href="https://www.google.de/search?q=Cosmic+Peach+Monster" target="_blank" rel="noopener noreferrer">Cosmic Peach</a></li>
+            <li><a href="https://www.google.de/search?q=Ultra+Rosa+Monster" target="_blank" rel="noopener noreferrer">Ultra Rosa</a></li>
+            <li><a href="https://www.google.de/search?q=Ultra+Fantasy+Ruby+Red+Monster" target="_blank" rel="noopener noreferrer">Ultra Fantasy Ruby Red</a></li>
+            <li><a href="https://www.google.de/search?q=Nitro+Peach+Monster" target="_blank" rel="noopener noreferrer">Nitro Peach</a></li>
+            <li><a href="https://www.google.de/search?q=Top+Speed+Monster" target="_blank" rel="noopener noreferrer">Top Speed</a></li>
           </ul>
         </div>
 
@@ -547,11 +629,11 @@
             <h3 class="tier-label">F-Tier — Furchtbar</h3>
           </div>
           <ul>
-            <li>White</li>
-            <li>Blue</li>
-            <li>Fiesta Watermelon</li>
-            <li>Ultra Peachy Keen</li>
-            <li>Assault</li>
+            <li><a href="https://www.google.de/search?q=White+Monster" target="_blank" rel="noopener noreferrer">White</a></li>
+            <li><a href="https://www.google.de/search?q=Blue+Monster" target="_blank" rel="noopener noreferrer">Blue</a></li>
+            <li><a href="https://www.google.de/search?q=Fiesta+Watermelon+Monster" target="_blank" rel="noopener noreferrer">Fiesta Watermelon</a></li>
+            <li><a href="https://www.google.de/search?q=Ultra+Peachy+Keen+Monster" target="_blank" rel="noopener noreferrer">Ultra Peachy Keen</a></li>
+            <li><a href="https://www.google.de/search?q=Assault+Monster" target="_blank" rel="noopener noreferrer">Assault</a></li>
           </ul>
         </div>
       </div>
@@ -563,110 +645,117 @@
   </main>
 
   <script>
-    const hariboSlides = [
-      { name: "Fruity-Bussi",   tier: "S", src: "img/haribo/fruity-bussi.png" },
-      { name: "Super Gurken",   tier: "S", src: "img/haribo/super-gurken.png" },
-      { name: "Wackelgeister",  tier: "S", src: "img/haribo/wackelgeister.png" },
-      { name: "Wine Gums",      tier: "S", src: "img/haribo/wine-gums.png" },
-      { name: "Waldgeister",    tier: "S", src: "img/haribo/waldgeister.png" },
-      { name: "Annakondas",     tier: "A", src: "img/haribo/annakondas.png" },
-      { name: "PärchenBärchen", tier: "A", src: "img/haribo/paerchenbaerchen.png" },
-      { name: "Vulcano",        tier: "A", src: "img/haribo/vulcano.png" },
-      { name: "Tropifrutti",    tier: "A", src: "img/haribo/tropifrutti.png" },
-      { name: "Starmix",        tier: "A", src: "img/haribo/starmix.png" },
-      { name: "Rainbow Sauer",  tier: "A", src: "img/haribo/rainbow-sauer.png" },
-      { name: "Milchbären",     tier: "A", src: "img/haribo/milchbaeren.png" },
-      { name: "Frösche",        tier: "A", src: "img/haribo/froesche.png" },
-      { name: "Pico Balla",     tier: "B", src: "img/haribo/pico-balla.png" },
-      { name: "Goldbären",      tier: "B", src: "img/haribo/goldbaeren.png" },
-      { name: "Meterstangen",   tier: "B", src: "img/haribo/meterstangen.png" },
-      { name: "Berries",        tier: "B", src: "img/haribo/berries.png" },
-      { name: "Brixx",          tier: "B", src: "img/haribo/brixx.png" },
-      { name: "Cherries",       tier: "B", src: "img/haribo/cherries.png" },
-      { name: "Spiegeleier",    tier: "B", src: "img/haribo/spiegeleier.png" },
-      { name: "Erdbeeren",      tier: "B", src: "img/haribo/erdbeeren.png" },
-      { name: "Pfirsiche",      tier: "B", src: "img/haribo/pfirsiche.png" },
-      { name: "Fruitmania",     tier: "C", src: "img/haribo/fruitmania.png" },
-      { name: "Phantasia",      tier: "C", src: "img/haribo/phantasia.png" },
-      { name: "Cola",           tier: "C", src: "img/haribo/cola.png" },
-    ];
-
     const monsterSlides = [
-      { name: "Mango Loco",              tier: "S", src: "img/monster/mango-loco.webp" },
-      { name: "Pipeline Punch",          tier: "S", src: "img/monster/pipeline-punch.png" },
-      { name: "Pacific Punch",           tier: "S", src: "img/monster/pacific-punch.png" },
-      { name: "Rio Punch",               tier: "S", src: "img/monster/rio-punch.png" },
-      { name: "Recover Lemonade",        tier: "S", src: "img/monster/recover-lemonade.png" },
-      { name: "Recover Peach",           tier: "S", src: "img/monster/recover-peach.png" },
-      { name: "Recover Wild Berry",      tier: "S", src: "img/monster/recover-wild-berry.png" },
-      { name: "Ultra Strawberry Dreams", tier: "S", src: "img/monster/ultra-strawberry-dreams.png" },
-      { name: "Ultra Golden Pineapple",  tier: "A", src: "img/monster/ultra-golden-pineapple.png" },
-      { name: "Khaotic",                 tier: "A", src: "img/monster/khaotic.png" },
-      { name: "Aussie Lemonade",         tier: "A", src: "img/monster/aussie-lemonade.png" },
-      { name: "Lando Norris",            tier: "A", src: "img/monster/lando-norris.png" },
-      { name: "Ginger Brew",             tier: "A", src: "img/monster/ginger-brew.png" },
-      { name: "White Pineapple",         tier: "B", src: "img/monster/white-pineapple.png" },
-      { name: "Ultra Paradise",          tier: "B", src: "img/monster/ultra-paradise.png" },
-      { name: "Ultra Fiesta",            tier: "B", src: "img/monster/ultra-fiesta.png" },
-      { name: "MIXXD",                   tier: "B", src: "img/monster/mixxd.png" },
-      { name: "VR46 Sun & Moon",         tier: "B", src: "img/monster/vr46-sun-moon.png" },
-      { name: "Bad Apple",               tier: "B", src: "img/monster/bad-apple.png" },
-      { name: "Viking Berry",            tier: "B", src: "img/monster/viking-berry.png" },
-      { name: "Super Dry / Niro",        tier: "C", src: "img/monster/super-dry.png" },
-      { name: "Watermelon",              tier: "C", src: "img/monster/watermelon.png" },
-      { name: "VR46 The Dr.",            tier: "C", src: "img/monster/vr46-the-dr.png" },
-      { name: "Ultra Violet",            tier: "C", src: "img/monster/ultra-violet.png" },
-      { name: "Papillon",                tier: "C", src: "img/monster/papillon.png" },
-      { name: "Grün / Normal",           tier: "D", src: "img/monster/gruen.png" },
-      { name: "Lewis Hamilton Zero",     tier: "D", src: "img/monster/lewis-hamilton-zero.png" },
-      { name: "Reserve Orange Dreams",   tier: "D", src: "img/monster/reserve-orange-dreams.png" },
-      { name: "Cosmic Peach",            tier: "D", src: "img/monster/cosmic-peach.png" },
-      { name: "Ultra Rosa",              tier: "D", src: "img/monster/ultra-rosa.png" },
-      { name: "Ultra Fantasy Ruby Red",  tier: "D", src: "img/monster/ultra-fantasy-ruby-red.png" },
-      { name: "White",                   tier: "F", src: "img/monster/white.png" },
-      { name: "Blue",                    tier: "F", src: "img/monster/blue.png" },
-      { name: "Fiesta Watermelon",       tier: "F", src: "img/monster/fiesta-watermelon.png" },
-      { name: "Ultra Peachy Keen",       tier: "F", src: "img/monster/ultra-peachy-keen.png" },
-      { name: "Assault",                 tier: "F", src: "img/monster/assault.png" },
+      { name: "Mango Loco",              tier: "S", src: "monsterimages/loco.webp" },
+      { name: "Pipeline Punch",          tier: "S", src: "monsterimages/pipelinepunch.webp" },
+      { name: "Pacific Punch",           tier: "S", src: "monsterimages/pacificpunch.webp" },
+      { name: "Rio Punch",               tier: "S", src: "monsterimages/riopunch.webp" },
+      { name: "Rehab Lemon",             tier: "S", src: "monsterimages/recoverylemon.webp" },
+      { name: "Rehab Peach",             tier: "S", src: "monsterimages/recoeverypeach.webp" },
+      { name: "Ultra Strawberry Dreams", tier: "S", src: "monsterimages/strawberrydreams.webp" },
+      { name: "Ultra Golden Pineapple",  tier: "A", src: "monsterimages/ultragold_pineapple.webp" },
+      { name: "Khaotic",                 tier: "A", src: "monsterimages/khaotic.webp" },
+      { name: "Aussie Lemonade",         tier: "A", src: "monsterimages/aussielemonade.webp" },
+      { name: "Lando Norris",            tier: "A", src: "monsterimages/landonorris.webp" },
+      { name: "Ultra Paradise",          tier: "B", src: "monsterimages/paradise.webp" },
+      { name: "Ultra Fiesta",            tier: "B", src: "monsterimages/mangofiesta.webp" },
+      { name: "MIXXD",                   tier: "B", src: "monsterimages/mixxd.webp" },
+      { name: "VR46 Sun & Moon",         tier: "B", src: "monsterimages/Vr46.webp" },
+      { name: "Bad Apple",               tier: "B", src: "monsterimages/badapple.webp" },
+      { name: "Viking Berry",            tier: "B", src: "monsterimages/viking.webp" },
+      { name: "Super Dry / Niro",        tier: "C", src: "monsterimages/superdry.webp" },
+      { name: "VR46 The Dr.",            tier: "C", src: "monsterimages/thedr.webp" },
+      { name: "Monarch",                 tier: "C", src: "monsterimages/monarch.webp" },
+      { name: "Grün / Normal",           tier: "D", src: "monsterimages/green.webp" },
+      { name: "Ultra Rosa",              tier: "D", src: "monsterimages/rosa.webp" },
+      { name: "Ultra Fantasy Ruby Red",  tier: "D", src: "monsterimages/rubyred.webp" },
+      { name: "Nitro Peach",             tier: "D", src: "monsterimages/nitropeach.webp" },
+      { name: "Top Speed",               tier: "D", src: "monsterimages/topspeed.webp" },
+      { name: "White",                   tier: "F", src: "monsterimages/white.webp" },
+      { name: "Blue",                    tier: "F", src: "monsterimages/blue.webp" },
+      { name: "Fiesta Watermelon",       tier: "F", src: "monsterimages/ultrawatermelon.webp" },
+      { name: "Ultra Peachy Keen",       tier: "F", src: "monsterimages/ultrapeachy.webp" },
+      { name: "Assault",                 tier: "F", src: "monsterimages/assult.webp" },
     ];
 
-    const carouselState = {
-      haribo:   { index: 0, slides: hariboSlides },
-      monster:  { index: 0, slides: monsterSlides }
-    };
+    function renderCarousel() {
+      const container = document.getElementById("monster-carousel");
+      container.innerHTML = '';
 
-    function renderCarousel(id) {
-      const state = carouselState[id];
-      const slide = state.slides[state.index];
-      const wrapper = document.getElementById(id + "-slide-wrapper");
+      // Render the list twice so a half-width scroll loops seamlessly.
+      const doubledSlides = monsterSlides.concat(monsterSlides);
 
-      wrapper.style.opacity = "0";
-
-      setTimeout(() => {
-        wrapper.innerHTML = `
-          <figure>
-            <img src="${slide.src}" alt="${slide.name}"
-              onerror="this.alt='[${slide.name}]'; this.style.opacity='0.3';">
-            <figcaption>${slide.name}</figcaption>
-          </figure>`;
-        wrapper.style.opacity = "1";
-      }, 120);
-
-      document.getElementById(id + "-caption").textContent = "Tier: " + slide.tier;
-      document.getElementById(id + "-counter").textContent =
-        (state.index + 1) + " / " + state.slides.length;
+      doubledSlides.forEach(slide => {
+        const item = document.createElement('div');
+        item.className = 'carousel-item';
+        item.innerHTML = `
+          <img src="${slide.src}" alt="${slide.name}" loading="lazy">
+          <div class="carousel-item-label">${slide.name} (${slide.tier}-Tier)</div>
+        `;
+        container.appendChild(item);
+      });
     }
 
-    function carouselNext(id) {
-      const s = carouselState[id];
-      s.index = (s.index + 1) % s.slides.length;
-      renderCarousel(id);
-    }
+    function setupAutoScroll() {
+      const track = document.getElementById("monster-carousel");
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    function carouselPrev(id) {
-      const s = carouselState[id];
-      s.index = (s.index - 1 + s.slides.length) % s.slides.length;
-      renderCarousel(id);
+      let isHovering = false;
+      let isDragging = false;
+      let dragStartX = 0;
+      let dragStartScrollLeft = 0;
+
+      track.addEventListener("pointerenter", () => { isHovering = true; });
+      track.addEventListener("pointerleave", () => { isHovering = false; });
+
+      track.addEventListener("pointerdown", (e) => {
+        isDragging = true;
+        track.classList.add("dragging");
+        track.setPointerCapture(e.pointerId);
+        dragStartX = e.clientX;
+        dragStartScrollLeft = track.scrollLeft;
+      });
+
+      track.addEventListener("pointermove", (e) => {
+        if (!isDragging) return;
+        const delta = e.clientX - dragStartX;
+        track.scrollLeft = dragStartScrollLeft - delta;
+      });
+
+      const endDrag = (e) => {
+        if (!isDragging) return;
+        isDragging = false;
+        track.classList.remove("dragging");
+        if (e && track.hasPointerCapture(e.pointerId)) {
+          track.releasePointerCapture(e.pointerId);
+        }
+      };
+
+      track.addEventListener("pointerup", endDrag);
+      track.addEventListener("pointercancel", endDrag);
+
+      if (prefersReducedMotion) return;
+
+      const speed = 0.5; // px per frame
+
+      function wrapScroll() {
+        const half = track.scrollWidth / 2;
+        if (track.scrollLeft >= half) {
+          track.scrollLeft -= half;
+        } else if (track.scrollLeft < 0) {
+          track.scrollLeft += half;
+        }
+      }
+
+      function tick() {
+        if (!isHovering && !isDragging) {
+          track.scrollLeft += speed;
+          wrapScroll();
+        }
+        requestAnimationFrame(tick);
+      }
+
+      requestAnimationFrame(tick);
     }
 
     function setupRevealAnimation() {
@@ -689,9 +778,9 @@
       });
     }
 
-    renderCarousel("haribo");
-    renderCarousel("monster");
+    renderCarousel();
     setupRevealAnimation();
+    setupAutoScroll();
   </script>
 
 </body>
