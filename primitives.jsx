@@ -97,6 +97,61 @@ function GlowShape({ shape = "blob", glow = "sienna", size = 220, drift = false,
   );
 }
 
+/* ---------- WaveBlend ----------
+   A full-bleed SVG that blends a colour band into its paper neighbour
+   at one edge: the neighbour colour "drips" into the band along an
+   irregular, smooth wave (2-4 crests from overlapped frequencies) and
+   fades to transparent over a short, steep gradient so the seam reads
+   soft + wavy instead of a hard straight cut. Lives INSIDE the band
+   section (which clips it), painting over the band's solid background. */
+function wavePath(seed, edge, opts) {
+  var W = 1200, H = opts.height, amp = opts.amp;
+  var s = (seed * 9301 + 49297) % 233280;
+  var rnd = function () { s = (s * 9301 + 49297) % 233280; return s / 233280; };
+  var peaks = 2 + Math.floor(rnd() * 3); // 2-4 dominant crests
+  // dominant wave + two lighter overlapped components → irregular, not too wavy
+  var comps = [
+    [peaks * (0.85 + rnd() * 0.3), rnd() * Math.PI * 2, 1],
+    [peaks + 1 + rnd() * 1.5,      rnd() * Math.PI * 2, 0.12 + rnd() * 0.32],
+    [peaks * 1.6 + rnd() * 2,      rnd() * Math.PI * 2, 0.06 + rnd() * 0.22],
+  ];
+  var totalW = comps[0][2] + comps[1][2] + comps[2][2];
+  var baseline = H * 0.58, N = 60, pts = [];
+  for (var i = 0; i <= N; i++) {
+    var x = (W / N) * i, u = i / N, y = 0;
+    for (var c = 0; c < comps.length; c++) y += comps[c][2] * Math.sin(u * Math.PI * 2 * comps[c][0] + comps[c][1]);
+    var cy = baseline + (y / totalW) * amp;
+    if (edge === "bottom") cy = H - cy;
+    pts.push([x, cy]);
+  }
+  var edgeY = edge === "top" ? 0 : H;
+  var d = "M0," + edgeY + " L" + pts[0][0].toFixed(1) + "," + pts[0][1].toFixed(1);
+  for (var k = 1; k <= N; k++) {
+    var mx = (pts[k - 1][0] + pts[k][0]) / 2, my = (pts[k - 1][1] + pts[k][1]) / 2;
+    d += " Q" + pts[k - 1][0].toFixed(1) + "," + pts[k - 1][1].toFixed(1) + " " + mx.toFixed(1) + "," + my.toFixed(1);
+  }
+  d += " L" + pts[N][0].toFixed(1) + "," + pts[N][1].toFixed(1) + " L" + W + "," + edgeY + " Z";
+  return d;
+}
+
+function WaveBlend({ edge = "top", color = "var(--paper)", seed = 1, height = 120, amp = 22 }) {
+  var gid = "waveblend-" + edge + "-" + seed;
+  var d = wavePath(seed, edge, { height: height, amp: amp });
+  // steep fade: solid on the neighbour side, transparent into the band
+  var stops = edge === "top" ? [[0, 1], [0.35, 1], [0.95, 0]] : [[0.05, 0], [0.65, 1], [1, 1]];
+  return (
+    <svg viewBox={`0 0 1200 ${height}`} preserveAspectRatio="none" aria-hidden="true"
+      style={{ position: "absolute", left: 0, right: 0, width: "100%", height: height, [edge]: 0, zIndex: 0, display: "block", pointerEvents: "none" }}>
+      <defs>
+        <linearGradient id={gid} gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2={height}>
+          {stops.map((st, i) => <stop key={i} offset={`${st[0] * 100}%`} style={{ stopColor: color, stopOpacity: st[1] }} />)}
+        </linearGradient>
+      </defs>
+      <path d={d} fill={`url(#${gid})`} />
+    </svg>
+  );
+}
+
 function TimelineEntry({ role, org, period, location, points = [], last, accent }) {
   return (
     <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", columnGap: "clamp(16px,2.4vw,28px)" }}>
@@ -120,4 +175,4 @@ function TimelineEntry({ role, org, period, location, points = [], last, accent 
   );
 }
 
-window.MJ = { useReveal, useLang, Reveal, Eyebrow, Badge, GlowShape, TimelineEntry, LanguageSwitcherMount, ContactChipMount };
+window.MJ = { useReveal, useLang, Reveal, Eyebrow, Badge, GlowShape, WaveBlend, TimelineEntry, LanguageSwitcherMount, ContactChipMount };
