@@ -11,12 +11,12 @@ const PHONE = "tel:+491774866584";
 
 function SectionHead({ kicker, title, glow = "sienna", shape = "blob" }) {
   return (
-    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24, marginBottom: "clamp(32px,5vw,64px)" }}>
+    <div className="section-head" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24, marginBottom: "clamp(32px,5vw,64px)" }}>
       <div>
         <Reveal><Eyebrow>{kicker}</Eyebrow></Reveal>
         <Reveal delay={80}><h2 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h1)", letterSpacing: "var(--ls-heading)", color: "var(--heading)", margin: "16px 0 0", maxWidth: "16ch" }}>{title}</h2></Reveal>
       </div>
-      <Reveal delay={120} style={{ flex: "none" }}><GlowShape shape={shape} glow={glow} size={96} /></Reveal>
+      <Reveal delay={120} className="section-head__deco" style={{ flex: "none" }}><GlowShape shape={shape} glow={glow} size={96} /></Reveal>
     </div>
   );
 }
@@ -139,11 +139,11 @@ function Projects() {
                 <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "clamp(20px,3vw,34px)", marginTop: 6 }}>@ Miami Marlins</div>
                 <div style={{ fontSize: 13, opacity: 0.9, marginTop: 8 }}>Sat, Jun 20 · 1:10 AM · loanDepot park</div>
               </div>
-              <div style={{ position: "relative", display: "flex", gap: 12 }}>
+              <div style={{ position: "relative", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(96px, 1fr))", gap: 12 }}>
                 {[["ERA","5.73"],["K","48"],["WHIP","1.58"],["W-L","2-6"]].map(([k,v],i)=>(
-                  <div key={i} style={{ flex: 1, minWidth: 0, padding: "12px 10px", borderRadius: "var(--radius-sm)", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.08)" }}>
+                  <div key={i} style={{ minWidth: 0, padding: "12px 10px", borderRadius: "var(--radius-sm)", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.08)" }}>
                     <div style={{ fontSize: 10, letterSpacing: "0.1em", color: "rgba(255,255,255,0.55)", fontWeight: 600 }}>{k}</div>
-                    <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 22, color: "#fff", marginTop: 4 }}>{v}</div>
+                    <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "clamp(18px, 5vw, 22px)", color: "#fff", marginTop: 4 }}>{v}</div>
                   </div>
                 ))}
               </div>
