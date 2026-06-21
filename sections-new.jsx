@@ -4,7 +4,7 @@
    Built on the design-system tokens + window.MJ primitives.
    ============================================================ */
 const { useState, useRef, useEffect } = React;
-const { Reveal, Eyebrow, GlowShape } = window.MJ;
+const { Reveal, Eyebrow, GlowShape, useLang } = window.MJ;
 
 /* ---------- torn-paper edge generator ----------
    Deterministic jagged path so each tear looks hand-ripped
@@ -176,16 +176,17 @@ function Polaroid({ src, caption, rot, tape }) {
    STORY — how Mika ended up in the small scale
    ============================================================ */
 function Story() {
+  const [, t] = useLang();
   return (
     <section style={{ padding: "var(--section-y) 0", position: "relative", overflow: "hidden" }}>
       <GlowShape shape="squircle" glow="amber" size={200} drift style={{ position: "absolute", top: "8%", left: "-5%", opacity: 0.35, pointerEvents: "none" }} />
       <div className="container">
         {/* header */}
         <div style={{ marginBottom: "clamp(28px,4vw,48px)" }}>
-          <Reveal><Eyebrow>Mein Weg</Eyebrow></Reveal>
+          <Reveal><Eyebrow>{t("story.eyebrow")}</Eyebrow></Reveal>
           <Reveal delay={80}>
             <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h1)", letterSpacing: "var(--ls-heading)", color: "var(--heading)", margin: "16px 0 0", maxWidth: "18ch" }}>
-              Wie ich im Kleinen gelandet bin
+              {t("story.heading")}
             </h2>
           </Reveal>
         </div>
@@ -194,12 +195,12 @@ function Story() {
         <div style={{ maxWidth: "var(--content-narrow, 64ch)" }}>
           <Reveal delay={40}>
             <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 22px", maxWidth: "62ch" }}>
-              Physik und Chemie haben mich schon in der Schule gepackt. Nur wollte ich mit ihnen etwas anfangen und nicht weiter nur Theorie lesen. Eine Weile sah es nach Pharmazie aus, das ist bei uns ein bisschen Familiensache. Dann kam die Werkstoffwissenschaft dazwischen, genau der angewandte Brückenschlag, den ich gesucht hatte.
+              {t("story.p1")}
             </p>
           </Reveal>
           <Reveal delay={80}>
             <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: 0, maxWidth: "62ch" }}>
-              Geblieben bin ich beim Mikro- und Nanobereich: filigran, präzise, fast schon schön. Ich habe lange getanzt, auf Turnierniveau, und die Parallele meine ich ernst. Das ist kein Anschreiben-Sprech. Beides lebt von Eleganz im Detail, und dieser Faden zieht sich vom Tanzen über die Dünnschichten bis in die Messtechnik.
+              {t("story.p2")}
             </p>
           </Reveal>
         </div>
@@ -213,38 +214,34 @@ function Story() {
    in the résumé torn open to show what the work was really like
    ============================================================ */
 function CleanroomTear() {
+  const [, t] = useLang();
+  const c = t("cleanroomTear");
   return (
     <section style={{ position: "relative", paddingBottom: "clamp(40px,6vw,80px)" }}>
       <div className="container">
         <Reveal>
           <p style={{ fontSize: "var(--fs-small)", color: "var(--text-muted)", margin: 0, maxWidth: "54ch" }}>
-            Die nüchternste Zeile in diesem Lebenslauf war für mich die spannendste Zeit. Ein Blick unter die Oberfläche:
+            {c.intro}
           </p>
         </Reveal>
       </div>
 
-      <TornSection label="Reinraum aufreißen" seed={11}>
-        <Eyebrow color="var(--sienna)">ZMN · Zentrum für Mikro- und Nanotechnik</Eyebrow>
+      <TornSection label={c.label} seed={11}>
+        <Eyebrow color="var(--sienna)">{c.eyebrow}</Eyebrow>
         <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-title)", color: "var(--heading)", margin: "14px 0 18px", maxWidth: "22ch" }}>
-          Unter der Oberfläche, im ISO-2-Reinraum
+          {c.heading}
         </h3>
         <div style={{ maxWidth: "62ch" }}>
-          <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 16px" }}>
-            Ein halbes Jahr im ISO-2-Reinraum der TU Ilmenau: Magnetron-Sputtern, Profilometrie, REM/EDX, TiOₓ-Dünnschichten. Das klingt nüchtern, war es aber nicht. Der Kontrast ist fast absurd: eine bis ins Letzte kontrollierte Umgebung, und mittendrin Proben unter einem Quadratmillimeter, die sich partout nicht so verhalten wollen, wie sie sollen.
-          </p>
-          <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 16px" }}>
-            Ehrlich gesagt war es einfach großartig, dort zu arbeiten. Endlich das tun, dessen Theorie ich gelernt hatte, und dabei dieses Gefühl von echter Wissenschaft, so wie man sich als Kind „Forschung“ vorstellt. Das Kind in mir war ziemlich aus dem Häuschen.
-          </p>
-          <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: 0 }}>
-            Konkret waren das Ag-, Al-, Ni- und Bi-Schichten, der TFA-Aufbau und temperaturabhängige Transportmessungen. Die Messungen bilden die Grundlage meiner Bachelorarbeit.
-          </p>
+          <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 16px" }}>{c.p1}</p>
+          <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 16px" }}>{c.p2}</p>
+          <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: 0 }}>{c.p3}</p>
         </div>
         {/* relaxed photo row */}
         <div style={{ display: "flex", flexWrap: "wrap", gap: "clamp(16px,2.4vw,30px)", alignItems: "flex-start", marginTop: "clamp(28px,4vw,44px)" }}>
-          <LoosePhoto src="ci/assets/Bilder/ZMN/ZMN_Sputter.jpeg" caption="Sputterkammer — Schichtwachstum im Vakuum" rot={-2.5} w={340} />
-          <LoosePhoto src="ci/assets/Bilder/ZMN/ZMN_Me.jpeg" caption="ISO-2-Reinraum, voll vermummt" rot={2.5} w={210} />
-          <LoosePhoto src="ci/assets/Bilder/ZMN/ZMN_Profilo.jpeg" caption="Profilometrie — Schichtdicke nachmessen" rot={1.5} w={330} />
-          <LoosePhoto src="ci/assets/Bilder/ZMN/ZMN_Proben.jpeg" caption="Proben, kleiner als ein Fingernagel" rot={-1.5} w={205} />
+          <LoosePhoto src="ci/assets/Bilder/ZMN/ZMN_Sputter.jpeg" caption={c.photos[0]} rot={-2.5} w={340} />
+          <LoosePhoto src="ci/assets/Bilder/ZMN/ZMN_Me.jpeg" caption={c.photos[1]} rot={2.5} w={210} />
+          <LoosePhoto src="ci/assets/Bilder/ZMN/ZMN_Profilo.jpeg" caption={c.photos[2]} rot={1.5} w={330} />
+          <LoosePhoto src="ci/assets/Bilder/ZMN/ZMN_Proben.jpeg" caption={c.photos[3]} rot={-1.5} w={205} />
         </div>
       </TornSection>
     </section>
@@ -256,40 +253,36 @@ function CleanroomTear() {
    youth-work line opened up into the human side of it
    ============================================================ */
 function ConfiTear() {
+  const [, t] = useLang();
+  const c = t("confiTear");
   return (
     <section style={{ position: "relative", padding: "clamp(40px,6vw,80px) 0 clamp(40px,6vw,80px)" }}>
       <div className="container">
         <Reveal>
           <p style={{ fontSize: "var(--fs-small)", color: "var(--text-muted)", margin: 0, maxWidth: "54ch" }}>
-            Ein Ehrenamt schrumpft im Lebenslauf schnell auf zwei Zeilen. Hinter diesem steckt deutlich mehr:
+            {c.intro}
           </p>
         </Reveal>
       </div>
 
-      <TornSection label="Jugendarbeit aufreißen" seed={23}>
-        <Eyebrow color="var(--sienna)">EKM Ilmenau · Konfi- & Jugendarbeit</Eyebrow>
+      <TornSection label={c.label} seed={23}>
+        <Eyebrow color="var(--sienna)">{c.eyebrow}</Eyebrow>
         <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-title)", color: "var(--heading)", margin: "14px 0 18px", maxWidth: "24ch" }}>
-          Da sein und verlässlich bleiben
+          {c.heading}
         </h3>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px,100%),1fr))", gap: "clamp(28px,4vw,56px)", alignItems: "start" }}>
           <div style={{ maxWidth: "58ch" }}>
-            <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 16px" }}>
-              Mehrere Jahre habe ich Gruppen in der Konfi- und offenen Jugendarbeit der Evangelischen Kirche in Ilmenau geleitet. Die eigentliche Aufgabe passt schlecht in eine Lebenslaufzeile: für Jugendliche ansprechbar bleiben, während sie Glauben, Zweifel und das ganz normale Erwachsenwerden für sich sortieren.
-            </p>
-            <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 16px" }}>
-              Ich schreibe das nicht, weil es sich im Lebenslauf gut macht. Diese Jugendlichen liegen mir wirklich am Herzen, und in Friedrichshafen arbeite ich gerade daran, wieder in genau diese Rolle hineinzuwachsen.
-            </p>
-            <p style={{ fontSize: "var(--fs-small)", lineHeight: "var(--lh-relaxed)", color: "var(--text-muted)", margin: 0, fontStyle: "italic" }}>
-              Auf Fotos bin ich selten zu sehen. Meistens stehe ich dahinter oder jage gerade jemandem hinterher, der jemand anderem das Handy geklaut hat.
-            </p>
+            <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 16px" }}>{c.p1}</p>
+            <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 16px" }}>{c.p2}</p>
+            <p style={{ fontSize: "var(--fs-small)", lineHeight: "var(--lh-relaxed)", color: "var(--text-muted)", margin: 0, fontStyle: "italic" }}>{c.note}</p>
           </div>
           {/* hand-glued polaroids */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "clamp(18px,2.4vw,30px)", padding: "8px clamp(4px,2vw,20px) 18px" }}>
             <div style={{ gridColumn: "1 / -1", maxWidth: 360, justifySelf: "center" }}>
-              <Polaroid src="ci/assets/Bilder/Konfi/Konfi_speach.jpeg" caption="Ausnahmsweise mal vor der Kamera" rot={-2.5} tape />
+              <Polaroid src="ci/assets/Bilder/Konfi/Konfi_speach.jpeg" caption={c.photos[0]} rot={-2.5} tape />
             </div>
-            <Polaroid src="ci/assets/Bilder/Konfi/Konfi_Phe.jpeg" caption="Mittendrin" rot={3} />
-            <Polaroid src="ci/assets/Bilder/Konfi/Konfi_Party.jpeg" caption="Abendprogramm auf Freizeit" rot={-3.5} />
+            <Polaroid src="ci/assets/Bilder/Konfi/Konfi_Phe.jpeg" caption={c.photos[1]} rot={3} />
+            <Polaroid src="ci/assets/Bilder/Konfi/Konfi_Party.jpeg" caption={c.photos[2]} rot={-3.5} />
           </div>
         </div>
       </TornSection>
@@ -302,6 +295,9 @@ function ConfiTear() {
    ============================================================ */
 function Reunion() {
   const GGI = "https://ggi-abitur2022.de/";
+  const [, t] = useLang();
+  const r = t("reunion");
+  const [p1Before, p1After] = r.p1.split("{{site}}");
   return (
     <section style={{ padding: "clamp(48px,6vw,96px) 0", position: "relative" }}>
       <div className="container">
@@ -316,22 +312,22 @@ function Reunion() {
           }}>
             <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(80% 120% at 110% -10%, rgba(91,124,192,0.16), transparent 60%)", pointerEvents: "none" }} />
             <div style={{ position: "relative" }}>
-              <Eyebrow>Nebenbei</Eyebrow>
+              <Eyebrow>{r.eyebrow}</Eyebrow>
               <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h2)", letterSpacing: "var(--ls-heading)", color: "var(--heading)", margin: "14px 0 18px", maxWidth: "16ch" }}>
-                Ein Wiedersehen planen
+                {r.heading}
               </h2>
               <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 16px", maxWidth: "54ch" }}>
-                Nebenbei betreue ich <strong>ggi-abitur2022.de</strong>, die Seite zum Abitreffen meines Jahrgangs. Es gibt eine Karte, die zeigt, wie weit wir uns inzwischen verteilt haben und wie sehr die Wurzeln trotzdem bleiben, dazu einen Countdown aus reiner Vorfreude und ein Kontaktformular, über das man sich meldet.
+                {p1Before}<strong>ggi-abitur2022.de</strong>{p1After}
               </p>
               <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text-body)", margin: "0 0 26px", maxWidth: "54ch" }}>
-                Die alten Schulfarben habe ich bewusst genommen, das fühlte sich einfach richtig an. Am liebsten schreibe ich den Newsletter an den Jahrgang; die Antworten, die zurückkommen, sind fast das Schönste daran.
+                {r.p2}
               </p>
               <a href={GGI} target="_blank" rel="noopener" className="ggi-link" style={{
                 display: "inline-flex", alignItems: "center", gap: 8, padding: "12px 22px",
                 background: "var(--ink)", color: "var(--paper)", borderRadius: "var(--radius-md)",
                 fontFamily: "var(--font-text)", fontSize: "var(--fs-body)", fontWeight: 600, textDecoration: "none",
               }}>
-                ggi-abitur2022.de <span aria-hidden>→</span>
+                {r.linkLabel} <span aria-hidden>→</span>
               </a>
             </div>
             {/* playful "map pin + countdown" ornament */}
@@ -341,12 +337,12 @@ function Reunion() {
                 <span aria-hidden style={{ position: "absolute", fontSize: 40, lineHeight: 1, color: "var(--paper)", transform: "translateY(-2px)" }}>◎</span>
               </div>
               <div style={{ display: "flex", gap: 8 }}>
-                {["Wieder-", "sehen", "bald"].map((t, i) => (
+                {r.pins.map((pin, i) => (
                   <span key={i} style={{
                     fontFamily: "var(--font-mono)", fontSize: "var(--fs-caption)", fontWeight: 600,
                     padding: "8px 12px", borderRadius: "var(--radius-sm)",
                     background: "var(--paper)", border: "1px solid var(--hairline)", color: "var(--text-muted)",
-                  }}>{t}</span>
+                  }}>{pin}</span>
                 ))}
               </div>
             </div>

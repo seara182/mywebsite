@@ -6,6 +6,30 @@
 
 const { useState, useEffect, useRef } = React;
 
+/* ---------- i18n hook ---------- */
+function useLang() {
+  const [lang, setLang] = useState(window.I18N.getLang());
+  useEffect(() => {
+    const onChange = () => setLang(window.I18N.getLang());
+    window.addEventListener("langchange", onChange);
+    return () => window.removeEventListener("langchange", onChange);
+  }, []);
+  return [lang, window.I18N.t];
+}
+
+/* ---------- language switcher / contact chip mounts (delegate to widgets.js) ---------- */
+function LanguageSwitcherMount() {
+  const ref = useRef(null);
+  useEffect(() => { if (ref.current) window.Widgets.mountLanguageSwitcher(ref.current); }, []);
+  return <div ref={ref} />;
+}
+
+function ContactChipMount() {
+  const ref = useRef(null);
+  useEffect(() => { if (ref.current) window.Widgets.mountContactChip(ref.current); }, []);
+  return <div ref={ref} />;
+}
+
 /* ---------- scroll reveal hook ---------- */
 function useReveal() {
   const ref = useRef(null);
@@ -96,4 +120,4 @@ function TimelineEntry({ role, org, period, location, points = [], last, accent 
   );
 }
 
-window.MJ = { useReveal, Reveal, Eyebrow, Badge, GlowShape, TimelineEntry };
+window.MJ = { useReveal, useLang, Reveal, Eyebrow, Badge, GlowShape, TimelineEntry, LanguageSwitcherMount, ContactChipMount };

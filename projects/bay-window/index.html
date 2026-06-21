@@ -3,10 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../../i18n.js"></script>
   <title>Bay Window — Mika Jeske</title>
   <link rel="icon" href="../../ci/icons/Favicon32x.ico">
   <link rel="apple-touch-icon" href="../../ci/icons/Favicon128x.ico">
   <link rel="stylesheet" href="../../ci/styles.css">
+  <link rel="stylesheet" href="../../ci/i18n-ui.css">
   <style>
     body {
       background: var(--paper);
@@ -152,10 +154,13 @@
   </style>
 </head>
 <body>
+  <div id="lang-switcher-root"></div>
+  <div id="contact-chip-root"></div>
+
   <div class="wrap">
     <div class="topbar">
-      <a class="back-link" href="../../"><span aria-hidden>←</span> Startseite</a>
-      <span class="made">Made by Mika</span>
+      <a class="back-link" href="../../"><span aria-hidden>←</span> <span data-i18n="bay.backLink">Startseite</span></a>
+      <span class="made" data-i18n="bay.madeBy">Made by Mika</span>
     </div>
   </div>
 
@@ -163,9 +168,9 @@
   <header class="hero">
     <div class="hero-glow"></div>
     <div class="wrap">
-      <span class="eyebrow">Projekt</span>
+      <span class="eyebrow" data-i18n="bay.eyebrow">Projekt</span>
       <h1>Bay&nbsp;Window</h1>
-      <p class="hero-sub">Ein persönliches Sport-Dashboard als native Desktop-App — gebaut für den kurzen Blick beim Hochfahren. Der Cache zeigt sofort relevante Daten, während im Hintergrund frische Stände nachgeladen werden. Standardmäßig die San Francisco 49ers (NFL) und Giants (MLB) — jedes der 32 NFL- bzw. 30 MLB-Teams lässt sich als aktives Team wählen.</p>
+      <p class="hero-sub" data-i18n="bay.heroSub">Ein persönliches Sport-Dashboard als native Desktop-App — gebaut für den kurzen Blick beim Hochfahren. Der Cache zeigt sofort relevante Daten, während im Hintergrund frische Stände nachgeladen werden. Standardmäßig die San Francisco 49ers (NFL) und Giants (MLB) — jedes der 32 NFL- bzw. 30 MLB-Teams lässt sich als aktives Team wählen.</p>
       <div class="stack">
         <span class="chip">Tauri 2 · Rust</span>
         <span class="chip">React 19 · TS</span>
@@ -177,8 +182,8 @@
       <div class="showcase reveal">
         <div class="frame"><img src="../../ci/assets/Bilder/BayWindow/Main_Baseball_Light.png" alt="Bay Window Dashboard im Light Mode — Hero-Karte zum nächsten Spiel, Player-Spotlight und Lineup-Diagramm" data-zoom></div>
         <div class="tag">
-          <div class="k">Dashboard</div>
-          <div class="v">Nächstes Spiel, Player-Spotlight und Aufstellung — alles auf einen Blick, sobald die App startet.</div>
+          <div class="k" data-i18n="bay.dashboardK">Dashboard</div>
+          <div class="v" data-i18n="bay.dashboardV">Nächstes Spiel, Player-Spotlight und Aufstellung — alles auf einen Blick, sobald die App startet.</div>
         </div>
       </div>
     </div>
@@ -187,16 +192,16 @@
   <!-- OVERVIEW FEATURES -->
   <section id="features">
     <div class="wrap">
-      <span class="section-label reveal">Funktionen</span>
-      <h2 class="reveal">Was die App kann</h2>
-      <p class="lede reveal">Jeder Endpunkt wird unabhängig abgerufen — fällt einer aus, bleiben die übrigen Bereiche funktionsfähig. Fehlende oder fehlerhafte Daten werden zu „—“ statt zu einem Absturz.</p>
-      <div class="feature-grid">
-        <div class="feature-card reveal"><div class="dot"></div><h4>Live-Dashboard</h4><p>Hero-Karte zum nächsten Spiel mit Gegner, Anstoßzeit, Spielort und TV-Sender — inklusive Countdown bis zum Kickoff.</p></div>
-        <div class="feature-card reveal"><div class="dot"></div><h4>Player-Spotlight</h4><p>Automatisch gewählte Schlüsselspieler-Karte (QB bzw. Starting Pitcher) mit Saisonwerten und Trend gegenüber dem Karrieremittel.</p></div>
-        <div class="feature-card reveal"><div class="dot"></div><h4>Formations-Diagramm</h4><p>Visuelle Aufstellung auf Feld oder Diamond, angepasst an die Sportart — Offense-Gruppen im Football, Feldpositionen im Baseball.</p></div>
-        <div class="feature-card reveal"><div class="dot"></div><h4>Division-Tabelle</h4><p>Vollständige Standings mit W/L, Heim/Auswärts, Run-Differential und Streak — plus Glossar-Tooltips für jede Abkürzung.</p></div>
-        <div class="feature-card reveal"><div class="dot"></div><h4>Venue &amp; History</h4><p>Stadiondaten (Baujahr, Kapazität, Maße, Belag) neben kuratierter Saisonhistorie: Trendkurven, Meistertitel, All-Time-Rekorde.</p></div>
-        <div class="feature-card reveal"><div class="dot"></div><h4>Roster &amp; Playoffs</h4><p>Filterbare Kaderliste nach Positionsgruppe, suchbar nach Name und Nummer — plus automatische Playoff-Brackets in der Postseason.</p></div>
+      <span class="section-label reveal" data-i18n="bay.featuresLabel">Funktionen</span>
+      <h2 class="reveal" data-i18n="bay.featuresHeading">Was die App kann</h2>
+      <p class="lede reveal" data-i18n="bay.featuresLede">Jeder Endpunkt wird unabhängig abgerufen — fällt einer aus, bleiben die übrigen Bereiche funktionsfähig. Fehlende oder fehlerhafte Daten werden zu „—“ statt zu einem Absturz.</p>
+      <div class="feature-grid" id="feature-grid">
+        <div class="feature-card reveal"><div class="dot"></div><h4 data-i18n="bay.features.0.title">Live-Dashboard</h4><p data-i18n="bay.features.0.desc">Hero-Karte zum nächsten Spiel mit Gegner, Anstoßzeit, Spielort und TV-Sender — inklusive Countdown bis zum Kickoff.</p></div>
+        <div class="feature-card reveal"><div class="dot"></div><h4 data-i18n="bay.features.1.title">Player-Spotlight</h4><p data-i18n="bay.features.1.desc">Automatisch gewählte Schlüsselspieler-Karte (QB bzw. Starting Pitcher) mit Saisonwerten und Trend gegenüber dem Karrieremittel.</p></div>
+        <div class="feature-card reveal"><div class="dot"></div><h4 data-i18n="bay.features.2.title">Formations-Diagramm</h4><p data-i18n="bay.features.2.desc">Visuelle Aufstellung auf Feld oder Diamond, angepasst an die Sportart — Offense-Gruppen im Football, Feldpositionen im Baseball.</p></div>
+        <div class="feature-card reveal"><div class="dot"></div><h4 data-i18n="bay.features.3.title">Division-Tabelle</h4><p data-i18n="bay.features.3.desc">Vollständige Standings mit W/L, Heim/Auswärts, Run-Differential und Streak — plus Glossar-Tooltips für jede Abkürzung.</p></div>
+        <div class="feature-card reveal"><div class="dot"></div><h4 data-i18n="bay.features.4.title">Venue &amp; History</h4><p data-i18n="bay.features.4.desc">Stadiondaten (Baujahr, Kapazität, Maße, Belag) neben kuratierter Saisonhistorie: Trendkurven, Meistertitel, All-Time-Rekorde.</p></div>
+        <div class="feature-card reveal"><div class="dot"></div><h4 data-i18n="bay.features.5.title">Roster &amp; Playoffs</h4><p data-i18n="bay.features.5.desc">Filterbare Kaderliste nach Positionsgruppe, suchbar nach Name und Nummer — plus automatische Playoff-Brackets in der Postseason.</p></div>
       </div>
     </div>
   </section>
@@ -206,13 +211,13 @@
     <div class="wrap">
       <div class="row">
         <div class="copy reveal">
-          <span class="section-label">Tiefe statt Oberfläche</span>
-          <h3 style="margin-top:14px">History, die Geschichten erzählt</h3>
-          <p>Die History-Ansicht verdichtet Jahrzehnte in wenige Blicke: eine Win/Loss-Trendkurve über die letzten Saisons, die Meistertitel als Banner-Reihe und die Team-ERA der jüngsten Jahre als Balken.</p>
+          <span class="section-label" data-i18n="bay.historyLabel">Tiefe statt Oberfläche</span>
+          <h3 style="margin-top:14px" data-i18n="bay.historyHeading">History, die Geschichten erzählt</h3>
+          <p data-i18n="bay.historyDesc">Die History-Ansicht verdichtet Jahrzehnte in wenige Blicke: eine Win/Loss-Trendkurve über die letzten Saisons, die Meistertitel als Banner-Reihe und die Team-ERA der jüngsten Jahre als Balken.</p>
           <ul class="ticks">
-            <li>Trendkurve mit markierten Playoff- und Championship-Saisons</li>
-            <li>All-Time-Wins, beste Modern-Season, längste Siegesserie</li>
-            <li>Dunkles, team-gefärbtes Thema — bewusst abgesetzt vom hellen Dashboard</li>
+            <li data-i18n="bay.historyTicks.0">Trendkurve mit markierten Playoff- und Championship-Saisons</li>
+            <li data-i18n="bay.historyTicks.1">All-Time-Wins, beste Modern-Season, längste Siegesserie</li>
+            <li data-i18n="bay.historyTicks.2">Dunkles, team-gefärbtes Thema — bewusst abgesetzt vom hellen Dashboard</li>
           </ul>
         </div>
         <div class="media tilt-r offset-r reveal">
@@ -226,13 +231,13 @@
           <div class="shot"><img src="../../ci/assets/Bilder/BayWindow/Settings_Light.png" alt="Einstellungen im Light Mode" data-zoom></div>
         </div>
         <div class="copy reveal">
-          <span class="section-label">Dein Team, deine Sprache</span>
-          <h3 style="margin-top:14px">Für beide Ligen gebaut</h3>
-          <p>NFL und MLB teilen sich dieselbe Oberfläche — der Team-Selektor wechselt zwischen allen 62 Teams, die Glossare und Diagramme passen sich der Sportart an. Einstellungen für Sprache (DE/EN), Theme und Standardteam sind ein Klick entfernt.</p>
+          <span class="section-label" data-i18n="bay.teamLabel">Dein Team, deine Sprache</span>
+          <h3 style="margin-top:14px" data-i18n="bay.teamHeading">Für beide Ligen gebaut</h3>
+          <p data-i18n="bay.teamDesc">NFL und MLB teilen sich dieselbe Oberfläche — der Team-Selektor wechselt zwischen allen 62 Teams, die Glossare und Diagramme passen sich der Sportart an. Einstellungen für Sprache (DE/EN), Theme und Standardteam sind ein Klick entfernt.</p>
           <ul class="ticks">
-            <li>Zweisprachig über i18next, mit sportartspezifischen Glossaren</li>
-            <li>Light- und Dark-Theme, team-gefärbte Akzente</li>
-            <li>Demo-Modus zum Testen ohne Netzwerk</li>
+            <li data-i18n="bay.teamTicks.0">Zweisprachig über i18next, mit sportartspezifischen Glossaren</li>
+            <li data-i18n="bay.teamTicks.1">Light- und Dark-Theme, team-gefärbte Akzente</li>
+            <li data-i18n="bay.teamTicks.2">Demo-Modus zum Testen ohne Netzwerk</li>
           </ul>
         </div>
       </div>
@@ -243,9 +248,9 @@
   <section class="phones">
     <div class="phones-glow"></div>
     <div class="wrap" style="position:relative;z-index:1">
-      <span class="section-label reveal">Überall zu Hause</span>
-      <h2 class="reveal">Läuft auf Handy, Mac und Windows</h2>
-      <p class="lede reveal">Dieselbe defensive Architektur, dieselben Daten — responsiv vom Desktop bis aufs Telefon. Die Seitennavigation merkt sich die Scroll-Position, sodass sich Bereiche sofort anspringen lassen.</p>
+      <span class="section-label reveal" data-i18n="bay.everywhereLabel">Überall zu Hause</span>
+      <h2 class="reveal" data-i18n="bay.everywhereHeading">Läuft auf Handy, Mac und Windows</h2>
+      <p class="lede reveal" data-i18n="bay.everywhereLede">Dieselbe defensive Architektur, dieselben Daten — responsiv vom Desktop bis aufs Telefon. Die Seitennavigation merkt sich die Scroll-Position, sodass sich Bereiche sofort anspringen lassen.</p>
       <div class="phone-row">
         <div class="phone reveal"><img src="../../ci/assets/Bilder/BayWindow/phone_main_light.png" alt="Bay Window Dashboard auf dem Smartphone" data-zoom></div>
         <div class="phone reveal"><img src="../../ci/assets/Bilder/BayWindow/phone_card_light.png" alt="Spieler-Karte auf dem Smartphone" data-zoom></div>
@@ -259,42 +264,42 @@
   <!-- TECH + PHILOSOPHY -->
   <section>
     <div class="wrap">
-      <span class="section-label reveal">Unter der Haube</span>
-      <h2 class="reveal">Technisches Fundament</h2>
-      <p class="lede reveal">Cache-first und ausfallsicher: Daten sind beim ersten Start sichtbar, jeder API-Aufruf läuft isoliert, und Updates kommen signiert über GitHub.</p>
+      <span class="section-label reveal" data-i18n="bay.techLabel">Unter der Haube</span>
+      <h2 class="reveal" data-i18n="bay.techHeading">Technisches Fundament</h2>
+      <p class="lede reveal" data-i18n="bay.techLede">Cache-first und ausfallsicher: Daten sind beim ersten Start sichtbar, jeder API-Aufruf läuft isoliert, und Updates kommen signiert über GitHub.</p>
       <div class="spec">
         <dl class="reveal">
-          <dt>Plattform</dt>
-          <dd><strong>Tauri 2</strong> auf Rust-Basis für native, plattformübergreifende Performance — ein Binary für Windows, macOS und mobile Layouts.</dd>
-          <dt>Frontend</dt>
-          <dd><strong>React 19 + TypeScript</strong>, kompiliert mit <strong>Vite 7</strong>. Komponentenbasiert, typsicher, schnell im Build.</dd>
+          <dt data-i18n="bay.spec.0.dt">Plattform</dt>
+          <dd data-i18n-html="bay.spec.0.dd"><strong>Tauri 2</strong> auf Rust-Basis für native, plattformübergreifende Performance — ein Binary für Windows, macOS und mobile Layouts.</dd>
+          <dt data-i18n="bay.spec.1.dt">Frontend</dt>
+          <dd data-i18n-html="bay.spec.1.dd"><strong>React 19 + TypeScript</strong>, kompiliert mit <strong>Vite 7</strong>. Komponentenbasiert, typsicher, schnell im Build.</dd>
         </dl>
         <dl class="reveal">
-          <dt>Architektur</dt>
-          <dd>Defensiv gedacht: jeder Endpunkt wird unabhängig gefetcht, ein Ausfall kaskadiert nicht. Fehlende Daten werden zu <strong>„—“</strong> statt zum Crash.</dd>
-          <dt>Daten &amp; Offline</dt>
-          <dd>Live-Daten aus der öffentlichen <strong>ESPN-JSON-API</strong>, persistent gecacht. Offline nutzbar, mit Demo-Modus für Tests ohne Netz.</dd>
+          <dt data-i18n="bay.spec.2.dt">Architektur</dt>
+          <dd data-i18n-html="bay.spec.2.dd">Defensiv gedacht: jeder Endpunkt wird unabhängig gefetcht, ein Ausfall kaskadiert nicht. Fehlende Daten werden zu <strong>„—“</strong> statt zum Crash.</dd>
+          <dt data-i18n="bay.spec.3.dt">Daten &amp; Offline</dt>
+          <dd data-i18n-html="bay.spec.3.dd">Live-Daten aus der öffentlichen <strong>ESPN-JSON-API</strong>, persistent gecacht. Offline nutzbar, mit Demo-Modus für Tests ohne Netz.</dd>
         </dl>
         <dl class="reveal">
-          <dt>Sprache</dt>
-          <dd><strong>i18next</strong> mit Deutsch/Englisch und sportartspezifischen Glossaren — Tooltips erklären jede Abkürzung.</dd>
-          <dt>Updates</dt>
-          <dd>Automatische, <strong>signierte Auslieferung</strong> über GitHub — Installation mit einem Klick.</dd>
+          <dt data-i18n="bay.spec.4.dt">Sprache</dt>
+          <dd data-i18n-html="bay.spec.4.dd"><strong>i18next</strong> mit Deutsch/Englisch und sportartspezifischen Glossaren — Tooltips erklären jede Abkürzung.</dd>
+          <dt data-i18n="bay.spec.5.dt">Updates</dt>
+          <dd data-i18n-html="bay.spec.5.dd">Automatische, <strong>signierte Auslieferung</strong> über GitHub — Installation mit einem Klick.</dd>
         </dl>
       </div>
 
       <div style="margin-top:clamp(48px,6vw,80px); max-width:62ch" class="reveal">
-        <span class="section-label">Designphilosophie</span>
-        <p class="lede" style="margin-top:14px">Die App ist auf <strong style="color:var(--heading);font-weight:600">geringe kognitive Last</strong> und schnelles Scannen ausgelegt. Der Cache-first-Ansatz macht Daten beim Start sofort sichtbar; die Seitennavigation mit Scroll-Tracking lässt zwischen Bereichen springen. Tooltips erklären durchgehend die Fachbegriffe — auch für alle, die mit US-Sport (noch) nicht vertraut sind.</p>
+        <span class="section-label" data-i18n="bay.designLabel">Designphilosophie</span>
+        <p class="lede" style="margin-top:14px" data-i18n-html="bay.designText">Die App ist auf <strong style="color:var(--heading);font-weight:600">geringe kognitive Last</strong> und schnelles Scannen ausgelegt. Der Cache-first-Ansatz macht Daten beim Start sofort sichtbar; die Seitennavigation mit Scroll-Tracking lässt zwischen Bereichen springen. Tooltips erklären durchgehend die Fachbegriffe — auch für alle, die mit US-Sport (noch) nicht vertraut sind.</p>
       </div>
 
       <div class="coming reveal">
         <div>
-          <span class="badge">Coming Soon</span>
-          <p>Der Quellcode wird bald öffentlich auf GitHub verfügbar sein.</p>
+          <span class="badge" data-i18n="bay.comingBadge">Coming Soon</span>
+          <p data-i18n="bay.comingText">Der Quellcode wird bald öffentlich auf GitHub verfügbar sein.</p>
         </div>
         <!-- TODO: GitHub URL -->
-        <a class="gh" href="#" aria-disabled="true">GitHub-Repo <span aria-hidden>→</span></a>
+        <a class="gh" href="#" aria-disabled="true"><span data-i18n="bay.githubBtn">GitHub-Repo</span> <span aria-hidden>→</span></a>
       </div>
     </div>
   </section>
@@ -306,14 +311,35 @@
 
   <footer>
     <div class="wrap footrow">
-      <a class="back-link" href="../../"><span aria-hidden>←</span> Zurück zur Startseite</a>
-      <span class="made">Bay Window · Made by Mika</span>
+      <a class="back-link" href="../../"><span aria-hidden>←</span> <span data-i18n="bay.backFooter">Zurück zur Startseite</span></a>
+      <div style="display:flex; align-items:center; gap:20px; flex-wrap:wrap">
+        <a href="mailto:mikajeske@gmail.com" data-i18n-attr="aria-label:footer.emailAria" aria-label="E-Mail an Mika Jeske schreiben" style="display:inline-flex; align-items:center; gap:7px; font-family:var(--font-text); font-size:var(--fs-caption); font-weight:600; color:var(--text-body)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m4 7 8 6 8-6" /></svg>
+          <span data-i18n="footer.email">E-Mail schreiben</span>
+        </a>
+        <a href="tel:+491774866584" data-i18n-attr="aria-label:footer.phoneAria" aria-label="Mika Jeske anrufen" style="display:inline-flex; align-items:center; gap:7px; font-family:var(--font-text); font-size:var(--fs-caption); font-weight:600; color:var(--text-body)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
+          <span data-i18n="footer.phone">Anrufen</span>
+        </a>
+        <span class="made" data-i18n="bay.madeByFooter">Bay Window · Made by Mika</span>
+      </div>
+    </div>
+    <div class="wrap">
+      <p class="i18n-disclaimer" data-i18n="footer.disclaimer">Übersetzungen werden als Komfortfunktion bereitgestellt und wurden KI-unterstützt erstellt. Die deutsche Version ist die maßgebliche Quelle.</p>
     </div>
   </footer>
 
   <div class="lb" id="lb"><img id="lbImg" src="" alt=""></div>
 
+  <script src="../../widgets.js"></script>
   <script>
+    // i18n: apply translations, mount switcher + chip, re-apply on language change
+    (function () {
+      Widgets.applyStaticTranslations(document);
+      Widgets.mountLanguageSwitcher(document.getElementById("lang-switcher-root"));
+      Widgets.mountContactChip(document.getElementById("contact-chip-root"));
+      window.addEventListener("langchange", function () { Widgets.applyStaticTranslations(document); });
+    })();
     // scroll reveals
     (function () {
       var els = document.querySelectorAll('.reveal');
