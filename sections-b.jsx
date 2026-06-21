@@ -117,7 +117,7 @@ function Projects() {
                   </div>
                 ))}
               </div>
-              <a href="projects/bay-window/index.html" style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, padding: "13px 24px", border: "1px solid var(--border-strong)", borderRadius: "var(--radius-md)", fontFamily: "var(--font-text)", fontSize: "var(--fs-body)", fontWeight: 600, color: "var(--heading)" }}>
+              <a href="projects/bay-window/" style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, padding: "13px 24px", border: "1px solid var(--border-strong)", borderRadius: "var(--radius-md)", fontFamily: "var(--font-text)", fontSize: "var(--fs-body)", fontWeight: 600, color: "var(--heading)" }}>
                 Bay Window ansehen <span aria-hidden>→</span>
               </a>
             </div>
@@ -157,7 +157,7 @@ function Footer() {
         </div>
       </div>
       <div style={{ display: "flex", justifyContent: "center", marginTop: 32 }}>
-        <a href="private/index.html" style={{ display: "inline-flex", padding: 8, color: "var(--text-faint)", opacity: 0.35 }}>
+        <a href="private/" style={{ display: "inline-flex", padding: 8, color: "var(--text-faint)", opacity: 0.35 }}>
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="4" y="11" width="16" height="10" rx="2" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></svg>
         </a>
       </div>
