@@ -18,13 +18,15 @@
   @keyframes scrollHint { 0% { transform: translateY(-100%); } 60%,100% { transform: translateY(220%); } }
 
   /* ambient side orbs — only where wide displays leave the gutters empty.
-     #root becomes the stacking context; the orb layer sits behind the
-     content (z-index:-1) but above the paper backdrop, so it shows in the
-     side margins of the paper sections and is covered by the colour bands. */
+     #root becomes the stacking context; the orb layer is absolute (so it
+     spans the full document height and scrolls WITH the page, never pinned
+     to the screen) and sits behind the content (z-index:-1) but above the
+     paper backdrop, so it shows in the side margins of the paper sections
+     and is covered by the colour bands. */
   #root { position: relative; z-index: 0; }
   .side-orbs { display: none; }
   @media (min-aspect-ratio: 16 / 9) {
-    .side-orbs { display: block; position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+    .side-orbs { display: block; position: absolute; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
   }
 
   /* torn-paper deep-dives + photo treatments */

@@ -86,59 +86,63 @@ function Badge({ children, variant = "neutral" }) {
   return <span style={{ display: "inline-flex", alignItems: "center", padding: "5px 12px", fontFamily: "var(--font-text)", fontSize: "var(--fs-caption)", fontWeight: 600, borderRadius: 999, whiteSpace: "nowrap", ...v }}>{children}</span>;
 }
 
-function GlowShape({ shape = "blob", glow = "sienna", size = 220, drift = false, className = "", style = {} }) {
+function GlowShape({ shape = "blob", glow = "sienna", size = 220, drift = false, ink = "var(--ink)", className = "", style = {} }) {
   const shapes = { blob: "60% 40% 55% 45% / 55% 50% 50% 45%", circle: "50%", squircle: "34%", capsule: "999px", arch: "50% 50% 12% 12% / 70% 70% 12% 12%" };
   const glowBg = { sienna: "var(--glow-sienna)", amber: "var(--glow-amber)", navy: "var(--glow-navy)", duo: "var(--glow-duo)", white: "var(--glow-white)" }[glow];
   return (
     <div className={className} style={{ position: "relative", width: size, height: size, display: "grid", placeItems: "center", ...style }}>
       <div aria-hidden style={{ position: "absolute", width: size * 1.5, height: size * 1.5, top: "58%", left: "50%", transform: "translate(-50%,-50%)", background: glowBg, filter: "var(--blur-md)", borderRadius: "50%", pointerEvents: "none" }} />
-      <div className={drift ? "drift" : ""} style={{ position: "relative", zIndex: 1, width: "100%", height: "100%", background: "var(--ink)", borderRadius: shapes[shape] }} />
+      <div className={drift ? "drift" : ""} style={{ position: "relative", zIndex: 1, width: "100%", height: "100%", background: ink, borderRadius: shapes[shape] }} />
     </div>
   );
 }
 
 /* ---------- WaveBlend ----------
-   A full-bleed SVG that blends a colour band into its paper neighbour
-   at one edge: the neighbour colour fills the band edge along a long,
-   gently irregular wave (2-3 stretched crests from two overlapped
-   frequencies), and the whole shape gets a small CSS blur so the single
-   wavy edge reads ever-so-slightly soft instead of a hard cut. Lives
-   INSIDE the band section (which clips it), over its solid background. */
+   A full-bleed SVG that overlaps a colour band's paper neighbour onto
+   the band edge as an "overlapping scale/tile": the paper fills the edge
+   along a shallow, crisp wave and casts a drop shadow in the band's own
+   colour (a bit darker) so the band reads as tucked underneath the paper.
+   The wave is drawn ONCE on a fixed wide virtual canvas and shown via
+   `preserveAspectRatio="slice"`, so it renders at a constant pixel scale
+   on every screen (wide screens show more crests, phones show a gentle
+   slice) — it never squishes into steep spikes. Lives INSIDE the band
+   section, which clips it. */
 function wavePath(seed, edge, opts) {
-  var W = 1200, H = opts.height, amp = opts.amp;
+  var VBW = opts.width, H = opts.height, amp = opts.amp;
   var s = (seed * 9301 + 49297) % 233280;
   var rnd = function () { s = (s * 9301 + 49297) % 233280; return s / 233280; };
-  var peaks = 2 + Math.floor(rnd() * 2); // 2-3 long, stretched crests
-  // one dominant low-frequency wave + a single gentle overlap → softly
-  // irregular but never noisy (no high-frequency chatter on thin screens)
-  var comps = [
-    [peaks,     rnd() * Math.PI * 2, 1],
-    [peaks + 1, rnd() * Math.PI * 2, 0.22],
-  ];
-  var totalW = comps[0][2] + comps[1][2];
-  var baseline = H * 0.5, N = 48, pts = [];
+  // constant pixel wavelength (seed-varied a touch) → identical crest shape
+  // at any viewport width; one dominant wave + a gentle higher overlap.
+  var wl = 760 + rnd() * 220;
+  var k1 = (Math.PI * 2) / wl, k2 = k1 * (1.7 + rnd() * 0.4);
+  var p1 = rnd() * Math.PI * 2, p2 = rnd() * Math.PI * 2;
+  var a1 = 1, a2 = 0.22, totalW = a1 + a2;
+  var baseline = H * 0.5, N = Math.round(VBW / 40), pts = [];
   for (var i = 0; i <= N; i++) {
-    var x = (W / N) * i, u = i / N, y = 0;
-    for (var c = 0; c < comps.length; c++) y += comps[c][2] * Math.sin(u * Math.PI * 2 * comps[c][0] + comps[c][1]);
+    var x = (VBW / N) * i;
+    var y = a1 * Math.sin(x * k1 + p1) + a2 * Math.sin(x * k2 + p2);
     var cy = baseline + (y / totalW) * amp;
     if (edge === "bottom") cy = H - cy;
     pts.push([x, cy]);
   }
-  var edgeY = edge === "top" ? 0 : H;
+  var edgeY = edge === "top" ? 0 : H; // outer (paper-side) edge of the fill
   var d = "M0," + edgeY + " L" + pts[0][0].toFixed(1) + "," + pts[0][1].toFixed(1);
   for (var k = 1; k <= N; k++) {
     var mx = (pts[k - 1][0] + pts[k][0]) / 2, my = (pts[k - 1][1] + pts[k][1]) / 2;
     d += " Q" + pts[k - 1][0].toFixed(1) + "," + pts[k - 1][1].toFixed(1) + " " + mx.toFixed(1) + "," + my.toFixed(1);
   }
-  d += " L" + pts[N][0].toFixed(1) + "," + pts[N][1].toFixed(1) + " L" + W + "," + edgeY + " Z";
+  d += " L" + pts[N][0].toFixed(1) + "," + pts[N][1].toFixed(1) + " L" + VBW + "," + edgeY + " Z";
   return d;
 }
 
-function WaveBlend({ edge = "top", color = "var(--paper)", seed = 1, height = 72, amp = 18, blur = 2.5 }) {
-  var d = wavePath(seed, edge, { height: height, amp: amp });
+function WaveBlend({ edge = "top", color = "var(--paper)", seed = 1, height = 52, amp = 11, over = 4, shadow, shadowOffset = 5, shadowBlur = 8 }) {
+  var VBW = 5600; // fixed virtual width (~35:9); shown as a centred px-scale slice
+  var d = wavePath(seed, edge, { width: VBW, height: height, amp: amp });
+  var sy = edge === "top" ? shadowOffset : -shadowOffset; // cast into the band
+  var filter = shadow ? `drop-shadow(0 ${sy}px ${shadowBlur}px ${shadow})` : "none";
   return (
-    <svg viewBox={`0 0 1200 ${height}`} preserveAspectRatio="none" aria-hidden="true"
-      style={{ position: "absolute", left: 0, right: 0, width: "100%", height: height, [edge]: 0, zIndex: 0, display: "block", pointerEvents: "none", filter: `blur(${blur}px)` }}>
+    <svg viewBox={`0 0 ${VBW} ${height}`} preserveAspectRatio="xMidYMid slice" aria-hidden="true"
+      style={{ position: "absolute", left: 0, right: 0, width: "100%", height: height, [edge]: -over, zIndex: 0, display: "block", pointerEvents: "none", filter: filter }}>
       <path d={d} fill={color} />
     </svg>
   );
