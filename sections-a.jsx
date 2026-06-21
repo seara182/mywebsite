@@ -18,8 +18,8 @@ const EDUCATION = [
 const ENGAGEMENT = [
   { role: "Helfer in Grundausbildung", org: "Technisches Hilfswerk · OV Friedrichshafen", period: "seit 10.2025", accent: true,
     points: ["Grundausbildung im Zivil- und Katastrophenschutz, Ausrichtung auf Fachberatung CBRN-Abwehr"] },
-  { role: "Telofinist/Clientenberater · Nummer gegen Kummer", org: "Kinderschutzbund · Friedrichshafen", period: "seit 02.2026",
-    points: ["Ausbildung zur telefonischen Beratung für Kinder und Jugendliche in Krisensituationen", "Aktive Beratung auf system-psychologischen Grundlagen"] },
+  { role: "Telefonberater · Nummer gegen Kummer", org: "Kinderschutzbund · Friedrichshafen", period: "seit 02.2026",
+    points: ["Ausbildung zur telefonischen Beratung für Kinder und Jugendliche in Krisensituationen", "Aktive Beratung auf systemisch-psychologischer Grundlage"] },
   { role: "Ehrenamtliche Gruppenleitung", org: "Evangelische Kirche Mitteldeutschland · Ilmenau", period: "2022 – 2025",
     points: ["Dreijährige Gruppenleitung in Konfirmations- und offener Jugendarbeit", "Leitung auf Freizeiten und Events mit bis zu 120 Teilnehmenden"] },
   { role: "Gewähltes Mitglied der Studierendenvertretung", org: "TU Ilmenau", period: "2024 – 2026", last: true,
@@ -76,12 +76,17 @@ function Intro() {
         <Reveal><Eyebrow color="var(--sienna-glow)">Hallo</Eyebrow></Reveal>
         <Reveal delay={80}>
           <p style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h2)", lineHeight: 1.22, letterSpacing: "var(--ls-heading)", color: "var(--on-dark-strong)", margin: "20px 0 0", maxWidth: "20ch" }}>
-            Diese Seite ist kein Lebenslauf zum Überfliegen — sie ist eine kurze Erzählung.
+            Ich bin Mika. Ich mache Werkstoffe messbar — und erklärbar.
           </p>
         </Reveal>
         <Reveal delay={160}>
-          <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--on-dark-body)", margin: "24px 0 0", maxWidth: "52ch" }}>
-            Werkstoffwissenschaftler mit Hang zur Präzision — vom Reinraum bis zur Serienfertigung. Scrollen Sie weiter für den Werdegang, das Ehrenamt und ein Projekt, an dem ich gerade baue.
+          <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--on-dark-body)", margin: "24px 0 0", maxWidth: "54ch" }}>
+            Werkstoffwissenschaft, Mess- und Sensortechnik, zerstörungsfreie Prüfung: Mich fasziniert, was im Mikrometerbereich passiert, lange bevor ein Bauteil in Serie geht. Ich messe genau, halte Prozesse sauber und sage, was die Daten wirklich hergeben.
+          </p>
+        </Reveal>
+        <Reveal delay={220}>
+          <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--on-dark-body)", margin: "16px 0 0", maxWidth: "54ch" }}>
+            Diese Seite ist kein Lebenslauf zum Überfliegen — sie ist eine kurze Erzählung. Bleiben Sie einen Moment, es lohnt sich.
           </p>
         </Reveal>
       </div>

@@ -11,15 +11,27 @@
 <script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm"></script>
 <script crossorigin src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y"></script>
 <style>
-  html { scroll-behavior: smooth; }
-  body { margin: 0; background: var(--paper); }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+  body { margin: 0; background: var(--paper); overflow-x: hidden; }
   @keyframes scrollHint { 0% { transform: translateY(-100%); } 60%,100% { transform: translateY(220%); } }
+
+  /* torn-paper deep-dives + photo treatments */
+  .tear-trigger:hover .tear-label { color: var(--sienna); }
+  .tear-trigger:hover .tear-label > span:last-child { background: rgba(188,90,55,0.10); border-color: rgba(188,90,55,0.30); }
+  .loose-photo:hover { transform: rotate(0deg) translateY(-4px) !important; }
+  .polaroid:hover { transform: rotate(0deg) scale(1.02) !important; z-index: 2; }
+  .ggi-link { transition: transform .24s var(--ease-out), box-shadow .24s var(--ease-out); }
+  .ggi-link:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  @media (prefers-reduced-motion: reduce) {
+    .loose-photo, .polaroid { transition: none !important; }
+  }
 </style>
 </head>
 <body>
 <div id="root"></div>
 <script type="text/babel" src="primitives.jsx"></script>
 <script type="text/babel" src="sections-a.jsx"></script>
+<script type="text/babel" src="sections-new.jsx"></script>
 <script type="text/babel" src="sections-b.jsx"></script>
 </body>
 </html>
