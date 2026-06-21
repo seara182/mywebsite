@@ -3,7 +3,7 @@
    ============================================================ */
 const { Reveal, Eyebrow, Badge, GlowShape, TimelineEntry } = window.MJ;
 const { Hero, Intro, EXPERIENCE, EDUCATION, ENGAGEMENT, SKILLS } = window.SECTIONS_A;
-const { Story, Reunion } = window.SECTIONS_NEW;
+const { Story, CleanroomTear, ConfiTear, Reunion } = window.SECTIONS_NEW;
 
 const LINKEDIN = "https://www.linkedin.com/in/mika-jeske-835092313/";
 
@@ -105,7 +105,7 @@ function Projects() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(340px,100%),1fr))", gap: "clamp(28px,4vw,56px)", alignItems: "center" }}>
             <div>
               <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: 0, maxWidth: "46ch" }}>
-                Eine Desktop-App, die auf einen Blick den Stand zweier Lieblings-Sportteams zeigt — Spiele, Tabelle, Kader und Geschichte. Gebaut für den kurzen Blick beim Hochfahren: der Cache zeigt sofort Daten, während im Hintergrund aktualisiert wird.
+                Eine Desktop-App, die auf einen Blick den Stand zweier Lieblings-Sportteams zeigt: Spiele, Tabelle, Kader und Geschichte. Gebaut für den kurzen Blick beim Hochfahren, der Cache zeigt sofort Daten und aktualisiert im Hintergrund.
               </p>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 28 }}>
                 {stack.map((s, i) => <Badge key={i} variant="navy">{s}</Badge>)}
@@ -172,7 +172,9 @@ function App() {
       <Intro />
       <Story />
       <Resume />
+      <CleanroomTear />
       <Engagement />
+      <ConfiTear />
       <Reunion />
       <Projects />
       <Footer />
