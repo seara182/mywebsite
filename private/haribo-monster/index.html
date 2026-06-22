@@ -3,6 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <!-- Auth guard: runs before anything renders. If the visitor has not passed
+       the password gate at /private/, send them there instead of showing this
+       page. (Client-side only — see note in the repo; not a substitute for
+       real server-side protection.) -->
+  <script>
+    if (sessionStorage.getItem("authenticated") !== "true") {
+      window.location.replace("../");
+    }
+  </script>
   <title>Haribo & Monster Tier List</title>
   <link rel="icon" href="../../ci/icons/Favicon32x.ico">
   <link rel="apple-touch-icon" href="../../ci/icons/Favicon128x.ico">
