@@ -102,11 +102,11 @@
         { group: "Sprachen", items: ["Deutsch (Muttersprache)", "Englisch (verhandlungssicher)"] },
       ],
       projects: {
-        kicker: "Projekt", title: "Bay Window",
+        kicker: "Projekt", title: "Sports Window",
         description: "Eine App für Desktop- und Mobilgeräte, die auf einen Blick den Stand zweier Lieblings-Sportteams aus NFL und MLB zeigt: Spiele, Tabelle, Kader und Geschichte. Gebaut für den kurzen Blick beim Hochfahren, der Cache zeigt sofort Daten und aktualisiert im Hintergrund.",
         features: ["Dashboard mit Countdown", "Player-Spotlight", "Lineup-Diagramm", "Standings & Venue", "History & Playoffs", "Roster mit Filter"],
         stack: ["Tauri 2 · Rust", "React 19 · TS", "Vite 7", "ESPN JSON-API", "i18next EN/DE"],
-        cta: "Bay Window ansehen",
+        cta: "Sports Window ansehen",
       },
       footer: {
         linkedinLabel: "LinkedIn", madeBy: "Made by Mika",
@@ -117,8 +117,8 @@
       },
       contact: { chip: "Kontakt aufnehmen" },
       langSwitcher: { selectLabel: "Sprache wählen", globeAria: "Sprache auswählen", optionAria: "{lang} auswählen" },
-      bay: {
-        backLink: "Startseite", madeBy: "Made by Mika", eyebrow: "Projekt", title: "Bay Window",
+      sports: {
+        backLink: "Startseite", madeBy: "Made by Mika", eyebrow: "Projekt", title: "Sports Window",
         heroSub: "Ein persönliches Sport-Dashboard als native Desktop-App — gebaut für den kurzen Blick beim Hochfahren. Der Cache zeigt sofort relevante Daten, während im Hintergrund frische Stände nachgeladen werden. Standardmäßig die San Francisco 49ers (NFL) und Giants (MLB) — jedes der 32 NFL- bzw. 30 MLB-Teams lässt sich als aktives Team wählen.",
         dashboardK: "Dashboard", dashboardV: "Nächstes Spiel, Player-Spotlight und Aufstellung — alles auf einen Blick, sobald die App startet.",
         featuresLabel: "Funktionen", featuresHeading: "Was die App kann",
@@ -151,8 +151,8 @@
         ],
         designLabel: "Designphilosophie",
         designText: "Die App ist auf <strong style=\"color:var(--heading);font-weight:600\">geringe kognitive Last</strong> und schnelles Scannen ausgelegt. Der Cache-first-Ansatz macht Daten beim Start sofort sichtbar; die Seitennavigation mit Scroll-Tracking lässt zwischen Bereichen springen. Tooltips erklären durchgehend die Fachbegriffe — auch für alle, die mit US-Sport (noch) nicht vertraut sind.",
-        comingBadge: "Coming Soon", comingText: "Der Quellcode wird bald öffentlich auf GitHub verfügbar sein.",
-        githubBtn: "GitHub-Repo", backFooter: "Zurück zur Startseite", madeByFooter: "Bay Window · Made by Mika",
+        comingBadge: "Open Source", comingText: "Der Quellcode ist öffentlich auf GitHub verfügbar.",
+        githubBtn: "GitHub-Repo", backFooter: "Zurück zur Startseite", madeByFooter: "Sports Window · Made by Mika",
       },
     },
 
@@ -235,11 +235,11 @@
         { group: "Languages", items: ["German (native)", "English (business fluent)"] },
       ],
       projects: {
-        kicker: "Project", title: "Bay Window",
+        kicker: "Project", title: "Sports Window",
         description: "An app for desktop and mobile that shows the status of two favourite sports teams from the NFL and MLB at a glance: games, standings, roster and history. Built for the quick check on startup — the cache shows data instantly and refreshes in the background.",
         features: ["Dashboard with countdown", "Player spotlight", "Lineup diagram", "Standings & venue", "History & playoffs", "Filterable roster"],
         stack: ["Tauri 2 · Rust", "React 19 · TS", "Vite 7", "ESPN JSON API", "i18next EN/DE"],
-        cta: "View Bay Window",
+        cta: "View Sports Window",
       },
       footer: {
         linkedinLabel: "LinkedIn", madeBy: "Made by Mika",
@@ -250,8 +250,8 @@
       },
       contact: { chip: "Contact me now" },
       langSwitcher: { selectLabel: "Select Language", globeAria: "Select language", optionAria: "Select {lang}" },
-      bay: {
-        backLink: "Home", madeBy: "Made by Mika", eyebrow: "Project", title: "Bay Window",
+      sports: {
+        backLink: "Home", madeBy: "Made by Mika", eyebrow: "Project", title: "Sports Window",
         heroSub: "A personal sports dashboard as a native desktop app — built for the quick glance at startup. The cache shows relevant data instantly while fresh scores load in the background. Defaults to the San Francisco 49ers (NFL) and Giants (MLB) — any of the 32 NFL or 30 MLB teams can be set as the active team.",
         dashboardK: "Dashboard", dashboardV: "Next game, player spotlight and lineup — all at a glance the moment the app starts.",
         featuresLabel: "Features", featuresHeading: "What the app can do",
@@ -284,8 +284,8 @@
         ],
         designLabel: "Design Philosophy",
         designText: "The app is designed for <strong style=\"color:var(--heading);font-weight:600\">low cognitive load</strong> and fast scanning. The cache-first approach makes data visible instantly on launch; side navigation with scroll-tracking lets you jump between sections. Tooltips consistently explain the terminology — including for anyone not (yet) familiar with US sports.",
-        comingBadge: "Coming Soon", comingText: "The source code will be publicly available on GitHub soon.",
-        githubBtn: "GitHub Repo", backFooter: "Back to home", madeByFooter: "Bay Window · Made by Mika",
+        comingBadge: "Open Source", comingText: "The source code is publicly available on GitHub.",
+        githubBtn: "GitHub Repo", backFooter: "Back to home", madeByFooter: "Sports Window · Made by Mika",
       },
     },
 
@@ -368,11 +368,11 @@
         { group: "Langues", items: ["Allemand (langue maternelle)", "Anglais (courant professionnel)"] },
       ],
       projects: {
-        kicker: "Projet", title: "Bay Window",
+        kicker: "Projet", title: "Sports Window",
         description: "Une application pour ordinateur et mobile qui donne en un coup d'œil l'état de deux équipes favorites de la NFL et de la MLB : matchs, classement, effectif et historique. Conçue pour le coup d'œil rapide au démarrage — le cache affiche les données instantanément et se rafraîchit en arrière-plan.",
         features: ["Tableau de bord avec compte à rebours", "Joueur à l'honneur", "Diagramme de composition", "Classement et stade", "Historique et playoffs", "Effectif filtrable"],
         stack: ["Tauri 2 · Rust", "React 19 · TS", "Vite 7", "API JSON ESPN", "i18next EN/DE"],
-        cta: "Découvrir Bay Window",
+        cta: "Découvrir Sports Window",
       },
       footer: {
         linkedinLabel: "LinkedIn", madeBy: "Made by Mika",
@@ -383,8 +383,8 @@
       },
       contact: { chip: "Me contacter" },
       langSwitcher: { selectLabel: "Choisir la langue", globeAria: "Sélectionner la langue", optionAria: "Sélectionner le {lang}" },
-      bay: {
-        backLink: "Accueil", madeBy: "Made by Mika", eyebrow: "Projet", title: "Bay Window",
+      sports: {
+        backLink: "Accueil", madeBy: "Made by Mika", eyebrow: "Projet", title: "Sports Window",
         heroSub: "Un tableau de bord sportif personnel sous forme d'application de bureau native — conçu pour le coup d'œil rapide au démarrage. Le cache affiche instantanément les données pertinentes pendant que les scores les plus récents se chargent en arrière-plan. Par défaut, les San Francisco 49ers (NFL) et les Giants (MLB) — chacune des 32 équipes NFL ou 30 équipes MLB peut être définie comme équipe active.",
         dashboardK: "Dashboard", dashboardV: "Prochain match, joueur à l'honneur et composition — tout en un coup d'œil dès le lancement de l'application.",
         featuresLabel: "Fonctionnalités", featuresHeading: "Ce que l'application permet de faire",
@@ -417,8 +417,8 @@
         ],
         designLabel: "Philosophie de conception",
         designText: "L'application est conçue pour une <strong style=\"color:var(--heading);font-weight:600\">faible charge cognitive</strong> et une lecture rapide. L'approche cache-first rend les données visibles instantanément au lancement ; la navigation latérale avec suivi du défilement permet de passer d'une section à l'autre. Des info-bulles expliquent systématiquement les termes techniques — y compris pour celles et ceux qui ne connaissent pas (encore) le sport américain.",
-        comingBadge: "Coming Soon", comingText: "Le code source sera bientôt disponible publiquement sur GitHub.",
-        githubBtn: "GitHub Repo", backFooter: "Retour à l'accueil", madeByFooter: "Bay Window · Made by Mika",
+        comingBadge: "Open Source", comingText: "Le code source est disponible publiquement sur GitHub.",
+        githubBtn: "GitHub Repo", backFooter: "Retour à l'accueil", madeByFooter: "Sports Window · Made by Mika",
       },
     },
 
@@ -501,11 +501,11 @@
         { group: "Idiomas", items: ["Alemán (lengua materna)", "Inglés (nivel profesional avanzado)"] },
       ],
       projects: {
-        kicker: "Proyecto", title: "Bay Window",
+        kicker: "Proyecto", title: "Sports Window",
         description: "Una aplicación para escritorio y móvil que muestra de un vistazo el estado de dos equipos favoritos de la NFL y la MLB: partidos, clasificación, plantilla e historial. Diseñada para una consulta rápida al arrancar — la caché muestra los datos al instante y se actualiza en segundo plano.",
         features: ["Panel con cuenta atrás", "Jugador destacado", "Diagrama de alineación", "Clasificación y estadio", "Historial y playoffs", "Plantilla filtrable"],
         stack: ["Tauri 2 · Rust", "React 19 · TS", "Vite 7", "API JSON de ESPN", "i18next EN/DE"],
-        cta: "Ver Bay Window",
+        cta: "Ver Sports Window",
       },
       footer: {
         linkedinLabel: "LinkedIn", madeBy: "Made by Mika",
@@ -516,8 +516,8 @@
       },
       contact: { chip: "Contáctame" },
       langSwitcher: { selectLabel: "Elegir idioma", globeAria: "Seleccionar idioma", optionAria: "Seleccionar {lang}" },
-      bay: {
-        backLink: "Inicio", madeBy: "Made by Mika", eyebrow: "Proyecto", title: "Bay Window",
+      sports: {
+        backLink: "Inicio", madeBy: "Made by Mika", eyebrow: "Proyecto", title: "Sports Window",
         heroSub: "Un panel deportivo personal en forma de aplicación de escritorio nativa — diseñado para una consulta rápida al arrancar. La caché muestra los datos relevantes al instante mientras los resultados más recientes se cargan en segundo plano. Por defecto, los San Francisco 49ers (NFL) y los Giants (MLB) — cualquiera de los 32 equipos de la NFL o los 30 de la MLB puede establecerse como equipo activo.",
         dashboardK: "Dashboard", dashboardV: "Próximo partido, jugador destacado y alineación — todo de un vistazo en cuanto se abre la aplicación.",
         featuresLabel: "Funciones", featuresHeading: "Lo que la aplicación puede hacer",
@@ -550,8 +550,8 @@
         ],
         designLabel: "Filosofía de diseño",
         designText: "La aplicación está diseñada para una <strong style=\"color:var(--heading);font-weight:600\">baja carga cognitiva</strong> y una lectura rápida. El enfoque cache-first hace que los datos sean visibles al instante al iniciar; la navegación lateral con seguimiento de desplazamiento permite saltar entre secciones. Los tooltips explican sistemáticamente la terminología — incluso para quienes (todavía) no están familiarizados con el deporte estadounidense.",
-        comingBadge: "Coming Soon", comingText: "El código fuente estará disponible públicamente en GitHub próximamente.",
-        githubBtn: "GitHub Repo", backFooter: "Volver al inicio", madeByFooter: "Bay Window · Made by Mika",
+        comingBadge: "Open Source", comingText: "El código fuente está disponible públicamente en GitHub.",
+        githubBtn: "GitHub Repo", backFooter: "Volver al inicio", madeByFooter: "Sports Window · Made by Mika",
       },
     },
   };
