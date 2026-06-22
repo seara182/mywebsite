@@ -105,7 +105,7 @@ function Engagement() {
   );
 }
 
-/* ---------- Projects (Bay Window showcase) ---------- */
+/* ---------- Projects (Sports Window showcase) ---------- */
 function Projects() {
   const [, t] = useLang();
   const p = t("projects");
@@ -129,7 +129,7 @@ function Projects() {
                   </div>
                 ))}
               </div>
-              <a href="projects/bay-window/" style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, padding: "13px 24px", border: "1px solid var(--border-strong)", borderRadius: "var(--radius-md)", fontFamily: "var(--font-text)", fontSize: "var(--fs-body)", fontWeight: 600, color: "var(--heading)" }}>
+              <a href="projects/sports-window/" style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, padding: "13px 24px", border: "1px solid var(--border-strong)", borderRadius: "var(--radius-md)", fontFamily: "var(--font-text)", fontSize: "var(--fs-body)", fontWeight: 600, color: "var(--heading)" }}>
                 {p.cta} <span aria-hidden>→</span>
               </a>
             </div>

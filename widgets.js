@@ -1,6 +1,6 @@
 /* ============================================================
    widgets.js — vanilla DOM widgets shared by the React page and
-   the static bay-window page: language switcher, contact chip,
+   the static sports-window page: language switcher, contact chip,
    and the data-i18n static-text binder.
    ============================================================ */
 (function () {
@@ -151,7 +151,7 @@
     }
   }
 
-  /* ---------- static-page text binder (used by the vanilla bay-window page) ---------- */
+  /* ---------- static-page text binder (used by the vanilla sports-window page) ---------- */
   function applyStaticTranslations(root) {
     root = root || document;
     root.querySelectorAll("[data-i18n]").forEach(function (el) {
