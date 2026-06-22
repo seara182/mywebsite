@@ -163,7 +163,11 @@ function TimelineEntry({ role, org, period, location, points = [], last, accent 
         <div style={{ fontSize: "var(--fs-small)", color: "var(--text-body)", fontWeight: 500, marginBottom: points.length ? 12 : 0 }}>{org}{location ? ` · ${location}` : ""}</div>
         {points.length > 0 && (
           <ul style={{ margin: 0, paddingLeft: 18, display: "flex", flexDirection: "column", gap: 7 }}>
-            {points.map((p, i) => <li key={i} style={{ fontSize: "var(--fs-body)", color: "var(--text)", lineHeight: "var(--lh-normal)" }}>{p}</li>)}
+            {points.map((p, i) => (
+              p && p.html
+                ? <li key={i} style={{ fontSize: "var(--fs-body)", color: "var(--text)", lineHeight: "var(--lh-normal)" }} dangerouslySetInnerHTML={{ __html: p.html }} />
+                : <li key={i} style={{ fontSize: "var(--fs-body)", color: "var(--text)", lineHeight: "var(--lh-normal)" }}>{p}</li>
+            ))}
           </ul>
         )}
       </div>

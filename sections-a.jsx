@@ -28,11 +28,12 @@ function Hero() {
           ))}
         </h1>
       </div>
-      {/* scroll hint */}
-      <div style={{ position: "absolute", bottom: 30, left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: 8, opacity: mounted ? 0.6 : 0, transition: "opacity 1s ease 1.4s" }}>
-        <span style={{ fontFamily: "var(--font-text)", fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--label)" }}>{t("hero.scrollHint")}</span>
-        <span className="scroll-dot" style={{ width: 1, height: 34, background: "var(--hairline-strong)", position: "relative", overflow: "hidden" }}>
-          <span style={{ position: "absolute", top: 0, left: 0, width: "100%", height: 14, background: "var(--ink)", animation: "scrollHint 1.8s var(--ease-in-out) infinite" }} />
+      {/* scroll hint — z-index 4 keeps it above the ambient glow blobs (incl. the
+         scaled mobile blob), so it never gets covered on small screens */}
+      <div style={{ position: "absolute", zIndex: 4, bottom: 30, left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: 10, opacity: mounted ? 0.92 : 0, transition: "opacity 1s ease 1.4s" }}>
+        <span style={{ fontFamily: "var(--font-text)", fontSize: 13, fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--ink)" }}>{t("hero.scrollHint")}</span>
+        <span className="scroll-dot" style={{ width: 2, height: 42, borderRadius: 2, background: "var(--hairline-strong)", position: "relative", overflow: "hidden" }}>
+          <span style={{ position: "absolute", top: 0, left: 0, width: "100%", height: 16, background: "var(--ink)", animation: "scrollHint 1.8s var(--ease-in-out) infinite" }} />
         </span>
       </div>
     </section>
@@ -62,6 +63,16 @@ function Intro() {
         <Reveal delay={220}>
           <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--on-dark-body)", margin: "16px 0 0", maxWidth: "54ch" }}>
             {t("intro.p2")}
+          </p>
+        </Reveal>
+        <Reveal delay={280}>
+          <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--on-dark-body)", margin: "16px 0 0", maxWidth: "54ch" }}>
+            {t("intro.p3")}
+          </p>
+        </Reveal>
+        <Reveal delay={340}>
+          <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--on-dark-strong)", margin: "16px 0 0", maxWidth: "54ch" }}>
+            {t("intro.p4")}
           </p>
         </Reveal>
       </div>

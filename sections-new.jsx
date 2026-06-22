@@ -278,11 +278,11 @@ function ConfiTear() {
           <div style={{ maxWidth: "58ch" }}>
             <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 16px" }}>{c.p1}</p>
             <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 16px" }}>{c.p2}</p>
-            <p style={{ fontSize: "var(--fs-small)", lineHeight: "var(--lh-relaxed)", color: "var(--text-muted)", margin: 0, fontStyle: "italic" }}>{c.note}</p>
+            <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: 0 }}>{c.p3}</p>
           </div>
           {/* hand-glued polaroids */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "clamp(18px,2.4vw,30px)", padding: "8px clamp(4px,2vw,20px) 18px" }}>
-            <div style={{ gridColumn: "1 / -1", maxWidth: 360, justifySelf: "center" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "clamp(18px,2.4vw,30px)", padding: "8px 0 18px" }}>
+            <div style={{ gridColumn: "1 / -1", maxWidth: 460, justifySelf: "center" }}>
               <Polaroid src="ci/assets/Bilder/Konfi/Konfi_speach.jpeg" caption={c.photos[0]} rot={-2.5} tape />
             </div>
             <Polaroid src="ci/assets/Bilder/Konfi/Konfi_Phe.jpeg" caption={c.photos[1]} rot={3} />
