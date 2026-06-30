@@ -4,7 +4,40 @@
    Built on the design-system tokens + window.MJ primitives.
    ============================================================ */
 const { useState, useRef, useEffect } = React;
-const { Reveal, Eyebrow, GlowShape, WaveBlend, useLang } = window.MJ;
+const { Reveal, Eyebrow, GlowShape, WaveBlend, AlignBlock, FigurePlot, useLang } = window.MJ;
+
+/* ---------- Bachelor-thesis measurement data ----------
+   From Jeske-Mika_Bachelorarbeit-Messdaten.xlsx. Two figures:
+   (1) SEEBECK_T — relative Seebeck coefficient (µV/K) vs temperature for three
+       sputtered films; Ni is negative while Ag/Al are positive (opposite
+       thermoelectric sign).  ("Seebeck" sheet, V/K → µV/K)
+   (2) SIGMA_TIME — electrical conductivity σ (MS/m) over one heat→cool cycle,
+       Ni vs Bi on two y-axes (their magnitudes differ ~100×). Nickel's σ falls
+       on heating (PTC), Bismuth's rises (NTC) — opposite responses.
+       ("Leitfähigkeit" sheet, time in s → min, S/m → MS/m) */
+const SEEBECK_T = {
+  series: [
+    { label: "Ag · 100 nm", accent: true,
+      x: [51.6, 61.5, 71.4, 81.2, 91.0, 100.8, 110.7, 120.6, 130.3, 140.1, 150.1, 140.0, 130.1, 120.2, 109.9, 100.2, 90.4, 80.4, 70.6],
+      y: [6.08, 6.38, 6.51, 6.73, 7.01, 7.03, 7.30, 7.16, 7.41, 7.44, 7.66, 7.46, 7.09, 7.02, 6.70, 6.46, 6.31, 5.93, 5.69] },
+    { label: "Al · 100 nm",
+      x: [51.1, 60.9, 70.8, 80.6, 90.5, 100.3, 110.2, 120.1, 129.8, 139.7, 149.7, 139.6, 129.6, 119.8, 109.7, 99.9, 90.0, 80.1, 70.3],
+      y: [0.69, 0.87, 1.10, 1.22, 1.34, 1.49, 1.96, 1.93, 2.28, 2.15, 2.48, 2.44, 2.28, 2.05, 2.00, 1.68, 1.47, 1.29, 1.06] },
+    { label: "Ni · 100 nm",
+      x: [51.7, 61.6, 71.5, 81.3, 91.2, 101.0, 110.9, 120.7, 130.5, 140.2, 150.1, 140.0, 130.0, 120.1, 110.2, 100.2, 90.4, 80.4, 70.6],
+      y: [-15.34, -15.42, -15.63, -15.75, -15.89, -15.93, -16.12, -16.17, -16.28, -16.13, -16.43, -16.20, -16.22, -15.83, -15.89, -15.78, -15.46, -15.43, -15.03] },
+  ],
+};
+const SIGMA_TIME = {
+  series: [
+    { label: "Ni · 100 nm  (PTC)", color: "var(--accent)", axis: 1,
+      x: [9, 54, 85, 115, 146, 177, 207, 238, 269, 300, 331, 365, 400, 436, 477, 531, 590, 659, 741, 840, 900],
+      y: [6.64, 6.45, 6.28, 6.12, 5.99, 5.86, 5.75, 5.66, 5.59, 5.54, 5.51, 5.84, 6.08, 6.30, 6.52, 6.76, 6.99, 7.25, 7.50, 7.78, 8.05] },
+    { label: "Bi · 50 nm  (NTC)", color: "var(--navy)", axis: 2,
+      x: [5, 50, 85, 119, 154, 189, 227, 261, 296, 330, 365, 402, 441, 480, 522, 574, 633, 702, 785, 886, 957],
+      y: [0.0579, 0.0589, 0.0598, 0.0607, 0.0618, 0.0631, 0.0648, 0.0668, 0.0691, 0.0705, 0.0723, 0.0704, 0.0686, 0.0669, 0.0652, 0.0636, 0.0620, 0.0605, 0.0590, 0.0575, 0.0559] },
+  ],
+};
 
 /* ---------- torn-paper edge generator ----------
    Deterministic jagged path so each tear looks hand-ripped
@@ -182,29 +215,50 @@ function Story() {
       {/* navy band above laps DOWN over this paper section, casting a navy shadow on the white */}
       <WaveBlend edge="top" color="var(--navy)" seed={63} shadow="rgba(28,44,76,0.45)" />
       <GlowShape shape="squircle" glow="amber" size={200} drift style={{ position: "absolute", top: "8%", left: "-5%", opacity: 0.35, pointerEvents: "none" }} />
-      <div className="container">
-        {/* header */}
-        <div style={{ marginBottom: "clamp(28px,4vw,48px)" }}>
-          <Reveal><Eyebrow>{t("story.eyebrow")}</Eyebrow></Reveal>
-          <Reveal delay={80}>
-            <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h1)", letterSpacing: "var(--ls-heading)", color: "var(--heading)", margin: "16px 0 0", maxWidth: "18ch" }}>
-              {t("story.heading")}
-            </h2>
-          </Reveal>
-        </div>
+      <div className="container align-track">
+        {/* on wide screens (≥1440px) the two thesis figures sit in the empty left
+            half beside the narrative; below that they're hidden and the text
+            renders exactly as before */}
+        <div className="story-grid">
+          <div className="story-figs">
+            <Reveal>
+              <FigurePlot series={SEEBECK_T.series}
+                xDomain={[45, 155]} yDomain={[-18, 9]}
+                xTicks={[50, 75, 100, 125, 150]} yTicks={[5, 0, -5, -10, -15]} zeroLine
+                xLabel={t("story.figure.x")} yLabel={t("story.figure.y")} caption={t("story.figure.caption")} />
+            </Reveal>
+            <Reveal delay={80}>
+              <FigurePlot series={SIGMA_TIME.series}
+                xDomain={[0, 960]} yDomain={[5, 8.5]} y2Domain={[0.05, 0.075]}
+                xTicks={[0, 240, 480, 720, 960]} yTicks={[5, 6, 7, 8]} y2Ticks={[0.05, 0.06, 0.07]}
+                xLabel={t("story.figure2.x")} yLabel={t("story.figure2.y")} y2Label={t("story.figure2.y2")} caption={t("story.figure2.caption")} />
+            </Reveal>
+          </div>
+          <AlignBlock align="right" maxWidth="66ch">
+          {/* header */}
+          <div style={{ marginBottom: "clamp(28px,4vw,48px)" }}>
+            <Reveal><Eyebrow>{t("story.eyebrow")}</Eyebrow></Reveal>
+            <Reveal delay={80}>
+              <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h1)", letterSpacing: "var(--ls-heading)", color: "var(--heading)", margin: "16px 0 0", maxWidth: "18ch" }}>
+                {t("story.heading")}
+              </h2>
+            </Reveal>
+          </div>
 
-        {/* narrative */}
-        <div style={{ maxWidth: "var(--content-narrow, 64ch)" }}>
-          <Reveal delay={40}>
-            <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 22px", maxWidth: "62ch" }}>
-              {t("story.p1")}
-            </p>
-          </Reveal>
-          <Reveal delay={80}>
-            <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: 0, maxWidth: "62ch" }}>
-              {t("story.p2")}
-            </p>
-          </Reveal>
+          {/* narrative */}
+          <div style={{ maxWidth: "var(--content-narrow, 64ch)" }}>
+            <Reveal delay={40}>
+              <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 22px", maxWidth: "62ch" }}>
+                {t("story.p1")}
+              </p>
+            </Reveal>
+            <Reveal delay={80}>
+              <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: 0, maxWidth: "62ch" }}>
+                {t("story.p2")}
+              </p>
+            </Reveal>
+          </div>
+          </AlignBlock>
         </div>
       </div>
     </section>
@@ -220,12 +274,14 @@ function CleanroomTear() {
   const c = t("cleanroomTear");
   return (
     <section style={{ position: "relative", paddingBottom: "clamp(40px,6vw,80px)" }}>
-      <div className="container">
+      <div className="container align-track">
+        <AlignBlock align="left" maxWidth="54ch">
         <Reveal>
           <p style={{ fontSize: "var(--fs-small)", color: "var(--text-muted)", margin: 0, maxWidth: "54ch" }}>
             {c.intro}
           </p>
         </Reveal>
+        </AlignBlock>
       </div>
 
       <TornSection label={c.label} seed={11}>
@@ -261,12 +317,14 @@ function ConfiTear() {
     <section style={{ position: "relative", padding: "clamp(40px,6vw,80px) 0 clamp(40px,6vw,80px)" }}>
       {/* sienna band above laps DOWN over this paper section, casting a sienna shadow on the white */}
       <WaveBlend edge="top" color="var(--sienna)" seed={71} shadow="rgba(188,90,55,0.45)" />
-      <div className="container" style={{ position: "relative", zIndex: 1 }}>
+      <div className="container align-track" style={{ position: "relative", zIndex: 1 }}>
+        <AlignBlock align="left" maxWidth="54ch">
         <Reveal>
           <p style={{ fontSize: "var(--fs-small)", color: "var(--text-muted)", margin: 0, maxWidth: "54ch" }}>
             {c.intro}
           </p>
         </Reveal>
+        </AlignBlock>
       </div>
 
       <TornSection label={c.label} seed={23}>

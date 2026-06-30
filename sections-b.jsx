@@ -1,7 +1,7 @@
 /* ============================================================
    Mika Jeske — résumé, engagement, projects, footer + App shell
    ============================================================ */
-const { Reveal, Eyebrow, Badge, GlowShape, WaveBlend, TimelineEntry, useLang, LanguageSwitcherMount, ContactChipMount } = window.MJ;
+const { Reveal, Eyebrow, Badge, GlowShape, WaveBlend, TimelineEntry, AlignBlock, BlobCluster, useLang, LanguageSwitcherMount, ContactChipMount } = window.MJ;
 const { Hero, Intro } = window.SECTIONS_A;
 const { Story, CleanroomTear, ConfiTear, Reunion } = window.SECTIONS_NEW;
 
@@ -85,21 +85,34 @@ function Engagement() {
   const [, t] = useLang();
   const s = t("engagementSection");
   const engagement = t("engagement");
+  const ep = s.photos || [];
   return (
     <section className="on-sienna" style={{ position: "relative", overflow: "hidden", padding: "var(--section-y) 0" }}>
       {/* paper (Cleanroom) above laps DOWN over this sienna band; bottom seam is handled by ConfiTear's top wave (sienna laps over paper) */}
       <WaveBlend edge="top" color="var(--paper)" seed={31} shadow="rgba(120,52,28,0.5)" />
       <GlowShape shape="blob" glow="amber" size={340} ink="var(--sienna-deep)" style={{ position: "absolute", bottom: "6%", right: "-4%", pointerEvents: "none" }} />
-      <div className="container" style={{ position: "relative", zIndex: 1 }}>
-        <div style={{ marginBottom: "clamp(32px,5vw,56px)" }}>
-          <Reveal><Eyebrow color="var(--on-dark-strong)">{s.eyebrow}</Eyebrow></Reveal>
-          <Reveal delay={80}><h2 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h1)", letterSpacing: "var(--ls-heading)", color: "var(--on-dark-strong)", margin: "16px 0 0", maxWidth: "18ch" }}>{s.heading}</h2></Reveal>
-        </div>
-        <Reveal delay={60}>
-          <div style={{ "--ink": "var(--on-dark-strong)", "--accent": "var(--on-dark-strong)", "--heading": "var(--on-dark-strong)", "--text": "var(--on-dark-body)", "--text-body": "var(--on-dark-body)", "--label": "var(--on-dark-muted)", "--border": "var(--on-dark-hairline)", "--paper-2": "rgba(0,0,0,0.12)", maxWidth: "var(--content-narrow)" }}>
-            {engagement.map((e, i) => <TimelineEntry key={i} {...e} last={i === engagement.length - 1} />)}
-          </div>
+      {/* photo cluster fills the empty left half on wide screens (desktop-only) */}
+      <div className="fill-slot fill-slot--left">
+        <Reveal>
+          <BlobCluster style={{ width: 560, height: 860 }} photos={[
+            { src: "ci/assets/Bilder/Weitere/e_kids.jpeg", caption: ep[0], glow: "white", w: 430, h: 282, focus: "50% 45%", rot: 4, drift: true, radius: "58% 42% 52% 48% / 46% 56% 44% 54%", pos: { top: 0, left: 130 } },
+            { src: "ci/assets/Bilder/Weitere/e_hfc.jpeg", caption: ep[1], glow: "white", w: 288, h: 408, focus: "50% 32%", rot: -5, drift: true, radius: "52% 48% 40% 60% / 56% 46% 54% 44%", pos: { top: 410, left: 0 } },
+          ]} />
         </Reveal>
+      </div>
+      <div className="container align-track" style={{ position: "relative", zIndex: 1 }}>
+        {/* heading + timeline share one right-aligned block so they stay aligned */}
+        <AlignBlock align="right" maxWidth="var(--content-narrow)">
+          <div style={{ marginBottom: "clamp(32px,5vw,56px)" }}>
+            <Reveal><Eyebrow color="var(--on-dark-strong)">{s.eyebrow}</Eyebrow></Reveal>
+            <Reveal delay={80}><h2 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h1)", letterSpacing: "var(--ls-heading)", color: "var(--on-dark-strong)", margin: "16px 0 0", maxWidth: "18ch" }}>{s.heading}</h2></Reveal>
+          </div>
+          <Reveal delay={60}>
+            <div style={{ "--ink": "var(--on-dark-strong)", "--accent": "var(--on-dark-strong)", "--heading": "var(--on-dark-strong)", "--text": "var(--on-dark-body)", "--text-body": "var(--on-dark-body)", "--label": "var(--on-dark-muted)", "--border": "var(--on-dark-hairline)", "--paper-2": "rgba(0,0,0,0.12)" }}>
+              {engagement.map((e, i) => <TimelineEntry key={i} {...e} last={i === engagement.length - 1} />)}
+            </div>
+          </Reveal>
+        </AlignBlock>
       </div>
     </section>
   );
@@ -111,7 +124,9 @@ function Projects() {
   const p = t("projects");
   return (
     <section style={{ padding: "var(--section-y) 0" }}>
-      <div className="container">
+      <div className="container align-track">
+        {/* heading spans the section (title left, deco right) so it sits above and
+            aligns with the description column it introduces */}
         <SectionHead kicker={p.kicker} title={p.title} glow="navy" shape="arch" />
         <Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(340px,100%),1fr))", gap: "clamp(28px,4vw,56px)", alignItems: "center" }}>
@@ -181,6 +196,7 @@ function Footer() {
       </div>
       <div className="container">
         <p className="i18n-disclaimer">{f.disclaimer}</p>
+        {f.privacyNote && <p className="i18n-disclaimer">{f.privacyNote}</p>}
       </div>
       <div style={{ display: "flex", justifyContent: "center", marginTop: 32 }}>
         <a href="private/" style={{ display: "inline-flex", padding: 8, color: "var(--text-faint)", opacity: 0.35 }}>

@@ -52,7 +52,6 @@
 <link rel="stylesheet" href="ci/i18n-ui.css">
 <script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L"></script>
 <script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm"></script>
-<script crossorigin src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y"></script>
 <style>
   html { scroll-behavior: smooth; overflow-x: hidden; }
   body { margin: 0; background: var(--paper); overflow-x: hidden; }
@@ -84,6 +83,45 @@
   /* hero: progressive-enhancement fallback for browsers without svh */
   .hero { min-height: 100vh; min-height: 100svh; }
 
+  /* per-section alignment (AlignBlock) is DESKTOP-ONLY. Below 768px it
+     collapses back to centred/full-width, so phones/tablets render as before. */
+  @media (max-width: 768px) {
+    .align-block { margin-inline: auto !important; max-width: 100% !important; }
+  }
+
+  /* AlignBlock displacement track — any .container that holds AlignBlocks widens
+     on big screens so the left/right offset uses more of the viewport. The copy
+     itself stays at a readable measure (each AlignBlock caps its own max-width);
+     only the empty space the block is pushed across grows. Below 1280px it equals
+     a normal .container, so tablet/mobile are untouched. */
+  @media (min-width: 1280px) { .container.align-track { max-width: var(--content-wide); } }
+  @media (min-width: 1760px) { .container.align-track { max-width: var(--content-full); } }
+
+  /* Desktop-only fills for the empty half of aligned sections (Story thesis
+     figure, Intro/Engagement photo clusters). Hidden below 1440px so the larger
+     imagery always has clearance from the text column; phone/tablet/small-laptop
+     render identically to before. */
+  .fill-slot { display: none; }
+  @media (min-width: 1440px) {
+    .fill-slot { display: block; position: absolute; top: 50%; transform: translateY(-50%); z-index: 1; }
+    .fill-slot--left  { left:  clamp(24px, 4vw, 96px); }
+    .fill-slot--right { right: clamp(24px, 4vw, 96px); }
+  }
+  @media (min-width: 1760px) {
+    .fill-slot--left  { left:  clamp(48px, 7vw, 220px); }
+    .fill-slot--right { right: clamp(48px, 7vw, 220px); }
+  }
+
+  /* Story: two thesis figures share a desktop grid with the narrative (≥1440px).
+     Below 1440 the figures are hidden and the narrative renders exactly as
+     before (so phone/tablet/small-laptop are untouched). A grid — rather than
+     an absolute slot — lets the section grow to fit the two stacked charts. */
+  .story-figs { display: none; }
+  @media (min-width: 1440px) {
+    .story-grid { display: grid; grid-template-columns: minmax(0, 500px) 1fr; gap: clamp(40px, 5vw, 96px); align-items: center; }
+    .story-figs { display: flex; flex-direction: column; gap: clamp(22px, 2.6vw, 40px); }
+  }
+
   /* mobile-only layout fixes — none of these apply at desktop widths */
   @media (max-width: 560px) {
     /* section headers: stack the heading above the decorative glow on phones */
@@ -104,10 +142,13 @@
 </head>
 <body>
 <div id="root"></div>
+<!-- JSX is precompiled to plain JS via `npm run build` (sources are the .jsx files).
+     No in-browser Babel: these load as ordinary scripts, so the page works on
+     file:// (double-click) and on GitHub Pages alike. -->
 <script src="widgets.js"></script>
-<script type="text/babel" src="primitives.jsx"></script>
-<script type="text/babel" src="sections-a.jsx"></script>
-<script type="text/babel" src="sections-new.jsx"></script>
-<script type="text/babel" src="sections-b.jsx"></script>
+<script src="primitives.js"></script>
+<script src="sections-a.js"></script>
+<script src="sections-new.js"></script>
+<script src="sections-b.js"></script>
 </body>
 </html>

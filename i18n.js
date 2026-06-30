@@ -32,12 +32,27 @@
         p2: "Fokus und absolute Präzision finde ich in der Messtechnik. Daten nicht nur zu erfassen, sondern qualitativ zu interpretieren, ist ein Handwerk. Da mir zu Hause das Rasterelektronenmikroskop fehlt, nutze ich die Zeit bis zum Berufseinstieg für diese Website und eigene Projekte. Hier baue ich meine Fähigkeiten in der Datenpräsentation und im Programmieren aus — unverzichtbares Werkzeug für moderne Ingenieure.",
         p3: "Stillstand ist für mich keine Option. Meiner Generation wird oft mangelnder Arbeitswille nachgesagt — das trifft auf mich nicht zu. Work-Life-Balance ist eine Symbiose: Floriert das Projekt, das Team oder das Unternehmen, floriere auch ich. Andere mögen jahrelange Erfahrung haben, aber mein unbedingter Wille, ein Produkt oder eine Produktionskette tiefgreifend zu verstehen und zu verbessern, treibt mich an.",
         p4: "Meine Verfügbarkeit gilt ab sofort. Ein Umzug erfordert naturgemäß etwas organisatorischen Vorlauf, ansonsten stehe ich unmittelbar bereit und kann am Montag anfangen.",
+        photos: [
+          "Experiment an meiner alten Schule — zu Ehren einer Chemielehrerin im Ruhestand",
+          "Eingeladen zur DGZfP in Magdeburg — als Teil des Awards",
+        ],
       },
       story: {
         eyebrow: "Mein Weg",
         heading: "Wie ich im Kleinen gelandet bin",
         p1: "Physik und Chemie haben mich schon in der Schule gepackt, aber reine Theorie konnte ich mir nicht für ein Leben lang vorstellen. Ich wollte das Wissen anwenden. Eine Weile stand Pharmazie im Raum — das ist bei uns gewissermaßen Familiensache. Dann kam die Werkstoffwissenschaft dazwischen und bot exakt den praktischen Brückenschlag, den ich gesucht hatte.",
-        p2: "Hängengeblieben bin ich im Mikro- und Nanobereich: filigran, hochpräzise, fast schon ästhetisch. Ich habe lange auf Turnierniveau getanzt, und die Parallele, auch wenn sie mir durch einen Professor aufgefallen ist, meine ich nicht als Scherz. Beides verlangt absolute Kontrolle und Eleganz im Detail. Diese Konstante zieht sich durch, vom Parkett über die Untersuchung von Dünnschichten bis direkt in die Messtechnik.",
+        p2: "Gefangen hat mich der Mikro- und Nanobereich: filigran, hochpräzise, fast schon ästhetisch. Ich habe lange auf Turnierniveau getanzt, und die Parallele, auch wenn sie mir durch einen Professor aufgefallen ist, meine ich nicht als Scherz. Beides verlangt absolute Kontrolle und Eleganz im Detail. Diese Konstante zieht sich durch, vom Parkett über die Untersuchung von Dünnschichten bis direkt in die Messtechnik.",
+        figure: {
+          x: "Temperatur (°C)",
+          y: "Seebeck-Koeffizient (µV/K)",
+          caption: "Relativer Seebeck-Koeffizient gesputterter Dünnschichten über die Temperatur — Nickel ist negativ, Silber und Aluminium positiv. Aus meiner Bachelorarbeit.",
+        },
+        figure2: {
+          x: "Zeit (min)",
+          y: "σ Ni (MS/m)",
+          y2: "σ Bi (MS/m)",
+          caption: "Bismut ist normalerweise ein PTC-Leiter — als gesputterte polykristalline Dünnschicht kehrt sich das um. Ein Korngrenzeneffekt, den meine Bachelorarbeit berührt hat.",
+        },
       },
       cleanroomTear: {
         intro: "Die nüchternste Zeile in diesem Lebenslauf war für mich die spannendste Zeit. Ein Blick unter die Oberfläche:",
@@ -84,7 +99,13 @@
           points: ["Schwerpunkt metallische Werkstoffe, Dünnschichttechnik und Fertigungsverfahren", "Bachelorarbeit: Temperaturabhängige elektrische Eigenschaften gesputterter Dünnschichten", "Nominierung für die Studienstiftung des deutschen Volkes"] },
         { role: "Allgemeine Hochschulreife · 1,8", org: "Gymnasium Groß Ilsede", period: "2013 – 2022", points: [] },
       ],
-      engagementSection: { eyebrow: "Ehrenamt", heading: "Engagement, das mir wichtig ist" },
+      engagementSection: {
+        eyebrow: "Ehrenamt", heading: "Engagement, das mir wichtig ist",
+        photos: [
+          "Anti-Rassismus-Workshop an einer Grundschule",
+          "Vorbesprechung unseres Podcasts zum Studentenkino-Programm",
+        ],
+      },
       engagement: [
         { role: "Helfer in Grundausbildung", org: "Technisches Hilfswerk · OV Friedrichshafen", period: "seit 10.2025", accent: true,
           points: ["Grundausbildung im Zivil- und Katastrophenschutz, Ausrichtung auf Fachberatung CBRN-Abwehr"] },
@@ -114,6 +135,7 @@
         emailAria: "E-Mail an Mika Jeske schreiben", phoneAria: "Mika Jeske anrufen",
         legal: "Impressum & Datenschutz",
         disclaimer: "Übersetzungen werden als Komfortfunktion bereitgestellt und wurden teilweise KI-unterstützt erstellt.",
+        privacyNote: "Einzelne Personen wurden aus Datenschutz- oder rechtlichen Gründen unkenntlich gemacht.",
       },
       contact: { chip: "Kontakt aufnehmen" },
       langSwitcher: { selectLabel: "Sprache wählen", globeAria: "Sprache auswählen", optionAria: "{lang} auswählen" },
@@ -165,12 +187,27 @@
         p2: "Focus and absolute precision are what I find in measurement technology. Not just capturing data, but interpreting it with judgement, is a craft. Since I don't have a scanning electron microscope at home, I'm using the time before my career starts for this website and my own projects. Here I sharpen my skills in data presentation and programming — indispensable tools for a modern engineer.",
         p3: "Standing still is not an option for me. My generation is often accused of a poor work ethic — that doesn't apply to me. Work-life balance is a symbiosis: when the project, the team or the company thrives, I thrive too. Others may have years of experience, but what drives me is an unconditional will to understand a product or a production line in depth, and to improve it.",
         p4: "I'm available immediately. A relocation naturally needs a little organisational lead time; otherwise I'm ready right away and can start on Monday.",
+        photos: [
+          "Experiment at my old school — honouring a chemistry teacher heading into retirement",
+          "Invited to the DGZfP in Magdeburg — part of the award",
+        ],
       },
       story: {
         eyebrow: "My Path",
         heading: "How I ended up in the small scale",
         p1: "Physics and chemistry gripped me back in school, but pure theory wasn't something I could picture for a lifetime. I wanted to apply the knowledge. For a while pharmacy was on the table — it's something of a family tradition for us. Then materials science came along and offered exactly the practical bridge I'd been looking for.",
-        p2: "I ended up staying in the micro- and nano-scale world: intricate, highly precise, almost aesthetic. I danced at competition level for a long time, and the parallel — even though it was a professor who first pointed it out to me — I don't mean as a joke. Both demand absolute control and elegance in the detail. That constant runs all the way through, from the dance floor through the study of thin films and straight into measurement technology.",
+        p2: "What captured me was the micro- and nano-scale world: intricate, highly precise, almost aesthetic. I danced at competition level for a long time, and the parallel — even though it was a professor who first pointed it out to me — I don't mean as a joke. Both demand absolute control and elegance in the detail. That constant runs all the way through, from the dance floor through the study of thin films and straight into measurement technology.",
+        figure: {
+          x: "Temperature (°C)",
+          y: "Seebeck coefficient (µV/K)",
+          caption: "Relative Seebeck coefficient of sputtered thin films vs. temperature — nickel is negative, silver and aluminium positive. From my Bachelor's thesis.",
+        },
+        figure2: {
+          x: "Time (min)",
+          y: "σ Ni (MS/m)",
+          y2: "σ Bi (MS/m)",
+          caption: "Bismuth is normally a PTC conductor — but sputtered as a polycrystalline thin film, it inverts to NTC. A grain-boundary effect that my Bachelor's thesis touched upon.",
+        },
       },
       cleanroomTear: {
         intro: "The driest line in this résumé was, for me, the most exciting stretch of time. A look beneath the surface:",
@@ -217,7 +254,13 @@
           points: ["Focus on metallic materials, thin-film technology and manufacturing processes", "Bachelor's thesis: Temperature-dependent electrical properties of sputtered thin films", "Nominated for the German National Academic Foundation (Studienstiftung)"] },
         { role: "German university entrance qualification (Abitur) · 1.8", org: "Gymnasium Groß Ilsede", period: "2013 – 2022", points: [] },
       ],
-      engagementSection: { eyebrow: "Volunteering", heading: "Engagement that matters to me" },
+      engagementSection: {
+        eyebrow: "Volunteering", heading: "Engagement that matters to me",
+        photos: [
+          "Anti-racism workshop at a primary school",
+          "Planning our podcast on the student-cinema programme",
+        ],
+      },
       engagement: [
         { role: "Volunteer, Basic Training", org: "Technisches Hilfswerk · OV Friedrichshafen", period: "since 10.2025", accent: true,
           points: ["Basic training in civil and disaster protection, with a focus on CBRN defence advisory work"] },
@@ -247,6 +290,7 @@
         emailAria: "Send an email to Mika Jeske", phoneAria: "Call Mika Jeske",
         legal: "Legal notice & Privacy",
         disclaimer: "Translations are provided as a convenience feature and were created in part with AI assistance.",
+        privacyNote: "Some individuals have been blurred for privacy or legal reasons.",
       },
       contact: { chip: "Contact me now" },
       langSwitcher: { selectLabel: "Select Language", globeAria: "Select language", optionAria: "Select {lang}" },
@@ -298,12 +342,27 @@
         p2: "C'est dans la métrologie que je trouve la concentration et la précision absolue. Ne pas se contenter de relever des données, mais les interpréter avec discernement, est un véritable savoir-faire. Comme je n'ai pas de microscope électronique à balayage chez moi, je mets à profit le temps qui me sépare de mon entrée dans la vie active pour ce site et mes propres projets. J'y développe mes compétences en présentation de données et en programmation — des outils indispensables pour un ingénieur moderne.",
         p3: "L'immobilisme n'est pas une option pour moi. On reproche souvent à ma génération un manque de volonté de travailler — ce n'est pas mon cas. L'équilibre entre vie professionnelle et vie privée est une symbiose : quand le projet, l'équipe ou l'entreprise prospère, je prospère aussi. D'autres ont peut-être des années d'expérience, mais ce qui me pousse, c'est une volonté inconditionnelle de comprendre en profondeur un produit ou une chaîne de production, et de l'améliorer.",
         p4: "Je suis disponible immédiatement. Un déménagement demande naturellement un peu de temps d'organisation ; sinon, je suis prêt sur-le-champ et peux commencer lundi.",
+        photos: [
+          "Expérience dans mon ancien lycée — en l'honneur d'une professeure de chimie partant à la retraite",
+          "Invité à la DGZfP à Magdebourg — dans le cadre du prix",
+        ],
       },
       story: {
         eyebrow: "Mon parcours",
         heading: "Comment j'en suis venu à l'échelle microscopique",
         p1: "La physique et la chimie m'ont passionné dès le lycée, mais je ne pouvais pas m'imaginer une vie entière de pure théorie. Je voulais appliquer ce savoir. Pendant un temps, la pharmacie a été envisagée — c'est en quelque sorte une affaire de famille chez nous. Puis la science des matériaux s'est imposée et m'a offert exactement le pont pratique que je recherchais.",
-        p2: "Je suis resté dans le domaine micro- et nanométrique : délicat, d'une grande précision, presque esthétique. J'ai longtemps dansé à un niveau de compétition, et ce parallèle — même si c'est un professeur qui me l'a fait remarquer — je ne le formule pas à la légère. Les deux exigent un contrôle absolu et une élégance dans le détail. Cette constante traverse tout, du parquet à l'étude des couches minces, jusqu'à la métrologie.",
+        p2: "Ce qui m'a captivé, c'est le domaine micro- et nanométrique : délicat, d'une grande précision, presque esthétique. J'ai longtemps dansé à un niveau de compétition, et ce parallèle — même si c'est un professeur qui me l'a fait remarquer — je ne le formule pas à la légère. Les deux exigent un contrôle absolu et une élégance dans le détail. Cette constante traverse tout, du parquet à l'étude des couches minces, jusqu'à la métrologie.",
+        figure: {
+          x: "Température (°C)",
+          y: "Coefficient Seebeck (µV/K)",
+          caption: "Coefficient Seebeck relatif de couches minces pulvérisées en fonction de la température — le nickel est négatif, l'argent et l'aluminium positifs. Extrait de mon mémoire de licence.",
+        },
+        figure2: {
+          x: "Temps (min)",
+          y: "σ Ni (MS/m)",
+          y2: "σ Bi (MS/m)",
+          caption: "Le bismuth est normalement un conducteur PTC — mais pulvérisé en couche mince polycristalline, il s'inverse en NTC. Un effet de joints de grains que mon mémoire de licence a abordé.",
+        },
       },
       cleanroomTear: {
         intro: "La ligne la plus sobre de ce CV a été, pour moi, la période la plus passionnante. Un regard sous la surface :",
@@ -350,7 +409,13 @@
           points: ["Spécialisation en matériaux métalliques, technologie des couches minces et procédés de fabrication", "Mémoire de licence : propriétés électriques en fonction de la température de couches minces pulvérisées", "Nommé pour la Fondation nationale allemande pour les études (Studienstiftung)"] },
         { role: "Baccalauréat allemand (Abitur) · 1,8", org: "Gymnasium Groß Ilsede", period: "2013 – 2022", points: [] },
       ],
-      engagementSection: { eyebrow: "Engagement bénévole", heading: "Un engagement qui me tient à cœur" },
+      engagementSection: {
+        eyebrow: "Engagement bénévole", heading: "Un engagement qui me tient à cœur",
+        photos: [
+          "Atelier antiraciste dans une école primaire",
+          "Préparation de notre podcast sur le programme du cinéma étudiant",
+        ],
+      },
       engagement: [
         { role: "Bénévole, formation de base", org: "Technisches Hilfswerk · OV Friedrichshafen", period: "depuis 10.2025", accent: true,
           points: ["Formation de base en protection civile et gestion des catastrophes, orientée vers le conseil spécialisé en défense NRBC"] },
@@ -380,6 +445,7 @@
         emailAria: "Envoyer un e-mail à Mika Jeske", phoneAria: "Appeler Mika Jeske",
         legal: "Mentions légales & confidentialité",
         disclaimer: "Les traductions sont proposées par souci de confort et ont été réalisées en partie avec l'aide de l'IA.",
+        privacyNote: "Certaines personnes ont été floutées pour des raisons de confidentialité ou juridiques.",
       },
       contact: { chip: "Me contacter" },
       langSwitcher: { selectLabel: "Choisir la langue", globeAria: "Sélectionner la langue", optionAria: "Sélectionner le {lang}" },
@@ -431,12 +497,27 @@
         p2: "El enfoque y la precisión absoluta los encuentro en la técnica de medición. No solo capturar datos, sino interpretarlos con criterio, es un oficio. Como en casa me falta el microscopio electrónico de barrido, aprovecho el tiempo hasta mi incorporación laboral para esta web y mis propios proyectos. Aquí amplío mis capacidades en la presentación de datos y la programación — herramientas imprescindibles para un ingeniero moderno.",
         p3: "El estancamiento no es una opción para mí. A mi generación se le suele achacar falta de voluntad de trabajo — en mi caso no es así. La conciliación entre trabajo y vida es una simbiosis: si el proyecto, el equipo o la empresa prospera, yo también prospero. Otros tendrán años de experiencia, pero a mí me impulsa una voluntad incondicional de entender a fondo un producto o una cadena de producción, y de mejorarlos.",
         p4: "Mi disponibilidad es inmediata. Una mudanza requiere, como es natural, algo de margen organizativo; por lo demás, estoy listo de inmediato y puedo empezar el lunes.",
+        photos: [
+          "Experimento en mi antiguo colegio — en honor a una profesora de química que se jubila",
+          "Invitado a la DGZfP en Magdeburgo — como parte del premio",
+        ],
       },
       story: {
         eyebrow: "Mi camino",
         heading: "Cómo llegué a la pequeña escala",
         p1: "La física y la química me atraparon ya en el instituto, pero no me veía dedicándome a la teoría pura toda la vida. Quería aplicar el conocimiento. Durante un tiempo se barajó la farmacia — en mi familia es, en cierto modo, una tradición. Después se cruzó la ciencia de materiales y me ofreció exactamente el puente práctico que estaba buscando.",
-        p2: "Me quedé en el ámbito micro y nanométrico: delicado, de gran precisión, casi estético. Bailé durante mucho tiempo a nivel de competición, y ese paralelismo — aunque fue un profesor quien me lo hizo notar — no lo digo en broma. Ambos exigen un control absoluto y elegancia en el detalle. Esa constante lo atraviesa todo, desde la pista de baile hasta el estudio de las capas finas y directamente la técnica de medición.",
+        p2: "Lo que me atrapó fue el ámbito micro y nanométrico: delicado, de gran precisión, casi estético. Bailé durante mucho tiempo a nivel de competición, y ese paralelismo — aunque fue un profesor quien me lo hizo notar — no lo digo en broma. Ambos exigen un control absoluto y elegancia en el detalle. Esa constante lo atraviesa todo, desde la pista de baile hasta el estudio de las capas finas y directamente la técnica de medición.",
+        figure: {
+          x: "Temperatura (°C)",
+          y: "Coeficiente Seebeck (µV/K)",
+          caption: "Coeficiente Seebeck relativo de capas finas pulverizadas frente a la temperatura — el níquel es negativo, la plata y el aluminio positivos. De mi trabajo de fin de grado.",
+        },
+        figure2: {
+          x: "Tiempo (min)",
+          y: "σ Ni (MS/m)",
+          y2: "σ Bi (MS/m)",
+          caption: "El bismuto es normalmente un conductor PTC — pero pulverizado como capa fina policristalina, invierte a NTC. Un efecto de bordes de grano que mi trabajo de fin de grado abordó.",
+        },
       },
       cleanroomTear: {
         intro: "La línea más escueta de este currículum fue, para mí, la época más apasionante. Una mirada bajo la superficie:",
@@ -483,7 +564,13 @@
           points: ["Especialización en materiales metálicos, tecnología de capas finas y procesos de fabricación", "Trabajo de fin de grado: propiedades eléctricas en función de la temperatura de capas finas pulverizadas", "Nominado para la Fundación Nacional Académica Alemana (Studienstiftung)"] },
         { role: "Bachillerato alemán (Abitur) · 1,8", org: "Gymnasium Groß Ilsede", period: "2013 – 2022", points: [] },
       ],
-      engagementSection: { eyebrow: "Voluntariado", heading: "Un compromiso que me importa" },
+      engagementSection: {
+        eyebrow: "Voluntariado", heading: "Un compromiso que me importa",
+        photos: [
+          "Taller antirracista en una escuela primaria",
+          "Preparando nuestro pódcast sobre el programa del cine estudiantil",
+        ],
+      },
       engagement: [
         { role: "Voluntario, formación básica", org: "Technisches Hilfswerk · OV Friedrichshafen", period: "desde 10.2025", accent: true,
           points: ["Formación básica en protección civil y gestión de catástrofes, orientada al asesoramiento especializado en defensa NRBQ"] },
@@ -513,6 +600,7 @@
         emailAria: "Enviar un correo a Mika Jeske", phoneAria: "Llamar a Mika Jeske",
         legal: "Aviso legal y privacidad",
         disclaimer: "Las traducciones se ofrecen como función de comodidad y se han elaborado en parte con ayuda de IA.",
+        privacyNote: "Algunas personas han sido difuminadas por motivos de privacidad o legales.",
       },
       contact: { chip: "Contáctame" },
       langSwitcher: { selectLabel: "Elegir idioma", globeAria: "Seleccionar idioma", optionAria: "Seleccionar {lang}" },

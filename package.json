@@ -1,0 +1,14 @@
+{
+  "name": "mywebsite",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Mika Jeske portfolio — static site. JSX is precompiled to plain JS so it runs anywhere (double-click file:// or GitHub Pages) with no in-browser Babel.",
+  "scripts": {
+    "build": "node build.mjs",
+    "watch": "node build.mjs --watch"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.0",
+    "@babel/preset-react": "^7.23.0"
+  }
+}
