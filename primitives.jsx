@@ -66,6 +66,23 @@ function Reveal({ children, delay = 0, as = "div", style = {}, className = "" })
   );
 }
 
+/* ---------- AlignBlock ----------
+   Wraps a section's heading/lead-paragraph block to give it a left / center /
+   right resting position on desktop, breaking up the uniform centred rhythm.
+   On mobile (≤768px) the .align-block rule in index.html neutralises this back
+   to centred, full-width — so the phone layout stays exactly as it was. */
+function AlignBlock({ align = "center", maxWidth = "var(--content-narrow)", style = {}, children }) {
+  return (
+    <div className="align-block" style={{
+      maxWidth,
+      marginLeft: align === "right" ? "auto" : 0,
+      marginRight: align === "left" ? "auto" : 0,
+      marginInline: align === "center" ? "auto" : undefined,
+      ...style,
+    }}>{children}</div>
+  );
+}
+
 /* ---------- brand primitives (mirror the DS components) ---------- */
 function Eyebrow({ children, color }) {
   return (
@@ -94,6 +111,120 @@ function GlowShape({ shape = "blob", glow = "sienna", size = 220, drift = false,
       <div aria-hidden style={{ position: "absolute", width: size * 1.5, height: size * 1.5, top: "58%", left: "50%", transform: "translate(-50%,-50%)", background: glowBg, filter: "var(--blur-md)", borderRadius: "50%", pointerEvents: "none" }} />
       <div className={drift ? "drift" : ""} style={{ position: "relative", zIndex: 1, width: "100%", height: "100%", background: ink, borderRadius: shapes[shape] }} />
     </div>
+  );
+}
+
+/* ---------- BlobPhoto ----------
+   A photo clipped into an organic blob (varied border-radius, NOT a rectangle
+   or a paper frame) floating over the signature soft COLOURED glow — the brand's
+   "shape over glow" motif, here "photo over glow". Slight rotation; optional
+   slow drift, gated on prefers-reduced-motion via the shared .drift class. */
+function BlobPhoto({ src, caption, glow = "sienna", radius, rot = 0, w = 220, h, focus = "50% 50%", drift = false, glowScale = 1.12, glowOpacity = 0.5 }) {
+  const glowBg = { sienna: "var(--glow-sienna)", amber: "var(--glow-amber)", navy: "var(--glow-navy)", duo: "var(--glow-duo)", white: "var(--glow-white)" }[glow] || "var(--glow-sienna)";
+  const blob = radius || "60% 40% 55% 45% / 55% 50% 50% 45%";
+  const height = h || w;
+  const g = Math.max(w, height) * glowScale;
+  return (
+    <figure className="blob-photo" style={{ margin: 0, position: "relative", width: w }}>
+      <div aria-hidden style={{ position: "absolute", left: "50%", top: "46%", width: g, height: g, transform: "translate(-50%,-50%)", background: glowBg, opacity: glowOpacity, filter: "var(--blur-md)", borderRadius: "50%", pointerEvents: "none", zIndex: 0 }} />
+      <div className={drift ? "drift-soft" : ""} style={{ position: "relative", zIndex: 1, transform: `rotate(${rot}deg)`, transition: "transform .5s var(--ease-out)" }}>
+        <img src={src} alt={caption || ""} loading="lazy"
+          style={{ display: "block", width: "100%", height, objectFit: "cover", objectPosition: focus, borderRadius: blob, boxShadow: "0 10px 26px -12px rgba(22,20,15,0.42), 0 30px 60px -30px rgba(22,20,15,0.4)" }} />
+      </div>
+      {caption && (
+        <figcaption style={{ fontFamily: "var(--font-mono)", fontSize: "var(--fs-caption)", color: "var(--on-dark-muted)", marginTop: 12, maxWidth: w + 40, lineHeight: 1.4 }}>
+          {caption}
+        </figcaption>
+      )}
+    </figure>
+  );
+}
+
+/* ---------- BlobCluster ----------
+   A few BlobPhotos staggered/overlapping organically inside a section's empty
+   half. Each photo carries its own absolute `pos` so the section composes the
+   arrangement; the cluster just provides the relative stage. */
+function BlobCluster({ photos = [], style = {} }) {
+  return (
+    <div className="blob-cluster" style={{ position: "relative", ...style }}>
+      {photos.map((p, i) => (
+        <div key={i} style={{ position: "absolute", ...(p.pos || {}) }}>
+          <BlobPhoto {...p} />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ---------- FigurePlot ----------
+   A clean inline-SVG line chart for the Bachelor-thesis data. Warm-ink
+   axes/gridlines, accent series in sienna, others muted — obeys the
+   no-pure-black/white brand rule a raster export couldn't. Data-driven, with
+   optional second (right) y-axis for comparing series of different magnitude,
+   and an optional dashed zero line. Each series: { label, x:[], y:[], accent?,
+   color?, axis? (1|2) }. */
+function FigurePlot({ series = [], xDomain, yDomain, y2Domain, xTicks = [], yTicks = [], y2Ticks = [], xLabel, yLabel, y2Label, caption, zeroLine = false, width = 460, height = 300 }) {
+  const dual = !!y2Domain;
+  const padL = 54, padR = dual ? 54 : 18, padT = 16, padB = 46;
+  const iw = width - padL - padR, ih = height - padT - padB;
+  const [x0, x1] = xDomain, [y0, y1] = yDomain;
+  const [z0, z1] = y2Domain || [0, 1];
+  const X = (t) => padL + ((t - x0) / (x1 - x0)) * iw;
+  const Y = (s) => padT + ih - ((s - y0) / (y1 - y0)) * ih;
+  const Y2 = (s) => padT + ih - ((s - z0) / (z1 - z0)) * ih;
+  const muted = ["var(--text-faint)", "var(--text-muted)", "var(--label)"];
+  let mi = 0;
+  const colors = series.map((s) => s.color || (s.accent ? "var(--accent)" : muted[mi++ % muted.length]));
+  const leftCol = colors[series.findIndex((s) => s.axis !== 2)] || "var(--text)";
+  const rightCol = colors[series.findIndex((s) => s.axis === 2)] || "var(--text)";
+  return (
+    <figure className="figure-plot" style={{ margin: 0, padding: "clamp(16px,1.8vw,24px)", background: "var(--paper)", border: "1px solid var(--hairline)", borderRadius: "var(--radius-lg)", boxShadow: "0 10px 26px -14px rgba(22,20,15,0.3), 0 36px 70px -40px rgba(188,90,55,0.4)", maxWidth: width + 56 }}>
+      <svg viewBox={`0 0 ${width} ${height}`} width="100%" role="img" aria-label={caption} style={{ display: "block", overflow: "visible" }}>
+        {yTicks.map((v, i) => (
+          <g key={`y${i}`}>
+            <line x1={padL} y1={Y(v)} x2={width - padR} y2={Y(v)} stroke="var(--hairline)" strokeWidth="1" />
+            <text x={padL - 8} y={Y(v) + 4} textAnchor="end" fontFamily="var(--font-mono)" fontSize="10.5" fill="var(--text-muted)">{v}</text>
+          </g>
+        ))}
+        {dual && y2Ticks.map((v, i) => (
+          <text key={`y2${i}`} x={width - padR + 8} y={Y2(v) + 4} textAnchor="start" fontFamily="var(--font-mono)" fontSize="10.5" fill="var(--text-muted)">{v}</text>
+        ))}
+        {xTicks.map((v, i) => (
+          <g key={`x${i}`}>
+            <line x1={X(v)} y1={padT} x2={X(v)} y2={padT + ih} stroke="var(--hairline)" strokeWidth="1" opacity="0.5" />
+            <text x={X(v)} y={padT + ih + 18} textAnchor="middle" fontFamily="var(--font-mono)" fontSize="10.5" fill="var(--text-muted)">{v}</text>
+          </g>
+        ))}
+        {zeroLine && y0 < 0 && y1 > 0 && <line x1={padL} y1={Y(0)} x2={width - padR} y2={Y(0)} stroke="var(--hairline-strong)" strokeWidth="1.25" strokeDasharray="3 3" />}
+        <line x1={padL} y1={padT} x2={padL} y2={padT + ih} stroke="var(--hairline-strong)" strokeWidth="1.5" />
+        <line x1={padL} y1={padT + ih} x2={width - padR} y2={padT + ih} stroke="var(--hairline-strong)" strokeWidth="1.5" />
+        {dual && <line x1={width - padR} y1={padT} x2={width - padR} y2={padT + ih} stroke="var(--hairline-strong)" strokeWidth="1.5" />}
+        <text x={padL + iw / 2} y={height - 4} textAnchor="middle" fontFamily="var(--font-mono)" fontSize="11" fill="var(--text)">{xLabel}</text>
+        <text transform={`translate(13 ${padT + ih / 2}) rotate(-90)`} textAnchor="middle" fontFamily="var(--font-mono)" fontSize="11" fill={dual ? leftCol : "var(--text)"}>{yLabel}</text>
+        {dual && <text transform={`translate(${width - 3} ${padT + ih / 2}) rotate(90)`} textAnchor="middle" fontFamily="var(--font-mono)" fontSize="11" fill={rightCol}>{y2Label}</text>}
+        {series.map((s, i) => {
+          const map = s.axis === 2 ? Y2 : Y;
+          const pts = s.x.map((t, j) => `${X(t).toFixed(1)},${map(s.y[j]).toFixed(1)}`).join(" ");
+          const strong = s.accent || s.color;
+          return (
+            <g key={i}>
+              <polyline points={pts} fill="none" stroke={colors[i]} strokeWidth={strong ? 2.3 : 1.8} strokeLinejoin="round" strokeLinecap="round" opacity={strong ? 1 : 0.85} />
+              <circle cx={X(s.x[0])} cy={map(s.y[0])} r="3" fill={colors[i]} />
+            </g>
+          );
+        })}
+      </svg>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "6px 16px", margin: "12px 0 0" }}>
+        {series.map((s, i) => (
+          <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: "var(--font-mono)", fontSize: "var(--fs-caption)", color: "var(--text-body)" }}>
+            <span style={{ width: 14, height: 3, borderRadius: 2, background: colors[i] }} />{s.label}
+          </span>
+        ))}
+      </div>
+      {caption && (
+        <figcaption style={{ fontFamily: "var(--font-mono)", fontSize: "var(--fs-caption)", color: "var(--text-muted)", marginTop: 10, lineHeight: 1.5 }}>{caption}</figcaption>
+      )}
+    </figure>
   );
 }
 
@@ -175,4 +306,4 @@ function TimelineEntry({ role, org, period, location, points = [], last, accent 
   );
 }
 
-window.MJ = { useReveal, useLang, Reveal, Eyebrow, Badge, GlowShape, WaveBlend, TimelineEntry, LanguageSwitcherMount, ContactChipMount };
+window.MJ = { useReveal, useLang, Reveal, Eyebrow, Badge, GlowShape, WaveBlend, TimelineEntry, AlignBlock, BlobPhoto, BlobCluster, FigurePlot, LanguageSwitcherMount, ContactChipMount };
