@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="{{LANG}}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Per-page asset base so relative URLs in the React content resolve at any
+     depth (/, /en/, /it/ …) on GitHub Pages and file:// alike. Must match the
+     value build.mjs used during prerender (no hydration mismatch). -->
+<script>window.__ASSET_BASE__ = "{{BASE}}";</script>
+<script src="{{BASE}}i18n.js"></script>
+<title>{{TITLE}}</title>
+<meta name="description" content="{{DESCRIPTION}}">
+<meta name="author" content="Mika Jeske">
+<link rel="canonical" href="{{CANONICAL}}">
+<!-- hreflang: explicit map of all language variants for search spiders -->
+{{HREFLANG}}
+<!-- Open Graph / social -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Mika Jeske">
+<meta property="og:title" content="{{TITLE}}">
+<meta property="og:description" content="{{DESCRIPTION}}">
+<meta property="og:url" content="{{CANONICAL}}">
+<meta property="og:image" content="https://mika-jeske.de/ci/icons/Favicon128x.ico">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="{{TITLE}}">
+<meta name="twitter:description" content="{{DESCRIPTION}}">
+<!-- JSON-LD: explicit, machine-readable identity for search & AI crawlers -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Mika Andreas Jeske",
+  "givenName": "Mika",
+  "familyName": "Jeske",
+  "url": "https://mika-jeske.de/",
+  "image": "https://mika-jeske.de/ci/icons/Favicon128x.ico",
+  "email": "mailto:mikajeske@gmail.com",
+  "telephone": "+49-177-4866584",
+  "jobTitle": "Werkstoffwissenschaftler (B.Sc.)",
+  "description": "Werkstoffwissenschaftler mit Fokus auf Messtechnik, Sensorik und zerstörungsfreie Prüfung.",
+  "knowsAbout": ["Werkstoffwissenschaft", "Messtechnik", "Sensorik", "Zerstörungsfreie Prüfung", "Dünnschichttechnik", "Rasterelektronenmikroskopie", "Reinraumtechnik"],
+  "alumniOf": {
+    "@type": "CollegeOrUniversity",
+    "name": "Technische Universität Ilmenau"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Friedrichshafen",
+    "postalCode": "88048",
+    "addressCountry": "DE"
+  },
+  "sameAs": ["https://www.linkedin.com/in/mika-jeske-835092313/"]
+}
+</script>
+<link rel="icon" href="{{BASE}}ci/icons/Favicon32x.ico">
+<link rel="apple-touch-icon" href="{{BASE}}ci/icons/Favicon128x.ico">
+<link rel="stylesheet" href="{{BASE}}ci/styles.css">
+<link rel="stylesheet" href="{{BASE}}ci/i18n-ui.css">
+<script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm"></script>
+<style>
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+  body { margin: 0; background: var(--paper); overflow-x: hidden; }
+  @keyframes scrollHint { 0% { transform: translateY(-100%); } 60%,100% { transform: translateY(220%); } }
+
+  /* ambient side orbs — only where wide displays leave the gutters empty.
+     #root becomes the stacking context; the orb layer is absolute (so it
+     spans the full document height and scrolls WITH the page, never pinned
+     to the screen) and sits behind the content (z-index:-1) but above the
+     paper backdrop, so it shows in the side margins of the paper sections
+     and is covered by the colour bands. */
+  #root { position: relative; z-index: 0; }
+  .side-orbs { display: none; }
+  @media (min-aspect-ratio: 16 / 9) {
+    .side-orbs { display: block; position: absolute; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+  }
+
+  /* torn-paper deep-dives + photo treatments */
+  .tear-trigger:hover .tear-label { color: var(--sienna); }
+  .tear-trigger:hover .tear-label > span:last-child { background: rgba(188,90,55,0.10); border-color: rgba(188,90,55,0.30); }
+  .loose-photo:hover { transform: rotate(0deg) translateY(-4px) !important; }
+  .polaroid:hover { transform: rotate(0deg) scale(1.02) !important; z-index: 2; }
+  .ggi-link { transition: transform .24s var(--ease-out), box-shadow .24s var(--ease-out); }
+  .ggi-link:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  @media (prefers-reduced-motion: reduce) {
+    .loose-photo, .polaroid { transition: none !important; }
+  }
+
+  /* hero: progressive-enhancement fallback for browsers without svh */
+  .hero { min-height: 100vh; min-height: 100svh; }
+
+  /* per-section alignment (AlignBlock) is DESKTOP-ONLY. Below 768px it
+     collapses back to centred/full-width, so phones/tablets render as before. */
+  @media (max-width: 768px) {
+    .align-block { margin-inline: auto !important; max-width: 100% !important; }
+  }
+
+  /* AlignBlock displacement track — any .container that holds AlignBlocks widens
+     on big screens so the left/right offset uses more of the viewport. The copy
+     itself stays at a readable measure (each AlignBlock caps its own max-width);
+     only the empty space the block is pushed across grows. Below 1280px it equals
+     a normal .container, so tablet/mobile are untouched. */
+  @media (min-width: 1280px) { .container.align-track { max-width: var(--content-wide); } }
+  @media (min-width: 1760px) { .container.align-track { max-width: var(--content-full); } }
+
+  /* Desktop-only fills for the empty half of aligned sections (Story thesis
+     figure, Intro/Engagement photo clusters). Hidden below 1440px so the larger
+     imagery always has clearance from the text column; phone/tablet/small-laptop
+     render identically to before. */
+  .fill-slot { display: none; }
+  @media (min-width: 1440px) {
+    .fill-slot { display: block; position: absolute; top: 50%; transform: translateY(-50%); z-index: 1; }
+    .fill-slot--left  { left:  clamp(24px, 4vw, 96px); }
+    .fill-slot--right { right: clamp(24px, 4vw, 96px); }
+  }
+  @media (min-width: 1760px) {
+    .fill-slot--left  { left:  clamp(48px, 7vw, 220px); }
+    .fill-slot--right { right: clamp(48px, 7vw, 220px); }
+  }
+
+  /* Story: two thesis figures share a desktop grid with the narrative (≥1440px).
+     Below 1440 the figures are hidden and the narrative renders exactly as
+     before (so phone/tablet/small-laptop are untouched). A grid — rather than
+     an absolute slot — lets the section grow to fit the two stacked charts. */
+  .story-figs { display: none; }
+  @media (min-width: 1440px) {
+    .story-grid { display: grid; grid-template-columns: minmax(0, 500px) 1fr; gap: clamp(40px, 5vw, 96px); align-items: center; }
+    .story-figs { display: flex; flex-direction: column; gap: clamp(22px, 2.6vw, 40px); }
+  }
+
+  /* mobile-only layout fixes — none of these apply at desktop widths */
+  @media (max-width: 560px) {
+    /* section headers: stack the heading above the decorative glow on phones */
+    .section-head { flex-direction: column; align-items: flex-start; gap: 20px; }
+    .section-head__deco { align-self: flex-end; }
+
+    /* hero: shrink the ambient blob into the top-right corner so it clears the
+       name and the fixed top-left language switcher; hide the decorative,
+       self-dismissing "select language" hint (unreadable over the dark blob) */
+    .hero-glow-blob { transform: scale(0.6); transform-origin: top right; opacity: 0.7 !important; }
+    .lang-hint { display: none !important; }
+
+    /* Next-Game preview tile: let it grow to fit its content instead of clipping
+       the wrapped stat row inside a fixed 16/10 box */
+    .bay-preview { aspect-ratio: auto !important; min-height: 0 !important; }
+  }
+</style>
+<noscript>
+  <!-- Without JS the scroll-reveal animations never fire; force the prerendered
+       content visible so the page is fully readable without script execution. -->
+  <style>.js-reveal, .hero-line { opacity: 1 !important; transform: none !important; }</style>
+</noscript>
+</head>
+<body>
+<div id="root">{{ROOT_HTML}}</div>
+<!-- JSX is precompiled to plain JS via `npm run build` (sources are the .jsx files),
+     which ALSO prerenders this page's text per language into #root above. The .js
+     load as ordinary scripts and HYDRATE the prerendered markup, so the page works
+     on file:// (double-click) and on GitHub Pages alike, and serves full text to
+     crawlers/LLMs with no JS execution. -->
+<script src="{{BASE}}widgets.js"></script>
+<script src="{{BASE}}primitives.js"></script>
+<script src="{{BASE}}sections-a.js"></script>
+<script src="{{BASE}}sections-new.js"></script>
+<script src="{{BASE}}sections-b.js"></script>
+</body>
+</html>

@@ -11,6 +11,7 @@ const {
   useEffect
 } = React;
 const {
+  asset,
   Reveal,
   Eyebrow,
   GlowShape,
@@ -537,22 +538,22 @@ function CleanroomTear() {
       marginTop: "clamp(28px,4vw,44px)"
     }
   }, /*#__PURE__*/React.createElement(LoosePhoto, {
-    src: "ci/assets/Bilder/ZMN/ZMN_Sputter.jpeg",
+    src: asset("ci/assets/Bilder/ZMN/ZMN_Sputter.jpeg"),
     caption: c.photos[0],
     rot: -2.5,
     w: 340
   }), /*#__PURE__*/React.createElement(LoosePhoto, {
-    src: "ci/assets/Bilder/ZMN/ZMN_Me.jpeg",
+    src: asset("ci/assets/Bilder/ZMN/ZMN_Me.jpeg"),
     caption: c.photos[1],
     rot: 2.5,
     w: 210
   }), /*#__PURE__*/React.createElement(LoosePhoto, {
-    src: "ci/assets/Bilder/ZMN/ZMN_Profilo.jpeg",
+    src: asset("ci/assets/Bilder/ZMN/ZMN_Profilo.jpeg"),
     caption: c.photos[2],
     rot: 1.5,
     w: 330
   }), /*#__PURE__*/React.createElement(LoosePhoto, {
-    src: "ci/assets/Bilder/ZMN/ZMN_Proben.jpeg",
+    src: asset("ci/assets/Bilder/ZMN/ZMN_Proben.jpeg"),
     caption: c.photos[3],
     rot: -1.5,
     w: 205
@@ -652,16 +653,16 @@ function ConfiTear() {
       justifySelf: "center"
     }
   }, /*#__PURE__*/React.createElement(Polaroid, {
-    src: "ci/assets/Bilder/Konfi/Konfi_speach.jpeg",
+    src: asset("ci/assets/Bilder/Konfi/Konfi_speach.jpeg"),
     caption: c.photos[0],
     rot: -2.5,
     tape: true
   })), /*#__PURE__*/React.createElement(Polaroid, {
-    src: "ci/assets/Bilder/Konfi/Konfi_Phe.jpeg",
+    src: asset("ci/assets/Bilder/Konfi/Konfi_Phe.jpeg"),
     caption: c.photos[1],
     rot: 3
   }), /*#__PURE__*/React.createElement(Polaroid, {
-    src: "ci/assets/Bilder/Konfi/Konfi_Party.jpeg",
+    src: asset("ci/assets/Bilder/Konfi/Konfi_Party.jpeg"),
     caption: c.photos[2],
     rot: -3.5
   })))));

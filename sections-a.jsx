@@ -1,7 +1,7 @@
 /* ===========================================================
    Mika Jeske — landing page sections (single-scroll narrative)
    ============================================================ */
-const { Reveal, Eyebrow, Badge, GlowShape, WaveBlend, TimelineEntry, AlignBlock, BlobCluster, useLang } = window.MJ;
+const { asset, Reveal, Eyebrow, Badge, GlowShape, WaveBlend, TimelineEntry, AlignBlock, BlobCluster, useLang } = window.MJ;
 
 /* ---------- Hero ---------- */
 function Hero() {
@@ -16,14 +16,14 @@ function Hero() {
       <GlowShape shape="arch" glow="navy" size={240} drift style={{ position: "absolute", bottom: 0, left: "-4%", zIndex: 2, pointerEvents: "none" }} />
       <div style={{ position: "relative", zIndex: 3, maxWidth: "var(--content-wide)", margin: "0 auto", width: "100%" }}>
         <div style={{ overflow: "hidden", marginBottom: 8 }}>
-          <span style={{ display: "inline-block", fontFamily: "var(--font-text)", fontSize: "var(--fs-label)", fontWeight: 600, letterSpacing: "var(--ls-label)", textTransform: "uppercase", color: "var(--label)", transform: mounted ? "none" : "translateY(120%)", opacity: mounted ? 1 : 0, transition: "transform 0.7s var(--ease-glide) 0.5s, opacity 0.7s ease 0.5s" }}>
+          <span className="hero-line" style={{ display: "inline-block", fontFamily: "var(--font-text)", fontSize: "var(--fs-label)", fontWeight: 600, letterSpacing: "var(--ls-label)", textTransform: "uppercase", color: "var(--label)", transform: mounted ? "none" : "translateY(120%)", opacity: mounted ? 1 : 0, transition: "transform 0.7s var(--ease-glide) 0.5s, opacity 0.7s ease 0.5s" }}>
             {t("hero.eyebrow")}
           </span>
         </div>
         <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "var(--fs-display)", lineHeight: 0.98, letterSpacing: "var(--ls-display)", color: "var(--ink)", margin: 0 }}>
           {words.map((w, i) => (
             <span key={i} style={{ display: "block", overflow: "hidden", paddingBottom: "0.14em", marginBottom: "-0.14em" }}>
-              <span style={{ display: "inline-block", transform: mounted ? "none" : "translateY(108%) rotate(4deg)", opacity: mounted ? 1 : 0, transition: `transform 0.9s var(--ease-glide) ${0.1 + i * 0.12}s, opacity 0.9s ease ${0.1 + i * 0.12}s` }}>{w}</span>
+              <span className="hero-line" style={{ display: "inline-block", transform: mounted ? "none" : "translateY(108%) rotate(4deg)", opacity: mounted ? 1 : 0, transition: `transform 0.9s var(--ease-glide) ${0.1 + i * 0.12}s, opacity 0.9s ease ${0.1 + i * 0.12}s` }}>{w}</span>
             </span>
           ))}
         </h1>
@@ -53,8 +53,8 @@ function Intro() {
       <div className="fill-slot fill-slot--right">
         <Reveal>
           <BlobCluster style={{ width: 640, height: 820 }} photos={[
-            { src: "ci/assets/Bilder/Weitere/i_e_chem.jpeg", caption: ip[0], glow: "white", w: 300, h: 430, focus: "50% 38%", rot: -4, drift: true, radius: "62% 38% 46% 54% / 58% 52% 48% 42%", pos: { top: 0, left: 0 } },
-            { src: "ci/assets/Bilder/Weitere/i_zfp.jpeg", caption: ip[1], glow: "white", w: 380, h: 248, focus: "50% 45%", rot: 5, drift: true, radius: "46% 54% 60% 40% / 52% 44% 56% 48%", pos: { top: 520, left: 252 } },
+            { src: asset("ci/assets/Bilder/Weitere/i_e_chem.jpeg"), caption: ip[0], glow: "white", w: 300, h: 430, focus: "50% 38%", rot: -4, drift: true, radius: "62% 38% 46% 54% / 58% 52% 48% 42%", pos: { top: 0, left: 0 } },
+            { src: asset("ci/assets/Bilder/Weitere/i_zfp.jpeg"), caption: ip[1], glow: "white", w: 380, h: 248, focus: "50% 45%", rot: 5, drift: true, radius: "46% 54% 60% 40% / 52% 44% 56% 48%", pos: { top: 520, left: 252 } },
           ]} />
         </Reveal>
       </div>
@@ -62,9 +62,11 @@ function Intro() {
         <AlignBlock align="left" maxWidth="58ch">
         <Reveal><Eyebrow color="var(--sienna-glow)">{t("intro.eyebrow")}</Eyebrow></Reveal>
         <Reveal delay={80}>
-          <p style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h2)", lineHeight: 1.22, letterSpacing: "var(--ls-heading)", color: "var(--on-dark-strong)", margin: "20px 0 0", maxWidth: "20ch" }}>
+          {/* real <h2> (not a styled <p>) so the document has a heading here for
+              crawlers/SR; inline styles keep the visual rendering identical. */}
+          <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h2)", lineHeight: 1.22, letterSpacing: "var(--ls-heading)", color: "var(--on-dark-strong)", margin: "20px 0 0", maxWidth: "20ch" }}>
             {t("intro.headline")}
-          </p>
+          </h2>
         </Reveal>
         <Reveal delay={160}>
           <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--on-dark-body)", margin: "24px 0 0", maxWidth: "54ch" }}>
