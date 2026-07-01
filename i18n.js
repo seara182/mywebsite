@@ -13,6 +13,33 @@
   var HAS_DOCUMENT = typeof document !== "undefined";
   function safeStorage() { try { return HAS_WINDOW && window.localStorage; } catch (e) { return null; } }
 
+  /* ---------- Google Translate / React reconciliation guard ----------
+     Google Translate rewrites live text nodes by wrapping them in extra
+     <font>/<span> tags. Any later React re-render that touches those nodes
+     (ResizeObserver-driven layout, scroll reveals, the lang-switcher fade,
+     etc.) makes the reconciler try to remove/reorder nodes Translate has
+     already replaced, throwing NotFoundError and wiping the translation.
+     Swallowing just that mismatch keeps hydration/updates working normally
+     for everyone else. */
+  if (HAS_DOCUMENT && typeof Node === "function" && Node.prototype) {
+    var origRemoveChild = Node.prototype.removeChild;
+    Node.prototype.removeChild = function (child) {
+      if (child.parentNode !== this) {
+        if (typeof console !== "undefined") console.warn("removeChild mismatch ignored (likely Google Translate)", child);
+        return child;
+      }
+      return origRemoveChild.apply(this, arguments);
+    };
+    var origInsertBefore = Node.prototype.insertBefore;
+    Node.prototype.insertBefore = function (newNode, refNode) {
+      if (refNode && refNode.parentNode !== this) {
+        if (typeof console !== "undefined") console.warn("insertBefore mismatch ignored (likely Google Translate)", refNode);
+        return newNode;
+      }
+      return origInsertBefore.apply(this, arguments);
+    };
+  }
+
   /* ---------- Step 3b: first-visit auto-redirect (runs immediately) ----------
      Records the navigator language preference on first visit. Real per-language
      routing is now URL-based (see getLang); this only seeds a remembered choice. */
@@ -83,7 +110,7 @@
       confiTear: {
         intro: "Die offene Jugendarbeit hat mich mehr geprägt als so manche Vorlesung. Was wirklich dahintersteckt:",
         label: "Mehr über meine Jugendarbeit erfahren:",
-        teaser: "Jahrelang habe ich Jugendliche durch Konfirmation und Freizeiten begleitet — die Geschichte dahinter, die kein Lebenslauf erzählt.",
+        teaser: "Ich habe mehrere Jahre lang Jugendliche durch Konfirmation und Freizeiten begleitet, und diese Erfahrungen prägen mich bis heute.",
         eyebrow: "EKM Ilmenau · Konfi- & Jugendarbeit",
         heading: "Sehen und gesehen werden",
         p1: "Über mehrere Jahre habe ich Gruppen in der Konfi- und offenen Jugendarbeit der Evangelischen Kirche in Ilmenau geleitet. Die eigentliche Aufgabe verrät einem vorher keiner: für Jugendliche ansprechbar bleiben, während sie Glauben, Zweifel und das ganz normale Erwachsenwerden für sich sortieren. Dieses Privileg, für andere da zu sein und wirklich zuzuhören, empfinde ich bis heute als großes Geschenk.",
@@ -243,7 +270,7 @@
       confiTear: {
         intro: "A volunteer role shrinks fast to two lines on a résumé. There's a lot more behind this one:",
         label: "Learn more about my youth work:",
-        teaser: "For years I guided teenagers through confirmation and camps — the story behind that line no résumé tells.",
+        teaser: "For several years I guided teenagers through confirmation and camps, and those years still shape how I lead today.",
         eyebrow: "EKM Ilmenau · Confirmation & Youth Work",
         heading: "Seeing and being seen",
         p1: "For several years I led groups in confirmation classes and open youth work at the Protestant Church in Ilmenau. No one tells you the real task beforehand: staying approachable for young people while they work through faith, doubt and the ordinary business of growing up. That privilege — being there for others and really listening — still feels like a great gift to me.",
@@ -403,7 +430,7 @@
       confiTear: {
         intro: "Un engagement bénévole se réduit vite à deux lignes sur un CV. Il y a bien plus derrière celui-ci :",
         label: "En savoir plus sur mon animation jeunesse :",
-        teaser: "Pendant des années, j'ai accompagné des jeunes en catéchèse et en camps — l'histoire derrière cette ligne, qu'aucun CV ne raconte.",
+        teaser: "Pendant plusieurs années, j'ai accompagné des jeunes en catéchèse et en camps, et ces années me marquent encore aujourd'hui.",
         eyebrow: "EKM Ilmenau · Catéchèse et animation jeunesse",
         heading: "Voir et être vu",
         p1: "Pendant plusieurs années, j'ai animé des groupes de catéchèse et d'animation jeunesse ouverte à l'Église protestante d'Ilmenau. Personne ne vous prévient de la véritable mission : rester accessible pour des jeunes pendant qu'ils démêlent foi, doutes et le simple fait de grandir. Ce privilège — être présent pour les autres et vraiment écouter — reste pour moi un grand cadeau.",
@@ -563,7 +590,7 @@
       confiTear: {
         intro: "Un voluntariado se reduce rápidamente a dos líneas en un currículum. Detrás de este hay mucho más:",
         label: "Saber más sobre mi trabajo juvenil:",
-        teaser: "Durante años acompañé a jóvenes en la catequesis y en campamentos — la historia detrás de esa línea que ningún currículum cuenta.",
+        teaser: "Durante varios años acompañé a jóvenes en la catequesis y en campamentos, y esos años todavía me marcan hoy.",
         eyebrow: "EKM Ilmenau · Catequesis y trabajo juvenil",
         heading: "Ver y ser visto",
         p1: "Durante varios años dirigí grupos de catequesis confirmatoria y trabajo juvenil abierto en la Iglesia Evangélica de Ilmenau. Nadie te avisa de la verdadera tarea: seguir siendo accesible para jóvenes mientras ordenan su fe, sus dudas y el simple hecho de crecer. Ese privilegio — estar ahí para los demás y escuchar de verdad — lo siento hasta hoy como un gran regalo.",
@@ -736,7 +763,7 @@
       confiTear: {
         intro: "Un'attività di volontariato si riduce in fretta a due righe su un curriculum. Dietro questa c'è molto di più:",
         label: "Scopri di più sul mio lavoro con i giovani:",
-        teaser: "Per anni ho accompagnato ragazzi nel catechismo e nei campi — la storia dietro quella riga che nessun curriculum racconta.",
+        teaser: "Per diversi anni ho accompagnato ragazzi nel catechismo e nei campi, e quegli anni mi segnano ancora oggi.",
         eyebrow: "EKM Ilmenau · Catechismo e lavoro giovanile",
         heading: "Vedere ed essere visti",
         p1: "Per diversi anni ho guidato gruppi di catechismo e di lavoro giovanile aperto presso la Chiesa evangelica di Ilmenau. Nessuno ti avverte in anticipo del vero compito: restare accessibile ai ragazzi mentre fanno i conti con fede, dubbi e il semplice fatto di crescere. Questo privilegio — esserci per gli altri e ascoltare davvero — lo sento ancora oggi come un grande dono.",
