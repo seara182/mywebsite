@@ -128,6 +128,7 @@ function TornEdge({
 function TornSection({
   label,
   seed = 7,
+  teaser,
   children
 }) {
   const [open, setOpen] = useState(false);
@@ -152,7 +153,60 @@ function TornSection({
     }
   }, /*#__PURE__*/React.createElement("div", {
     className: "container"
-  }, /*#__PURE__*/React.createElement("button", {
+  }, teaser ? /*#__PURE__*/React.createElement("button", {
+    onClick: () => setOpen(o => !o),
+    "aria-expanded": open,
+    className: "tear-trigger tear-trigger--teaser",
+    style: {
+      width: "100%",
+      display: "flex",
+      alignItems: "center",
+      gap: 16,
+      textAlign: "left",
+      padding: "14px 18px",
+      cursor: "pointer",
+      background: "var(--paper-2)",
+      border: "1px solid var(--hairline-strong)",
+      borderRadius: 14,
+      fontFamily: "var(--font-text)",
+      color: "var(--text)"
+    }
+  }, /*#__PURE__*/React.createElement("img", {
+    src: teaser.photo,
+    alt: "",
+    "aria-hidden": true,
+    style: {
+      width: 56,
+      height: 56,
+      borderRadius: 10,
+      objectFit: "cover",
+      flex: "none"
+    }
+  }), /*#__PURE__*/React.createElement("span", {
+    style: {
+      flex: 1,
+      fontSize: "var(--fs-small)",
+      lineHeight: "var(--lh-relaxed)",
+      color: "var(--text)"
+    }
+  }, teaser.text), /*#__PURE__*/React.createElement("span", {
+    "aria-hidden": true,
+    style: {
+      display: "inline-grid",
+      placeItems: "center",
+      width: 28,
+      height: 28,
+      borderRadius: "50%",
+      background: "var(--paper)",
+      border: "1px solid var(--hairline-strong)",
+      flex: "none",
+      transform: open ? "rotate(180deg)" : "none",
+      transition: "transform .4s var(--ease-glide)",
+      fontSize: 13,
+      lineHeight: 1,
+      color: "var(--sienna)"
+    }
+  }, "\u2193")) : /*#__PURE__*/React.createElement("button", {
     onClick: () => setOpen(o => !o),
     "aria-expanded": open,
     className: "tear-trigger",
@@ -595,7 +649,11 @@ function ConfiTear() {
     }
   }, c.intro)))), /*#__PURE__*/React.createElement(TornSection, {
     label: c.label,
-    seed: 23
+    seed: 23,
+    teaser: {
+      photo: asset("ci/assets/Bilder/Konfi/Konfi_speach.jpeg"),
+      text: c.teaser
+    }
   }, /*#__PURE__*/React.createElement(Eyebrow, {
     color: "var(--sienna)"
   }, c.eyebrow), /*#__PURE__*/React.createElement("h3", {

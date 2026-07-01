@@ -83,6 +83,7 @@
       confiTear: {
         intro: "Die offene Jugendarbeit hat mich mehr geprägt als so manche Vorlesung. Was wirklich dahintersteckt:",
         label: "Mehr über meine Jugendarbeit erfahren:",
+        teaser: "Jahrelang habe ich Jugendliche durch Konfirmation und Freizeiten begleitet — die Geschichte dahinter, die kein Lebenslauf erzählt.",
         eyebrow: "EKM Ilmenau · Konfi- & Jugendarbeit",
         heading: "Sehen und gesehen werden",
         p1: "Über mehrere Jahre habe ich Gruppen in der Konfi- und offenen Jugendarbeit der Evangelischen Kirche in Ilmenau geleitet. Die eigentliche Aufgabe verrät einem vorher keiner: für Jugendliche ansprechbar bleiben, während sie Glauben, Zweifel und das ganz normale Erwachsenwerden für sich sortieren. Dieses Privileg, für andere da zu sein und wirklich zuzuhören, empfinde ich bis heute als großes Geschenk.",
@@ -106,7 +107,7 @@
       },
       experience: [
         { role: "Praktikant Industrial Engineering", org: "ifm prover gmbh", location: "Tettnang", period: "11.2025 – 04.2026", accent: true,
-          points: ["Qualifizierung eines Betriebsmittels für den Serieneinsatz — Versuchsplanung, Prozesskontrolle und Prozessautomatisierung", "Evaluation und Beschaffung von Viskosimeter-Systemen mit eigenständigen Messreihen und Beschaffungsempfehlung", "Charakterisierung bleifreier Pastenalternativen mittels optischer Mikroskopie und Röntgenografie"] },
+          points: ["Qualifizierung eines Betriebsmittels für den Serieneinsatz — Versuchsplanung, Prozesskontrolle und Prozessautomatisierung", "Evaluation und Beschaffung von Viskosimeter-Systemen mit eigenständigen Messreihen und Beschaffungsempfehlung", "Charakterisierung bleifreier Pastenalternativen mittels optischer Mikroskopie und Röntgenografie", "Neu entwickeltes Pastenmischer-Gerät gemeinsam mit der Fertigung eingeführt — inzwischen im Einsatz auf 100 % der relevanten Produktionsschritte"] },
         { role: "Wissenschaftlicher Assistent", org: "Zentrum für Mikro- und Nanotechnik · TU Ilmenau", period: "04.2025 – 10.2025",
           points: ["Sputter-Abscheidung metallischer Dünnschichten (Al, Ag, Ti, Si) und Strukturierung per Lift-off im Reinraum", "Profilometrie, REM-Topografieanalyse und elektrische Charakterisierung (Van-der-Pauw)"] },
       ],
@@ -124,13 +125,13 @@
       },
       engagement: [
         { role: "Helfer in Grundausbildung", org: "Technisches Hilfswerk · OV Friedrichshafen", period: "seit 10.2025", accent: true,
-          points: ["Grundausbildung im Zivil- und Katastrophenschutz, Ausrichtung auf Fachberatung CBRN-Abwehr"] },
+          points: ["Grundausbildung im Zivil- und Katastrophenschutz im Team, mit Ausrichtung auf Fachberatung CBRN-Abwehr"] },
         { role: "Telefonberater · Nummer gegen Kummer", org: "Kinderschutzbund · Friedrichshafen", period: "seit 02.2026",
           points: ["Ausbildung zur telefonischen Beratung für Kinder und Jugendliche in Krisensituationen", "Aktive Beratung auf systemisch-psychologischer Grundlage"] },
         { role: "Ehrenamtliche Gruppenleitung", org: "Evangelische Kirche Mitteldeutschland · Ilmenau", period: "seit 2022",
-          points: ["Mehrjährige Gruppenleitung in Konfirmations- und offener Jugendarbeit", "Nach dem Umzug: Ansprechpartner, Eventplanung, Koordinator & Schnittstelle", "Leitung auf Freizeiten und Events mit über 150 Teilnehmenden"] },
+          points: ["Mehrjährige Gruppenleitung im mehrköpfigen Leitungsteam für Konfirmations- und offene Jugendarbeit", "Nach dem Umzug: Ansprechpartner, Eventplanung und Koordination im Team der Ehrenamtlichen", "Gemeinsam mit dem Leitungsteam Freizeiten und Events mit über 150 Teilnehmenden geleitet"] },
         { role: "Gewähltes Mitglied der Studierendenvertretung", org: "TU Ilmenau", period: "2024 – 2026", last: true,
-          points: ["Studienausschuss im Universitätssenat — Mitgestaltung von Hochschulpolitik und Studienordnungen", { html: 'Mitgestalter <a href="https://www.mdr.de/nachrichten/thueringen/landtagswahl/wahl-o-mat-landtag-alternativen-112.html" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">Wahl-O-Mat zur Thüringer Landtagswahl 2024</a> (bpb · MDR)' }] },
+          points: ["Studienausschuss im Universitätssenat — gemeinsam mit dem Gremium Hochschulpolitik und Studienordnungen mitgestaltet", { html: 'Mitgestalter <a href="https://www.mdr.de/nachrichten/thueringen/landtagswahl/wahl-o-mat-landtag-alternativen-112.html" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">Wahl-O-Mat zur Thüringer Landtagswahl 2024</a> (bpb · MDR)' }] },
       ],
       skills: [
         { group: "Materialanalyse", items: ["REM / SEM", "Röntgenografie", "Profilometrie", "Gefügeanalyse", "Dünnschichttechnik", "Viskosimetrie"] },
@@ -140,7 +141,7 @@
       ],
       projects: {
         kicker: "Projekt", title: "Sports Window",
-        description: "Eine App für Desktop- und Mobilgeräte, die auf einen Blick den Stand zweier Lieblings-Sportteams aus NFL und MLB zeigt: Spiele, Tabelle, Kader und Geschichte. Gebaut für den kurzen Blick beim Hochfahren, der Cache zeigt sofort Daten und aktualisiert im Hintergrund.",
+        description: "Eine App für Desktop- und Mobilgeräte, die auf einen Blick den Stand zweier Lieblings-Sportteams aus NFL und MLB zeigt: Spiele, Tabelle, Kader und Geschichte. Gebaut für den kurzen Blick beim Hochfahren, der Cache zeigt sofort Daten und aktualisiert im Hintergrund. Gebaut aus reiner Leidenschaft: Ich wollte zum ersten Mal eine externe API anbinden und plattformübergreifend entwickeln — eine Herausforderung, die ich mir bewusst gestellt habe, um etwas komplett Neues zu lernen.",
         features: ["Dashboard mit Countdown", "Player-Spotlight", "Lineup-Diagramm", "Standings & Venue", "History & Playoffs", "Roster mit Filter"],
         stack: ["Tauri 2 · Rust", "React 19 · TS", "Vite 7", "ESPN JSON-API", "i18next EN/DE"],
         cta: "Sports Window ansehen",
@@ -242,6 +243,7 @@
       confiTear: {
         intro: "A volunteer role shrinks fast to two lines on a résumé. There's a lot more behind this one:",
         label: "Learn more about my youth work:",
+        teaser: "For years I guided teenagers through confirmation and camps — the story behind that line no résumé tells.",
         eyebrow: "EKM Ilmenau · Confirmation & Youth Work",
         heading: "Seeing and being seen",
         p1: "For several years I led groups in confirmation classes and open youth work at the Protestant Church in Ilmenau. No one tells you the real task beforehand: staying approachable for young people while they work through faith, doubt and the ordinary business of growing up. That privilege — being there for others and really listening — still feels like a great gift to me.",
@@ -265,7 +267,7 @@
       },
       experience: [
         { role: "Industrial Engineering Intern", org: "ifm prover gmbh", location: "Tettnang", period: "11.2025 – 04.2026", accent: true,
-          points: ["Qualifying production equipment for series deployment — test planning, process control and process automation", "Evaluating and sourcing viscometer systems through independent test series and a procurement recommendation", "Characterising lead-free paste alternatives using optical microscopy and X-ray imaging"] },
+          points: ["Qualifying production equipment for series deployment — test planning, process control and process automation", "Evaluating and sourcing viscometer systems through independent test series and a procurement recommendation", "Characterising lead-free paste alternatives using optical microscopy and X-ray imaging", "Introduced a newly developed paste-mixer device together with production — now deployed across 100% of the relevant production steps"] },
         { role: "Research Assistant", org: "Center for Micro- and Nanotechnology · TU Ilmenau", period: "04.2025 – 10.2025",
           points: ["Sputter deposition of metallic thin films (Al, Ag, Ti, Si) and lift-off patterning in the cleanroom", "Profilometry, SEM topography analysis and electrical characterisation (van der Pauw)"] },
       ],
@@ -283,13 +285,13 @@
       },
       engagement: [
         { role: "Volunteer, Basic Training", org: "Technisches Hilfswerk · OV Friedrichshafen", period: "since 10.2025", accent: true,
-          points: ["Basic training in civil and disaster protection, with a focus on CBRN defence advisory work"] },
+          points: ["Basic training in civil and disaster protection as part of a team, with a focus on CBRN defence advisory work"] },
         { role: "Telephone Counsellor · Kids' Helpline", org: "Kinderschutzbund · Friedrichshafen", period: "since 02.2026",
           points: ["Trained in telephone counselling for children and young people in crisis situations", "Active counselling grounded in systemic psychology"] },
         { role: "Volunteer Group Leader", org: "Protestant Church in Central Germany · Ilmenau", period: "since 2022",
-          points: ["Several years leading groups in confirmation classes and open youth work", "After relocating: contact person, event planning, coordinator & liaison", "Leading camps and events with over 150 participants"] },
+          points: ["Several years leading groups as part of a multi-person leadership team, in confirmation classes and open youth work", "After relocating: contact person, event planning and coordination within the volunteer team", "Led camps and events together with the leadership team, with over 150 participants"] },
         { role: "Elected Student Representative", org: "TU Ilmenau", period: "2024 – 2026", last: true,
-          points: ["Academic affairs committee in the university senate — helping shape higher-education policy and study regulations", { html: 'Co-developed the <a href="https://www.mdr.de/nachrichten/thueringen/landtagswahl/wahl-o-mat-landtag-alternativen-112.html" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">Wahl-O-Mat voting-aid tool for the 2024 Thuringia state election</a> (bpb · MDR)' }] },
+          points: ["Academic affairs committee in the university senate — helped shape higher-education policy and study regulations together with the committee", { html: 'Co-developed the <a href="https://www.mdr.de/nachrichten/thueringen/landtagswahl/wahl-o-mat-landtag-alternativen-112.html" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">Wahl-O-Mat voting-aid tool for the 2024 Thuringia state election</a> (bpb · MDR)' }] },
       ],
       skills: [
         { group: "Material Analysis", items: ["SEM", "X-ray imaging", "Profilometry", "Microstructure analysis", "Thin-film technology", "Viscometry"] },
@@ -299,7 +301,7 @@
       ],
       projects: {
         kicker: "Project", title: "Sports Window",
-        description: "An app for desktop and mobile that shows the status of two favourite sports teams from the NFL and MLB at a glance: games, standings, roster and history. Built for the quick check on startup — the cache shows data instantly and refreshes in the background.",
+        description: "An app for desktop and mobile that shows the status of two favourite sports teams from the NFL and MLB at a glance: games, standings, roster and history. Built for the quick check on startup — the cache shows data instantly and refreshes in the background. Built purely out of passion: it was my first time integrating an external API and developing cross-platform — a challenge I set myself deliberately, to learn something completely new.",
         features: ["Dashboard with countdown", "Player spotlight", "Lineup diagram", "Standings & venue", "History & playoffs", "Filterable roster"],
         stack: ["Tauri 2 · Rust", "React 19 · TS", "Vite 7", "ESPN JSON API", "i18next EN/DE"],
         cta: "View Sports Window",
@@ -401,6 +403,7 @@
       confiTear: {
         intro: "Un engagement bénévole se réduit vite à deux lignes sur un CV. Il y a bien plus derrière celui-ci :",
         label: "En savoir plus sur mon animation jeunesse :",
+        teaser: "Pendant des années, j'ai accompagné des jeunes en catéchèse et en camps — l'histoire derrière cette ligne, qu'aucun CV ne raconte.",
         eyebrow: "EKM Ilmenau · Catéchèse et animation jeunesse",
         heading: "Voir et être vu",
         p1: "Pendant plusieurs années, j'ai animé des groupes de catéchèse et d'animation jeunesse ouverte à l'Église protestante d'Ilmenau. Personne ne vous prévient de la véritable mission : rester accessible pour des jeunes pendant qu'ils démêlent foi, doutes et le simple fait de grandir. Ce privilège — être présent pour les autres et vraiment écouter — reste pour moi un grand cadeau.",
@@ -424,7 +427,7 @@
       },
       experience: [
         { role: "Stagiaire en ingénierie industrielle", org: "ifm prover gmbh", location: "Tettnang", period: "11.2025 – 04.2026", accent: true,
-          points: ["Qualification d'un équipement de production pour un déploiement en série — planification des essais, contrôle et automatisation des processus", "Évaluation et acquisition de systèmes viscosimétriques, avec séries de mesures menées de façon autonome et recommandation d'achat", "Caractérisation d'alternatives de pâtes sans plomb par microscopie optique et radiographie"] },
+          points: ["Qualification d'un équipement de production pour un déploiement en série — planification des essais, contrôle et automatisation des processus", "Évaluation et acquisition de systèmes viscosimétriques, avec séries de mesures menées de façon autonome et recommandation d'achat", "Caractérisation d'alternatives de pâtes sans plomb par microscopie optique et radiographie", "Introduction, avec la production, d'un nouveau dispositif mélangeur de pâte — désormais déployé sur 100 % des étapes de production concernées"] },
         { role: "Assistant de recherche", org: "Centre de micro- et nanotechnologies · TU Ilmenau", period: "04.2025 – 10.2025",
           points: ["Dépôt par pulvérisation cathodique de couches minces métalliques (Al, Ag, Ti, Si) et structuration par lift-off en salle blanche", "Profilométrie, analyse topographique par MEB et caractérisation électrique (méthode de van der Pauw)"] },
       ],
@@ -442,13 +445,13 @@
       },
       engagement: [
         { role: "Bénévole, formation de base", org: "Technisches Hilfswerk · OV Friedrichshafen", period: "depuis 10.2025", accent: true,
-          points: ["Formation de base en protection civile et gestion des catastrophes, orientée vers le conseil spécialisé en défense NRBC"] },
+          points: ["Formation de base en protection civile et gestion des catastrophes en équipe, orientée vers le conseil spécialisé en défense NRBC"] },
         { role: "Conseiller téléphonique · Ligne d'écoute pour enfants", org: "Kinderschutzbund · Friedrichshafen", period: "depuis 02.2026",
           points: ["Formation au conseil téléphonique pour enfants et adolescents en situation de crise", "Conseil actif fondé sur une approche psychologique systémique"] },
         { role: "Responsable de groupe bénévole", org: "Église protestante d'Allemagne centrale · Ilmenau", period: "depuis 2022",
-          points: ["Plusieurs années à la tête de groupes de catéchèse et d'animation jeunesse ouverte", "Après le déménagement : interlocuteur, organisation d'événements, coordinateur et point de liaison", "Direction de camps et d'événements réunissant plus de 150 participants"] },
+          points: ["Plusieurs années à la tête de groupes en équipe d'encadrement, dans la catéchèse et l'animation jeunesse ouverte", "Après le déménagement : interlocuteur, organisation d'événements et coordination au sein de l'équipe de bénévoles", "Direction, avec l'équipe d'encadrement, de camps et d'événements réunissant plus de 150 participants"] },
         { role: "Membre élu de la représentation étudiante", org: "TU Ilmenau", period: "2024 – 2026", last: true,
-          points: ["Commission des affaires académiques au sénat universitaire — contribution à la politique de l'enseignement supérieur et aux règlements d'études", { html: 'Co-concepteur du <a href="https://www.mdr.de/nachrichten/thueringen/landtagswahl/wahl-o-mat-landtag-alternativen-112.html" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">Wahl-O-Mat, outil d\'aide au vote pour les élections régionales de Thuringe 2024</a> (bpb · MDR)' }] },
+          points: ["Commission des affaires académiques au sénat universitaire — contribution, avec la commission, à la politique de l'enseignement supérieur et aux règlements d'études", { html: 'Co-concepteur du <a href="https://www.mdr.de/nachrichten/thueringen/landtagswahl/wahl-o-mat-landtag-alternativen-112.html" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">Wahl-O-Mat, outil d\'aide au vote pour les élections régionales de Thuringe 2024</a> (bpb · MDR)' }] },
       ],
       skills: [
         { group: "Analyse des matériaux", items: ["MEB", "Radiographie", "Profilométrie", "Analyse microstructurale", "Technologie des couches minces", "Viscosimétrie"] },
@@ -458,7 +461,7 @@
       ],
       projects: {
         kicker: "Projet", title: "Sports Window",
-        description: "Une application pour ordinateur et mobile qui donne en un coup d'œil l'état de deux équipes favorites de la NFL et de la MLB : matchs, classement, effectif et historique. Conçue pour le coup d'œil rapide au démarrage — le cache affiche les données instantanément et se rafraîchit en arrière-plan.",
+        description: "Une application pour ordinateur et mobile qui donne en un coup d'œil l'état de deux équipes favorites de la NFL et de la MLB : matchs, classement, effectif et historique. Conçue pour le coup d'œil rapide au démarrage — le cache affiche les données instantanément et se rafraîchit en arrière-plan. Conçue par pure passion : c'était ma première intégration d'une API externe et mon premier développement multiplateforme — un défi que je me suis délibérément fixé pour apprendre quelque chose de totalement nouveau.",
         features: ["Tableau de bord avec compte à rebours", "Joueur à l'honneur", "Diagramme de composition", "Classement et stade", "Historique et playoffs", "Effectif filtrable"],
         stack: ["Tauri 2 · Rust", "React 19 · TS", "Vite 7", "API JSON ESPN", "i18next EN/DE"],
         cta: "Découvrir Sports Window",
@@ -560,6 +563,7 @@
       confiTear: {
         intro: "Un voluntariado se reduce rápidamente a dos líneas en un currículum. Detrás de este hay mucho más:",
         label: "Saber más sobre mi trabajo juvenil:",
+        teaser: "Durante años acompañé a jóvenes en la catequesis y en campamentos — la historia detrás de esa línea que ningún currículum cuenta.",
         eyebrow: "EKM Ilmenau · Catequesis y trabajo juvenil",
         heading: "Ver y ser visto",
         p1: "Durante varios años dirigí grupos de catequesis confirmatoria y trabajo juvenil abierto en la Iglesia Evangélica de Ilmenau. Nadie te avisa de la verdadera tarea: seguir siendo accesible para jóvenes mientras ordenan su fe, sus dudas y el simple hecho de crecer. Ese privilegio — estar ahí para los demás y escuchar de verdad — lo siento hasta hoy como un gran regalo.",
@@ -583,7 +587,7 @@
       },
       experience: [
         { role: "Becario en ingeniería industrial", org: "ifm prover gmbh", location: "Tettnang", period: "11.2025 – 04.2026", accent: true,
-          points: ["Cualificación de un equipo de producción para su despliegue en serie — planificación de ensayos, control y automatización de procesos", "Evaluación y adquisición de sistemas viscosimétricos mediante series de medición independientes y recomendación de compra", "Caracterización de alternativas de pasta sin plomo mediante microscopía óptica y radiografía"] },
+          points: ["Cualificación de un equipo de producción para su despliegue en serie — planificación de ensayos, control y automatización de procesos", "Evaluación y adquisición de sistemas viscosimétricos mediante series de medición independientes y recomendación de compra", "Caracterización de alternativas de pasta sin plomo mediante microscopía óptica y radiografía", "Introducción, junto con producción, de un nuevo dispositivo mezclador de pasta — ahora implementado en el 100 % de los pasos de producción relevantes"] },
         { role: "Asistente de investigación", org: "Centro de Micro- y Nanotecnología · TU Ilmenau", period: "04.2025 – 10.2025",
           points: ["Deposición por pulverización catódica de capas finas metálicas (Al, Ag, Ti, Si) y estructuración por lift-off en sala blanca", "Perfilometría, análisis topográfico por SEM y caracterización eléctrica (método de van der Pauw)"] },
       ],
@@ -601,13 +605,13 @@
       },
       engagement: [
         { role: "Voluntario, formación básica", org: "Technisches Hilfswerk · OV Friedrichshafen", period: "desde 10.2025", accent: true,
-          points: ["Formación básica en protección civil y gestión de catástrofes, orientada al asesoramiento especializado en defensa NRBQ"] },
+          points: ["Formación básica en protección civil y gestión de catástrofes en equipo, orientada al asesoramiento especializado en defensa NRBQ"] },
         { role: "Consejero telefónico · Línea de ayuda infantil", org: "Kinderschutzbund · Friedrichshafen", period: "desde 02.2026",
           points: ["Formación en asesoramiento telefónico para niños y adolescentes en situaciones de crisis", "Asesoramiento activo basado en un enfoque psicológico sistémico"] },
         { role: "Líder de grupo voluntario", org: "Iglesia Evangélica de Alemania Central · Ilmenau", period: "desde 2022",
-          points: ["Varios años liderando grupos de catequesis confirmatoria y trabajo juvenil abierto", "Tras la mudanza: persona de contacto, organización de eventos, coordinador y enlace", "Dirección de campamentos y eventos con más de 150 participantes"] },
+          points: ["Varios años liderando grupos como parte de un equipo de coordinación, en catequesis confirmatoria y trabajo juvenil abierto", "Tras la mudanza: persona de contacto, organización de eventos y coordinación dentro del equipo de voluntariado", "Dirección, junto con el equipo de coordinación, de campamentos y eventos con más de 150 participantes"] },
         { role: "Representante estudiantil electo", org: "TU Ilmenau", period: "2024 – 2026", last: true,
-          points: ["Comisión de asuntos académicos en el senado universitario — contribución a la política de educación superior y a los reglamentos de estudio", { html: 'Co-creador del <a href="https://www.mdr.de/nachrichten/thueringen/landtagswahl/wahl-o-mat-landtag-alternativen-112.html" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">Wahl-O-Mat, herramienta de ayuda al voto para las elecciones regionales de Turingia de 2024</a> (bpb · MDR)' }] },
+          points: ["Comisión de asuntos académicos en el senado universitario — contribución, junto con la comisión, a la política de educación superior y a los reglamentos de estudio", { html: 'Co-creador del <a href="https://www.mdr.de/nachrichten/thueringen/landtagswahl/wahl-o-mat-landtag-alternativen-112.html" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">Wahl-O-Mat, herramienta de ayuda al voto para las elecciones regionales de Turingia de 2024</a> (bpb · MDR)' }] },
       ],
       skills: [
         { group: "Análisis de materiales", items: ["SEM", "Radiografía", "Perfilometría", "Análisis microestructural", "Tecnología de capas finas", "Viscosimetría"] },
@@ -617,7 +621,7 @@
       ],
       projects: {
         kicker: "Proyecto", title: "Sports Window",
-        description: "Una aplicación para escritorio y móvil que muestra de un vistazo el estado de dos equipos favoritos de la NFL y la MLB: partidos, clasificación, plantilla e historial. Diseñada para una consulta rápida al arrancar — la caché muestra los datos al instante y se actualiza en segundo plano.",
+        description: "Una aplicación para escritorio y móvil que muestra de un vistazo el estado de dos equipos favoritos de la NFL y la MLB: partidos, clasificación, plantilla e historial. Diseñada para una consulta rápida al arrancar — la caché muestra los datos al instante y se actualiza en segundo plano. Creada por pura pasión: fue mi primera integración de una API externa y mi primer desarrollo multiplataforma — un reto que me propuse deliberadamente para aprender algo completamente nuevo.",
         features: ["Panel con cuenta atrás", "Jugador destacado", "Diagrama de alineación", "Clasificación y estadio", "Historial y playoffs", "Plantilla filtrable"],
         stack: ["Tauri 2 · Rust", "React 19 · TS", "Vite 7", "API JSON de ESPN", "i18next EN/DE"],
         cta: "Ver Sports Window",
@@ -732,6 +736,7 @@
       confiTear: {
         intro: "Un'attività di volontariato si riduce in fretta a due righe su un curriculum. Dietro questa c'è molto di più:",
         label: "Scopri di più sul mio lavoro con i giovani:",
+        teaser: "Per anni ho accompagnato ragazzi nel catechismo e nei campi — la storia dietro quella riga che nessun curriculum racconta.",
         eyebrow: "EKM Ilmenau · Catechismo e lavoro giovanile",
         heading: "Vedere ed essere visti",
         p1: "Per diversi anni ho guidato gruppi di catechismo e di lavoro giovanile aperto presso la Chiesa evangelica di Ilmenau. Nessuno ti avverte in anticipo del vero compito: restare accessibile ai ragazzi mentre fanno i conti con fede, dubbi e il semplice fatto di crescere. Questo privilegio — esserci per gli altri e ascoltare davvero — lo sento ancora oggi come un grande dono.",
@@ -755,7 +760,7 @@
       },
       experience: [
         { role: "Tirocinante in Industrial Engineering", org: "ifm prover gmbh", location: "Tettnang", period: "11.2025 – 04.2026", accent: true,
-          points: ["Qualifica di un'attrezzatura di produzione per l'impiego in serie — pianificazione delle prove, controllo e automazione di processo", "Valutazione e approvvigionamento di sistemi viscosimetrici con serie di misure autonome e raccomandazione d'acquisto", "Caratterizzazione di paste alternative senza piombo mediante microscopia ottica e radiografia"] },
+          points: ["Qualifica di un'attrezzatura di produzione per l'impiego in serie — pianificazione delle prove, controllo e automazione di processo", "Valutazione e approvvigionamento di sistemi viscosimetrici con serie di misure autonome e raccomandazione d'acquisto", "Caratterizzazione di paste alternative senza piombo mediante microscopia ottica e radiografia", "Introduzione, insieme alla produzione, di un nuovo dispositivo mescolatore di pasta — ora impiegato nel 100% delle fasi di produzione rilevanti"] },
         { role: "Assistente di ricerca", org: "Centro per la micro- e nanotecnologia · TU Ilmenau", period: "04.2025 – 10.2025",
           points: ["Deposizione per sputtering di film sottili metallici (Al, Ag, Ti, Si) e strutturazione mediante lift-off in camera bianca", "Profilometria, analisi topografica al SEM e caratterizzazione elettrica (metodo di van der Pauw)"] },
       ],
@@ -773,13 +778,13 @@
       },
       engagement: [
         { role: "Volontario in formazione di base", org: "Technisches Hilfswerk · OV Friedrichshafen", period: "da 10.2025", accent: true,
-          points: ["Formazione di base nella protezione civile e nella gestione delle catastrofi, con orientamento alla consulenza specialistica in difesa CBRN"] },
+          points: ["Formazione di base nella protezione civile e nella gestione delle catastrofi in team, con orientamento alla consulenza specialistica in difesa CBRN"] },
         { role: "Consulente telefonico · Numero per l'infanzia", org: "Kinderschutzbund · Friedrichshafen", period: "da 02.2026",
           points: ["Formazione alla consulenza telefonica per bambini e adolescenti in situazioni di crisi", "Consulenza attiva su base sistemico-psicologica"] },
         { role: "Guida di gruppo volontaria", org: "Chiesa evangelica della Germania centrale · Ilmenau", period: "dal 2022",
-          points: ["Pluriennale guida di gruppi nel catechismo e nel lavoro giovanile aperto", "Dopo il trasferimento: referente, organizzazione di eventi, coordinatore e punto di raccordo", "Direzione di campi ed eventi con oltre 150 partecipanti"] },
+          points: ["Pluriennale guida di gruppi come parte di un team di coordinamento, nel catechismo e nel lavoro giovanile aperto", "Dopo il trasferimento: referente, organizzazione di eventi e coordinamento all'interno del team di volontari", "Direzione, insieme al team di coordinamento, di campi ed eventi con oltre 150 partecipanti"] },
         { role: "Membro eletto della rappresentanza studentesca", org: "TU Ilmenau", period: "2024 – 2026", last: true,
-          points: ["Commissione per gli affari accademici nel senato universitario — contributo alla politica universitaria e ai regolamenti didattici", { html: 'Co-realizzatore del <a href="https://www.mdr.de/nachrichten/thueringen/landtagswahl/wahl-o-mat-landtag-alternativen-112.html" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">Wahl-O-Mat per le elezioni regionali della Turingia 2024</a> (bpb · MDR)' }] },
+          points: ["Commissione per gli affari accademici nel senato universitario — contributo, insieme alla commissione, alla politica universitaria e ai regolamenti didattici", { html: 'Co-realizzatore del <a href="https://www.mdr.de/nachrichten/thueringen/landtagswahl/wahl-o-mat-landtag-alternativen-112.html" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">Wahl-O-Mat per le elezioni regionali della Turingia 2024</a> (bpb · MDR)' }] },
       ],
       skills: [
         { group: "Analisi dei materiali", items: ["SEM", "Radiografia", "Profilometria", "Analisi microstrutturale", "Tecnologia dei film sottili", "Viscosimetria"] },
@@ -789,7 +794,7 @@
       ],
       projects: {
         kicker: "Progetto", title: "Sports Window",
-        description: "Un'app per desktop e dispositivi mobili che mostra a colpo d'occhio lo stato di due squadre sportive preferite della NFL e della MLB: partite, classifica, rosa e storia. Pensata per il rapido sguardo all'avvio — la cache mostra subito i dati e si aggiorna in background.",
+        description: "Un'app per desktop e dispositivi mobili che mostra a colpo d'occhio lo stato di due squadre sportive preferite della NFL e della MLB: partite, classifica, rosa e storia. Pensata per il rapido sguardo all'avvio — la cache mostra subito i dati e si aggiorna in background. Realizzata per pura passione: è stata la mia prima integrazione di un'API esterna e il mio primo sviluppo multipiattaforma — una sfida che mi sono posto deliberatamente per imparare qualcosa di completamente nuovo.",
         features: ["Dashboard con conto alla rovescia", "Giocatore in evidenza", "Diagramma della formazione", "Classifica e stadio", "Storia e playoff", "Rosa filtrabile"],
         stack: ["Tauri 2 · Rust", "React 19 · TS", "Vite 7", "API JSON ESPN", "i18next EN/DE"],
         cta: "Scopri Sports Window",

@@ -81,7 +81,7 @@ function TornEdge({ side, seed, color = "var(--paper)" }) {
    recessed "under-surface" pushes the content below it down
    (inline, not overlay). The seam and the panel's text stay in
    the reading column; only the rip itself runs full-bleed. */
-function TornSection({ label, seed = 7, children }) {
+function TornSection({ label, seed = 7, teaser, children }) {
   const [open, setOpen] = useState(false);
   const [h, setH] = useState(0);
   const inner = useRef(null);
@@ -102,31 +102,56 @@ function TornSection({ label, seed = 7, children }) {
     <div style={{ margin: "clamp(24px,4vw,40px) 0" }}>
       {/* trigger — the seam, kept in the reading column */}
       <div className="container">
-        <button
-          onClick={() => setOpen(o => !o)}
-          aria-expanded={open}
-          className="tear-trigger"
-          style={{
-            width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 14,
-            padding: "16px 20px", cursor: "pointer", background: "transparent", border: "none",
-            fontFamily: "var(--font-text)", color: "var(--text-muted)", position: "relative",
-          }}>
-          <span aria-hidden style={{ flex: 1, height: 0, borderTop: "2px dashed var(--hairline-strong)", opacity: 0.7 }} />
-          <span className="tear-label" style={{
-            display: "inline-flex", alignItems: "center", gap: 10, flex: "none",
-            fontSize: "var(--fs-label)", fontWeight: 600, letterSpacing: "var(--ls-label)",
-            textTransform: "uppercase", color: "var(--text-muted)", whiteSpace: "nowrap",
-          }}>
-            {label}
+        {teaser ? (
+          <button
+            onClick={() => setOpen(o => !o)}
+            aria-expanded={open}
+            className="tear-trigger tear-trigger--teaser"
+            style={{
+              width: "100%", display: "flex", alignItems: "center", gap: 16, textAlign: "left",
+              padding: "14px 18px", cursor: "pointer", background: "var(--paper-2)",
+              border: "1px solid var(--hairline-strong)", borderRadius: 14,
+              fontFamily: "var(--font-text)", color: "var(--text)",
+            }}>
+            <img src={teaser.photo} alt="" aria-hidden
+              style={{ width: 56, height: 56, borderRadius: 10, objectFit: "cover", flex: "none" }} />
+            <span style={{ flex: 1, fontSize: "var(--fs-small)", lineHeight: "var(--lh-relaxed)", color: "var(--text)" }}>
+              {teaser.text}
+            </span>
             <span aria-hidden style={{
-              display: "inline-grid", placeItems: "center", width: 22, height: 22, borderRadius: "50%",
-              background: "var(--paper-2)", border: "1px solid var(--hairline-strong)",
+              display: "inline-grid", placeItems: "center", width: 28, height: 28, borderRadius: "50%",
+              background: "var(--paper)", border: "1px solid var(--hairline-strong)", flex: "none",
               transform: open ? "rotate(180deg)" : "none", transition: "transform .4s var(--ease-glide)",
-              fontSize: 12, lineHeight: 1, color: "var(--sienna)",
+              fontSize: 13, lineHeight: 1, color: "var(--sienna)",
             }}>↓</span>
-          </span>
-          <span aria-hidden style={{ flex: 1, height: 0, borderTop: "2px dashed var(--hairline-strong)", opacity: 0.7 }} />
-        </button>
+          </button>
+        ) : (
+          <button
+            onClick={() => setOpen(o => !o)}
+            aria-expanded={open}
+            className="tear-trigger"
+            style={{
+              width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 14,
+              padding: "16px 20px", cursor: "pointer", background: "transparent", border: "none",
+              fontFamily: "var(--font-text)", color: "var(--text-muted)", position: "relative",
+            }}>
+            <span aria-hidden style={{ flex: 1, height: 0, borderTop: "2px dashed var(--hairline-strong)", opacity: 0.7 }} />
+            <span className="tear-label" style={{
+              display: "inline-flex", alignItems: "center", gap: 10, flex: "none",
+              fontSize: "var(--fs-label)", fontWeight: 600, letterSpacing: "var(--ls-label)",
+              textTransform: "uppercase", color: "var(--text-muted)", whiteSpace: "nowrap",
+            }}>
+              {label}
+              <span aria-hidden style={{
+                display: "inline-grid", placeItems: "center", width: 22, height: 22, borderRadius: "50%",
+                background: "var(--paper-2)", border: "1px solid var(--hairline-strong)",
+                transform: open ? "rotate(180deg)" : "none", transition: "transform .4s var(--ease-glide)",
+                fontSize: 12, lineHeight: 1, color: "var(--sienna)",
+              }}>↓</span>
+            </span>
+            <span aria-hidden style={{ flex: 1, height: 0, borderTop: "2px dashed var(--hairline-strong)", opacity: 0.7 }} />
+          </button>
+        )}
       </div>
 
       {/* the hole that tears open — full-bleed to the page edges */}
@@ -327,7 +352,7 @@ function ConfiTear() {
         </AlignBlock>
       </div>
 
-      <TornSection label={c.label} seed={23}>
+      <TornSection label={c.label} seed={23} teaser={{ photo: asset("ci/assets/Bilder/Konfi/Konfi_speach.jpeg"), text: c.teaser }}>
         <Eyebrow color="var(--sienna)">{c.eyebrow}</Eyebrow>
         <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-title)", color: "var(--heading)", margin: "14px 0 18px", maxWidth: "24ch" }}>
           {c.heading}
