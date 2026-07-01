@@ -2,13 +2,22 @@
   "name": "mywebsite",
   "version": "1.0.0",
   "private": true,
-  "description": "Mika Jeske portfolio — static site. JSX is precompiled to plain JS so it runs anywhere (double-click file:// or GitHub Pages) with no in-browser Babel.",
+  "description": "Mika Jeske portfolio — static site. JSX is precompiled to plain JS and prerendered per language so the full DOM text is served raw to crawlers/LLMs, then hydrated in the browser.",
   "scripts": {
     "build": "node build.mjs",
-    "watch": "node build.mjs --watch"
+    "watch": "node build.mjs --watch",
+    "spellcheck": "cspell \"i18n.js\" \"index.template.html\" \"impressum/index.html\" \"projects/sports-window/index.html\" --no-progress",
+    "verify": "node ci/verify-prerender.mjs"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",
-    "@babel/preset-react": "^7.23.0"
+    "@babel/preset-react": "^7.23.0",
+    "@cspell/dict-de-de": "^4.1.2",
+    "@cspell/dict-es-es": "^3.0.8",
+    "@cspell/dict-fr-fr": "^2.3.2",
+    "@cspell/dict-it-it": "^3.1.6",
+    "cspell": "^8.0.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
   }
 }

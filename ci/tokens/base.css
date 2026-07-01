@@ -41,3 +41,22 @@ a { color: inherit; text-decoration: none; }
 img { max-width: 100%; display: block; }
 
 hr { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+/* ------------------------------------------------------------
+   Accessibility / SEO utility: screen-reader-only content.
+   Clips an element out of the visual flow while leaving it fully
+   intact in the DOM for assistive tech, search spiders and LLM
+   crawlers. Used for invisible semantic landmarks/headings that
+   give the custom layout a clean, linear document outline without
+   altering the visual design.
+   ------------------------------------------------------------ */
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

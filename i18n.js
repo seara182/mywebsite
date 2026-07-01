@@ -6,12 +6,23 @@
 (function () {
   "use strict";
 
-  /* ---------- Step 3b: first-visit auto-redirect (runs immediately) ---------- */
-  if (!localStorage.getItem("lang")) {
-    var userLang = (navigator.language || navigator.userLanguage || "").toLowerCase();
-    if (userLang.indexOf("fr") === 0) localStorage.setItem("lang", "fr");
-    else if (userLang.indexOf("en") === 0) localStorage.setItem("lang", "en");
-    else if (userLang.indexOf("es") === 0) localStorage.setItem("lang", "es");
+  /* ---------- environment guards ----------
+     This file is loaded both in the browser AND in Node during the build-time
+     prerender (build.mjs). Browser-only globals must be probed before use. */
+  var HAS_WINDOW = typeof window !== "undefined";
+  var HAS_DOCUMENT = typeof document !== "undefined";
+  function safeStorage() { try { return HAS_WINDOW && window.localStorage; } catch (e) { return null; } }
+
+  /* ---------- Step 3b: first-visit auto-redirect (runs immediately) ----------
+     Records the navigator language preference on first visit. Real per-language
+     routing is now URL-based (see getLang); this only seeds a remembered choice. */
+  var _ls = safeStorage();
+  if (_ls && !_ls.getItem("lang")) {
+    var userLang = ((HAS_WINDOW && (navigator.language || navigator.userLanguage)) || "").toLowerCase();
+    if (userLang.indexOf("fr") === 0) _ls.setItem("lang", "fr");
+    else if (userLang.indexOf("en") === 0) _ls.setItem("lang", "en");
+    else if (userLang.indexOf("es") === 0) _ls.setItem("lang", "es");
+    else if (userLang.indexOf("it") === 0) _ls.setItem("lang", "it");
     // de or anything else: no-op, German is the natural fallback
   }
 
@@ -20,10 +31,15 @@
     { code: "en", name: "English", flag: "🇺🇸" },
     { code: "fr", name: "Français", flag: "🇫🇷" },
     { code: "es", name: "Español", flag: "🇪🇸" },
+    { code: "it", name: "Italiano", flag: "🇮🇹" },
   ];
 
   var TRANSLATIONS = {
     de: {
+      meta: {
+        title: "Mika Jeske — Werkstoffwissenschaft & Messtechnik",
+        description: "Mika Jeske, Werkstoffwissenschaftler (B.Sc.) mit Fokus auf Messtechnik, Sensorik und zerstörungsfreie Prüfung. Auf der Suche nach einer Position im DACH-Raum — ab sofort verfügbar.",
+      },
       hero: { eyebrow: "Werkstoffwissenschaft · B.Sc.", scrollHint: "Scroll" },
       intro: {
         eyebrow: "Moin.",
@@ -179,6 +195,10 @@
     },
 
     en: {
+      meta: {
+        title: "Mika Jeske — Materials Science & Measurement",
+        description: "Mika Jeske, materials scientist (B.Sc.) focused on measurement technology, sensor technology and non-destructive testing. Looking for a position in the DACH region — available immediately.",
+      },
       hero: { eyebrow: "Materials Science · B.Sc.", scrollHint: "Scroll" },
       intro: {
         eyebrow: "Hey.",
@@ -334,6 +354,10 @@
     },
 
     fr: {
+      meta: {
+        title: "Mika Jeske — Science des matériaux & métrologie",
+        description: "Mika Jeske, scientifique des matériaux (B.Sc.) spécialisé en métrologie, capteurs et contrôle non destructif. À la recherche d'un poste dans l'espace germanophone (DACH) — disponible immédiatement.",
+      },
       hero: { eyebrow: "Science des matériaux · B.Sc.", scrollHint: "Scroll" },
       intro: {
         eyebrow: "Salut.",
@@ -489,6 +513,10 @@
     },
 
     es: {
+      meta: {
+        title: "Mika Jeske — Ciencia de materiales y metrología",
+        description: "Mika Jeske, científico de materiales (B.Sc.) centrado en metrología, sensórica y ensayos no destructivos. En busca de un puesto en el espacio germanoparlante (DACH) — disponible de inmediato.",
+      },
       hero: { eyebrow: "Ciencia de materiales · B.Sc.", scrollHint: "Scroll" },
       intro: {
         eyebrow: "Hola.",
@@ -642,30 +670,269 @@
         githubBtn: "GitHub Repo", backFooter: "Volver al inicio", madeByFooter: "Sports Window · Made by Mika",
       },
     },
+
+    /* ---------- Italian (it) ----------
+       Professional register conventions (keep consistent in future edits):
+       • Tone: formal yet warm, first person for Mika's own voice; impersonal /
+         "si" constructions for product descriptions (mirrors fr/es).
+       • Address the reader with courtesy, never the over-familiar "tu" in prose.
+       • Domain glossary (fixed): Werkstoffwissenschaft → "scienza dei materiali";
+         Messtechnik → "metrologia"; thin films → "film sottili"; sputtering →
+         "(deposizione per) sputtering"; Reinraum → "camera bianca"; Seebeck →
+         "coefficiente di Seebeck"; Profilometrie → "profilometria"; van der Pauw,
+         SEM, EDX, TFA, ERA, PTC/NTC kept as-is; proper nouns & award names verbatim.
+       • Typography: Italian accents (à è é ì ò ù) and elision apostrophes
+         ("un'app", "po'"); guillemets «…» as used in fr/es, not German „…“.
+       Only the German version is authoritative (see footer disclaimer). */
+    it: {
+      meta: {
+        title: "Mika Jeske — Scienza dei materiali e metrologia",
+        description: "Mika Jeske, scienziato dei materiali (B.Sc.) specializzato in metrologia, sensoristica e controlli non distruttivi. In cerca di una posizione nell'area germanofona (DACH) — disponibile da subito.",
+      },
+      hero: { eyebrow: "Scienza dei materiali · B.Sc.", scrollHint: "Scroll" },
+      intro: {
+        eyebrow: "Ciao.",
+        headline: "Mi chiamo Mika: scienziato dei materiali, specializzato in metrologia e precisione.",
+        p1: "Il sapere rivela il suo valore nel momento in cui diventa tangibile. Per esempio assemblando un PC con mio cugino Jack: le sue domande sui dissipatori in rame e sulla pasta termica al diamante toccavano, senza saperlo, il cuore stesso del mio campo. La scienza dei materiali rende comprensibile il mondo fisico. Persino i cicli più semplici — rifondere il vetro usato in nuove bottiglie — mi affascinano profondamente, perché mostrano quanto i materiali plasmino le nostre vite.",
+        p2: "È nella metrologia che trovo la concentrazione e la precisione assoluta. Non limitarsi a rilevare i dati, ma interpretarli con discernimento, è un mestiere. Poiché a casa non dispongo di un microscopio elettronico a scansione, sfrutto il tempo che mi separa dall'ingresso nel mondo del lavoro per questo sito e per i miei progetti. Qui affino le mie competenze nella presentazione dei dati e nella programmazione — strumenti indispensabili per un ingegnere moderno.",
+        p3: "L'immobilismo non è un'opzione per me. Alla mia generazione si rimprovera spesso una scarsa voglia di lavorare — non è il mio caso. L'equilibrio tra lavoro e vita privata è una simbiosi: se il progetto, il team o l'azienda prosperano, prospero anch'io. Altri avranno anni di esperienza, ma ciò che mi spinge è una volontà incondizionata di comprendere a fondo un prodotto o una linea di produzione, e di migliorarli.",
+        p4: "Sono disponibile da subito. Un trasferimento richiede naturalmente un po' di tempo organizzativo; per il resto sono pronto immediatamente e posso iniziare lunedì.",
+        photos: [
+          "Esperimento nella mia vecchia scuola — in onore di una professoressa di chimica in pensione",
+          "Invitato alla DGZfP a Magdeburgo — nell'ambito del premio",
+        ],
+      },
+      story: {
+        eyebrow: "Il mio percorso",
+        heading: "Come sono approdato alla piccola scala",
+        p1: "La fisica e la chimica mi hanno conquistato già a scuola, ma non riuscivo a immaginare un'intera vita di pura teoria. Volevo applicare il sapere. Per un certo periodo si è valutata la farmacia — da noi è in un certo senso una tradizione di famiglia. Poi è arrivata la scienza dei materiali, che mi ha offerto esattamente quel ponte pratico che cercavo.",
+        p2: "Ciò che mi ha catturato è stato il mondo micro e nanometrico: delicato, di altissima precisione, quasi estetico. Ho ballato a lungo a livello agonistico, e questo parallelo — anche se è stato un professore a farmelo notare — non lo dico per scherzo. Entrambi richiedono un controllo assoluto e un'eleganza nel dettaglio. Questa costante attraversa tutto, dalla pista da ballo allo studio dei film sottili, fino alla metrologia.",
+        figure: {
+          x: "Temperatura (°C)",
+          y: "Coefficiente di Seebeck (µV/K)",
+          caption: "Coefficiente di Seebeck relativo di film sottili depositati per sputtering in funzione della temperatura — il nichel è negativo, l'argento e l'alluminio positivi. Dalla mia tesi di laurea.",
+        },
+        figure2: {
+          x: "Tempo (min)",
+          y: "σ Ni (MS/m)",
+          y2: "σ Bi (MS/m)",
+          caption: "Il bismuto è normalmente un conduttore PTC — ma depositato come film sottile policristallino per sputtering, si inverte in NTC. Un effetto di bordo grano che la mia tesi di laurea ha toccato.",
+        },
+      },
+      cleanroomTear: {
+        intro: "La riga più sobria di questo curriculum è stata, per me, il periodo più appassionante. Uno sguardo sotto la superficie:",
+        label: "Aprire la camera bianca",
+        eyebrow: "ZMN · Centro per la micro- e nanotecnologia",
+        heading: "Sotto la superficie, nella camera bianca ISO‑2",
+        p1: "Sei mesi nella camera bianca ISO‑2 della TU Ilmenau: sputtering magnetronico, profilometria, SEM/EDX, film sottili di TiOₓ. Sembra arido, ma non lo era. Il contrasto è quasi assurdo: un ambiente controllato fin nei minimi dettagli e, nel mezzo, campioni di meno di un millimetro quadrato che si rifiutano ostinatamente di comportarsi come dovrebbero.",
+        p2: "Sinceramente, lavorare lì è stato semplicemente fantastico. Finalmente fare ciò di cui avevo studiato la teoria, con quella sensazione di scienza autentica, così come da bambini ci si immagina la «ricerca». Il bambino dentro di me era piuttosto entusiasta.",
+        p3: "In concreto si trattava di strati di Ag, Al, Ni e Bi, del setup TFA e di misure di trasporto in funzione della temperatura. Queste misure costituiscono la base della mia tesi di laurea.",
+        photos: ["Camera di sputtering — crescita degli strati sotto vuoto", "Camera bianca ISO‑2, completamente bardato", "Profilometria — misura dello spessore degli strati", "Campioni più piccoli di un'unghia"],
+      },
+      confiTear: {
+        intro: "Un'attività di volontariato si riduce in fretta a due righe su un curriculum. Dietro questa c'è molto di più:",
+        label: "Scopri di più sul mio lavoro con i giovani:",
+        eyebrow: "EKM Ilmenau · Catechismo e lavoro giovanile",
+        heading: "Vedere ed essere visti",
+        p1: "Per diversi anni ho guidato gruppi di catechismo e di lavoro giovanile aperto presso la Chiesa evangelica di Ilmenau. Nessuno ti avverte in anticipo del vero compito: restare accessibile ai ragazzi mentre fanno i conti con fede, dubbi e il semplice fatto di crescere. Questo privilegio — esserci per gli altri e ascoltare davvero — lo sento ancora oggi come un grande dono.",
+        p2: "Nei giorni in cui il mio stesso umore lasciava parecchio a desiderare, capitava spesso che qualcuno venisse da me con le proprie questioni, belle o brutte. Mettermi completamente da parte in quei momenti mi ha aiutato, più di una volta, a ritrovare ordine, motivazione o persino a risolvere un problema entro fine giornata. Il rispetto sincero e la fiducia schietta, sul piano umano, in queste situazioni sono semplicemente sorprendenti — e restituiscono moltissimo.",
+        p3: "Il lavoro con i bambini ha plasmato anche il mio atteggiamento: «Rilassati, non è poi tutto così serio!» — il lavoro di squadra e la guida di un gruppo funzionano solo attraverso l'esempio. Chi si aspetta che i ragazzi escano dal proprio guscio deve essere pronto a essere il primo, al campo, a indossare il costume buffo o a improvvisare passi di danza stravaganti. Chi è troppo impacciato per farlo non riceve nulla in cambio. Questa lezione — andare avanti per primo, senza paura ma senza sconsideratezza, e incarnare il comportamento che ci si aspetta dagli altri — plasma ancora oggi la mia idea di collaborazione, ben oltre il lavoro giovanile.",
+        photos: ["Per una volta, davanti all'obiettivo", "Nel pieno dell'azione", "Programma serale durante un campo"],
+      },
+      reunion: {
+        eyebrow: "A margine",
+        heading: "Organizzare una rimpatriata",
+        p1: "A margine, mi occupo di {{site}}, il sito della rimpatriata della mia classe di maturità. C'è una mappa che mostra quanto ci siamo ormai dispersi e quanto, nonostante tutto, restino salde le radici, oltre a un conto alla rovescia nato da pura attesa e un modulo di contatto per farsi vivi.",
+        p2: "Ho ripreso di proposito i vecchi colori della scuola; mi sembrava semplicemente giusto. Ciò che preferisco è scrivere la newsletter della classe — le risposte che arrivano sono, ogni volta, meravigliosi spaccati.",
+        linkLabel: "ggi-abitur2022.de",
+        pins: ["Organizzazione", "Connessione", "GGI"],
+      },
+      resume: {
+        kicker: "Curriculum", title: "Percorso professionale",
+        experienceHeading: "Esperienza professionale", educationHeading: "Formazione",
+        skillsEyebrow: "Competenze", awardLabel: "Riconoscimento",
+        awardName: "DGZfP Science Student Award 2025", linkedinLabel: "LinkedIn",
+      },
+      experience: [
+        { role: "Tirocinante in Industrial Engineering", org: "ifm prover gmbh", location: "Tettnang", period: "11.2025 – 04.2026", accent: true,
+          points: ["Qualifica di un'attrezzatura di produzione per l'impiego in serie — pianificazione delle prove, controllo e automazione di processo", "Valutazione e approvvigionamento di sistemi viscosimetrici con serie di misure autonome e raccomandazione d'acquisto", "Caratterizzazione di paste alternative senza piombo mediante microscopia ottica e radiografia"] },
+        { role: "Assistente di ricerca", org: "Centro per la micro- e nanotecnologia · TU Ilmenau", period: "04.2025 – 10.2025",
+          points: ["Deposizione per sputtering di film sottili metallici (Al, Ag, Ti, Si) e strutturazione mediante lift-off in camera bianca", "Profilometria, analisi topografica al SEM e caratterizzazione elettrica (metodo di van der Pauw)"] },
+      ],
+      education: [
+        { role: "B.Sc. in Scienza dei materiali", org: "Technische Universität Ilmenau", period: "10.2022 – 06.2026",
+          points: ["Indirizzo in materiali metallici, tecnologia dei film sottili e processi di fabbricazione", "Tesi di laurea: proprietà elettriche in funzione della temperatura di film sottili depositati per sputtering", "Candidatura alla Studienstiftung des deutschen Volkes (fondazione nazionale per il merito accademico)"] },
+        { role: "Maturità tedesca (Abitur) · 1,8", org: "Gymnasium Groß Ilsede", period: "2013 – 2022", points: [] },
+      ],
+      engagementSection: {
+        eyebrow: "Volontariato", heading: "Un impegno a cui tengo",
+        photos: [
+          "Laboratorio antirazzismo in una scuola primaria",
+          "Riunione preparatoria del nostro podcast sul programma del cinema studentesco",
+        ],
+      },
+      engagement: [
+        { role: "Volontario in formazione di base", org: "Technisches Hilfswerk · OV Friedrichshafen", period: "da 10.2025", accent: true,
+          points: ["Formazione di base nella protezione civile e nella gestione delle catastrofi, con orientamento alla consulenza specialistica in difesa CBRN"] },
+        { role: "Consulente telefonico · Numero per l'infanzia", org: "Kinderschutzbund · Friedrichshafen", period: "da 02.2026",
+          points: ["Formazione alla consulenza telefonica per bambini e adolescenti in situazioni di crisi", "Consulenza attiva su base sistemico-psicologica"] },
+        { role: "Guida di gruppo volontaria", org: "Chiesa evangelica della Germania centrale · Ilmenau", period: "dal 2022",
+          points: ["Pluriennale guida di gruppi nel catechismo e nel lavoro giovanile aperto", "Dopo il trasferimento: referente, organizzazione di eventi, coordinatore e punto di raccordo", "Direzione di campi ed eventi con oltre 150 partecipanti"] },
+        { role: "Membro eletto della rappresentanza studentesca", org: "TU Ilmenau", period: "2024 – 2026", last: true,
+          points: ["Commissione per gli affari accademici nel senato universitario — contributo alla politica universitaria e ai regolamenti didattici", { html: 'Co-realizzatore del <a href="https://www.mdr.de/nachrichten/thueringen/landtagswahl/wahl-o-mat-landtag-alternativen-112.html" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">Wahl-O-Mat per le elezioni regionali della Turingia 2024</a> (bpb · MDR)' }] },
+      ],
+      skills: [
+        { group: "Analisi dei materiali", items: ["SEM", "Radiografia", "Profilometria", "Analisi microstrutturale", "Tecnologia dei film sottili", "Viscosimetria"] },
+        { group: "Metodi", items: ["Caratterizzazione dei materiali", "Lavoro in camera bianca", "Pianificazione delle prove", "Controllo qualità", "Automazione di processo"] },
+        { group: "Software", items: ["LaTeX", "Strumenti IA", "MS Office", "SAP", "FreeCAD"] },
+        { group: "Lingue", items: ["Tedesco (madrelingua)", "Inglese (fluente in ambito professionale)"] },
+      ],
+      projects: {
+        kicker: "Progetto", title: "Sports Window",
+        description: "Un'app per desktop e dispositivi mobili che mostra a colpo d'occhio lo stato di due squadre sportive preferite della NFL e della MLB: partite, classifica, rosa e storia. Pensata per il rapido sguardo all'avvio — la cache mostra subito i dati e si aggiorna in background.",
+        features: ["Dashboard con conto alla rovescia", "Giocatore in evidenza", "Diagramma della formazione", "Classifica e stadio", "Storia e playoff", "Rosa filtrabile"],
+        stack: ["Tauri 2 · Rust", "React 19 · TS", "Vite 7", "API JSON ESPN", "i18next EN/DE"],
+        cta: "Scopri Sports Window",
+      },
+      footer: {
+        linkedinLabel: "LinkedIn", madeBy: "Made by Mika",
+        email: "Scrivi un'e-mail", phone: "Chiama",
+        emailAria: "Scrivi un'e-mail a Mika Jeske", phoneAria: "Chiama Mika Jeske",
+        legal: "Note legali & privacy",
+        disclaimer: "Le traduzioni sono fornite come funzione di comodità e sono state realizzate in parte con l'ausilio dell'IA.",
+        privacyNote: "Alcune persone sono state rese irriconoscibili per motivi di privacy o legali.",
+      },
+      contact: { chip: "Contattami" },
+      langSwitcher: { selectLabel: "Scegli la lingua", globeAria: "Seleziona la lingua", optionAria: "Seleziona {lang}" },
+      sports: {
+        backLink: "Home", madeBy: "Made by Mika", eyebrow: "Progetto", title: "Sports Window",
+        heroSub: "Una dashboard sportiva personale come app desktop nativa — pensata per il rapido sguardo all'avvio. La cache mostra subito i dati rilevanti mentre i punteggi più recenti vengono caricati in background. Di default i San Francisco 49ers (NFL) e i Giants (MLB) — ciascuna delle 32 squadre NFL o delle 30 squadre MLB può essere impostata come squadra attiva.",
+        dashboardK: "Dashboard", dashboardV: "Prossima partita, giocatore in evidenza e formazione — tutto a colpo d'occhio non appena l'app si avvia.",
+        featuresLabel: "Funzioni", featuresHeading: "Cosa sa fare l'app",
+        featuresLede: "Ogni endpoint viene interrogato in modo indipendente — se uno si guasta, il resto dell'app continua a funzionare. I dati mancanti o errati diventano un «—» invece di un crash.",
+        features: [
+          { title: "Dashboard live", desc: "Una scheda principale per la prossima partita con avversario, orario d'inizio, sede ed emittente — incluso un conto alla rovescia fino al fischio d'inizio." },
+          { title: "Giocatore in evidenza", desc: "Una scheda del giocatore chiave selezionata automaticamente (quarterback o lanciatore partente) con le statistiche di stagione e l'andamento rispetto alla media di carriera." },
+          { title: "Diagramma della formazione", desc: "Una formazione visiva sul campo o sul diamante, adattata allo sport — reparti offensivi nel football, posizioni in campo nel baseball." },
+          { title: "Classifica di division", desc: "Classifica completa con vittorie/sconfitte, casa/trasferta, differenziale punti e serie in corso — con tooltip-glossario per ogni abbreviazione." },
+          { title: "Stadio e storia", desc: "Dati dello stadio (anno di costruzione, capienza, dimensioni, superficie) accanto a una storia delle stagioni curata: curve di tendenza, titoli vinti, record di sempre." },
+          { title: "Rosa e playoff", desc: "Una rosa filtrabile per reparto, consultabile per nome e numero — oltre ai tabelloni dei playoff automatici nella postseason." },
+        ],
+        historyLabel: "Profondità, non superficie", historyHeading: "Una storia che racconta storie",
+        historyDesc: "La vista storica condensa decenni in pochi sguardi: una curva di tendenza vittorie/sconfitte sulle ultime stagioni, i titoli vinti come fila di stendardi e l'ERA recente della squadra in forma di barre.",
+        historyTicks: ["Curva di tendenza con le stagioni di playoff e di titolo evidenziate", "Vittorie di sempre, migliore stagione dell'era moderna, serie di vittorie più lunga", "Un tema scuro nei colori della squadra — deliberatamente distinto dalla dashboard chiara"],
+        teamLabel: "La tua squadra, la tua lingua", teamHeading: "Costruita per entrambe le leghe",
+        teamDesc: "NFL e MLB condividono la stessa interfaccia — il selettore di squadra permette di passare tra tutte le 62 squadre, mentre glossari e diagrammi si adattano allo sport. Le impostazioni di lingua (DE/EN), tema e squadra predefinita sono a portata di clic.",
+        teamTicks: ["Bilingue tramite i18next, con glossari specifici per sport", "Tema chiaro e scuro, con accenti nei colori della squadra", "Una modalità demo per provare senza connessione di rete"],
+        everywhereLabel: "A casa ovunque", everywhereHeading: "Funziona su telefono, Mac e Windows",
+        everywhereLede: "La stessa architettura difensiva, gli stessi dati — responsive dal desktop fino al telefono. La navigazione laterale ricorda la posizione di scorrimento, così è possibile saltare tra le sezioni all'istante.",
+        techLabel: "Sotto il cofano", techHeading: "Fondamenta tecniche",
+        techLede: "Cache-first e a prova di guasto: i dati sono visibili fin dal primo avvio, ogni chiamata API viene eseguita in isolamento e gli aggiornamenti arrivano firmati tramite GitHub.",
+        spec: [
+          { dt: "Piattaforma", dd: "<strong>Tauri 2</strong> su base Rust per prestazioni native e multipiattaforma — un unico binario per Windows, macOS e layout mobili." },
+          { dt: "Frontend", dd: "<strong>React 19 + TypeScript</strong>, compilato con <strong>Vite 7</strong>. Basato su componenti, tipizzato, veloce in build." },
+          { dt: "Architettura", dd: "Pensata in modo difensivo: ogni endpoint viene interrogato in modo indipendente, così un guasto non si propaga. I dati mancanti diventano un <strong>«—»</strong> invece di un crash." },
+          { dt: "Dati e offline", dd: "Dati in tempo reale dall'<strong>API JSON pubblica di ESPN</strong>, memorizzati in cache in modo persistente. Utilizzabile offline, con una modalità demo per provare senza rete." },
+          { dt: "Lingua", dd: "<strong>i18next</strong> in tedesco/inglese con glossari specifici per sport — i tooltip spiegano ogni abbreviazione." },
+          { dt: "Aggiornamenti", dd: "Distribuzione automatica e <strong>firmata</strong> tramite GitHub — installazione con un clic." },
+        ],
+        designLabel: "Filosofia di design",
+        designText: "L'app è progettata per un <strong style=\"color:var(--heading);font-weight:600\">basso carico cognitivo</strong> e una lettura rapida. L'approccio cache-first rende i dati visibili all'istante all'avvio; la navigazione laterale con tracciamento dello scorrimento permette di saltare tra le sezioni. I tooltip spiegano sistematicamente la terminologia — anche per chi (ancora) non conosce lo sport statunitense.",
+        comingBadge: "Open Source", comingText: "Il codice sorgente è disponibile pubblicamente su GitHub.",
+        githubBtn: "Repository GitHub", backFooter: "Torna alla home", madeByFooter: "Sports Window · Made by Mika",
+      },
+    },
   };
 
   /* ---------- core lang resolution ---------- */
-  var SUPPORTED = ["de", "en", "fr", "es"];
+  var SUPPORTED = ["de", "en", "fr", "es", "it"];
+  var DEFAULT_LANG = "de";
+
+  /* The URL is the source of truth for the active language: each language has
+     its own prerendered page (/ = de, /en/, /fr/, /es/, /it/). Reading the path
+     first guarantees the hydrated client matches the prerendered markup with no
+     flash or hydration mismatch. localStorage / navigator only seed a *choice*
+     for the root page and the very first visit. */
+  function langFromPath() {
+    if (!HAS_WINDOW || !window.location) return null;
+    var seg = (window.location.pathname || "/").split("/")[1];
+    return SUPPORTED.indexOf(seg) !== -1 ? seg : null;
+  }
 
   function getLang() {
-    var saved = localStorage.getItem("lang");
+    // build-time prerender forces the language per page
+    if (typeof globalThis !== "undefined" && globalThis.__PRERENDER_LANG__) {
+      return globalThis.__PRERENDER_LANG__;
+    }
+    var fromPath = langFromPath();
+    if (fromPath) return fromPath;
+    var ls = safeStorage();
+    var saved = ls && ls.getItem("lang");
     if (saved && SUPPORTED.indexOf(saved) !== -1) return saved;
-    var nav = (navigator.language || "").toLowerCase();
+    var nav = ((HAS_WINDOW && navigator.language) || "").toLowerCase();
     for (var i = 0; i < SUPPORTED.length; i++) {
       if (nav.indexOf(SUPPORTED[i]) === 0) return SUPPORTED[i];
     }
-    return "de";
+    return DEFAULT_LANG;
+  }
+
+  /* The directory a language lives in. de stays at the site root so existing
+     inbound links and the canonical home URL never change. */
+  function pathForLang(code) {
+    return code === DEFAULT_LANG ? "/" : "/" + code + "/";
+  }
+
+  /* Is the current document one of the prerendered homepage variants
+     (/ or /<lang>/)? Only those have per-language URLs to navigate between.
+     Sub-pages (e.g. /projects/sports-window/, /impressum/) are single-URL and
+     swap their text in place via the data-i18n binder. */
+  function onPrerenderedHome() {
+    if (!HAS_WINDOW || !window.location) return false;
+    var path = window.location.pathname || "/";
+    var stripped = path.replace(/^\/(de|en|fr|es|it)(?=\/|$)/, "");
+    return stripped === "" || stripped === "/" || stripped === "/index.html";
+  }
+
+  /* Root-only locale redirect for humans: at the site root ("/") with no
+     language in the path, send a returning or locale-matched visitor to their
+     language directory. Crawlers (no JS) stay on "/" = the canonical German
+     page; file:// (path contains a drive/filename) is left untouched. */
+  if (HAS_WINDOW && window.location) {
+    var _p = window.location.pathname || "/";
+    if (_p === "/" || _p === "/index.html") {
+      var _ls2 = safeStorage();
+      var pref = (_ls2 && _ls2.getItem("lang")) || "";
+      if (!pref) {
+        var _nav = (navigator.language || "").toLowerCase();
+        for (var _i = 0; _i < SUPPORTED.length; _i++) {
+          if (_nav.indexOf(SUPPORTED[_i]) === 0) { pref = SUPPORTED[_i]; break; }
+        }
+      }
+      if (pref && pref !== DEFAULT_LANG && SUPPORTED.indexOf(pref) !== -1) {
+        window.location.replace(pathForLang(pref) + (window.location.search || "") + (window.location.hash || ""));
+      }
+    }
   }
 
   var activeLang = getLang();
-  document.documentElement.lang = activeLang;
+  if (HAS_DOCUMENT) document.documentElement.lang = activeLang;
 
   function setLang(code) {
     if (SUPPORTED.indexOf(code) === -1) return;
+    var ls = safeStorage();
+    if (ls) ls.setItem("lang", code);
+    if (code === activeLang) return;
+    // On the homepage, navigate to the language's own prerendered URL so crawlers
+    // and humans land on a real per-language page.
+    if (HAS_WINDOW && window.location && onPrerenderedHome()) {
+      window.location.assign(pathForLang(code) + (window.location.search || "") + (window.location.hash || ""));
+      return;
+    }
+    // On single-URL sub-pages (and headless), swap the active language in place;
+    // the data-i18n binder re-renders the text on the langchange event.
     activeLang = code;
-    localStorage.setItem("lang", code);
-    document.documentElement.lang = code;
-    window.dispatchEvent(new CustomEvent("langchange", { detail: { lang: code } }));
+    if (HAS_DOCUMENT) document.documentElement.lang = code;
+    if (HAS_WINDOW) window.dispatchEvent(new CustomEvent("langchange", { detail: { lang: code } }));
   }
 
   function resolvePath(obj, path) {
@@ -683,11 +950,23 @@
     return value;
   }
 
-  window.I18N = {
+  var I18N = {
     LANGUAGES: LANGUAGES,
     SUPPORTED: SUPPORTED,
+    DEFAULT_LANG: DEFAULT_LANG,
     getLang: function () { return activeLang; },
     setLang: setLang,
+    pathForLang: pathForLang,
+    /* Build-time only: force the active language for the next render pass
+       (no storage, no navigation). Used by build.mjs's prerender loop. */
+    setActiveLang: function (code) {
+      if (SUPPORTED.indexOf(code) === -1) return;
+      activeLang = code;
+      if (HAS_DOCUMENT) document.documentElement.lang = code;
+    },
     t: t,
   };
+
+  if (HAS_WINDOW) window.I18N = I18N;
+  if (typeof module !== "undefined" && module.exports) module.exports = I18N;
 })();

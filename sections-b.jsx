@@ -1,7 +1,7 @@
 /* ============================================================
    Mika Jeske — résumé, engagement, projects, footer + App shell
    ============================================================ */
-const { Reveal, Eyebrow, Badge, GlowShape, WaveBlend, TimelineEntry, AlignBlock, BlobCluster, useLang, LanguageSwitcherMount, ContactChipMount } = window.MJ;
+const { asset, Reveal, Eyebrow, Badge, GlowShape, WaveBlend, TimelineEntry, AlignBlock, BlobCluster, useLang, LanguageSwitcherMount, ContactChipMount } = window.MJ;
 const { Hero, Intro } = window.SECTIONS_A;
 const { Story, CleanroomTear, ConfiTear, Reunion } = window.SECTIONS_NEW;
 
@@ -95,8 +95,8 @@ function Engagement() {
       <div className="fill-slot fill-slot--left">
         <Reveal>
           <BlobCluster style={{ width: 560, height: 860 }} photos={[
-            { src: "ci/assets/Bilder/Weitere/e_kids.jpeg", caption: ep[0], glow: "white", w: 430, h: 282, focus: "50% 45%", rot: 4, drift: true, radius: "58% 42% 52% 48% / 46% 56% 44% 54%", pos: { top: 0, left: 130 } },
-            { src: "ci/assets/Bilder/Weitere/e_hfc.jpeg", caption: ep[1], glow: "white", w: 288, h: 408, focus: "50% 32%", rot: -5, drift: true, radius: "52% 48% 40% 60% / 56% 46% 54% 44%", pos: { top: 410, left: 0 } },
+            { src: asset("ci/assets/Bilder/Weitere/e_kids.jpeg"), caption: ep[0], glow: "white", w: 430, h: 282, focus: "50% 45%", rot: 4, drift: true, radius: "58% 42% 52% 48% / 46% 56% 44% 54%", pos: { top: 0, left: 130 } },
+            { src: asset("ci/assets/Bilder/Weitere/e_hfc.jpeg"), caption: ep[1], glow: "white", w: 288, h: 408, focus: "50% 32%", rot: -5, drift: true, radius: "52% 48% 40% 60% / 56% 46% 54% 44%", pos: { top: 410, left: 0 } },
           ]} />
         </Reveal>
       </div>
@@ -144,7 +144,7 @@ function Projects() {
                   </div>
                 ))}
               </div>
-              <a href="projects/sports-window/" style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, padding: "13px 24px", border: "1px solid var(--border-strong)", borderRadius: "var(--radius-md)", fontFamily: "var(--font-text)", fontSize: "var(--fs-body)", fontWeight: 600, color: "var(--heading)" }}>
+              <a href={asset("projects/sports-window/")} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, padding: "13px 24px", border: "1px solid var(--border-strong)", borderRadius: "var(--radius-md)", fontFamily: "var(--font-text)", fontSize: "var(--fs-body)", fontWeight: 600, color: "var(--heading)" }}>
                 {p.cta} <span aria-hidden>→</span>
               </a>
             </div>
@@ -190,7 +190,7 @@ function Footer() {
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
             {f.phone}
           </a>
-          <a href="impressum/" style={{ fontSize: "var(--fs-body)", color: "var(--text-body)", fontWeight: 500 }}>{f.legal}</a>
+          <a href={asset("impressum/")} style={{ fontSize: "var(--fs-body)", color: "var(--text-body)", fontWeight: 500 }}>{f.legal}</a>
           <span style={{ fontFamily: "var(--font-mono)", fontSize: "var(--fs-caption)", color: "var(--text-faint)" }}>{f.madeBy}</span>
         </div>
       </div>
@@ -199,7 +199,7 @@ function Footer() {
         {f.privacyNote && <p className="i18n-disclaimer">{f.privacyNote}</p>}
       </div>
       <div style={{ display: "flex", justifyContent: "center", marginTop: 32 }}>
-        <a href="private/" style={{ display: "inline-flex", padding: 8, color: "var(--text-faint)", opacity: 0.35 }}>
+        <a href={asset("private/")} style={{ display: "inline-flex", padding: 8, color: "var(--text-faint)", opacity: 0.35 }}>
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="4" y="11" width="16" height="10" rx="2" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></svg>
         </a>
       </div>
@@ -245,4 +245,21 @@ function App() {
   );
 }
 
-ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+/* Expose the root component so the build-time prerender (build.mjs) can render it
+   to static HTML in Node. */
+window.SECTIONS_B = { App };
+
+/* Mount only in the browser. The #root is pre-filled with prerendered markup at
+   build time, so hydrate it (preserving the server DOM); fall back to a fresh
+   render if the page was served without prerender (e.g. raw file:// of a source
+   checkout before `npm run build`). */
+if (typeof document !== "undefined") {
+  const rootEl = document.getElementById("root");
+  if (rootEl) {
+    if (rootEl.firstElementChild) {
+      ReactDOM.hydrateRoot(rootEl, <App />);
+    } else {
+      ReactDOM.createRoot(rootEl).render(<App />);
+    }
+  }
+}

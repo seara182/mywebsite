@@ -6,6 +6,18 @@
 
 const { useState, useEffect, useRef } = React;
 
+/* ---------- asset base ----------
+   The same compiled JS runs on the root page (/) and on the per-language
+   prerendered pages (/en/, /fr/, /es/, /it/), which sit one directory deeper.
+   window.__ASSET_BASE__ is set per page by an inline <script> in the template
+   ("" for /, "../" for sub-dirs) and by build.mjs during prerender, so relative
+   asset URLs resolve correctly at any depth — on GitHub Pages and on file://
+   alike — with identical markup on server and client (no hydration mismatch). */
+function asset(p) {
+  var base = (typeof window !== "undefined" && window.__ASSET_BASE__) || "";
+  return base + p;
+}
+
 /* ---------- i18n hook ---------- */
 function useLang() {
   const [lang, setLang] = useState(window.I18N.getLang());
@@ -21,7 +33,9 @@ function useLang() {
 function LanguageSwitcherMount() {
   const ref = useRef(null);
   useEffect(() => { if (ref.current) window.Widgets.mountLanguageSwitcher(ref.current); }, []);
-  return <div ref={ref} />;
+  // <nav> landmark for assistive tech / crawlers; the switcher itself is
+  // position:fixed, so the wrapper is visually inert (no layout change).
+  return <nav aria-label="Sprache / Language" ref={ref} />;
 }
 
 function ContactChipMount() {
@@ -53,7 +67,7 @@ function Reveal({ children, delay = 0, as = "div", style = {}, className = "" })
   return (
     <Tag
       ref={ref}
-      className={className}
+      className={("js-reveal " + className).trim()}
       style={{
         opacity: seen ? 1 : 0,
         transform: seen ? "none" : "translateY(28px)",
@@ -306,4 +320,4 @@ function TimelineEntry({ role, org, period, location, points = [], last, accent 
   );
 }
 
-window.MJ = { useReveal, useLang, Reveal, Eyebrow, Badge, GlowShape, WaveBlend, TimelineEntry, AlignBlock, BlobPhoto, BlobCluster, FigurePlot, LanguageSwitcherMount, ContactChipMount };
+window.MJ = { asset, useReveal, useLang, Reveal, Eyebrow, Badge, GlowShape, WaveBlend, TimelineEntry, AlignBlock, BlobPhoto, BlobCluster, FigurePlot, LanguageSwitcherMount, ContactChipMount };

@@ -4,7 +4,7 @@
    Built on the design-system tokens + window.MJ primitives.
    ============================================================ */
 const { useState, useRef, useEffect } = React;
-const { Reveal, Eyebrow, GlowShape, WaveBlend, AlignBlock, FigurePlot, useLang } = window.MJ;
+const { asset, Reveal, Eyebrow, GlowShape, WaveBlend, AlignBlock, FigurePlot, useLang } = window.MJ;
 
 /* ---------- Bachelor-thesis measurement data ----------
    From Jeske-Mika_Bachelorarbeit-Messdaten.xlsx. Two figures:
@@ -296,10 +296,10 @@ function CleanroomTear() {
         </div>
         {/* relaxed photo row */}
         <div style={{ display: "flex", flexWrap: "wrap", gap: "clamp(16px,2.4vw,30px)", alignItems: "flex-start", marginTop: "clamp(28px,4vw,44px)" }}>
-          <LoosePhoto src="ci/assets/Bilder/ZMN/ZMN_Sputter.jpeg" caption={c.photos[0]} rot={-2.5} w={340} />
-          <LoosePhoto src="ci/assets/Bilder/ZMN/ZMN_Me.jpeg" caption={c.photos[1]} rot={2.5} w={210} />
-          <LoosePhoto src="ci/assets/Bilder/ZMN/ZMN_Profilo.jpeg" caption={c.photos[2]} rot={1.5} w={330} />
-          <LoosePhoto src="ci/assets/Bilder/ZMN/ZMN_Proben.jpeg" caption={c.photos[3]} rot={-1.5} w={205} />
+          <LoosePhoto src={asset("ci/assets/Bilder/ZMN/ZMN_Sputter.jpeg")} caption={c.photos[0]} rot={-2.5} w={340} />
+          <LoosePhoto src={asset("ci/assets/Bilder/ZMN/ZMN_Me.jpeg")} caption={c.photos[1]} rot={2.5} w={210} />
+          <LoosePhoto src={asset("ci/assets/Bilder/ZMN/ZMN_Profilo.jpeg")} caption={c.photos[2]} rot={1.5} w={330} />
+          <LoosePhoto src={asset("ci/assets/Bilder/ZMN/ZMN_Proben.jpeg")} caption={c.photos[3]} rot={-1.5} w={205} />
         </div>
       </TornSection>
     </section>
@@ -341,10 +341,10 @@ function ConfiTear() {
           {/* hand-glued polaroids */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "clamp(18px,2.4vw,30px)", padding: "8px 0 18px" }}>
             <div style={{ gridColumn: "1 / -1", maxWidth: 460, justifySelf: "center" }}>
-              <Polaroid src="ci/assets/Bilder/Konfi/Konfi_speach.jpeg" caption={c.photos[0]} rot={-2.5} tape />
+              <Polaroid src={asset("ci/assets/Bilder/Konfi/Konfi_speach.jpeg")} caption={c.photos[0]} rot={-2.5} tape />
             </div>
-            <Polaroid src="ci/assets/Bilder/Konfi/Konfi_Phe.jpeg" caption={c.photos[1]} rot={3} />
-            <Polaroid src="ci/assets/Bilder/Konfi/Konfi_Party.jpeg" caption={c.photos[2]} rot={-3.5} />
+            <Polaroid src={asset("ci/assets/Bilder/Konfi/Konfi_Phe.jpeg")} caption={c.photos[1]} rot={3} />
+            <Polaroid src={asset("ci/assets/Bilder/Konfi/Konfi_Party.jpeg")} caption={c.photos[2]} rot={-3.5} />
           </div>
         </div>
       </TornSection>

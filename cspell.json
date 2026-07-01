@@ -1,0 +1,42 @@
+{
+  "version": "0.2",
+  "language": "en,de-de,fr-fr,es-es,it-it",
+  "import": [
+    "@cspell/dict-de-de/cspell-ext.json",
+    "@cspell/dict-fr-fr/cspell-ext.json",
+    "@cspell/dict-es-es/cspell-ext.json",
+    "@cspell/dict-it-it/cspell-ext.json"
+  ],
+  "dictionaries": ["en_US", "de-de", "fr-fr", "es-es", "it-it", "softwareTerms", "companies", "project-terms"],
+  "dictionaryDefinitions": [
+    {
+      "name": "project-terms",
+      "path": "./ci/cspell-words.txt",
+      "addWords": true
+    }
+  ],
+  "ignorePaths": [
+    "node_modules/**",
+    "package-lock.json",
+    "primitives.js",
+    "sections-a.js",
+    "sections-b.js",
+    "sections-new.js",
+    "widgets.js",
+    "/index.html",
+    "en/**",
+    "fr/**",
+    "es/**",
+    "it/**",
+    "ci/assets/**",
+    ".git/**"
+  ],
+  "ignoreRegExpList": [
+    "/href=\"[^\"]*\"/",
+    "/src=\"[^\"]*\"/",
+    "/[A-Za-z]+\\.(jpeg|jpg|png|ico|css|js|otf|xlsx)/",
+    "/#[0-9A-Fa-f]{3,8}\\b/",
+    "/var\\(--[a-z0-9-]+\\)/"
+  ],
+  "words": []
+}

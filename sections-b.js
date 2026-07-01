@@ -5,6 +5,7 @@ function _extends() { return _extends = Object.assign ? Object.assign.bind() : f
    Mika Jeske — résumé, engagement, projects, footer + App shell
    ============================================================ */
 const {
+  asset,
   Reveal,
   Eyebrow,
   Badge,
@@ -251,7 +252,7 @@ function Engagement() {
       height: 860
     },
     photos: [{
-      src: "ci/assets/Bilder/Weitere/e_kids.jpeg",
+      src: asset("ci/assets/Bilder/Weitere/e_kids.jpeg"),
       caption: ep[0],
       glow: "white",
       w: 430,
@@ -265,7 +266,7 @@ function Engagement() {
         left: 130
       }
     }, {
-      src: "ci/assets/Bilder/Weitere/e_hfc.jpeg",
+      src: asset("ci/assets/Bilder/Weitere/e_hfc.jpeg"),
       caption: ep[1],
       glow: "white",
       w: 288,
@@ -390,7 +391,7 @@ function Projects() {
       background: "var(--accent)"
     }
   }), f))), /*#__PURE__*/React.createElement("a", {
-    href: "projects/sports-window/",
+    href: asset("projects/sports-window/"),
     style: {
       display: "inline-flex",
       alignItems: "center",
@@ -584,7 +585,7 @@ function Footer() {
   }, /*#__PURE__*/React.createElement("path", {
     d: "M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"
   })), f.phone), /*#__PURE__*/React.createElement("a", {
-    href: "impressum/",
+    href: asset("impressum/"),
     style: {
       fontSize: "var(--fs-body)",
       color: "var(--text-body)",
@@ -609,7 +610,7 @@ function Footer() {
       marginTop: 32
     }
   }, /*#__PURE__*/React.createElement("a", {
-    href: "private/",
+    href: asset("private/"),
     style: {
       display: "inline-flex",
       padding: 8,
@@ -699,5 +700,25 @@ function SideOrbs() {
 function App() {
   return /*#__PURE__*/React.createElement("main", null, /*#__PURE__*/React.createElement(SideOrbs, null), /*#__PURE__*/React.createElement(LanguageSwitcherMount, null), /*#__PURE__*/React.createElement(ContactChipMount, null), /*#__PURE__*/React.createElement(Hero, null), /*#__PURE__*/React.createElement(Intro, null), /*#__PURE__*/React.createElement(Story, null), /*#__PURE__*/React.createElement(Resume, null), /*#__PURE__*/React.createElement(CleanroomTear, null), /*#__PURE__*/React.createElement(Engagement, null), /*#__PURE__*/React.createElement(ConfiTear, null), /*#__PURE__*/React.createElement(Reunion, null), /*#__PURE__*/React.createElement(Projects, null), /*#__PURE__*/React.createElement(Footer, null));
 }
-ReactDOM.createRoot(document.getElementById("root")).render(/*#__PURE__*/React.createElement(App, null));
+
+/* Expose the root component so the build-time prerender (build.mjs) can render it
+   to static HTML in Node. */
+window.SECTIONS_B = {
+  App
+};
+
+/* Mount only in the browser. The #root is pre-filled with prerendered markup at
+   build time, so hydrate it (preserving the server DOM); fall back to a fresh
+   render if the page was served without prerender (e.g. raw file:// of a source
+   checkout before `npm run build`). */
+if (typeof document !== "undefined") {
+  const rootEl = document.getElementById("root");
+  if (rootEl) {
+    if (rootEl.firstElementChild) {
+      ReactDOM.hydrateRoot(rootEl, /*#__PURE__*/React.createElement(App, null));
+    } else {
+      ReactDOM.createRoot(rootEl).render(/*#__PURE__*/React.createElement(App, null));
+    }
+  }
+}
 })();

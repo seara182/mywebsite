@@ -4,6 +4,7 @@
    Mika Jeske — landing page sections (single-scroll narrative)
    ============================================================ */
 const {
+  asset,
   Reveal,
   Eyebrow,
   Badge,
@@ -75,6 +76,7 @@ function Hero() {
       marginBottom: 8
     }
   }, /*#__PURE__*/React.createElement("span", {
+    className: "hero-line",
     style: {
       display: "inline-block",
       fontFamily: "var(--font-text)",
@@ -106,6 +108,7 @@ function Hero() {
       marginBottom: "-0.14em"
     }
   }, /*#__PURE__*/React.createElement("span", {
+    className: "hero-line",
     style: {
       display: "inline-block",
       transform: mounted ? "none" : "translateY(108%) rotate(4deg)",
@@ -195,7 +198,7 @@ function Intro() {
       height: 820
     },
     photos: [{
-      src: "ci/assets/Bilder/Weitere/i_e_chem.jpeg",
+      src: asset("ci/assets/Bilder/Weitere/i_e_chem.jpeg"),
       caption: ip[0],
       glow: "white",
       w: 300,
@@ -209,7 +212,7 @@ function Intro() {
         left: 0
       }
     }, {
-      src: "ci/assets/Bilder/Weitere/i_zfp.jpeg",
+      src: asset("ci/assets/Bilder/Weitere/i_zfp.jpeg"),
       caption: ip[1],
       glow: "white",
       w: 380,
@@ -236,7 +239,7 @@ function Intro() {
     color: "var(--sienna-glow)"
   }, t("intro.eyebrow"))), /*#__PURE__*/React.createElement(Reveal, {
     delay: 80
-  }, /*#__PURE__*/React.createElement("p", {
+  }, /*#__PURE__*/React.createElement("h2", {
     style: {
       fontFamily: "var(--font-display)",
       fontWeight: 600,

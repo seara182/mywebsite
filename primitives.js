@@ -12,6 +12,18 @@ const {
   useRef
 } = React;
 
+/* ---------- asset base ----------
+   The same compiled JS runs on the root page (/) and on the per-language
+   prerendered pages (/en/, /fr/, /es/, /it/), which sit one directory deeper.
+   window.__ASSET_BASE__ is set per page by an inline <script> in the template
+   ("" for /, "../" for sub-dirs) and by build.mjs during prerender, so relative
+   asset URLs resolve correctly at any depth — on GitHub Pages and on file://
+   alike — with identical markup on server and client (no hydration mismatch). */
+function asset(p) {
+  var base = typeof window !== "undefined" && window.__ASSET_BASE__ || "";
+  return base + p;
+}
+
 /* ---------- i18n hook ---------- */
 function useLang() {
   const [lang, setLang] = useState(window.I18N.getLang());
@@ -29,7 +41,10 @@ function LanguageSwitcherMount() {
   useEffect(() => {
     if (ref.current) window.Widgets.mountLanguageSwitcher(ref.current);
   }, []);
-  return /*#__PURE__*/React.createElement("div", {
+  // <nav> landmark for assistive tech / crawlers; the switcher itself is
+  // position:fixed, so the wrapper is visually inert (no layout change).
+  return /*#__PURE__*/React.createElement("nav", {
+    "aria-label": "Sprache / Language",
     ref: ref
   });
 }
@@ -75,7 +90,7 @@ function Reveal({
   const Tag = as;
   return /*#__PURE__*/React.createElement(Tag, {
     ref: ref,
-    className: className,
+    className: ("js-reveal " + className).trim(),
     style: {
       opacity: seen ? 1 : 0,
       transform: seen ? "none" : "translateY(28px)",
@@ -735,6 +750,7 @@ function TimelineEntry({
   }, p)))));
 }
 window.MJ = {
+  asset,
   useReveal,
   useLang,
   Reveal,
