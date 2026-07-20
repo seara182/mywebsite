@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <!-- Auth guard: runs before anything renders. If the visitor has not passed
+       the password gate at /private/, send them there instead of showing this
+       page. (Client-side only — see note in the repo; not a substitute for
+       real server-side protection.) -->
+  <script>
+    if (sessionStorage.getItem("authenticated") !== "true") {
+      window.location.replace("../");
+    }
+  </script>
+  <title>Charakterfragen — Aethelgard's Rose</title>
+  <link rel="icon" href="../../ci/icons/Favicon32x.ico">
+  <link rel="apple-touch-icon" href="../../ci/icons/Favicon128x.ico">
+  <link rel="stylesheet" href="../../ci/styles.css">
+  <style>
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      padding: clamp(32px, 5vw, 64px);
+      padding-top: clamp(48px, 8vw, 96px);
+    }
+
+    main {
+      max-width: var(--content);
+      margin: 0 auto;
+    }
+
+    .hero {
+      margin-bottom: clamp(56px, 8vw, 96px);
+      opacity: 0;
+      transform: translateY(28px);
+      animation: revealUp 760ms var(--ease-glide) forwards;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: -48px -32px;
+      background: var(--glow-sienna);
+      border-radius: var(--radius-xl);
+      z-index: -1;
+      opacity: 0.4;
+      filter: blur(64px);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero { animation: none; opacity: 1; transform: none; }
+      .hero::before { display: none; }
+    }
+
+    @keyframes revealUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .page-title-accent {
+      font-family: var(--font-mono);
+      font-size: clamp(11px, 1.2vw, 13px);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--sienna);
+      display: block;
+      margin-bottom: 8px;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 8vw, 56px);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.04;
+      color: var(--ink);
+      margin: 0 0 16px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-subtitle {
+      font-family: var(--font-text);
+      font-size: clamp(16px, 2vw, 20px);
+      font-weight: 400;
+      line-height: 1.65;
+      color: var(--text-body);
+      max-width: 640px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .roller-card {
+      background: var(--paper-2);
+      border-radius: var(--radius-lg);
+      padding: clamp(32px, 6vw, 64px);
+      text-align: center;
+      box-shadow: inset 0 0 32px rgba(0, 0, 0, 0.05);
+      margin-bottom: clamp(48px, 6vw, 80px);
+    }
+
+    .roller-counter {
+      font-family: var(--font-mono);
+      font-size: clamp(11px, 1.2vw, 13px);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: clamp(16px, 2vw, 24px);
+    }
+
+    .roller-number {
+      font-family: var(--font-display);
+      font-size: clamp(64px, 14vw, 120px);
+      font-weight: 700;
+      color: var(--sienna);
+      line-height: 1;
+      margin-bottom: clamp(16px, 2vw, 24px);
+    }
+
+    .roller-question {
+      font-family: var(--font-text);
+      font-size: clamp(17px, 2.2vw, 22px);
+      line-height: 1.6;
+      color: var(--ink);
+      max-width: 620px;
+      margin: 0 auto clamp(28px, 4vw, 40px) auto;
+      min-height: 3.2em;
+    }
+
+    .roller-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    button {
+      font-family: var(--font-text);
+      font-size: clamp(13px, 1.5vw, 15px);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 240ms var(--ease-out);
+    }
+
+    .btn-primary {
+      padding: 14px 32px;
+      background: var(--sienna);
+      color: white;
+      border: 1px solid var(--sienna);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: #a84c2f;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-secondary {
+      padding: 14px 32px;
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink);
+    }
+
+    section {
+      margin-bottom: clamp(64px, 8vw, 96px);
+      opacity: 0;
+      transform: translateY(28px);
+      animation: revealUp 760ms var(--ease-glide) forwards;
+      animation-delay: 120ms;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      section { animation: none; opacity: 1; transform: none; }
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: clamp(11px, 1.2vw, 13px);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--sienna);
+      margin-bottom: clamp(16px, 2vw, 24px);
+    }
+
+    h2 {
+      font-family: var(--font-display);
+      font-size: clamp(24px, 5vw, 32px);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      color: var(--ink);
+      margin: 0 0 clamp(16px, 2vw, 24px) 0;
+    }
+
+    .file-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .file-note {
+      font-family: var(--font-text);
+      font-size: clamp(13px, 1.4vw, 15px);
+      line-height: 1.6;
+      color: var(--text-muted);
+      margin: 0 0 clamp(16px, 2vw, 24px) 0;
+      max-width: 640px;
+    }
+
+    .status-message {
+      font-family: var(--font-text);
+      font-size: clamp(12px, 1.3vw, 14px);
+      margin-top: 12px;
+      min-height: 20px;
+      color: var(--text-muted);
+    }
+
+    .status-message.is-error { color: #d32f2f; }
+    .status-message.is-success { color: #2e7d32; }
+
+    .footer-nav {
+      display: flex;
+      gap: 16px;
+      margin-top: clamp(56px, 8vw, 96px);
+      padding-top: clamp(32px, 5vw, 56px);
+      border-top: 1px solid var(--border);
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: var(--ink);
+      color: var(--paper);
+      text-decoration: none;
+      border-radius: var(--radius-md);
+      font-family: var(--font-text);
+      font-size: clamp(12px, 1.4vw, 14px);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: all 240ms var(--ease-out);
+      border: 1px solid var(--ink);
+    }
+
+    .back-link:hover {
+      background: var(--sienna);
+      border-color: var(--sienna);
+      transform: translateX(-4px);
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 24px 16px; padding-top: clamp(32px, 6vw, 64px); }
+      main { max-width: 100%; }
+      h1 { font-size: clamp(28px, 7vw, 40px); }
+      .roller-card { padding: 28px 20px; }
+      .roller-actions { flex-direction: column; }
+      .roller-actions button { width: 100%; }
+      .file-row { flex-direction: column; align-items: stretch; }
+    }
+  </style>
+</head>
+<body>
+
+  <main>
+    <div class="hero">
+      <span class="page-title-accent">Hör auf zu Fragen!</span>
+      <h1>Charakterfragen</h1>
+      <p class="hero-subtitle">d100 Charakterfragen für Aethelgard's Rose — würfle eine Frage, die noch nicht gestellt wurde.</p>
+    </div>
+
+    <div class="roller-card">
+      <div class="roller-counter" id="counter">0 / 100 gestellt</div>
+      <div class="roller-number" id="number">?</div>
+      <p class="roller-question" id="question">Drücke den Button, um eine Frage zu ziehen.</p>
+      <div class="roller-actions">
+        <button type="button" class="btn-primary" id="roll-btn">würfeln</button>
+        <button type="button" class="btn-secondary" id="reset-btn">zurücksetzen (Cookies löschen)</button>
+      </div>
+    </div>
+
+    <section>
+      <span class="section-label">Sicherung</span>
+      <h2>Stand speichern / laden</h2>
+      <p class="file-note">
+        Der Fortschritt wird automatisch in einem Cookie in diesem Browser gespeichert.
+        Du kannst ihn zusätzlich als <code>roll_state.json</code> herunterladen (dasselbe Format wie die Desktop-App) oder eine
+        solche Datei hochladen. Ein Upload gilt nur für diese Browser-Sitzung — der gespeicherte Cookie bleibt dabei unverändert
+        und ist nach dem Schließen des Tabs wieder aktiv.
+      </p>
+      <div class="file-row">
+        <button type="button" class="btn-secondary" id="download-btn">roll_state.json herunterladen</button>
+        <button type="button" class="btn-secondary" id="upload-btn">roll_state.json hochladen</button>
+        <input type="file" id="upload-input" accept="application/json" hidden>
+      </div>
+      <div class="status-message" id="file-status"></div>
+    </section>
+
+    <div class="footer-nav">
+      <a class="back-link" href="../">← Zurück zu Portal</a>
+    </div>
+  </main>
+
+  <script>
+    const FRAGEN = [
+      "Was ist das Erste, das du wahrnimmst, wenn du einen fremden Raum betrittst?",
+      "Hast du eine früheste Kindheitserinnerung – und ist sie schön oder unangenehm?",
+      "Was trägst du immer bei dir, egal wohin?",
+      "Bist du ein Morgenmensch oder eine Nachteule?",
+      "Hattest du als Kind ein Tier?",
+      "Woran erkennt man dich in einer Menge – wenn man dich gut kennt?",
+      "Träumst du davon, dich eines Tages irgendwo wirklich niederzulassen – mit Heim, Stille, Ordnung?",
+      "Hast du auffällige Narben oder Muttermale? Was ist die Geschichte dahinter?",
+      "Hast du ungewöhnliche Talente, die man dir auf den ersten Blick nicht ansehen würde?",
+      "Was ist eine Eigenschaft an dir, die du selbst nicht magst?",
+      "Hast du Spitznamen oder Kosenamen – und wer nennt dich wie?",
+      "Was bringt dich zum Lachen, auch wenn du eigentlich nicht lachen solltest?",
+      "Gehst du lieber zu einem kleinen privaten Abendessen oder zu einem großen Ball?",
+      "Hast du nervöse Angewohnheiten – beim Reden, Warten, unter Druck oder wenn du verlegen bist?",
+      "Hast du einen Glücksbringer?",
+      "Was war dein liebstes Versteck als Kind?",
+      "Hältst du Zimmerpflanzen oder kümmerst du dich um einen Garten?",
+      "Kochst du selbst oder lässt du kochen – und könntest du es notfalls?",
+      "Führst du ein Tagebuch?",
+      "Kannst du schwimmen?",
+      "Hast du eine Phobie?",
+      "Was ist eine gesellschaftliche Erwartung, die du erfüllst, aber eigentlich nicht verstehst?",
+      "Magst du Überraschungen?",
+      "Wie lange dauert es, bis du jemandem wirklich vertraust?",
+      "Warst du schon einmal verliebt?",
+      "Hast du jemals selbst etwas mit den Händen hergestellt oder bepflanzt?",
+      "Hast du einen Gegenstand aus der Kindheit aufbewahrt?",
+      "Was ist eine Meinung, die du hast, die in deinem Stand seltsam oder unangemessen wirken würde?",
+      "Warst du jemals bei einer Wahrsagerin, Seherin oder Kristallleserin?",
+      "Womit versuchst du zu beeindrucken – bewusst oder unbewusst?",
+      "Was machst du am liebsten in deiner Freizeit?",
+      "Wie hast du als Kind dein Zimmer eingerichtet – oder hattest du diese Wahl nicht?",
+      "Was hat dir als Kind Angst gemacht?",
+      "Wenn du eine Entscheidung aus der Vergangenheit anders treffen könntest – welche Art von Entscheidung wäre das?",
+      "Wenn du für den Rest deines Lebens nur eine einzige Speise essen könntest – welche?",
+      "Wenn du überall hinreisen könntest – wo würdest du hingehen?",
+      "Wenn du dir ein ruhiges Leben ganz nach deinen Vorstellungen bauen könntest – wie sähe es aus?",
+      "Wie verhältst du dich gegenüber Bediensteten?",
+      "Wenn du in einer Theatergesellschaft wärst – welche Rolle würdest du spielen?",
+      "Was ist das beste Kompliment, das du je erhalten hast?",
+      "Was ist dein liebstes Naschwerk?",
+      "Was ist deine Lieblingsfarbe?",
+      "Was ist dein Lieblingsfest oder deine Lieblingsfeier?",
+      "Was war das beste Essen, das du je hattest?",
+      "Was war die schlechteste Aufführung – Theater, Konzert, Soirée –, die du je erlebt hast?",
+      "Wer war die erste Person außerhalb deiner Familie, der du wirklich vertraut hast?",
+      "Wann warst du zuletzt in einem Gotteshaus – und was hat dich dorthin geführt?",
+      "Wer ist die wichtigste Person in deinem Leben – und warum?",
+      "Welchen Ort hast du besucht und möchtest du nie wieder sehen?",
+      "Was willst du unbedingt getan haben, bevor du stirbst?",
+      "Was magst du lieber – Hitze oder Kälte?",
+      "Was war dein liebstes Kleidungsstück oder Accessoire, das du je besessen hast?",
+      "Was war dein größtes Talent, als du jünger warst?",
+      "Was wolltest du werden, als du jung warst?",
+      "Würdest du etwas an deinem Äußeren verändern wollen – wenn du könntest?",
+      "Was war deine liebste Familientradition als Kind?",
+      "Zu wem schaust du auf?",
+      "Was fasziniert dich an Menschen, ohne dass du immer sagen könntest warum?",
+      "Wer war dein/e beste/r Freund/in, als du aufgewachsen bist?",
+      "Was kannst du besser als die meisten Menschen in deinem Umfeld?",
+      "Was würdest du an der Person ändern, die du am meisten liebst?",
+      "Wen wünschst du dir jetzt an deine Seite – und wie würde es besser werden?",
+      "Was hast du letzte Nacht geträumt?",
+      "Was hast du aufgegeben, was du jetzt bereust?",
+      "Wie verhältst du dich gegenüber jemandem, dem du nicht traust, dem du aber trotzdem höflich sein musst?",
+      "Was tust du, wenn du nicht schlafen kannst?",
+      "Wie sieht dein Morgenritual aus?",
+      "Welche Anekdote erzählst du am liebsten, wenn die Gesellschaft es verlangt?",
+      "Was war das schlechteste Essen, das du je hattest?",
+      "Bist du ordentlich – oder fällt das je nach Bereich sehr unterschiedlich aus?",
+      "Was ist deine Lieblingsjahreszeit?",
+      "Mit welchem Tier oder welcher Kreatur – auch magischer Art – verbindest du dich am ehesten?",
+      "Was ist eine Grenze, die du nie überschreiten würdest – egal, was auf dem Spiel steht?",
+      "Welche Musik würde als Hintergrundmelodie für dein Leben taugen?",
+      "Wem würdest du am ehesten ein Geheimnis anvertrauen?",
+      "Welchen Rat würdest du deinem jüngeren Ich geben?",
+      "Was ist deine nervigste eigene Angewohnheit?",
+      "Welche Aufgabe würdest du unter keinen Umständen selbst erledigen?",
+      "Was regt dich am schnellsten auf?",
+      "Was ist deine Lieblingskunstform – Musik, Malerei, Poesie, Theater?",
+      "Was würdest du lieber missen – das Hören oder das Sehen?",
+      "Wer hat dich in dem, was du am besten kannst, unterrichtet oder geprägt?",
+      "Was beobachtest du an Menschen, bevor du anfängst zu reden?",
+      "Was ist dein liebstes Möbelstück oder dein liebster persönlicher Besitz?",
+      "Wann warst du zuletzt wirklich auf Erholung – und wo?",
+      "Wie stehst du, wenn du nicht darüber nachdenkst?",
+      "Was ist deine liebste körperliche Aktivität?",
+      "Was hat dich als Kind fasziniert – und fasziniert es dich noch?",
+      "Was ist dein Lieblingswetter?",
+      "Was kaufst du dir als Erstes, wenn du in einen neuen Haushalt ziehst?",
+      "Wenn du frei wählen könntest – ohne Rücksicht auf Stand, Erwartungen oder Geschlecht –, welche Stellung oder welchen Beruf hättest du dann?",
+      "Welcher Eintrag im Whispering Petal wäre für dich am schlimmsten zu lesen – unabhängig davon, ob er stimmt?",
+      "Wie stehst du zur Magie – als Alltäglichkeit, Faszination, oder etwas, dem du lieber aus dem Weg gehst?",
+      "Was denkst du über die nicht-menschlichen Völker wirklich, wenn niemand zuhört?",
+      "Hast du jemals etwas erlebt, das du dir rational nicht erklären konntest?",
+      "Was rettest du als Erstes aus einem brennenden Haus?",
+      "Wann hast du zuletzt jemandem etwas vorgesungen oder vorgetragen?",
+      "Wenn du eine anonyme Botschaft an eine einzige Person in Aethelgard's Rose schicken könntest – was würdest du schreiben?",
+      "Wie reagierst du, wenn du überraschend gelobt wirst?",
+      "Was tust du, um dich wirklich zu entspannen – ganz ohne Publikum?",
+    ];
+
+    const TOTAL = FRAGEN.length;
+    const COOKIE_NAME = "aethelgard_fragen_used";
+    const SESSION_KEY = "aethelgard_fragen_session_used";
+
+    function getCookie(name) {
+      const match = document.cookie.match(new RegExp("(?:^|; )" + name + "=([^;]*)"));
+      return match ? match[1] : null;
+    }
+
+    function setCookie(name, value, days) {
+      const maxAge = days * 24 * 60 * 60;
+      document.cookie = name + "=" + value + ";path=/;max-age=" + maxAge + ";SameSite=Lax";
+    }
+
+    function deleteCookie(name) {
+      document.cookie = name + "=;path=/;max-age=0;SameSite=Lax";
+    }
+
+    function hasSessionOverride() {
+      return sessionStorage.getItem(SESSION_KEY) !== null;
+    }
+
+    function loadUsed() {
+      if (hasSessionOverride()) {
+        try {
+          return new Set(JSON.parse(sessionStorage.getItem(SESSION_KEY)));
+        } catch (e) {
+          return new Set();
+        }
+      }
+      const cookieValue = getCookie(COOKIE_NAME);
+      if (!cookieValue) return new Set();
+      try {
+        return new Set(JSON.parse(decodeURIComponent(cookieValue)));
+      } catch (e) {
+        return new Set();
+      }
+    }
+
+    function saveUsed(usedSet) {
+      const arr = Array.from(usedSet).sort((a, b) => a - b);
+      if (hasSessionOverride()) {
+        sessionStorage.setItem(SESSION_KEY, JSON.stringify(arr));
+      } else {
+        setCookie(COOKIE_NAME, encodeURIComponent(JSON.stringify(arr)), 400);
+      }
+      return arr;
+    }
+
+    const numberEl = document.getElementById("number");
+    const questionEl = document.getElementById("question");
+    const counterEl = document.getElementById("counter");
+    const rollBtn = document.getElementById("roll-btn");
+    const resetBtn = document.getElementById("reset-btn");
+    const downloadBtn = document.getElementById("download-btn");
+    const uploadBtn = document.getElementById("upload-btn");
+    const uploadInput = document.getElementById("upload-input");
+    const fileStatus = document.getElementById("file-status");
+
+    let used = loadUsed();
+
+    function refresh() {
+      const gestellt = used.size;
+      counterEl.textContent = gestellt + " / " + TOTAL + " gestellt";
+      rollBtn.disabled = gestellt >= TOTAL;
+    }
+
+    function setStatus(message, kind) {
+      fileStatus.textContent = message;
+      fileStatus.classList.remove("is-error", "is-success");
+      if (kind) fileStatus.classList.add(kind);
+    }
+
+    rollBtn.addEventListener("click", () => {
+      const verfuegbar = [];
+      for (let i = 1; i <= TOTAL; i++) {
+        if (!used.has(i)) verfuegbar.push(i);
+      }
+      if (verfuegbar.length === 0) return;
+      const zahl = verfuegbar[Math.floor(Math.random() * verfuegbar.length)];
+      used.add(zahl);
+      saveUsed(used);
+      numberEl.textContent = String(zahl);
+      questionEl.textContent = FRAGEN[zahl - 1];
+      refresh();
+    });
+
+    resetBtn.addEventListener("click", () => {
+      if (!confirm("Alle Fragen zurücksetzen? Das löscht den gespeicherten Cookie-Stand.")) return;
+      if (hasSessionOverride()) {
+        sessionStorage.removeItem(SESSION_KEY);
+      } else {
+        deleteCookie(COOKIE_NAME);
+      }
+      used = loadUsed();
+      numberEl.textContent = "?";
+      questionEl.textContent = "Drücke den Button, um eine Frage zu ziehen.";
+      refresh();
+    });
+
+    downloadBtn.addEventListener("click", () => {
+      const arr = Array.from(used).sort((a, b) => a - b);
+      const blob = new Blob([JSON.stringify(arr)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "roll_state.json";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      setStatus("roll_state.json heruntergeladen.", "is-success");
+    });
+
+    uploadBtn.addEventListener("click", () => uploadInput.click());
+
+    uploadInput.addEventListener("change", () => {
+      const file = uploadInput.files[0];
+      uploadInput.value = "";
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        let parsed;
+        try {
+          parsed = JSON.parse(reader.result);
+        } catch (e) {
+          setStatus("Datei ist kein gültiges JSON.", "is-error");
+          return;
+        }
+        if (!Array.isArray(parsed)) {
+          setStatus("Erwartet wird ein JSON-Array von Zahlen.", "is-error");
+          return;
+        }
+        const valid = Array.from(new Set(
+          parsed
+            .map((n) => Number(n))
+            .filter((n) => Number.isInteger(n) && n >= 1 && n <= TOTAL)
+        )).sort((a, b) => a - b);
+        sessionStorage.setItem(SESSION_KEY, JSON.stringify(valid));
+        used = loadUsed();
+        numberEl.textContent = "?";
+        questionEl.textContent = "Drücke den Button, um eine Frage zu ziehen.";
+        refresh();
+        setStatus(
+          valid.length + " Fragen geladen — gilt nur für diese Sitzung, der Cookie bleibt unverändert.",
+          "is-success"
+        );
+      };
+      reader.onerror = () => setStatus("Datei konnte nicht gelesen werden.", "is-error");
+      reader.readAsText(file);
+    });
+
+    refresh();
+  </script>
+
+</body>
+</html>
