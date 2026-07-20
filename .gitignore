@@ -13,6 +13,7 @@ todo.md
 website-texts.local.md
 animations.md
 HANDOFF.md
+password.md
 
 # build tooling — the compiled *.js files ARE committed (GitHub Pages serves them),
 # but the toolchain that produces them is not
