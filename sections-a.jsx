@@ -14,7 +14,14 @@ function Hero() {
       {/* ambient drifting shapes */}
       <GlowShape shape="blob" glow="duo" size={420} drift className="hero-glow-blob" style={{ position: "absolute", top: "-8%", right: "-6%", zIndex: 2, opacity: 0.9, transition: "opacity 1.2s ease", pointerEvents: "none" }} />
       <GlowShape shape="arch" glow="navy" size={240} drift style={{ position: "absolute", bottom: 0, left: "-4%", zIndex: 2, pointerEvents: "none" }} />
-      <div style={{ position: "relative", zIndex: 3, maxWidth: "var(--content-wide)", margin: "0 auto", width: "100%" }}>
+      {/* portrait — widescreen only (≥1440px, see .hero-photo in index.template.html);
+         sits in front of the ambient blobs, drifts a hair via drift-soft */}
+      <div className="hero-photo" aria-hidden="true" style={{ position: "absolute", zIndex: 2, right: "clamp(80px, 15vw, 340px)", bottom: 0, height: "clamp(520px, 66vh, 820px)", pointerEvents: "none" }}>
+        <div aria-hidden style={{ position: "absolute", left: "50%", top: "42%", width: "82%", height: "82%", transform: "translate(-50%,-50%)", background: "var(--glow-duo)", opacity: 0.55, filter: "var(--blur-md)", borderRadius: "50%", pointerEvents: "none", zIndex: 0 }} />
+        <img src={asset("ci/assets/Bilder/Weitere/site_header.png")} alt="Mika Jeske" className="drift-soft"
+          style={{ position: "relative", zIndex: 1, display: "block", height: "100%", width: "auto" }} />
+      </div>
+      <div style={{ position: "relative", zIndex: 3, maxWidth: "var(--content)", margin: "0 auto", width: "100%" }}>
         <div style={{ overflow: "hidden", marginBottom: 8 }}>
           <span className="hero-line" style={{ display: "inline-block", fontFamily: "var(--font-text)", fontSize: "var(--fs-label)", fontWeight: 600, letterSpacing: "var(--ls-label)", textTransform: "uppercase", color: "var(--label)", transform: mounted ? "none" : "translateY(120%)", opacity: mounted ? 1 : 0, transition: "transform 0.7s var(--ease-glide) 0.5s, opacity 0.7s ease 0.5s" }}>
             {t("hero.eyebrow")}

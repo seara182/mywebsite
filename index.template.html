@@ -89,6 +89,14 @@
   /* hero: progressive-enhancement fallback for browsers without svh */
   .hero { min-height: 100vh; min-height: 100svh; }
 
+  /* hero portrait — widescreen only; below 1440px there isn't clearance
+     between the name and the ambient blob, so it stays hidden and the
+     hero renders exactly as before on phone/tablet/laptop. */
+  .hero-photo { display: none; }
+  @media (min-width: 1440px) {
+    .hero-photo { display: block; }
+  }
+
   /* per-section alignment (AlignBlock) is DESKTOP-ONLY. Below 768px it
      collapses back to centred/full-width, so phones/tablets render as before. */
   @media (max-width: 768px) {

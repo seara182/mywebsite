@@ -63,10 +63,48 @@ function Hero() {
       pointerEvents: "none"
     }
   }), /*#__PURE__*/React.createElement("div", {
+    className: "hero-photo",
+    "aria-hidden": "true",
+    style: {
+      position: "absolute",
+      zIndex: 2,
+      right: "clamp(80px, 15vw, 340px)",
+      bottom: 0,
+      height: "clamp(520px, 66vh, 820px)",
+      pointerEvents: "none"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    "aria-hidden": true,
+    style: {
+      position: "absolute",
+      left: "50%",
+      top: "42%",
+      width: "82%",
+      height: "82%",
+      transform: "translate(-50%,-50%)",
+      background: "var(--glow-duo)",
+      opacity: 0.55,
+      filter: "var(--blur-md)",
+      borderRadius: "50%",
+      pointerEvents: "none",
+      zIndex: 0
+    }
+  }), /*#__PURE__*/React.createElement("img", {
+    src: asset("ci/assets/Bilder/Weitere/site_header.png"),
+    alt: "Mika Jeske",
+    className: "drift-soft",
+    style: {
+      position: "relative",
+      zIndex: 1,
+      display: "block",
+      height: "100%",
+      width: "auto"
+    }
+  })), /*#__PURE__*/React.createElement("div", {
     style: {
       position: "relative",
       zIndex: 3,
-      maxWidth: "var(--content-wide)",
+      maxWidth: "var(--content)",
       margin: "0 auto",
       width: "100%"
     }
