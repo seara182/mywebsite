@@ -290,9 +290,9 @@
 
   <main>
     <div class="hero">
-      <span class="page-title-accent">Hör auf zu Fragen!</span>
+      <span class="page-title-accent">Fang an zu fragen!</span>
       <h1>Charakterfragen</h1>
-      <p class="hero-subtitle">d100 Charakterfragen für Aethelgard's Rose — würfle eine Frage, die noch nicht gestellt wurde.</p>
+      <p class="hero-subtitle">100 Charakterfragen für Aethelgard's Rose.</p>
     </div>
 
     <div class="roller-card">
@@ -308,12 +308,7 @@
     <section>
       <span class="section-label">Sicherung</span>
       <h2>Stand speichern / laden</h2>
-      <p class="file-note">
-        Der Fortschritt wird automatisch in einem Cookie in diesem Browser gespeichert.
-        Du kannst ihn zusätzlich als <code>roll_state.json</code> herunterladen (dasselbe Format wie die Desktop-App) oder eine
-        solche Datei hochladen. Ein Upload gilt nur für diese Browser-Sitzung — der gespeicherte Cookie bleibt dabei unverändert
-        und ist nach dem Schließen des Tabs wieder aktiv.
-      </p>
+      <p class="file-note">Fortschritt liegt im Cookie. Upload gilt nur für diese Sitzung.</p>
       <div class="file-row">
         <button type="button" class="btn-secondary" id="download-btn">roll_state.json herunterladen</button>
         <button type="button" class="btn-secondary" id="upload-btn">roll_state.json hochladen</button>
@@ -574,10 +569,7 @@
         numberEl.textContent = "?";
         questionEl.textContent = "Drücke den Button, um eine Frage zu ziehen.";
         refresh();
-        setStatus(
-          valid.length + " Fragen geladen — gilt nur für diese Sitzung, der Cookie bleibt unverändert.",
-          "is-success"
-        );
+        setStatus(valid.length + " Fragen geladen.", "is-success");
       };
       reader.onerror = () => setStatus("Datei konnte nicht gelesen werden.", "is-error");
       reader.readAsText(file);
