@@ -118,9 +118,15 @@
   }
 
   .kernzahl-card {
-    background: var(--paper-2); border-radius: var(--radius-lg); padding: clamp(28px, 5vw, 48px);
+    position: relative; overflow: hidden; background: var(--paper);
+    border-radius: var(--radius-lg); padding: clamp(28px, 5vw, 48px);
     box-shadow: inset 0 0 32px rgba(22,20,15,0.04); margin-bottom: clamp(28px, 4vw, 40px);
   }
+  .kernzahl-card::before {
+    content: ''; position: absolute; inset: -20% -10%; background: var(--glow-duo);
+    opacity: 0.28; filter: blur(48px); z-index: 0;
+  }
+  .kernzahl-card > * { position: relative; z-index: 1; }
   .kernzahl-label { font-family: var(--font-mono); font-size: var(--fs-label); text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 12px; }
   .kernzahl-wert { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-display); line-height: var(--lh-tight); color: var(--sienna); }
   .kernzahl-wert span.von { font-size: var(--fs-h3); color: var(--text-muted); font-weight: 600; margin-left: 6px; }
@@ -216,6 +222,20 @@
   .slider-row .slider-value { font-family: var(--font-mono); font-size: var(--fs-caption); font-weight: 600; color: var(--sienna); white-space: nowrap; }
   .slider-row input[type="range"] {
     width: 100%; height: 44px; accent-color: var(--sienna); cursor: pointer; background: transparent;
+    -webkit-appearance: none; appearance: none; --slider-fill: 0%;
+  }
+  .slider-row input[type="range"]::-webkit-slider-runnable-track {
+    height: 6px; border-radius: var(--radius-pill);
+    background: linear-gradient(to right, var(--sienna) var(--slider-fill), var(--paper-3) var(--slider-fill));
+  }
+  .slider-row input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none; width: 22px; height: 22px; margin-top: -8px;
+    border-radius: 50%; background: var(--paper); border: 2px solid var(--sienna); box-shadow: var(--shadow-sm);
+  }
+  .slider-row input[type="range"]::-moz-range-track { height: 6px; border-radius: var(--radius-pill); background: var(--paper-3); }
+  .slider-row input[type="range"]::-moz-range-progress { height: 6px; border-radius: var(--radius-pill); background: var(--sienna); }
+  .slider-row input[type="range"]::-moz-range-thumb {
+    width: 22px; height: 22px; border-radius: 50%; background: var(--paper); border: 2px solid var(--sienna); box-shadow: var(--shadow-sm);
   }
   .gewicht-summe-hinweis { font-size: var(--fs-label); color: var(--text-muted); margin-top: 4px; }
 
@@ -321,6 +341,16 @@
   .vor-nach-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
   @media (min-width: 560px) { .vor-nach-grid { grid-template-columns: 1fr 1fr; } }
   .quellen-liste { display: flex; flex-direction: column; gap: 6px; font-size: var(--fs-small); }
+
+  /* ---------- Aufklappbare Abschnitte (Methodik, Datenstand) ---------- */
+  .accordion-panel { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--paper-2); overflow: hidden; }
+  .accordion-summary {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 22px;
+    cursor: pointer; min-height: 44px; list-style: none;
+    font-family: var(--font-text); font-size: var(--fs-body); font-weight: 600; color: var(--ink);
+  }
+  .accordion-summary::-webkit-details-marker { display: none; }
+  .accordion-body { padding: 4px 22px 28px; }
 
   /* ---------- Methodik ---------- */
   .kurven-grid { display: grid; grid-template-columns: 1fr; gap: 24px; margin: 24px 0 32px; }
@@ -548,59 +578,67 @@
       <h2 class="t-h2 section-title">Methodik</h2>
       <p class="lead">Die Skala 0 bis 5 kommt auf dieser Seite nicht vor. Jedes Kriterium zeigt stattdessen einen Rohwert mit Einheit und einen daraus berechneten Nutzenwert von 0 bis 100. Bei der Fahrzeit fällt der Nutzen dort am steilsten ab, wo aus einer spontanen Fahrt ein geplantes Vorhaben wird, zwischen zwei und vier Stunden. Zwei Stunden Fahrzeit lassen sich an einem Nachmittag erledigen, vier Stunden verlangen ein Wochenende. Diese Stufe bildet eine lineare Skala nicht ab, deshalb nutzt die Fahrzeit eine logistische Kurve statt einer Geraden.</p>
 
-      <div class="kurven-grid">
-        <div class="kurve-card">
-          <h4>Fahrzeit → Nutzen</h4>
-          <svg id="kurve-fahrzeit" viewBox="0 0 260 160"></svg>
-        </div>
-        <div class="kurve-card">
-          <h4>Kaltmiete → Nutzen</h4>
-          <svg id="kurve-miete" viewBox="0 0 260 160"></svg>
-        </div>
-        <div class="kurve-card">
-          <h4>Semesterbeitrag → Nutzen</h4>
-          <svg id="kurve-beitrag" viewBox="0 0 260 160"></svg>
-        </div>
-      </div>
+      <details class="accordion-panel" id="methodik-accordion">
+        <summary class="accordion-summary">
+          <span>Methodik im Detail</span>
+          <span class="detail-chevron" aria-hidden="true">▼</span>
+        </summary>
+        <div class="accordion-body">
+          <div class="kurven-grid">
+            <div class="kurve-card">
+              <h4>Fahrzeit → Nutzen</h4>
+              <svg id="kurve-fahrzeit" viewBox="0 0 260 160"></svg>
+            </div>
+            <div class="kurve-card">
+              <h4>Kaltmiete → Nutzen</h4>
+              <svg id="kurve-miete" viewBox="0 0 260 160"></svg>
+            </div>
+            <div class="kurve-card">
+              <h4>Semesterbeitrag → Nutzen</h4>
+              <svg id="kurve-beitrag" viewBox="0 0 260 160"></svg>
+            </div>
+          </div>
 
-      <div class="detail-block">
-        <h4>Aktuelle Kategoriegewichte</h4>
-        <table class="gewichtstabelle">
-          <thead><tr><th>Kategorie</th><th>Gewicht</th></tr></thead>
-          <tbody id="methodik-gewichte"></tbody>
-        </table>
-      </div>
+          <div class="detail-block">
+            <h4>Aktuelle Kategoriegewichte</h4>
+            <table class="gewichtstabelle">
+              <thead><tr><th>Kategorie</th><th>Gewicht</th></tr></thead>
+              <tbody id="methodik-gewichte"></tbody>
+            </table>
+          </div>
 
-      <div class="detail-block">
-        <h4>Fachliche Passung, Teilkriterien</h4>
-        <table class="gewichtstabelle">
-          <thead><tr><th>Teilkriterium</th><th>Gewicht</th><th>Grundlage</th></tr></thead>
-          <tbody>
-            <tr><td>Inhaltlicher Fokus</td><td class="num-cell">40 %</td><td>Anzahl und Einschlägigkeit der Module zu Dünnschicht, Sensorik und Nanotechnologie</td></tr>
-            <tr><td>Studienfreiheit</td><td class="num-cell">20 %</td><td>Wahl- und Wahlpflichtanteil in Prozent der Leistungspunkte ohne Abschlussarbeit</td></tr>
-            <tr><td>Vertiefungsrichtungen</td><td class="num-cell">20 %</td><td>Passung der angebotenen Schwerpunkte auf das Interessenprofil</td></tr>
-            <tr><td>Ausstattung</td><td class="num-cell">20 %</td><td>Reinraum, angebundene Institute, Geräte</td></tr>
-          </tbody>
-        </table>
-        <p style="margin-top:10px;">Die Studienfreiheit ist für RWTH Aachen, TU Braunschweig und KIT Karlsruhe direkt aus dem Modulhandbuch gemessen. Für die übrigen Studiengänge ist sie geschätzt, in der Tabelle und den Detailkarten entsprechend gekennzeichnet.</p>
-      </div>
+          <div class="detail-block">
+            <h4>Fachliche Passung, Teilkriterien</h4>
+            <table class="gewichtstabelle">
+              <thead><tr><th>Teilkriterium</th><th>Gewicht</th><th>Grundlage</th></tr></thead>
+              <tbody>
+                <tr><td>Inhaltlicher Fokus</td><td class="num-cell">40 %</td><td>Anzahl und Einschlägigkeit der Module zu Dünnschicht, Sensorik und Nanotechnologie</td></tr>
+                <tr><td>Studienfreiheit</td><td class="num-cell">20 %</td><td>Wahl- und Wahlpflichtanteil in Prozent der Leistungspunkte ohne Abschlussarbeit</td></tr>
+                <tr><td>Vertiefungsrichtungen</td><td class="num-cell">20 %</td><td>Passung der angebotenen Schwerpunkte auf das Interessenprofil</td></tr>
+                <tr><td>Ausstattung</td><td class="num-cell">20 %</td><td>Reinraum, angebundene Institute, Geräte</td></tr>
+              </tbody>
+            </table>
+            <p style="margin-top:10px;">Die Studienfreiheit ist für RWTH Aachen, TU Braunschweig und KIT Karlsruhe direkt aus dem Modulhandbuch gemessen. Für die übrigen Studiengänge ist sie geschätzt, in der Tabelle und den Detailkarten entsprechend gekennzeichnet.</p>
+          </div>
 
-      <div class="detail-block">
-        <h4>Fachliches Profil aus dem Bachelorzeugnis</h4>
-        <p>Grundlage der Werte für fachliche Passung und Zulassungswahrscheinlichkeit ist ein B.Sc. Werkstoffwissenschaft der TU Ilmenau, Prüfungsordnung 2021, 180 Leistungspunkte, Abschluss am 09.07.2026.</p>
-        <table class="profil-tabelle">
-          <tbody>
-            <tr><td>Durchschnittsnote</td><td class="num-cell">2,08</td></tr>
-            <tr><td>Bachelorarbeit</td><td class="num-cell">1,0</td></tr>
-            <tr><td>Kolloquium</td><td class="num-cell">1,3</td></tr>
-            <tr><td>Fachpraktikum, 12 Wochen</td><td class="num-cell">1,3</td></tr>
-            <tr><td>Englisch, über Fachsprache der Technik</td><td class="num-cell">B2, Note 2,0</td></tr>
-          </tbody>
-        </table>
-        <p>Profilbildende Module: Halbleiterwerkstoffe 1,7 (5 LP), Methoden der Werkstoffcharakterisierung 1,9 (5 LP), Werkstoffe und Verfahren der Sensorik 2,0 (5 LP), Grundlagen der Werkstoffwissenschaft 1 bis 4 je 1,7 (20 LP), Metalle: Eigenschaften und Technologien 1,7 (5 LP), Zellulare metallische Werkstoffe 1,7 (5 LP), Techniken der Oberflächenphysik als Zusatzleistung 2,3 (3 LP), Elektrochemie und Korrosion bestanden (5 LP), Allgemeine Elektrotechnik 1 und 2 je 2,0 (10 LP), Mathematik 1 bis 3 mit 2,3, 2,3 und 2,0 (20 LP).</p>
-        <p>Schwächere Ergebnisse mit Bedeutung für elektrotechnisch geprägte Studiengänge: Grundlagen der Technischen Mechanik 3,0 im zweiten Versuch, Grundlagen der Elektronik 3,3, Werkstoffkunde und Verarbeitung von Kunststoffen 3,3.</p>
-        <p>Zwei Lücken blockieren einzelne Studiengänge unabhängig von der Notenlage: Mikrosystemtechnik steht mit 0 Leistungspunkten im Zeugnis und blockiert Freiburg, das 20 ECTS in diesem Fach verlangt. Elektrotechnik ist als Kernfach vorhanden, aber nicht als Studiengangsschwerpunkt, das blockiert Chemnitz und gefährdet Dresden.</p>
-      </div>
+          <div class="detail-block">
+            <h4>Fachliches Profil aus dem Bachelorzeugnis</h4>
+            <p>Grundlage der Werte für fachliche Passung und Zulassungswahrscheinlichkeit ist ein B.Sc. Werkstoffwissenschaft der TU Ilmenau, Prüfungsordnung 2021, 180 Leistungspunkte, Abschluss am 09.07.2026.</p>
+            <table class="profil-tabelle">
+              <tbody>
+                <tr><td>Durchschnittsnote</td><td class="num-cell">2,08</td></tr>
+                <tr><td>Bachelorarbeit</td><td class="num-cell">1,0</td></tr>
+                <tr><td>Kolloquium</td><td class="num-cell">1,3</td></tr>
+                <tr><td>Fachpraktikum, 12 Wochen</td><td class="num-cell">1,3</td></tr>
+                <tr><td>Englisch, über Fachsprache der Technik</td><td class="num-cell">B2, Note 2,0</td></tr>
+              </tbody>
+            </table>
+            <p>Profilbildende Module: Halbleiterwerkstoffe 1,7 (5 LP), Methoden der Werkstoffcharakterisierung 1,9 (5 LP), Werkstoffe und Verfahren der Sensorik 2,0 (5 LP), Grundlagen der Werkstoffwissenschaft 1 bis 4 je 1,7 (20 LP), Metalle: Eigenschaften und Technologien 1,7 (5 LP), Zellulare metallische Werkstoffe 1,7 (5 LP), Techniken der Oberflächenphysik als Zusatzleistung 2,3 (3 LP), Elektrochemie und Korrosion bestanden (5 LP), Allgemeine Elektrotechnik 1 und 2 je 2,0 (10 LP), Mathematik 1 bis 3 mit 2,3, 2,3 und 2,0 (20 LP).</p>
+            <p>Schwächere Ergebnisse mit Bedeutung für elektrotechnisch geprägte Studiengänge: Grundlagen der Technischen Mechanik 3,0 im zweiten Versuch, Grundlagen der Elektronik 3,3, Werkstoffkunde und Verarbeitung von Kunststoffen 3,3.</p>
+            <p>Zwei Lücken blockieren einzelne Studiengänge unabhängig von der Notenlage: Mikrosystemtechnik steht mit 0 Leistungspunkten im Zeugnis und blockiert Freiburg, das 20 ECTS in diesem Fach verlangt. Elektrotechnik ist als Kernfach vorhanden, aber nicht als Studiengangsschwerpunkt, das blockiert Chemnitz und gefährdet Dresden.</p>
+          </div>
+        </div>
+      </details>
     </section>
 
     <section id="datenstand">
@@ -608,46 +646,54 @@
       <h2 class="t-h2 section-title">Datenstand und Belegqualität</h2>
       <p class="lead">Alle Werte sind zum 01.08.2026 abgerufen. Fahrzeiten sind Richtwerte für Autobahn ohne Stau beziehungsweise eine typische Bahnverbindung werktags vormittags mit Umstiegen, keine Fahrplanauskünfte.</p>
 
-      <div class="detail-block">
-        <h4>Belegstatus je Frist</h4>
-        <div class="beleg-legende">
-          <span class="beleg-badge">amtlich: auf offizieller Hochschulseite verifiziert am 01.08.2026</span>
-          <span class="beleg-badge">pdf: aus offiziellem Studiengangs-PDF</span>
-          <span class="beleg-badge">sekundär: nur aus Aggregator oder Suchtreffer, nicht amtlich bestätigt</span>
-        </div>
-        <div class="tabelle-wrap">
-          <table class="offene-punkte-tabelle" id="belegstatus-tabelle">
-            <thead><tr><th>Studiengang</th><th>Frist</th><th>Beleg</th></tr></thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </div>
+      <details class="accordion-panel" id="datenstand-accordion">
+        <summary class="accordion-summary">
+          <span>Belegqualität und offene Punkte</span>
+          <span class="detail-chevron" aria-hidden="true">▼</span>
+        </summary>
+        <div class="accordion-body">
+          <div class="detail-block">
+            <h4>Belegstatus je Frist</h4>
+            <div class="beleg-legende">
+              <span class="beleg-badge">amtlich: auf offizieller Hochschulseite verifiziert am 01.08.2026</span>
+              <span class="beleg-badge">pdf: aus offiziellem Studiengangs-PDF</span>
+              <span class="beleg-badge">sekundär: nur aus Aggregator oder Suchtreffer, nicht amtlich bestätigt</span>
+            </div>
+            <div class="tabelle-wrap">
+              <table class="offene-punkte-tabelle" id="belegstatus-tabelle">
+                <thead><tr><th>Studiengang</th><th>Frist</th><th>Beleg</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
 
-      <div class="detail-block">
-        <h4>Offene Punkte</h4>
-        <div class="tabelle-wrap">
-          <table class="offene-punkte-tabelle">
-            <thead><tr><th>Punkt</th><th>Was fehlt</th><th>Wo zu klären</th></tr></thead>
-            <tbody id="offene-punkte-koerper"></tbody>
-          </table>
+          <div class="detail-block">
+            <h4>Offene Punkte</h4>
+            <div class="tabelle-wrap">
+              <table class="offene-punkte-tabelle">
+                <thead><tr><th>Punkt</th><th>Was fehlt</th><th>Wo zu klären</th></tr></thead>
+                <tbody id="offene-punkte-koerper"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="detail-block">
+            <h4>Würzburg</h4>
+            <p>Uni Würzburg, M.Sc. Nanostrukturtechnik: Die Studiengangsseite liegt im Bereich der auslaufenden Studiengänge, eine Bewerbung ist nicht mehr möglich. Der Eintrag erscheint auf dieser Seite nur als Hinweis ohne Bewertung. <a class="text-link" href="https://www.physik.uni-wuerzburg.de/studium/studgaenge-auslaufend/ma-nanostrukturtechnik/zugangsvoraussetzungen/" target="_blank" rel="noopener">Quelle</a></p>
+          </div>
+
+          <div class="detail-block">
+            <h4>Weitere Unschärfen</h4>
+            <ul class="caveat-liste">
+              <li>Semesterbeiträge sind bis auf die TU Darmstadt Näherungen nach Bundesland. Die TU Dresden weist offiziell nur eine Spanne aus, weil der Betrag jedes Semester neu festgesetzt wird. Bei einem Anteil von rund 2,7 Prozent am Gesamtscore verschiebt diese Unschärfe die Reihenfolge nicht.</li>
+              <li>Für Aalen liegt kein Numbeo-Datensatz vor, die Miete ist mit 450 Euro geschätzt.</li>
+              <li>Der Chemnitzer Numbeo-Zentrumswert liegt unter dem Randwert, ein Zeichen für eine kleine Stichprobe. Gerechnet wird mit 430 Euro.</li>
+              <li>Die Fahrzeiten für den Studiengang in Aalen und Esslingen sind aus den Werten beider Standorte gemittelt, weil ein Theoriesemester jeweils am anderen Ort stattfindet.</li>
+              <li>Die Studienfreiheitsgrade sind nur für RWTH Aachen, TU Braunschweig und KIT Karlsruhe aus dem Modulhandbuch belegt, für die übrigen Studiengänge geschätzt.</li>
+            </ul>
+          </div>
         </div>
-      </div>
-
-      <div class="detail-block">
-        <h4>Würzburg</h4>
-        <p>Uni Würzburg, M.Sc. Nanostrukturtechnik: Die Studiengangsseite liegt im Bereich der auslaufenden Studiengänge, eine Bewerbung ist nicht mehr möglich. Der Eintrag erscheint auf dieser Seite nur als Hinweis ohne Bewertung. <a class="text-link" href="https://www.physik.uni-wuerzburg.de/studium/studgaenge-auslaufend/ma-nanostrukturtechnik/zugangsvoraussetzungen/" target="_blank" rel="noopener">Quelle</a></p>
-      </div>
-
-      <div class="detail-block">
-        <h4>Weitere Unschärfen</h4>
-        <ul class="caveat-liste">
-          <li>Semesterbeiträge sind bis auf die TU Darmstadt Näherungen nach Bundesland. Die TU Dresden weist offiziell nur eine Spanne aus, weil der Betrag jedes Semester neu festgesetzt wird. Bei einem Anteil von rund 2,7 Prozent am Gesamtscore verschiebt diese Unschärfe die Reihenfolge nicht.</li>
-          <li>Für Aalen liegt kein Numbeo-Datensatz vor, die Miete ist mit 450 Euro geschätzt.</li>
-          <li>Der Chemnitzer Numbeo-Zentrumswert liegt unter dem Randwert, ein Zeichen für eine kleine Stichprobe. Gerechnet wird mit 430 Euro.</li>
-          <li>Die Fahrzeiten für den Studiengang in Aalen und Esslingen sind aus den Werten beider Standorte gemittelt, weil ein Theoriesemester jeweils am anderen Ort stattfindet.</li>
-          <li>Die Studienfreiheitsgrade sind nur für RWTH Aachen, TU Braunschweig und KIT Karlsruhe aus dem Modulhandbuch belegt, für die übrigen Studiengänge geschätzt.</li>
-        </ul>
-      </div>
+      </details>
     </section>
 
     <div class="footer-nav">
@@ -1536,6 +1582,10 @@
      RENDER: GEWICHTUNGSPANEL
      ============================================================ */
 
+  function sliderFillPct(min, max, value) {
+    return Math.round((value - min) / (max - min) * 100) + "%";
+  }
+
   function slider(opts) {
     const row = el("div", { class: "slider-row" }, [
       el("div", { class: "slider-head" }, [
@@ -1544,8 +1594,10 @@
       ]),
       el("input", {
         type: "range", id: opts.id, min: opts.min, max: opts.max, step: opts.step, value: opts.value,
+        style: "--slider-fill:" + sliderFillPct(opts.min, opts.max, opts.value),
         oninput: e => {
           const v = parseFloat(e.target.value);
+          e.target.style.setProperty("--slider-fill", sliderFillPct(opts.min, opts.max, v));
           $("#" + opts.id + "-wert").textContent = opts.format(v);
           opts.onChange(v);
         },
@@ -1619,18 +1671,22 @@
     }
   }
 
+  function syncSliderVisual(input) {
+    if (input) input.style.setProperty("--slider-fill", sliderFillPct(parseFloat(input.min), parseFloat(input.max), parseFloat(input.value)));
+  }
+
   function syncSliderInputs() {
     KATEGORIE_REIHENFOLGE.forEach(key => {
       const input = $("#gewicht-" + key);
-      if (input) { input.value = Math.round(state.gewichte[key] * 100); $("#gewicht-" + key + "-wert").textContent = fmtProzent(Math.round(state.gewichte[key] * 100)); }
+      if (input) { input.value = Math.round(state.gewichte[key] * 100); $("#gewicht-" + key + "-wert").textContent = fmtProzent(Math.round(state.gewichte[key] * 100)); syncSliderVisual(input); }
     });
     REFERENZORTE.forEach(ort => {
       const input = $("#ref-" + ort.id);
-      if (input) { input.value = Math.round(state.referenzorte[ort.id] * 100); $("#ref-" + ort.id + "-wert").textContent = fmtProzent(Math.round(state.referenzorte[ort.id] * 100)); }
+      if (input) { input.value = Math.round(state.referenzorte[ort.id] * 100); $("#ref-" + ort.id + "-wert").textContent = fmtProzent(Math.round(state.referenzorte[ort.id] * 100)); syncSliderVisual(input); }
     });
-    const t0 = $("#param-t0"); if (t0) { t0.value = state.T0; $("#param-t0-wert").textContent = fmtStunden(state.T0); }
-    const k = $("#param-k"); if (k) { k.value = state.k; $("#param-k-wert").textContent = nf1.format(state.k); }
-    const auto = $("#param-auto"); if (auto) { auto.value = Math.round(state.autoAnteil * 100); $("#param-auto-wert").textContent = fmtProzent(Math.round(state.autoAnteil * 100)) + " Auto"; }
+    const t0 = $("#param-t0"); if (t0) { t0.value = state.T0; $("#param-t0-wert").textContent = fmtStunden(state.T0); syncSliderVisual(t0); }
+    const k = $("#param-k"); if (k) { k.value = state.k; $("#param-k-wert").textContent = nf1.format(state.k); syncSliderVisual(k); }
+    const auto = $("#param-auto"); if (auto) { auto.value = Math.round(state.autoAnteil * 100); $("#param-auto-wert").textContent = fmtProzent(Math.round(state.autoAnteil * 100)) + " Auto"; syncSliderVisual(auto); }
   }
 
   /* ============================================================
@@ -1986,7 +2042,14 @@
     const links = $("#toc-links");
     links.innerHTML = "";
     TOC_EINTRAEGE.forEach(([id, label]) => {
-      links.appendChild(el("a", { href: "#" + id, "data-toc": id, onclick: () => schliesseToc() }, [label]));
+      links.appendChild(el("a", {
+        href: "#" + id, "data-toc": id,
+        onclick: () => {
+          schliesseToc();
+          const accordion = document.getElementById(id + "-accordion");
+          if (accordion) accordion.open = true;
+        },
+      }, [label]));
     });
   }
 
