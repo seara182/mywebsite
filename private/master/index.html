@@ -1,0 +1,2028 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<script>
+  if (sessionStorage.getItem("authenticated") !== "true") {
+    window.location.replace("../");
+  }
+</script>
+<title>Masteranalyse, privat</title>
+<link rel="icon" href="../../ci/icons/Favicon32x.ico">
+<link rel="apple-touch-icon" href="../../ci/icons/Favicon128x.ico">
+<link rel="stylesheet" href="../../ci/styles.css">
+<style>
+  :root {
+    /* Ampelfarben Fristenstatus: eigenständige, warm eingefärbte Töne statt
+       Systemfarben, bewusst unterscheidbar von Sienna/Amber/Navy der Marke. */
+    --status-offen: #5C8368;
+    --status-offen-bg: rgba(92,131,104,0.14);
+    --status-knapp: #C98A3A;
+    --status-knapp-bg: rgba(201,138,58,0.16);
+    --status-unklar: #6E7F99;
+    --status-unklar-bg: rgba(110,127,153,0.15);
+    --status-zu: #9C8B72;
+    --status-zu-bg: rgba(156,139,114,0.16);
+
+    /* Reine Unterscheidungsfarben für die Rangliste-Balken, unabhängig vom
+       Fristenstatus. Vier Töne, per Vierfarbensatz zyklisch vergeben, damit
+       keine zwei benachbarten Balken dieselbe Farbe tragen. */
+    --bar-color-1: #5E9088;
+    --bar-color-2: #8B6E92;
+    --bar-color-3: #B97A82;
+    --bar-color-4: #B39A5C;
+    --bar-color-1-bg: rgba(94,144,136,0.24);
+    --bar-color-2-bg: rgba(139,110,146,0.24);
+    --bar-color-3-bg: rgba(185,122,130,0.24);
+    --bar-color-4-bg: rgba(179,154,92,0.24);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--text-body);
+  }
+
+  .num, .zahl, td.num-cell, .frist-tage, .roller-number, table td { font-variant-numeric: tabular-nums; }
+
+  .sr-only-inline { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  a.text-link { color: var(--sienna); text-decoration: underline; text-underline-offset: 2px; }
+  a.text-link:hover { color: var(--sienna-deep); }
+
+  /* ---------- Layout shell + TOC ---------- */
+  .top-bar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    height: 52px; display: flex; align-items: center; justify-content: space-between;
+    padding: 0 16px; background: var(--glass-light); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .top-bar .brand { font-family: var(--font-mono); font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--sienna); }
+  .toc-toggle-btn {
+    height: 44px; width: 44px; flex: 0 0 auto; padding: 0; display: inline-flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 4px;
+    background: var(--ink); border: none; border-radius: var(--radius-md); cursor: pointer;
+  }
+  .toc-toggle-btn .hamburger-bar { display: block; width: 18px; height: 2px; background: var(--paper); border-radius: 1px; transition: transform 200ms var(--ease-glide), opacity 200ms var(--ease-glide); }
+  .toc-toggle-btn[aria-expanded="true"] .hamburger-bar:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  .toc-toggle-btn[aria-expanded="true"] .hamburger-bar:nth-child(2) { opacity: 0; }
+  .toc-toggle-btn[aria-expanded="true"] .hamburger-bar:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+  @media (prefers-reduced-motion: reduce) { .toc-toggle-btn .hamburger-bar { transition: none; } }
+
+  .page-shell {
+    max-width: 1160px; margin: 0 auto; padding: 76px var(--gutter) 0;
+  }
+
+  main { max-width: 100%; }
+
+  .toc-backdrop {
+    display: none; position: fixed; inset: 52px 0 0 0; z-index: 48; background: rgba(22,20,15,0.35);
+  }
+  .toc-backdrop.open { display: block; }
+
+  .toc-drawer {
+    position: fixed; top: 52px; left: 0; bottom: 0; z-index: 49; width: min(300px, 84vw);
+    background: var(--paper); overflow-y: auto; padding: 16px; border-right: 1px solid var(--border);
+    box-shadow: var(--shadow-lg); transform: translateX(-100%); transition: transform 260ms var(--ease-glide);
+  }
+  .toc-drawer.open { transform: translateX(0); }
+  @media (prefers-reduced-motion: reduce) { .toc-drawer { transition: none; } }
+  .toc-drawer .toc-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); padding: 4px 12px 12px; }
+  .toc-drawer a { display: flex; align-items: center; min-height: 44px; padding: 0 12px; font-size: 16px; color: var(--text-body); border-bottom: 1px solid var(--border); }
+  .toc-drawer a.active { color: var(--sienna); font-weight: 600; }
+
+  section { scroll-margin-top: 76px; margin-bottom: clamp(64px, 8vw, 104px); }
+  section:first-of-type { scroll-margin-top: 0; }
+
+  .eyebrow {
+    font-family: var(--font-mono); font-size: clamp(11px, 1.2vw, 13px); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.08em; color: var(--sienna); display: block; margin-bottom: 10px;
+  }
+
+  h2.section-title { margin-bottom: clamp(16px, 2vw, 22px); }
+  .lead { font-family: var(--font-text); font-size: var(--fs-lead); color: var(--text-body); line-height: var(--lh-relaxed); max-width: 68ch; margin-bottom: clamp(20px, 3vw, 32px); }
+
+  /* ---------- Hero ---------- */
+  .hero { position: relative; margin-bottom: clamp(56px, 7vw, 88px); }
+  .hero::before {
+    content: ''; position: absolute; inset: -40px -24px; background: var(--glow-sienna);
+    border-radius: var(--radius-xl); z-index: -1; opacity: 0.35; filter: blur(60px);
+  }
+  .rahmen-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 40px; }
+  .chip {
+    font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); background: var(--paper-2);
+    border: 1px solid var(--border); border-radius: var(--radius-pill); padding: 6px 14px;
+  }
+
+  .kernzahl-card {
+    background: var(--paper-2); border-radius: var(--radius-lg); padding: clamp(28px, 5vw, 48px);
+    box-shadow: inset 0 0 32px rgba(0,0,0,0.04); margin-bottom: clamp(28px, 4vw, 40px);
+  }
+  .kernzahl-label { font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 12px; }
+  .kernzahl-wert { font-family: var(--font-display); font-weight: 700; font-size: clamp(56px, 12vw, 96px); line-height: 1; color: var(--sienna); }
+  .kernzahl-wert span.von { font-size: 0.4em; color: var(--text-muted); font-weight: 600; margin-left: 6px; }
+
+  .kachel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+  .frist-kachel { background: var(--paper); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px 18px; position: relative; overflow: hidden; }
+  .frist-kachel::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--kachel-farbe, var(--status-offen)); }
+  .frist-kachel .kachel-hs { font-family: var(--font-text); font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+  .frist-kachel .kachel-name { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; }
+  .frist-kachel .kachel-tage { font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--ink); line-height: 1; }
+  .frist-kachel .kachel-tage-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+  .frist-kachel .kachel-datum { font-size: 12px; color: var(--text-muted); margin-top: 8px; }
+
+  /* ---------- Status / Beleg badges ---------- */
+  .status-badge { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-text); font-size: 12px; font-weight: 600; padding: 4px 10px 4px 8px; border-radius: var(--radius-pill); background: var(--status-bg, var(--status-zu-bg)); color: var(--text-body); white-space: nowrap; }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--status-farbe, var(--status-zu)); flex: 0 0 auto; }
+  .beleg-badge { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 2px 8px; white-space: nowrap; }
+
+  /* ---------- Buttons ---------- */
+  .btn { min-height: 44px; padding: 10px 22px; border-radius: var(--radius-md); font-family: var(--font-text); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; transition: all 240ms var(--ease-out); border: 1px solid transparent; }
+  .btn-primary { background: var(--sienna); color: white; border-color: var(--sienna); }
+  .btn-primary:hover { background: var(--sienna-deep); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+  .btn-secondary { background: transparent; color: var(--text-muted); border-color: var(--border); }
+  .btn-secondary:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .btn-secondary.is-active { background: var(--sienna); color: white; border-color: var(--sienna); }
+  .btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+
+  /* ---------- Rangliste ---------- */
+  .rangliste-legende { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 20px; font-size: 12px; color: var(--text-muted); }
+  .rangliste-legende .legende-item { display: flex; align-items: center; gap: 6px; }
+  .bar-liste { display: flex; flex-direction: column; gap: 10px; }
+
+  .rang-gewicht-grid { display: block; margin-bottom: clamp(64px, 8vw, 104px); }
+  .rang-gewicht-grid section { margin-bottom: 0; }
+  @media (min-width: 768px) {
+    .rang-gewicht-grid { display: grid; grid-template-columns: 1fr minmax(280px, 320px); gap: clamp(24px, 3vw, 40px); align-items: start; }
+    .rang-gewicht-grid #gewichtung { position: sticky; top: 76px; }
+  }
+  @media (min-width: 1240px) {
+    .rang-gewicht-grid { grid-template-columns: 1fr minmax(280px, 560px); }
+  }
+  .bar-row {
+    display: grid; grid-template-columns: minmax(120px, 200px) 1fr 64px; align-items: center; gap: 12px;
+    min-height: 44px; cursor: pointer; background: none; border: none; padding: 4px 0; width: 100%; text-align: left; font: inherit;
+  }
+  .bar-row .bar-name { font-size: 13px; font-weight: 600; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bar-row .bar-meta { display: flex; align-items: center; gap: 8px; margin-top: 3px; }
+  .bar-row .bar-stadt { font-weight: 400; font-size: 11px; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .status-badge-sm { font-size: 10px; padding: 2px 7px 2px 5px; }
+  .status-badge-sm .status-dot { width: 6px; height: 6px; }
+  .bar-track { position: relative; height: 26px; background: var(--paper-3); border-radius: var(--radius-sm); overflow: hidden; }
+  .bar-fill { position: absolute; inset: 0; width: 0%; background: var(--bar-farbe, var(--sienna)); border-radius: var(--radius-sm); transition: width 420ms var(--ease-glide); }
+  @media (prefers-reduced-motion: reduce) { .bar-fill { transition: none; } }
+  .bar-row .bar-score { font-family: var(--font-mono); font-size: 14px; font-weight: 600; text-align: right; color: var(--ink); }
+  .bar-row:focus-visible .bar-track { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* ---------- Karte ---------- */
+  .karte-controls { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+  .karte-frame { width: 100%; aspect-ratio: 620 / 840; max-width: 560px; margin: 0 auto; background: var(--paper-2); border-radius: var(--radius-lg); border: 1px solid var(--border); overflow: hidden; touch-action: pan-y; }
+  #karte-svg { width: 100%; height: 100%; display: block; }
+  .karte-umriss { fill: var(--paper-3); stroke: var(--hairline-strong); stroke-width: 1.5; }
+  .karte-marker circle { stroke: var(--paper); stroke-width: 2; }
+  .karte-marker text { font-family: var(--font-mono); font-size: 9px; fill: var(--text-body); }
+  .karte-marker { cursor: pointer; }
+  .karte-marker:focus-visible circle { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .karte-basis { fill: var(--sienna); }
+  .karte-basis text { font-family: var(--font-mono); font-size: 9px; font-weight: 700; fill: var(--sienna-deep); }
+  .karte-esslingen { fill: none; stroke: var(--sienna); stroke-width: 1.5; stroke-dasharray: 3 2; }
+  .karte-verbindung { stroke: var(--sienna); fill: none; opacity: 0.8; }
+  .karte-verbindung-label { font-family: var(--font-mono); font-size: 8px; fill: var(--ink); }
+  .karte-verbindung-label-bg { fill: var(--paper); opacity: 0.85; }
+  @media (max-width: 767px) {
+    .karte-frame { aspect-ratio: auto; height: 60vh; max-width: 100%; }
+  }
+  .karte-hinweis { font-size: 13px; color: var(--text-muted); margin-top: 14px; max-width: 60ch; }
+  .karte-legende { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 14px; font-size: 12px; color: var(--text-muted); }
+  .karte-legende .legende-item { display: flex; align-items: center; gap: 6px; }
+  .karte-fallback { margin-top: 28px; }
+  .karte-fallback ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap: 8px; }
+  .karte-fallback li { font-size: 13px; color: var(--text-body); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 12px; }
+  .karte-fallback li .fb-hs { font-weight: 600; color: var(--ink); display: block; margin-bottom: 2px; }
+
+  /* ---------- Gewichtungspanel ---------- */
+  .gewicht-panel { background: var(--paper-2); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: clamp(20px, 3vw, 32px); }
+  .gewicht-panel-toggle { display: none; }
+  .gewicht-gruppe { margin-bottom: 28px; }
+  .gewicht-gruppe:last-child { margin-bottom: 0; }
+  .gewicht-gruppe-titel { font-family: var(--font-text); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink); margin-bottom: 14px; }
+  .slider-row { touch-action: pan-y; margin-bottom: 16px; }
+  .slider-row:last-child { margin-bottom: 0; }
+  .slider-row .slider-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; gap: 8px; }
+  .slider-row label { font-size: 13px; color: var(--text-body); }
+  .slider-row .slider-value { font-family: var(--font-mono); font-size: 13px; font-weight: 600; color: var(--sienna); white-space: nowrap; }
+  .slider-row input[type="range"] {
+    width: 100%; height: 44px; accent-color: var(--sienna); cursor: pointer; background: transparent;
+  }
+  .gewicht-summe-hinweis { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+  .gewicht-spalten { display: flex; flex-direction: column; gap: 28px; }
+  .gewicht-spalte { display: flex; flex-direction: column; min-width: 0; }
+  @media (min-width: 1240px) {
+    .gewicht-spalten { flex-direction: row; gap: 0 32px; align-items: start; }
+    .gewicht-spalte { flex: 1 1 0; }
+  }
+
+  @media (max-width: 767px) {
+    .gewicht-panel {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+      box-shadow: var(--shadow-lg); max-height: 78vh; display: flex; flex-direction: column; padding: 0;
+    }
+    .gewicht-panel-toggle {
+      display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; min-height: 48px;
+      background: none; border: none; font-family: var(--font-text); font-size: 13px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink); cursor: pointer; flex: 0 0 auto;
+    }
+    .gewicht-panel-body { overflow-y: auto; padding: 0 20px 24px; }
+    .gewicht-panel.collapsed .gewicht-panel-body { display: none; }
+    .gewicht-chevron { transition: transform 200ms var(--ease-glide); }
+    .gewicht-panel.collapsed .gewicht-chevron { transform: rotate(180deg); }
+    main { padding-bottom: 64px; }
+  }
+
+  /* ---------- Tabelle ---------- */
+  .filter-bar { display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; margin-bottom: 18px; }
+  .filter-bar label { font-size: 13px; color: var(--text-muted); display: flex; align-items: center; gap: 6px; min-height: 44px; }
+  .filter-bar select { min-height: 44px; padding: 6px 10px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--paper); font-family: var(--font-text); font-size: 13px; }
+  .switch-label { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; cursor: pointer; }
+  .switch { position: relative; width: 40px; height: 22px; }
+  .switch input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+  .switch .track { position: absolute; inset: 0; background: var(--paper-3); border: 1px solid var(--border); border-radius: var(--radius-pill); transition: background 200ms; }
+  .switch .thumb { position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; background: var(--paper); border-radius: 50%; transition: transform 200ms var(--ease-glide); box-shadow: var(--shadow-sm); }
+  .switch input:checked + .track { background: var(--sienna); }
+  .switch input:checked + .track + .thumb { transform: translateX(18px); }
+
+  .tabelle-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius-md); }
+  table.vergleich { border-collapse: collapse; width: 100%; min-width: 760px; }
+  table.vergleich th, table.vergleich td { padding: 10px 14px; border-bottom: 1px solid var(--border); text-align: left; font-size: 13px; white-space: nowrap; }
+  table.vergleich thead th {
+    background: var(--paper-2); font-family: var(--font-text); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em;
+    color: var(--text-muted); cursor: pointer; user-select: none; min-height: 44px; position: sticky; top: 0; z-index: 2;
+  }
+  table.vergleich thead th .sort-arrow { margin-left: 4px; opacity: 0.5; }
+  table.vergleich thead th.sorted .sort-arrow { opacity: 1; color: var(--sienna); }
+  table.vergleich tbody tr:hover { background: var(--hover-tint); }
+  table.vergleich td.name-cell, table.vergleich th.name-col {
+    position: sticky; left: 0; background: var(--paper); z-index: 1; border-right: 1px solid var(--border); white-space: normal; max-width: 220px; hyphens: auto;
+  }
+  table.vergleich thead th.name-col { background: var(--paper-2); z-index: 3; }
+  table.vergleich td.name-cell .hs-name { font-weight: 600; color: var(--ink); display: block; }
+  table.vergleich td.name-cell .hs-stadt { font-size: 11px; color: var(--text-muted); }
+  td.num-cell { position: relative; font-family: var(--font-mono); }
+  td.num-cell .util-bar { position: absolute; left: 0; top: 0; bottom: 0; background: var(--bar-farbe-bg, var(--paper-3)); z-index: 0; }
+  td.num-cell .num-content { position: relative; z-index: 1; }
+  .wuerzburg-hinweis { margin-top: 14px; font-size: 13px; color: var(--text-muted); border: 1px dashed var(--border); border-radius: var(--radius-sm); padding: 12px 16px; }
+
+  /* ---------- Städtevergleich ---------- */
+  .staedte-grid-info { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; max-width: 68ch; }
+
+  /* ---------- Detailkarten ---------- */
+  .detail-card { border: 1px solid var(--border); border-radius: var(--radius-md); margin-bottom: 12px; overflow: hidden; background: var(--paper); }
+  .detail-summary {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 20px; cursor: pointer;
+    min-height: 44px; list-style: none;
+  }
+  .detail-summary::-webkit-details-marker { display: none; }
+  .detail-summary .ds-left { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .detail-summary .ds-hs { font-weight: 700; color: var(--ink); font-size: var(--fs-body); hyphens: auto; }
+  .detail-summary .ds-name { font-size: var(--fs-small); color: var(--text-muted); hyphens: auto; }
+  .detail-summary .ds-right { display: flex; align-items: center; gap: 10px; flex: 0 0 auto; }
+  .detail-summary .ds-score { font-family: var(--font-mono); font-weight: 700; color: var(--sienna); font-size: 16px; }
+  .detail-chevron { transition: transform 200ms var(--ease-glide); color: var(--text-muted); }
+  details[open] .detail-chevron { transform: rotate(180deg); }
+  .detail-body { padding: 0 20px 24px; }
+  .steckbrief { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px,1fr)); gap: 10px 20px; margin-bottom: 20px; padding-top: 6px; border-top: 1px solid var(--border); padding-top: 16px; }
+  .steckbrief dt { font-size: var(--fs-caption); text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); margin-bottom: 3px; }
+  .steckbrief dd { margin: 0; font-size: var(--fs-small); color: var(--ink); }
+  .detail-block { margin-bottom: 18px; }
+  .detail-block:last-child { margin-bottom: 0; }
+  .detail-block h4 { font-family: var(--font-text); font-size: var(--fs-caption); text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 8px; }
+  .detail-block p { font-size: var(--fs-body); line-height: var(--lh-relaxed); color: var(--text-body); margin-bottom: 8px; }
+  .detail-block p:last-child { margin-bottom: 0; }
+  .module-liste, .huerden-liste, .vor-nachteile-liste { margin: 0; padding-left: 20px; font-size: var(--fs-body); color: var(--text-body); line-height: var(--lh-relaxed); }
+  .module-liste li, .huerden-liste li, .vor-nachteile-liste li { margin-bottom: 4px; }
+  .vor-nach-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  @media (min-width: 560px) { .vor-nach-grid { grid-template-columns: 1fr 1fr; } }
+  .quellen-liste { display: flex; flex-direction: column; gap: 6px; font-size: var(--fs-small); }
+
+  /* ---------- Methodik ---------- */
+  .kurven-grid { display: grid; grid-template-columns: 1fr; gap: 24px; margin: 24px 0 32px; }
+  @media (min-width: 720px) { .kurven-grid { grid-template-columns: repeat(3, 1fr); } }
+  .kurve-card { border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; background: var(--paper); }
+  .kurve-card h4 { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+  .kurve-card svg { width: 100%; height: auto; }
+  .kurve-achse { stroke: var(--hairline-strong); stroke-width: 1; }
+  .kurve-linie { fill: none; stroke: var(--sienna); stroke-width: 2; }
+  .kurve-punkt { fill: var(--sienna); }
+  .kurve-marker { fill: var(--navy); }
+  .kurve-label { font-family: var(--font-mono); font-size: 8px; fill: var(--text-muted); }
+
+  .gewichtstabelle { width: 100%; border-collapse: collapse; margin-top: 12px; }
+  .gewichtstabelle th, .gewichtstabelle td { padding: 8px 12px; border-bottom: 1px solid var(--border); text-align: left; font-size: 13px; }
+  .gewichtstabelle th { font-size: 11px; text-transform: uppercase; color: var(--text-muted); }
+  .gewichtstabelle td.num-cell { font-family: var(--font-mono); }
+
+  .profil-tabelle { width: 100%; border-collapse: collapse; margin: 12px 0; }
+  .profil-tabelle th, .profil-tabelle td { padding: 8px 12px; border-bottom: 1px solid var(--border); text-align: left; font-size: 13px; }
+  .profil-tabelle th { font-size: 11px; text-transform: uppercase; color: var(--text-muted); }
+
+  /* ---------- Datenstand ---------- */
+  .offene-punkte-tabelle { width: 100%; border-collapse: collapse; margin-top: 12px; }
+  .offene-punkte-tabelle th, .offene-punkte-tabelle td { padding: 10px 12px; border-bottom: 1px solid var(--border); text-align: left; font-size: 13px; vertical-align: top; }
+  .offene-punkte-tabelle th { font-size: 11px; text-transform: uppercase; color: var(--text-muted); }
+  .beleg-legende { display: flex; flex-wrap: wrap; gap: 10px; margin: 14px 0 24px; }
+  .caveat-liste { margin: 0; padding-left: 20px; font-size: 14px; line-height: var(--lh-relaxed); color: var(--text-body); }
+  .caveat-liste li { margin-bottom: 8px; }
+
+  .footer-nav { display: flex; gap: 16px; margin-top: clamp(56px, 8vw, 96px); padding-top: clamp(32px, 5vw, 56px); border-top: 1px solid var(--border); justify-content: space-between; flex-wrap: wrap; }
+  .back-link {
+    display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 10px 20px; background: var(--ink); color: var(--paper);
+    text-decoration: none; border-radius: var(--radius-md); font-family: var(--font-text); font-size: 13px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.05em; transition: all 240ms var(--ease-out); border: 1px solid var(--ink);
+  }
+  .back-link:hover { background: var(--sienna); border-color: var(--sienna); transform: translateX(-4px); }
+
+  [lang="de"] { hyphens: auto; }
+  h1, h2, h3, h4 { hyphens: auto; }
+
+  @media (max-width: 480px) {
+    .page-shell { padding-left: 16px; padding-right: 16px; }
+    .steckbrief { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <button type="button" class="toc-toggle-btn" id="toc-toggle" aria-expanded="false" aria-controls="toc-drawer" aria-label="Inhaltsverzeichnis öffnen">
+    <span class="hamburger-bar"></span>
+    <span class="hamburger-bar"></span>
+    <span class="hamburger-bar"></span>
+  </button>
+  <span class="brand">Masteranalyse</span>
+</div>
+
+<div class="toc-backdrop" id="toc-backdrop"></div>
+<nav class="toc-drawer" id="toc-drawer" aria-label="Inhaltsverzeichnis">
+  <div class="toc-eyebrow">Inhalt</div>
+  <div id="toc-links"></div>
+</nav>
+
+<div class="page-shell">
+  <main>
+
+    <section id="hero">
+      <div class="hero">
+        <span class="eyebrow">Masteranalyse · Wintersemester 2026/27</span>
+        <h1 class="t-h1">Masterstudienplatz Dünne Schichten, Sensorik und Nanotechnologie</h1>
+        <p class="lead">Gesucht wird ein Masterstudienplatz mit fachlichem Schwerpunkt Dünne Schichten, Sensorik und Nanotechnologie zum Wintersemester 2026/27. Zwölf Studiengänge werden bewertet, ein dreizehnter ist eingestellt und erscheint nur als Hinweis.</p>
+        <div class="rahmen-chips">
+          <span class="chip">Region: Deutschland ohne München</span>
+          <span class="chip">Uni, TU und FH gleichrangig</span>
+          <span class="chip">Kein Promotionsziel</span>
+          <span class="chip">Eigene 1-Zimmer-Wohnung</span>
+          <span class="chip">TU Ilmenau ausgeschlossen, Heimathochschule</span>
+        </div>
+      </div>
+
+      <div class="kernzahl-card">
+        <div class="kernzahl-label">Bewerbungen aktuell möglich</div>
+        <div class="kernzahl-wert"><span id="kernzahl-anzahl">0</span><span class="von" id="kernzahl-von">von 12 Studiengängen</span></div>
+      </div>
+
+      <div class="kachel-grid" id="frist-kacheln"></div>
+    </section>
+
+    <div class="rang-gewicht-grid">
+      <section id="rangliste">
+        <span class="eyebrow">Abschnitt 2</span>
+        <h2 class="t-h2 section-title">Rangliste</h2>
+        <p class="lead">Die Balken zeigen den Gesamtscore jedes Studiengangs nach dem aktuell eingestellten Gewichtungsprofil. Ein Klick auf einen Balken öffnet die zugehörige Detailkarte im Abschnitt Studiengänge im Detail.</p>
+        <div class="rangliste-legende" id="rangliste-legende"></div>
+        <div class="bar-liste" id="bar-liste"></div>
+      </section>
+
+      <section id="gewichtung">
+        <span class="eyebrow">Abschnitt 3</span>
+        <h2 class="t-h2 section-title">Gewichtung</h2>
+        <p class="lead">Alle Regler wirken sofort auf Rangliste, Karte, Tabelle und Städtevergleich, direkt sichtbar neben der Rangliste. Der Stand bleibt über einen Reload erhalten.</p>
+
+        <div class="gewicht-panel" id="gewicht-panel">
+          <button type="button" class="gewicht-panel-toggle" id="gewicht-toggle" aria-expanded="true" aria-controls="gewicht-body">
+            Gewichtung <span class="gewicht-chevron" aria-hidden="true">▼</span>
+          </button>
+          <div class="gewicht-panel-body" id="gewicht-body">
+
+            <div class="btn-row" id="preset-row"></div>
+
+            <div class="gewicht-spalten">
+              <div class="gewicht-spalte">
+                <div class="gewicht-gruppe">
+                  <div class="gewicht-gruppe-titel">Kategoriegewichte</div>
+                  <div id="kategorie-slider"></div>
+                  <div class="gewicht-summe-hinweis">Die Summe wird automatisch auf 100 Prozent normiert, die Regler müssen nicht von Hand abgeglichen werden.</div>
+                </div>
+
+                <div class="gewicht-gruppe">
+                  <div class="gewicht-gruppe-titel">Fahrzeitkurve</div>
+                  <div id="kurven-slider"></div>
+                </div>
+              </div>
+
+              <div class="gewicht-spalte">
+                <div class="gewicht-gruppe">
+                  <div class="gewicht-gruppe-titel">Referenzortgewichte</div>
+                  <div id="referenzort-slider"></div>
+                </div>
+              </div>
+            </div>
+
+            <button type="button" class="btn btn-secondary" id="reset-btn">Zurücksetzen auf Standardprofil</button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section id="karte">
+      <span class="eyebrow">Abschnitt 4</span>
+      <h2 class="t-h2 section-title">Karte</h2>
+      <p class="lead">Die Karte zeigt die zwölf Studienorte im Verhältnis zu den vier Referenzorten Bad Waldsee, Braunschweig, Ludwigsburg und Dresden. Ein Tipp auf einen Studienort zeichnet die Fahrzeiten zu allen vier Referenzorten ein, ein zweiter Tipp schließt die Ansicht wieder.</p>
+      <div class="karte-controls">
+        <button type="button" class="btn btn-secondary" id="karte-aktiv-btn" aria-pressed="false">Verschieben aktivieren</button>
+        <button type="button" class="btn btn-secondary" id="karte-reset-btn">Ansicht zurücksetzen</button>
+      </div>
+      <div class="karte-frame">
+        <svg id="karte-svg" viewBox="0 0 620 840" preserveAspectRatio="xMidYMid meet" role="group" aria-label="Karte der Studienorte und Referenzorte in Deutschland">
+          <g id="karte-viewport">
+            <path id="karte-umriss" class="karte-umriss"></path>
+            <g id="karte-esslingen-linie"></g>
+            <g id="karte-linien"></g>
+            <g id="karte-basen"></g>
+            <g id="karte-marker"></g>
+          </g>
+        </svg>
+      </div>
+      <div class="karte-legende">
+        <span class="legende-item"><svg width="14" height="14" aria-hidden="true"><circle cx="7" cy="7" r="6" fill="#BC5A37"></circle></svg>Studienort, Radius nach Score</span>
+        <span class="legende-item"><svg width="14" height="14" aria-hidden="true"><rect x="2" y="2" width="10" height="10" fill="#BC5A37" transform="rotate(45 7 7)"></rect></svg>Referenzort</span>
+        <span class="legende-item"><svg width="14" height="14" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="#BC5A37" stroke-width="1.5" stroke-dasharray="2 1"></circle></svg>Esslingen, zweiter Standort des Aalener Studiengangs</span>
+      </div>
+      <p class="karte-hinweis">Pinch-Geste oder der Knopf „Verschieben aktivieren“ schalten das Verschieben mit einem Finger frei, damit einfaches Scrollen der Seite über der Karte erhalten bleibt. Doppeltipp setzt die Ansicht zurück.</p>
+      <div class="karte-fallback">
+        <h3 class="t-h3">Textliche Zusammenfassung</h3>
+        <ul id="karte-fallback-liste"></ul>
+      </div>
+    </section>
+
+    <section id="tabelle">
+      <span class="eyebrow">Abschnitt 5</span>
+      <h2 class="t-h2 section-title">Vergleichstabelle</h2>
+      <p class="lead">Jede Zelle zeigt den Rohwert mit Einheit. Der helle Balken im Zellhintergrund zeigt den zugehörigen Nutzenwert von 0 bis 100. Spalten lassen sich durch Klick auf den Kopf sortieren.</p>
+      <div class="filter-bar">
+        <label for="filter-status">Fristenstatus
+          <select id="filter-status">
+            <option value="alle">alle anzeigen</option>
+            <option value="offen">offen</option>
+            <option value="knapp">knapp</option>
+            <option value="unklar">unklar</option>
+            <option value="zu">zu</option>
+          </select>
+        </label>
+        <label class="switch-label" for="filter-bewerbbar">
+          <span class="switch">
+            <input type="checkbox" id="filter-bewerbbar">
+            <span class="track"></span>
+            <span class="thumb"></span>
+          </span>
+          nur bewerbbare
+        </label>
+      </div>
+      <div class="tabelle-wrap">
+        <table class="vergleich" id="vergleichstabelle">
+          <thead><tr id="tabelle-kopf"></tr></thead>
+          <tbody id="tabelle-koerper"></tbody>
+        </table>
+      </div>
+      <p class="wuerzburg-hinweis" id="wuerzburg-hinweis"></p>
+    </section>
+
+    <section id="staedte">
+      <span class="eyebrow">Abschnitt 6</span>
+      <h2 class="t-h2 section-title">Städtevergleich</h2>
+      <p class="staedte-grid-info">Eigenes Ranking allein aus Stadtinfrastruktur, Kosten und Zeitdistanz, ohne fachliche Passung, Zulassungswahrscheinlichkeit oder Umfeld. Zeigt, ob ein fachlich guter Studiengang in einer schwachen Stadt liegt. Die drei Anteile werden im aktuellen Verhältnis der zugehörigen Kategoriegewichte gemischt.</p>
+      <div class="tabelle-wrap">
+        <table class="vergleich" id="staedtetabelle">
+          <thead>
+            <tr>
+              <th class="name-col">Stadt</th>
+              <th>Stadtscore</th>
+              <th>Kosten</th>
+              <th>Distanz</th>
+              <th>Kaltmiete</th>
+              <th>Hotline</th>
+              <th>THW / CBRN</th>
+              <th>ÖPNV</th>
+            </tr>
+          </thead>
+          <tbody id="staedtetabelle-koerper"></tbody>
+        </table>
+      </div>
+      <div class="detail-block" style="margin-top:24px;">
+        <h4>Datenlage Ehrenamt und Hotline</h4>
+        <p>Nummer gegen Kummer zählt bundesweit 87 Mitgliedsvereine, überwiegend Ortsverbände des Kinderschutzbundes. Ein Standort existiert also nicht in jeder Stadt. Belegt sind Dresden über den <a class="text-link" href="https://kinderschutzbund-sachsen.de/lag-beratungstelefone/" target="_blank" rel="noopener">Kinderschutzbund Dresden</a> und Karlsruhe über den <a class="text-link" href="https://web1.karlsruhe.de/db/frauenhandbuch/angebot.php?id=279" target="_blank" rel="noopener">Kinderschutzbund Stadt- und Landkreis Karlsruhe</a>. Für Stuttgart und Kiel ist eine Trägerstruktur wahrscheinlich, aber nicht einzeln belegt. Die übrigen Städte bildet die flächendeckend erreichbare <a class="text-link" href="https://www.telefonseelsorge.de/" target="_blank" rel="noopener">TelefonSeelsorge</a> ab.</p>
+        <p>In allen zwölf Städten existiert ein <a class="text-link" href="https://www.thw.de/DE/THW/Organisation/Bundesanstalt/Dienststellensuche/dienststellensuche_dyn_node.html" target="_blank" rel="noopener">THW-Ortsverband</a>, das Kriterium differenziert im Feld also nicht. Ein zentrales Verzeichnis der CBRN-Fachgruppen existiert nicht. Bewertet wird die dokumentierte Spezialisierung vor Ort: Dresden führt einen belegten CBRN- und ENT-Ausbildungsstandort für mehrere Ortsverbände der Region, <a class="text-link" href="https://www.thw-bautzen.de/aktuelles/aktuelle-meldungen/artikel/ausbildung-cbrn-und-ent-im-ortsverband-dresden" target="_blank" rel="noopener">belegt über den OV Bautzen</a>. Aachen führt laut eigener <a class="text-link" href="https://www.thw-aachen.de/ortsverband/einheiten" target="_blank" rel="noopener">Einheitenübersicht</a> ausdrücklich keine CBRN-Fachgruppe. Für alle übrigen Städte ist ein Ortsverband vorhanden, ohne dokumentierte Spezialisierung. Eine Mail an den jeweiligen Ortsverband beantwortet die Frage zuverlässiger als jede Online-Recherche.</p>
+      </div>
+    </section>
+
+    <section id="details">
+      <span class="eyebrow">Abschnitt 7</span>
+      <h2 class="t-h2 section-title">Studiengänge im Detail</h2>
+      <p class="lead">Jede Karte enthält Steckbrief, Aufbau, einschlägige Module, Zulassungshürden, Anschluss an den Ilmenauer Bachelor, Umgewöhnung, Vorteile, Nachteile und die Quellenlinks.</p>
+      <div id="detail-liste"></div>
+      <div class="wuerzburg-hinweis" id="wuerzburg-detail"></div>
+    </section>
+
+    <section id="methodik">
+      <span class="eyebrow">Abschnitt 8</span>
+      <h2 class="t-h2 section-title">Methodik</h2>
+      <p class="lead">Die Skala 0 bis 5 kommt auf dieser Seite nicht vor. Jedes Kriterium zeigt stattdessen einen Rohwert mit Einheit und einen daraus berechneten Nutzenwert von 0 bis 100. Bei der Fahrzeit fällt der Nutzen dort am steilsten ab, wo aus einer spontanen Fahrt ein geplantes Vorhaben wird, zwischen zwei und vier Stunden. Zwei Stunden Fahrzeit lassen sich an einem Nachmittag erledigen, vier Stunden verlangen ein Wochenende. Diese Stufe bildet eine lineare Skala nicht ab, deshalb nutzt die Fahrzeit eine logistische Kurve statt einer Geraden.</p>
+
+      <div class="kurven-grid">
+        <div class="kurve-card">
+          <h4>Fahrzeit → Nutzen</h4>
+          <svg id="kurve-fahrzeit" viewBox="0 0 260 160"></svg>
+        </div>
+        <div class="kurve-card">
+          <h4>Kaltmiete → Nutzen</h4>
+          <svg id="kurve-miete" viewBox="0 0 260 160"></svg>
+        </div>
+        <div class="kurve-card">
+          <h4>Semesterbeitrag → Nutzen</h4>
+          <svg id="kurve-beitrag" viewBox="0 0 260 160"></svg>
+        </div>
+      </div>
+
+      <div class="detail-block">
+        <h4>Aktuelle Kategoriegewichte</h4>
+        <table class="gewichtstabelle">
+          <thead><tr><th>Kategorie</th><th>Gewicht</th></tr></thead>
+          <tbody id="methodik-gewichte"></tbody>
+        </table>
+      </div>
+
+      <div class="detail-block">
+        <h4>Fachliche Passung, Teilkriterien</h4>
+        <table class="gewichtstabelle">
+          <thead><tr><th>Teilkriterium</th><th>Gewicht</th><th>Grundlage</th></tr></thead>
+          <tbody>
+            <tr><td>Inhaltlicher Fokus</td><td class="num-cell">40 %</td><td>Anzahl und Einschlägigkeit der Module zu Dünnschicht, Sensorik und Nanotechnologie</td></tr>
+            <tr><td>Studienfreiheit</td><td class="num-cell">20 %</td><td>Wahl- und Wahlpflichtanteil in Prozent der Leistungspunkte ohne Abschlussarbeit</td></tr>
+            <tr><td>Vertiefungsrichtungen</td><td class="num-cell">20 %</td><td>Passung der angebotenen Schwerpunkte auf das Interessenprofil</td></tr>
+            <tr><td>Ausstattung</td><td class="num-cell">20 %</td><td>Reinraum, angebundene Institute, Geräte</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:10px;">Die Studienfreiheit ist für RWTH Aachen, TU Braunschweig und KIT Karlsruhe direkt aus dem Modulhandbuch gemessen. Für die übrigen Studiengänge ist sie geschätzt, in der Tabelle und den Detailkarten entsprechend gekennzeichnet.</p>
+      </div>
+
+      <div class="detail-block">
+        <h4>Fachliches Profil aus dem Bachelorzeugnis</h4>
+        <p>Grundlage der Werte für fachliche Passung und Zulassungswahrscheinlichkeit ist ein B.Sc. Werkstoffwissenschaft der TU Ilmenau, Prüfungsordnung 2021, 180 Leistungspunkte, Abschluss am 09.07.2026.</p>
+        <table class="profil-tabelle">
+          <tbody>
+            <tr><td>Durchschnittsnote</td><td class="num-cell">2,08</td></tr>
+            <tr><td>Bachelorarbeit</td><td class="num-cell">1,0</td></tr>
+            <tr><td>Kolloquium</td><td class="num-cell">1,3</td></tr>
+            <tr><td>Fachpraktikum, 12 Wochen</td><td class="num-cell">1,3</td></tr>
+            <tr><td>Englisch, über Fachsprache der Technik</td><td class="num-cell">B2, Note 2,0</td></tr>
+          </tbody>
+        </table>
+        <p>Profilbildende Module: Halbleiterwerkstoffe 1,7 (5 LP), Methoden der Werkstoffcharakterisierung 1,9 (5 LP), Werkstoffe und Verfahren der Sensorik 2,0 (5 LP), Grundlagen der Werkstoffwissenschaft 1 bis 4 je 1,7 (20 LP), Metalle: Eigenschaften und Technologien 1,7 (5 LP), Zellulare metallische Werkstoffe 1,7 (5 LP), Techniken der Oberflächenphysik als Zusatzleistung 2,3 (3 LP), Elektrochemie und Korrosion bestanden (5 LP), Allgemeine Elektrotechnik 1 und 2 je 2,0 (10 LP), Mathematik 1 bis 3 mit 2,3, 2,3 und 2,0 (20 LP).</p>
+        <p>Schwächere Ergebnisse mit Bedeutung für elektrotechnisch geprägte Studiengänge: Grundlagen der Technischen Mechanik 3,0 im zweiten Versuch, Grundlagen der Elektronik 3,3, Werkstoffkunde und Verarbeitung von Kunststoffen 3,3.</p>
+        <p>Zwei Lücken blockieren einzelne Studiengänge unabhängig von der Notenlage: Mikrosystemtechnik steht mit 0 Leistungspunkten im Zeugnis und blockiert Freiburg, das 20 ECTS in diesem Fach verlangt. Elektrotechnik ist als Kernfach vorhanden, aber nicht als Studiengangsschwerpunkt, das blockiert Chemnitz und gefährdet Dresden.</p>
+      </div>
+    </section>
+
+    <section id="datenstand">
+      <span class="eyebrow">Abschnitt 9</span>
+      <h2 class="t-h2 section-title">Datenstand und Belegqualität</h2>
+      <p class="lead">Alle Werte sind zum 01.08.2026 abgerufen. Fahrzeiten sind Richtwerte für Autobahn ohne Stau beziehungsweise eine typische Bahnverbindung werktags vormittags mit Umstiegen, keine Fahrplanauskünfte.</p>
+
+      <div class="detail-block">
+        <h4>Belegstatus je Frist</h4>
+        <div class="beleg-legende">
+          <span class="beleg-badge">amtlich: auf offizieller Hochschulseite verifiziert am 01.08.2026</span>
+          <span class="beleg-badge">pdf: aus offiziellem Studiengangs-PDF</span>
+          <span class="beleg-badge">sekundär: nur aus Aggregator oder Suchtreffer, nicht amtlich bestätigt</span>
+        </div>
+        <div class="tabelle-wrap">
+          <table class="offene-punkte-tabelle" id="belegstatus-tabelle">
+            <thead><tr><th>Studiengang</th><th>Frist</th><th>Beleg</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="detail-block">
+        <h4>Offene Punkte</h4>
+        <div class="tabelle-wrap">
+          <table class="offene-punkte-tabelle">
+            <thead><tr><th>Punkt</th><th>Was fehlt</th><th>Wo zu klären</th></tr></thead>
+            <tbody id="offene-punkte-koerper"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="detail-block">
+        <h4>Würzburg</h4>
+        <p>Uni Würzburg, M.Sc. Nanostrukturtechnik: Die Studiengangsseite liegt im Bereich der auslaufenden Studiengänge, eine Bewerbung ist nicht mehr möglich. Der Eintrag erscheint auf dieser Seite nur als Hinweis ohne Bewertung. <a class="text-link" href="https://www.physik.uni-wuerzburg.de/studium/studgaenge-auslaufend/ma-nanostrukturtechnik/zugangsvoraussetzungen/" target="_blank" rel="noopener">Quelle</a></p>
+      </div>
+
+      <div class="detail-block">
+        <h4>Weitere Unschärfen</h4>
+        <ul class="caveat-liste">
+          <li>Semesterbeiträge sind bis auf die TU Darmstadt Näherungen nach Bundesland. Die TU Dresden weist offiziell nur eine Spanne aus, weil der Betrag jedes Semester neu festgesetzt wird. Bei einem Anteil von rund 2,7 Prozent am Gesamtscore verschiebt diese Unschärfe die Reihenfolge nicht.</li>
+          <li>Für Aalen liegt kein Numbeo-Datensatz vor, die Miete ist mit 450 Euro geschätzt.</li>
+          <li>Der Chemnitzer Numbeo-Zentrumswert liegt unter dem Randwert, ein Zeichen für eine kleine Stichprobe. Gerechnet wird mit 430 Euro.</li>
+          <li>Die Fahrzeiten für den Studiengang in Aalen und Esslingen sind aus den Werten beider Standorte gemittelt, weil ein Theoriesemester jeweils am anderen Ort stattfindet.</li>
+          <li>Die Studienfreiheitsgrade sind nur für RWTH Aachen, TU Braunschweig und KIT Karlsruhe aus dem Modulhandbuch belegt, für die übrigen Studiengänge geschätzt.</li>
+        </ul>
+      </div>
+    </section>
+
+    <div class="footer-nav">
+      <a class="back-link" href="../">← Zurück zu Portal</a>
+    </div>
+
+  </main>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ============================================================
+     DATEN
+     ============================================================ */
+
+  const REFERENZORTE = [
+    { id: "badwaldsee",   name: "Bad Waldsee",  gewicht: 0.35, lat: 47.921, lon:  9.755 },
+    { id: "braunschweig", name: "Braunschweig", gewicht: 0.30, lat: 52.269, lon: 10.521 },
+    { id: "ludwigsburg",  name: "Ludwigsburg",  gewicht: 0.25, lat: 48.897, lon:  9.192 },
+    { id: "dresden",      name: "Dresden",      gewicht: 0.10, lat: 51.051, lon: 13.738 },
+  ];
+
+  const GEWICHTE_STANDARD = { fach: 0.40, kosten: 0.18, stadt: 0.15, zulassung: 0.14, distanz: 0.08, umfeld: 0.05 };
+  const KATEGORIE_LABEL = { fach: "Fachliche Passung", kosten: "Kosten", stadt: "Stadtinfrastruktur", zulassung: "Zulassungswahrscheinlichkeit", distanz: "Zeitdistanz", umfeld: "Umfeld und Perspektive" };
+  const KATEGORIE_REIHENFOLGE = ["fach", "kosten", "stadt", "zulassung", "distanz", "umfeld"];
+
+  const FACH_GEWICHTE = { fokus: 0.40, freiheit: 0.20, vertiefung: 0.20, ausstattung: 0.20 };
+  const KOSTEN_GEWICHTE = { miete: 0.60, leben: 0.25, beitrag: 0.15 };
+  const STADT_GEWICHTE  = { hotline: 0.30, thw: 0.25, cbrn: 0.25, oepnv: 0.20 };
+
+  const T0_STANDARD = 2.75;
+  const K_STANDARD = 0.9;
+  const AUTOANTEIL_STANDARD = 0.5;
+
+  const U = {
+    fahrzeit(t, T0, k) {
+      if (T0 === undefined) T0 = T0_STANDARD;
+      if (k === undefined) k = K_STANDARD;
+      const f = x => 1 / (1 + Math.exp((x - T0) / k));
+      return 100 * f(t) / f(0);
+    },
+    miete(m) {
+      const f = x => 1 / (1 + Math.exp((x - 620) / 95));
+      return Math.min(100, 100 * f(m) / f(400));
+    },
+    beitrag(b) {
+      return Math.max(0, Math.min(100, 100 * (450 - b) / 300));
+    },
+  };
+
+  const STAEDTE = {
+    aachen:       { name: "Aachen",       lat: 50.776, lon:  6.084, miete: 512, mieteGeschaetzt: false, mieteZentrum: 738, leben: 60, beitrag: 330, beitragGeschaetzt: true,  hotline: 55, thw: 100, cbrn:   0, oepnv: 60 },
+    braunschweig: { name: "Braunschweig", lat: 52.269, lon: 10.521, miete: 467, mieteGeschaetzt: false, mieteZentrum: 586, leben: 80, beitrag: 450, beitragGeschaetzt: true,  hotline: 55, thw: 100, cbrn:  40, oepnv: 60 },
+    kassel:       { name: "Kassel",       lat: 51.312, lon:  9.480, miete: 442, mieteGeschaetzt: false, mieteZentrum: 590, leben: 80, beitrag: 350, beitragGeschaetzt: true,  hotline: 55, thw: 100, cbrn:  40, oepnv: 80 },
+    karlsruhe:    { name: "Karlsruhe",    lat: 49.007, lon:  8.404, miete: 756, mieteGeschaetzt: false, mieteZentrum: 890, leben: 40, beitrag: 180, beitragGeschaetzt: true,  hotline:100, thw: 100, cbrn:  40, oepnv: 80 },
+    darmstadt:    { name: "Darmstadt",    lat: 49.872, lon:  8.651, miete: 700, mieteGeschaetzt: false, mieteZentrum: 884, leben: 50, beitrag: 402.68, beitragGeschaetzt: false, hotline: 55, thw: 100, cbrn: 40, oepnv: 80 },
+    dresden:      { name: "Dresden",      lat: 51.051, lon: 13.738, miete: 443, mieteGeschaetzt: false, mieteZentrum: 656, leben: 90, beitrag: 375, beitragGeschaetzt: true,  hotline:100, thw: 100, cbrn: 100, oepnv: 80 },
+    erlangen:     { name: "Erlangen",     lat: 49.590, lon: 11.005, miete: 556, mieteGeschaetzt: false, mieteZentrum: 716, leben: 60, beitrag: 150, beitragGeschaetzt: true,  hotline: 55, thw: 100, cbrn:  40, oepnv: 80 },
+    freiburg:     { name: "Freiburg",     lat: 47.999, lon:  7.842, miete: 748, mieteGeschaetzt: false, mieteZentrum: 983, leben: 40, beitrag: 180, beitragGeschaetzt: true,  hotline: 55, thw: 100, cbrn:  40, oepnv: 60 },
+    chemnitz:     { name: "Chemnitz",     lat: 50.828, lon: 12.921, miete: 430, mieteGeschaetzt: true,  mieteZentrum: 357, leben:100, beitrag: 280, beitragGeschaetzt: true,  hotline: 55, thw: 100, cbrn:  40, oepnv: 60 },
+    aalen:        { name: "Aalen",        lat: 48.837, lon: 10.094, miete: 450, mieteGeschaetzt: true,  mieteZentrum: 520, leben: 80, beitrag: 180, beitragGeschaetzt: true,  hotline: 30, thw: 100, cbrn:  40, oepnv: 40 },
+    esslingen:    { name: "Esslingen",    lat: 48.740, lon:  9.310, miete: 690, mieteGeschaetzt: true,  mieteZentrum: 850, leben: 45, beitrag: 180, beitragGeschaetzt: true,  hotline: 55, thw: 100, cbrn:  40, oepnv: 90 },
+    stuttgart:    { name: "Stuttgart",    lat: 48.776, lon:  9.183, miete: 744, mieteGeschaetzt: false, mieteZentrum:1064, leben: 40, beitrag: 180, beitragGeschaetzt: true,  hotline: 70, thw: 100, cbrn:  40, oepnv:100 },
+    kiel:         { name: "Kiel",         lat: 54.323, lon: 10.135, miete: 568, mieteGeschaetzt: false, mieteZentrum: 637, leben: 60, beitrag: 330, beitragGeschaetzt: true,  hotline: 70, thw: 100, cbrn:  40, oepnv: 60 },
+  };
+
+  const FAHRZEIT = {
+    aachen:       { auto: [5.5, 4.0, 4.0, 6.5], bahn: [7.5, 5.0, 5.0, 8.0] },
+    braunschweig: { auto: [6.5, 0.0, 5.0, 3.0], bahn: [8.0, 0.0, 5.5, 4.0] },
+    kassel:       { auto: [4.5, 2.0, 3.0, 4.0], bahn: [5.5, 2.0, 3.0, 4.5] },
+    karlsruhe:    { auto: [2.5, 5.0, 1.0, 6.0], bahn: [3.5, 5.5, 1.0, 6.5] },
+    darmstadt:    { auto: [3.5, 3.5, 1.7, 5.0], bahn: [4.5, 4.0, 2.0, 6.0] },
+    dresden:      { auto: [6.0, 3.0, 5.0, 0.0], bahn: [8.0, 4.0, 6.0, 0.0] },
+    erlangen:     { auto: [3.5, 3.7, 2.2, 3.5], bahn: [4.5, 4.5, 2.5, 4.0] },
+    freiburg:     { auto: [3.0, 6.0, 2.0, 7.0], bahn: [4.5, 7.0, 2.5, 8.0] },
+    chemnitz:     { auto: [5.5, 3.3, 4.3, 1.0], bahn: [7.5, 4.5, 5.5, 1.0] },
+    aalen:        { auto: [2.0, 4.5, 1.0, 5.0], bahn: [3.5, 5.5, 1.5, 6.0] },
+    esslingen:    { auto: [1.8, 4.8, 0.5, 5.3], bahn: [2.8, 5.2, 0.6, 6.2] },
+    stuttgart:    { auto: [1.7, 4.7, 0.3, 5.5], bahn: [2.5, 5.0, 0.3, 6.0] },
+    kiel:         { auto: [8.0, 3.0, 7.0, 6.0], bahn: [9.5, 3.5, 8.0, 7.0] },
+  };
+  FAHRZEIT.aalen_kombiniert = {
+    auto: FAHRZEIT.aalen.auto.map((v, i) => (v + FAHRZEIT.esslingen.auto[i]) / 2),
+    bahn: FAHRZEIT.aalen.bahn.map((v, i) => (v + FAHRZEIT.esslingen.bahn[i]) / 2),
+  };
+
+  const STUDIENGAENGE = [
+    {
+      id: "rwth", hochschule: "RWTH Aachen", name: "Materialwissenschaften M.Sc.",
+      stadt: "aachen", frist: "2026-10-31", fristAnzeige: "31.10.2026", beleg: "amtlich",
+      sprache: "Deutsch", sprachhuerde: 100, start: "Winter und Sommer", regelstudienzeit: "4 Semester, 120 LP",
+      zulassungsmodus: "zulassungsfrei, kein Numerus clausus",
+      fach: { fokus: 100, freiheit: 70, vertiefung: 100, ausstattung: 100 }, freiheitGemessen: false,
+      zulassung: 90, umfeld: 90,
+      huerden: ["Der Prüfungsausschuss prüft bei einem Bachelor außerhalb der RWTH die fachlichen Voraussetzungen vor der Zulassung. Kein Numerus clausus, aber keine automatische Zulassung."],
+      ilmenauAnschluss: "sehr gut", umgewoehnung: "gering",
+    },
+    {
+      id: "tubs", hochschule: "TU Braunschweig", name: "Metrologie und Messtechnik M.Sc.",
+      stadt: "braunschweig", frist: "2026-09-30", fristAnzeige: "30.09.2026 für zulassungsfreie Master", beleg: "sekundaer",
+      sprache: "Deutsch", sprachhuerde: 100, start: "Winter und Sommer", regelstudienzeit: "4 Semester, 120 LP",
+      zulassungsmodus: "zulassungsfrei, besondere Zugangsvoraussetzungen",
+      fach: { fokus: 72, freiheit: 75, vertiefung: 80, ausstattung: 90 }, freiheitGemessen: true,
+      zulassung: 78, umfeld: 85,
+      huerden: ["Eine Auswahlkommission entscheidet über die fachliche Nähe des Bachelorabschlusses.", "Zwei bis drei Ausgleichsmodule sind je nach Vorbildung möglich."],
+      ilmenauAnschluss: "gut, mit Verschiebung", umgewoehnung: "mittel",
+    },
+    {
+      id: "kassel", hochschule: "Uni Kassel", name: "Nanoscience M.Sc.",
+      stadt: "kassel", frist: "2026-09-01", fristAnzeige: "01.09.2026 für deutsche Abschlüsse, Bewerbungszeitraum ab 01.06.", beleg: "amtlich",
+      sprache: "überwiegend Englisch, gefordert B2", sprachhuerde: 100, start: "Sommer und Winter", regelstudienzeit: undefined,
+      zulassungsmodus: "Bachelor in Nanostrukturwissenschaft oder verwandtem Fach",
+      fach: { fokus: 95, freiheit: 65, vertiefung: 80, ausstattung: 80 }, freiheitGemessen: false,
+      zulassung: 75, umfeld: 65,
+      huerden: ["Die fachliche Nähe des Bachelorabschlusses wird geprüft."],
+      ilmenauAnschluss: "gut, nicht deckungsgleich", umgewoehnung: "mittel bis hoch",
+    },
+    {
+      id: "kit", hochschule: "KIT Karlsruhe", name: "Materialwissenschaft und Werkstofftechnik M.Sc.",
+      stadt: "karlsruhe", frist: "2026-09-30", fristAnzeige: "30.09.2026", beleg: "pdf",
+      sprache: "Deutsch, Englisch oder gemischt", sprachhuerde: 100, start: "Winter und Sommer", regelstudienzeit: undefined,
+      zulassungsmodus: "zulassungsfrei, kein Numerus clausus",
+      fach: { fokus: 55, freiheit: 65, vertiefung: 55, ausstattung: 75 }, freiheitGemessen: true,
+      zulassung: 95, umfeld: 85,
+      huerden: [],
+      ilmenauAnschluss: "sehr gut", umgewoehnung: "gering",
+    },
+    {
+      id: "tuda", hochschule: "TU Darmstadt", name: "Materials Science M.Sc.",
+      stadt: "darmstadt", frist: "2026-08-31", fristAnzeige: "31.08.2026, ausdrücklich keine Ausschlussfrist. Bewerbungszeitraum 01.06. bis 31.08.", beleg: "amtlich",
+      sprache: "Englisch, UNIcert III entsprechend C1", sprachhuerde: 50, start: "Winter und Sommer", regelstudienzeit: undefined,
+      zulassungsmodus: "zulassungsfrei, mit Eingangsprüfung als Auswahlgespräch",
+      fach: { fokus: 75, freiheit: 65, vertiefung: 60, ausstattung: 80 }, freiheitGemessen: false,
+      zulassung: 55, umfeld: 75,
+      huerden: ["Englisch C1 nach UNIcert III ist gefordert.", "Ein Online-Self-Assessment Teil 2 ist verpflichtend.", "Eine Eingangsprüfung als Auswahlgespräch ist Teil des Verfahrens.", "Die Bearbeitung der Bewerbung dauert nach Angabe der Hochschule sechs bis acht Wochen."],
+      ilmenauAnschluss: "fachlich gut, formal riskant", umgewoehnung: "hoch",
+    },
+    {
+      id: "tud", hochschule: "TU Dresden", name: "Nanoelectronic Systems M.Sc.",
+      stadt: "dresden", frist: "2026-09-15", fristAnzeige: "01.06. bis 15.09.2026", beleg: "amtlich",
+      sprache: "Englisch", sprachhuerde: 50, start: "nur Winter", regelstudienzeit: undefined,
+      zulassungsmodus: "zulassungsfrei, mit Eignungsfeststellung",
+      fach: { fokus: 72, freiheit: 55, vertiefung: 58, ausstattung: 100 }, freiheitGemessen: false,
+      zulassung: 40, umfeld: 95,
+      huerden: ["Zugang verlangt einen ersten Hochschulabschluss in Elektrotechnik, Informationssystemtechnik, Informatik, Physik oder einem gleichwertigen Fach.", "Werkstoffwissenschaft steht nicht auf der Liste, die Fakultät entscheidet im Einzelfall über Gleichwertigkeit."],
+      ilmenauAnschluss: "schwach", umgewoehnung: "hoch",
+    },
+    {
+      id: "fau", hochschule: "FAU Erlangen-Nürnberg", name: "Nanotechnologie M.Sc.",
+      stadt: "erlangen", frist: "2026-07-15", fristAnzeige: "15.07.2026, abgelaufen. Nächste Gelegenheit Wintersemester 2027/28.", beleg: "sekundaer",
+      sprache: "Deutsch", sprachhuerde: 100, start: "nur Winter", regelstudienzeit: undefined,
+      zulassungsmodus: "Eignungsfeststellung",
+      fach: { fokus: 95, freiheit: 70, vertiefung: 80, ausstattung: 95 }, freiheitGemessen: false,
+      zulassung: 75, umfeld: 88,
+      huerden: [],
+      ilmenauAnschluss: "gut", umgewoehnung: "mittel",
+    },
+    {
+      id: "imtek", hochschule: "Uni Freiburg", name: "Microsystems Engineering M.Sc. (IMTEK)",
+      stadt: "freiburg", frist: "2026-07-15", fristAnzeige: "01.03. bis 15.07.2026 für EU-Bürger, abgelaufen. Für Nicht-EU-Bürger 01.03. bis 31.05.", beleg: "amtlich",
+      sprache: "Englisch", sprachhuerde: 100, start: "nur Winter für das erste Fachsemester", regelstudienzeit: undefined,
+      zulassungsmodus: "besondere Zugangsvoraussetzungen laut Zulassungsordnung",
+      fach: { fokus: 100, freiheit: 68, vertiefung: 100, ausstattung: 100 }, freiheitGemessen: false,
+      zulassung: 12, umfeld: 95,
+      huerden: ["Die Zulassungsordnung fordert mindestens 20 ECTS im Fach Mikrosystemtechnik, im Zeugnis stehen dazu 0 Leistungspunkte.", "Über die Anerkennung vergleichbarer Leistungen entscheidet die Zulassungskommission."],
+      ilmenauAnschluss: "durch fehlende Mikrosystemtechnik blockiert", umgewoehnung: "hoch",
+    },
+    {
+      id: "tuc", hochschule: "TU Chemnitz", name: "Micro and Nano Systems M.Sc.",
+      stadt: "chemnitz", frist: "2026-07-15", fristAnzeige: "15.07.2026, gilt auch für Bachelorabschlüsse aus dem Inland. Abgelaufen.", beleg: "amtlich",
+      sprache: "Englisch", sprachhuerde: 100, start: "Winter, Sommereinstieg nur mit Zustimmung des Prüfungsausschusses", regelstudienzeit: undefined,
+      zulassungsmodus: "Bachelor Elektrotechnik und Informationstechnik gefordert",
+      fach: { fokus: 95, freiheit: 55, vertiefung: 80, ausstattung: 85 }, freiheitGemessen: false,
+      zulassung: 25, umfeld: 65,
+      huerden: ["Ein Bachelor in Elektrotechnik und Informationstechnik oder ein gleichwertiger Abschluss ist gefordert.", "Vorkenntnisse in IC-Design, Analogelektronik und digitaler Logik werden erwartet.", "Deutsch A1 ist zur Immatrikulation nötig, A2 bis zum Ende des dritten Semesters."],
+      ilmenauAnschluss: "schwach", umgewoehnung: "hoch",
+    },
+    {
+      id: "aalen", hochschule: "HS Aalen und HS Esslingen", name: "Angewandte Oberflächen- und Materialwissenschaften M.Sc.",
+      stadt: "aalen", zweitstadt: "esslingen",
+      frist: "2026-07-15", fristAnzeige: "15.07.2026, abgelaufen.", beleg: "sekundaer",
+      sprache: "Deutsch", sprachhuerde: 100, start: "Sommer und Winter", regelstudienzeit: "3 Semester, abweichend vom übrigen Feld",
+      zulassungsmodus: "Bewerbung an der HS Aalen",
+      fach: { fokus: 78, freiheit: 55, vertiefung: 60, ausstattung: 55 }, freiheitGemessen: false,
+      zulassung: 85, umfeld: 78,
+      huerden: ["Doppelstandort Aalen und Esslingen, rund 80 Kilometer auseinander.", "Ein Theoriesemester findet jeweils am anderen Standort statt."],
+      ilmenauAnschluss: "gut", umgewoehnung: "mittel",
+    },
+    {
+      id: "kiel", hochschule: "CAU Kiel", name: "Materials Science and Engineering M.Sc.",
+      stadt: "kiel", frist: null, fristZu: true, fristAnzeige: "Eignungsfeststellungsverfahren im Februar 2026, abgelaufen.", beleg: "sekundaer",
+      sprache: "Englisch", sprachhuerde: 100, start: "nur Winter", regelstudienzeit: undefined,
+      zulassungsmodus: "zulassungsfrei, mit Eignungsfeststellung, keine Mindestnote",
+      fach: { fokus: 75, freiheit: 55, vertiefung: 58, ausstattung: 78 }, freiheitGemessen: false,
+      zulassung: 82, umfeld: 75,
+      huerden: ["Ein Eignungsfeststellungsverfahren mit Termin im Februar prüft Kenntnisse in Mathematik, Physik, Chemie, Technik und Materialwissenschaft."],
+      ilmenauAnschluss: "gut", umgewoehnung: "mittel",
+    },
+    {
+      id: "stgt", hochschule: "Uni Stuttgart", name: "Materialwissenschaft M.Sc.",
+      stadt: "stuttgart", frist: "2026-07-15", fristAnzeige: "15.05. bis 15.07.2026, abgelaufen.", beleg: "amtlich",
+      sprache: "Englisch, C1 gefordert", sprachhuerde: 100, start: "nur Winter", regelstudienzeit: undefined,
+      zulassungsmodus: "zulassungsbeschränkt über Punkteverfahren",
+      fach: { fokus: 55, freiheit: 55, vertiefung: 55, ausstattung: 100 }, freiheitGemessen: false,
+      zulassung: 55, umfeld: 85,
+      huerden: ["Punkteverfahren: ab 81 Punkten direkte Zulassung, zwischen 65 und 80 Punkten ein Auswahlgespräch, unter 65 Punkten Ablehnung.", "Vorleistungen in physikalischer Materialwissenschaft, Kristallographie, Materialchemie und Festkörperphysik sind vorausgesetzt."],
+      ilmenauAnschluss: "gut", umgewoehnung: "mittel",
+    },
+  ];
+
+  const STUDIENGAENGE_TEXT = {
+    rwth: {
+      aufbau: "Der Studiengang beginnt mit einem übergreifenden Pflichtbereich aus zwei Modulen: Prozess- und Werkstoffmodellierung sowie Charakterisierungsmethoden. Danach folgt ein Vertieferbereich mit kleinem Pflicht- und großem Wahlpflichtanteil, ergänzt um nichttechnische Fächer, eine Projektarbeit und die Masterarbeit. Vier Vertieferbereiche stehen zur Wahl: Nanotechnologie, Elektronische Materialien, Oberflächentechnik und Konstruktionswerkstoffe. Drei davon treffen das fachliche Profil. Waser leitet Nanoelektronik mit Anbindung an das PGI Jülich, Mayer Elektronenmikroskopie am GFE, Bobzin Oberflächentechnik am IOT und Knoch Halbleitertechnik am IHT.",
+      module: [
+        "Nanotechnologie: Nanostrukturen (Pflicht), Elektronenmikroskopie, Kristallzüchtung, Beugungs- und Streumethoden, Scanning Probe Microscopy, Sekundärionenmassenspektrometrie, From Physics Principles to the Product, Nano-Optics I, Nano-Optics II, Einkristallmethoden",
+        "Elektronische Materialien: Novel Materials and Devices for Information Technology (Pflicht), Logic and Memories sowie Displays and Communication (Pflicht), Herstellungsprozesse für siliziumbasierte Mikrosysteme, Fundamentals of Organic Electronics and Optoelectronics, Compound Semiconductors in zwei Modulen, Nanoelectronics Devices, Solid State Technology, Sensoren, GaN Material Technology and Devices, Oxidische Dünnschichten für die Informationstechnik: Herstellungs- und Charakterisierungsverfahren, Einsatz oxidischer Dünnschichten in der Informationstechnik, Photovoltaik",
+        "Oberflächentechnik: Grundzüge der Oberflächentechnik (Pflicht), Verfahren der Oberflächentechnik, Chemische Nanostrukturen, Korrosion und Korrosionsschutz, Sekundärionenmassenspektrometrie, Scanning Probe Microscopy, Anwendungen der Lasertechnik, Biomaterials, Oberflächenfunktionalisierung, Laserstrahlquellen, Werkzeuge aus Hartmetall",
+      ],
+      vorteile: ["Höchste Dichte einschlägiger Module im gesamten Feld, verteilt über drei passende Vertieferbereiche.", "Sehr guter Anschluss an den Ilmenauer Bachelor ohne Sprach- oder Fachwechsel."],
+      nachteile: ["Ungünstigste Lage im Feld, vier bis sechseinhalb Stunden mit dem Auto zu allen vier Referenzorten.", "Der THW-Ortsverband Aachen führt keine CBRN-Fachgruppe."],
+      quellen: [
+        { label: "Zulassung und Einschreibung", url: "https://www.materialwissenschaften.rwth-aachen.de/go/id/vmz" },
+        { label: "Studiengangsseite", url: "https://www.rwth-aachen.de/cms/root/studium/vor-dem-studium/einschreibung/~dicz/einschreibung-master/" },
+      ],
+    },
+    tubs: {
+      aufbau: "Ausdrücklich wenig Pflicht, viel Wahl: der Basisteil Metrologie umfasst Messdatenauswertung und Messstatistik als Pflicht, der Grundlagenteil mindestens 20 Leistungspunkte, der Vertiefungsteil mindestens 40 Leistungspunkte, die überfachliche Profilbildung 5 Leistungspunkte. Die Studienarbeit trägt 13 Leistungspunkte plus 2 für die Präsentation, die Masterarbeit 28 plus 2 für die Präsentation. Drei Vertiefungsrichtungen stehen zur Wahl: Sensorik und Messprinzipien, Systemtechnik und Signalverarbeitung, Messverfahren und Anwendung. Die erste trifft das Interessenprofil direkt. Die Physikalisch-Technische Bundesanstalt sitzt in Braunschweig, dazu das LENA für Nanometrologie, bundesweit die dichteste Messtechnik-Umgebung.",
+      zugang: "Vorausgesetzt wird ein Bachelor in Elektrotechnik, Maschinenbau, Physik, Chemie oder einem fachlich verwandten naturwissenschaftlichen oder technischen Studiengang. Über die fachliche Nähe entscheidet eine Auswahlkommission, Werkstoffwissenschaft fällt plausibel darunter. Je nach Vorbildung legt die Kommission zwei bis drei Ausgleichsmodule fest.",
+      besonderheit: "An der TU Braunschweig gibt es keinen M.Sc. Materialwissenschaften. Das Studienangebot führt in diesem Feld Metrologie und Messtechnik sowie Microelectronics Engineering als Wahlbereich im Master Elektrotechnik und Informationstechnik. Braunschweig ist zugleich Referenzort, die Zeitdistanz entfällt hier vollständig, für den mit 30 Prozent zweitwichtigsten Ort.",
+      module: [],
+      vorteile: ["Braunschweig ist selbst Referenzort, die Zeitdistanz für den zweitwichtigsten Ort entfällt vollständig.", "Dichteste Messtechnik-Umgebung Deutschlands mit PTB und LENA."],
+      nachteile: ["Die Frist zum 30.09.2026 stammt aus einer Sekundärquelle und ist noch zu bestätigen.", "Fachlich liegt der Schwerpunkt auf Messtechnik, nicht auf Werkstoffwissenschaft."],
+      quellen: [
+        { label: "Metrologie und Messtechnik", url: "https://www.tu-braunschweig.de/studienangebot/metrologie-und-messtechnik-master" },
+        { label: "Fakultätsseite", url: "https://www.tu-braunschweig.de/fmb/studium/master/metrologiemesstechnik" },
+        { label: "Modulhandbuch", url: "https://www.tu-braunschweig.de/fileadmin/Redaktionsgruppen/Fakultaeten/FK4/studierende/Master_MuM/MHB_MSc_Metrologie_und_Messtechnik.pdf" },
+        { label: "Studienangebot A bis Z", url: "https://www.tu-braunschweig.de/studienangebot" },
+      ],
+    },
+    kassel: {
+      aufbau: "Der Master heißt Nanoscience, Nanostrukturwissenschaften ist der zugehörige Bachelor in Kassel. Der Studiengang ist an das CINSaT angebunden, das Center for Interdisciplinary Nanostructure Science and Technology.",
+      besonderheit: "Gefordert ist Englisch B2, nicht C1, das entspricht genau dem nachgewiesenen Niveau. Kassel ist damit der einzige englischsprachige Studiengang im Feld ohne Sprachrisiko. Kassel bietet zudem die beste Zentrallage im Feld: Braunschweig liegt 2,0 h entfernt, Ludwigsburg 3,0 h, Dresden 4,0 h und Bad Waldsee 4,5 h. Kein anderer Standort erreicht alle vier Referenzorte so gleichmäßig. Mit 442 Euro Kaltmiete ist Kassel zudem die zweitgünstigste Stadt im Feld.",
+      module: [],
+      vorteile: ["Einziger englischsprachiger Studiengang im Feld ohne Sprachrisiko, da Englisch B2 statt C1 gefordert ist.", "Beste Zentrallage zu allen vier Referenzorten im gesamten Feld."],
+      nachteile: ["Die genaue Bewerbungsfrist ist auf der Studiengangsseite nicht eindeutig und sollte vor der Bewerbung telefonisch bestätigt werden."],
+      quellen: [
+        { label: "Nanoscience", url: "https://www.uni-kassel.de/uni/studium/nanoscience-master.html" },
+        { label: "CINSaT", url: "https://www.uni-kassel.de/forschung/en/cinsat/study-programme-nanostructure-sciences.html" },
+      ],
+    },
+    kit: {
+      aufbau: "Der flexibelste Studiengang im Feld: Die materialwissenschaftliche Vertiefung ist mit 20 Leistungspunkten Pflicht und umfasst Thermodynamik und Kinetik, Simulation sowie Eigenschaften. Die Spezialisierung trägt 40 Leistungspunkte, entweder als ein Schwerpunkt oder als zwei zu je 20. Die interdisziplinäre Ergänzung trägt 18 Leistungspunkte, davon 12 als MINT-Wahlmodule und 4 im Bereich Technik und Gesellschaft. Die Masterarbeit trägt 30 Leistungspunkte. Drei Schwerpunkte stehen zur Wahl: Konstruktionswerkstoffe, Computational Materials Science, Funktionswerkstoffe. Nur der dritte passt, und auch nur teilweise.",
+      besonderheit: "Dünne Schichten und Sensorik erscheinen nicht als eigenständiges Profil, der fachliche Fokus ist der schwächste unter den noch offenen Studiengängen. Karlsruhe ist mit 756 Euro die teuerste Stadt unter den offenen Kandidaten, der niedrigste Semesterbeitrag im Feld gleicht das nicht annähernd aus.",
+      module: [],
+      vorteile: ["Flexibelster Studiengang im Feld mit freier Kombination der Spezialisierung.", "Sehr guter Anschluss an den Ilmenauer Bachelor, bei 2,08 Notendurchschnitt ohne Numerus clausus praktisch sichere Zulassung."],
+      nachteile: ["Dünne Schichten und Sensorik bilden kein eigenständiges Profil, fachlich schwächster Treffer unter den offenen Studiengängen.", "Teuerste Stadt unter den offenen Kandidaten mit 756 Euro Kaltmiete."],
+      quellen: [{ label: "Studiengangstabelle", url: "https://www.sle.kit.edu/downloads/Sonstige/Tabelle_Studiengaenge.pdf" }],
+    },
+    tuda: {
+      aufbau: "Pflichtveranstaltungen decken funktionale Materialien, Oberflächenforschung, Quantenmechanik beziehungsweise Mikromechanik sowie theoretische Methoden und Charakterisierungsmethoden ab, ergänzt um das Modul Sustainable Materials. Dazu kommen zwei Laborpraktika und ein dreimonatiges Advanced Research Lab. Der Wahlpflichtbereich verbindet einen materialwissenschaftlichen Teil mit Studium Generale, bis zu 4 Credit Points sind frei zwischen beiden verteilbar.",
+      besonderheit: "Anerkannt werden für den Englischnachweis TOEFL, TOEIC, Zertifikate der Äquivalenzliste des Sprachenzentrums oder ein englischsprachiges Erststudium. Ob ein Abiturzeugnis als Nachweis genügt, weist die Studiengangsseite nicht aus. Die Uni Stuttgart lässt fünf Jahre Schulenglisch mit ausreichenden Noten in den letzten beiden Jahren ausdrücklich zu, die gleiche Rückfrage lohnt in Darmstadt beim Office for International Admission. Der Semesterbeitrag liegt im Feld am höchsten bei 402,68 Euro, davon 352,68 Euro Semesterbeitrag und 50 Euro Verwaltungskosten.",
+      module: ["Fundamentals and Technology of Solar Cells", "Ceramic Materials Synthesis and Properties I", "Ceramic Materials Synthesis and Properties II", "Transmission Electron Microscopy"],
+      vorteile: ["Die Frist zum 31.08.2026 ist ausdrücklich keine Ausschlussfrist.", "Einschlägige Wahlmodule zu Dünnschichten und Solarzellen sind vorhanden."],
+      nachteile: ["Höchster Semesterbeitrag im Feld mit 402,68 Euro.", "Ob ein Abiturzeugnis als Englischnachweis genügt, ist ungeklärt und vorab zu bestätigen."],
+      quellen: [
+        { label: "Materials Science M.Sc.", url: "https://www.mawi.tu-darmstadt.de/studium/vor_dem_studium/master_overview/master_of_science/index.de.jsp" },
+        { label: "Bewerbungsfristen Master", url: "https://www.tu-darmstadt.de/studieren/studieninteressierte/bewerbung_zulassung_tu/bewerbungsfristen/bachelor_studiengaenge_2/index.de.jsp" },
+        { label: "Semesterbeitrag", url: "https://www.tu-darmstadt.de/studieren/studieren_von_a_bis_z/artikel_details_de_en_286144.de.jsp" },
+      ],
+    },
+    tud: {
+      aufbau: "Drei Schwerpunkte stehen zur Wahl: Technologien für nanoelektronische Systeme, Entwurf nanoelektronischer Systeme, Anwendungen nanoelektronischer Systeme. Am selben Ort bietet die Fakultät Physik zusätzlich den M.Sc. Organic and Molecular Electronics mit Einstieg nur zum Wintersemester und engerem Zuschnitt auf organische Elektronik, dazu den M.Sc. Sustainable Electronics and Photonics.",
+      besonderheit: "Einen M.Sc. Werkstoffwissenschaft gibt es an der TU Dresden nicht, das Fach wird dort nur als Bachelor und als Diplom angeboten. Für einen werkstoffwissenschaftlichen Bachelor kommen deshalb nur die elektrotechnisch oder physikalisch geprägten Master infrage. Dresden bildet zugleich das dichteste Dünnschichtumfeld Europas: Das Fraunhofer FEP arbeitet an Elektronenstrahl- und Plasmatechnik, dazu kommen das Fraunhofer IPMS für Mikrosysteme und Sensorik, das NaMLab für Nanoelektronik sowie mit Infineon, GlobalFoundries und ESMC die höchste Halbleiterdichte Deutschlands. Dresden ist mit 443 Euro zugleich die günstigste Stadt im Feld, einziger Standort mit belegter THW-CBRN-Ausbildung und über den Kinderschutzbund Dresden mit belegter Krisen-Hotline, zugleich Referenzort, allerdings der mit 10 Prozent am geringsten gewichtete.",
+      module: [],
+      vorteile: ["Günstigste Stadt im Feld mit 443 Euro Kaltmiete.", "Dichtestes Dünnschichtumfeld Europas mit Fraunhofer FEP, Fraunhofer IPMS und NaMLab."],
+      nachteile: ["Schwacher Anschluss an den Ilmenauer Bachelor, da Elektrotechnik als Kernfach fehlt.", "Hohe Umgewöhnung durch gleichzeitigen Sprach- und Fachwechsel."],
+      quellen: [
+        { label: "Nanoelectronic Systems", url: "https://tu-dresden.de/studium/vor-dem-studium/studienangebot/sins/sins_studiengang?autoid=1858&set_language=en" },
+        { label: "Semesterbeitrag", url: "https://tu-dresden.de/studium/im-studium/studienorganisation/semesterbeitrag-studiengebuehren" },
+      ],
+    },
+    fau: {
+      aufbau: "Erlangen zählt zu den wenigen deutschen Studiengängen mit Nanotechnologie im Titel. Das Umfeld reicht vom Fraunhofer IISB für Halbleiter und Kristallzüchtung über das Max-Planck-Institut für die Physik des Lichts bis zu Siemens Healthineers am Ort, für einen Berufseinstieg ohne Promotion ein starkes Umfeld. Die Kaltmiete liegt bei 556 Euro, Bayern erhebt keinen verpflichtenden Semesterticketbeitrag.",
+      module: [],
+      vorteile: ["Fraunhofer IISB, Max-Planck-Institut für die Physik des Lichts und Siemens Healthineers bilden ein starkes Umfeld für den Berufseinstieg ohne Promotion."],
+      nachteile: ["Die Frist zum 15.07.2026 ist abgelaufen, die nächste Gelegenheit ist erst das Wintersemester 2027/28."],
+      quellen: [
+        { label: "Nanotechnologie", url: "https://nano.study.fau.eu/" },
+        { label: "Bewerbung Masterstudium", url: "https://www.fau.de/studium/bewerbung-und-zulassung/bewerbung-masterstudium/" },
+      ],
+    },
+    imtek: {
+      aufbau: "Mikrosystemtechnik verbindet Dünnschichttechnologie und Sensorik, fachlich einer der besten Treffer im Feld. Das IMTEK zählt mit 22 Professuren, rund 300 wissenschaftlichen und technischen Mitarbeitenden und eigenem Reinraum zu den größten akademischen Einrichtungen des Fachs weltweit. Als deutscher Muttersprachler mit nachgewiesenem Englisch B2 greift die Zulassungsvariante Deutsch C1 zusammen mit Englisch B2.",
+      besonderheit: "Die Zulassungsordnung verlangt im Erstabschluss mindestens 20 ECTS im Fach Mikrosystemtechnik, nicht vorhanden, 0 Leistungspunkte. Mindestens 30 ECTS in Elektrotechnik und Materialwissenschaften liegen deutlich vor, mindestens 40 ECTS in Mathematik, Chemie und Physik ebenfalls. Über die Anerkennung vergleichbarer Leistungen entscheidet die Zulassungskommission, ohne einschlägige Mikrosystemtechnik-Module fehlt dafür die Grundlage. Die Zulassung ist damit unwahrscheinlich, unabhängig von der abgelaufenen Frist. Freiburg ist die zweitteuerste Stadt mit 748 Euro außerhalb des Zentrums und 983 Euro im Zentrum, Braunschweig und Dresden liegen sechs bis sieben Stunden entfernt. Für höhere Fachsemester gilt ein Bewerbungsfenster vom 01.11. bis 31.03. zum Sommersemester, für den Einstieg ins erste Fachsemester gilt dieser Zeitraum nicht.",
+      module: [],
+      vorteile: ["Fachlich einer der besten Treffer im Feld, große Einrichtung mit eigenem Reinraum.", "Die Sprachanforderung ist mit Englisch B2 und Deutsch C1 erfüllt."],
+      nachteile: ["Ohne 20 ECTS Mikrosystemtechnik ist die Zulassung unwahrscheinlich, unabhängig von der Frist.", "Zweitteuerste Stadt im Feld mit 748 Euro Kaltmiete."],
+      quellen: [{ label: "Microsystems Engineering", url: "http://uni-freiburg.de/studium/studienangebot/studiengang/270" }],
+    },
+    tuc: {
+      aufbau: "Vorausgesetzt wird ein Bachelor in Elektrotechnik und Informationstechnik oder ein gleichwertiger Abschluss aus diesem Bereich. Erwartet werden Vorkenntnisse in IC-Design, Analogelektronik und digitaler Logik. Zusätzlich ist Deutsch A1 zur Immatrikulation und A2 bis zum Ende des dritten Semesters nötig.",
+      besonderheit: "Fachlich ist der Studiengang über das Zentrum für Mikrotechnologien mit Reinraum und das Fraunhofer ENAS hervorragend aufgestellt. Mit einem werkstoffwissenschaftlichen Bachelor und der Note 3,3 in Grundlagen der Elektronik ist die Zulassung unwahrscheinlich. Chemnitz bietet die günstigsten Mieten im Feld, Dresden liegt eine Stunde entfernt.",
+      module: [],
+      vorteile: ["Zentrum für Mikrotechnologien mit Reinraum und Fraunhofer ENAS bilden ein fachlich starkes Umfeld.", "Günstigste Mieten im Feld, Dresden liegt eine Stunde entfernt."],
+      nachteile: ["Die Frist zum 15.07.2026 ist abgelaufen.", "Mit der Note 3,3 in Grundlagen der Elektronik ist die Zulassung unwahrscheinlich."],
+      quellen: [
+        { label: "Micro and Nano Systems", url: "https://www.tu-chemnitz.de/etit/studium/stugang/?page=m_mn" },
+        { label: "Fristen", url: "https://www.tu-chemnitz.de/studierendenservice/studserv/bewerbung/fristentermine.php" },
+      ],
+    },
+    aalen: {
+      aufbau: "In Esslingen stehen funktionelle Schichten und moderne Coatings im Zentrum, in Aalen Galvanotechnik und Werkstoffkunde. Die Masterarbeit lässt sich an einer der beiden Hochschulen oder in einem Unternehmen schreiben.",
+      besonderheit: "Der Studiengang ist ein Kooperationsprogramm der Hochschule Esslingen mit der Hochschule Aalen. Das Theoriesemester findet im Sommersemester in Aalen statt, im Wintersemester in Esslingen, ein Semester wird also am jeweils anderen Standort studiert. Zwischen Aalen und Esslingen liegen rund 80 Kilometer. Bei einer eigenen 1-Zimmer-Wohnung bedeutet das entweder einen Umzug mitten im Studium oder eine tägliche Pendelstrecke von rund anderthalb Stunden je Richtung. Die praxisnächste Option im Feld, passend zum Verzicht auf eine Promotion: Aalen liegt eine Stunde von Ludwigsburg entfernt und zwei Stunden von Bad Waldsee, der Semesterbeitrag fällt niedrig aus. Für Aalen liegt kein Numbeo-Datensatz vor, die Miete ist mit 450 Euro geschätzt. Die Fahrzeiten in dieser Analyse sind aus den Werten für Aalen und Esslingen gemittelt.",
+      module: [],
+      vorteile: ["Praxisnächste Option im Feld, passend zum Verzicht auf eine Promotion.", "Aalen liegt eine Stunde von Ludwigsburg und zwei Stunden von Bad Waldsee entfernt."],
+      nachteile: ["Doppelstandort-Struktur verlangt einen Umzug mitten im Studium oder tägliches Pendeln von rund anderthalb Stunden je Richtung.", "Die Miete für Aalen ist geschätzt, kein Numbeo-Datensatz liegt vor."],
+      quellen: [
+        { label: "HS Aalen, Studiengang", url: "https://www.hs-aalen.de/de/courses/4-angewandte-oberflachen-und-materialwissenschaften" },
+        { label: "HS Esslingen, Studiengangsflyer", url: "https://www.hs-esslingen.de/fileadmin/media/Fakultaeten/ng/Studienangebot/Masterstudiengaenge/OMM/13_08_2024_OMM.pdf" },
+      ],
+    },
+    kiel: {
+      aufbau: "Der Studiengang setzt auf Funktionsmaterialien und kooperiert mit dem Fraunhofer-Institut für Siliziumtechnologie in Itzehoe und dem Helmholtz-Zentrum Hereon. Das Eignungsverfahren prüft Kenntnisse in Mathematik, Physik, Chemie, Technik und Materialwissenschaft. Die Kohortengröße liegt bei rund 40 Personen.",
+      besonderheit: "Kiel bietet die schlechteste Erreichbarkeit im Feld: 8,0 h nach Bad Waldsee, 7,0 h nach Ludwigsburg und 6,0 h nach Dresden. Nur Braunschweig liegt mit 3,0 h nah.",
+      module: [],
+      vorteile: ["Kooperation mit dem Fraunhofer-Institut für Siliziumtechnologie und dem Helmholtz-Zentrum Hereon.", "Keine Mindestnote im Eignungsverfahren."],
+      nachteile: ["Schlechteste Erreichbarkeit im Feld, 8,0 h mit dem Auto nach Bad Waldsee.", "Das Eignungsfeststellungsverfahren für 2026 ist bereits abgeschlossen."],
+      quellen: [{ label: "Studiengangsseite", url: "https://www.uni-kiel.de/en/tf/study/ma-materials-science-and-engineering" }],
+    },
+    stgt: {
+      aufbau: "Bis zu 100 Punkte sind im Zulassungsverfahren erreichbar. Ab 81 Punkten erfolgt die direkte Zulassung, zwischen 65 und 80 Punkten folgt ein Auswahlgespräch, unter 65 Punkten die Ablehnung. Vorausgesetzt werden Vorleistungen in physikalischer Materialwissenschaft, Kristallographie, Materialchemie und Festkörperphysik.",
+      besonderheit: "Für den C1-Nachweis akzeptiert Stuttgart ausdrücklich fünf Jahre Schulenglisch mit ausreichenden Noten in den letzten beiden Jahren, dieser Weg ist der Grund, in Darmstadt dieselbe Frage zu stellen. Stuttgart liegt 20 Minuten von Ludwigsburg entfernt, die beste Anbindung an einen Referenzort im gesamten Feld. Das Umfeld reicht vom Max-Planck-Institut für Festkörperforschung bis zum MPI für Intelligente Systeme. Mit 744 Euro außerhalb des Zentrums und 1064 Euro im Zentrum ist Stuttgart die teuerste Stadt der Analyse.",
+      module: [],
+      vorteile: ["20 Minuten von Ludwigsburg entfernt, beste Anbindung an einen Referenzort im gesamten Feld.", "C1-Nachweis auch über fünf Jahre Schulenglisch möglich."],
+      nachteile: ["Teuerste Stadt der Analyse mit 744 Euro Kaltmiete außerhalb des Zentrums.", "Die Frist zum 15.07.2026 ist abgelaufen."],
+      quellen: [
+        { label: "Zulassung Master Materials Science", url: "https://www.imw.uni-stuttgart.de/lehre/zulassung-master/" },
+        { label: "Bewerbungstermine", url: "https://www.uni-stuttgart.de/studium/bewerbung/bewerbungstermine/" },
+      ],
+    },
+  };
+
+  const OFFENE_PUNKTE = [
+    { punkt: "TU Braunschweig, Frist", was: "Die 30.09. für zulassungsfreie Master stammt aus einer Sekundärquelle", wo: "SERVICEteam Fakultät für Maschinenbau, 0531 391 4040" },
+    { punkt: "TU Braunschweig, fachliche Nähe", was: "Ob Werkstoffwissenschaft als verwandter Studiengang zählt und welche Ausgleichsmodule anfallen", wo: "Auswahlkommission des Studiengangs" },
+    { punkt: "Uni Kassel, Frist", was: "Studiengangsseite nennt 01.06. bis 01.09., studiengangsspezifische Bestätigung fehlt", wo: "Studienberatung Uni Kassel" },
+    { punkt: "TU Darmstadt, Englischnachweis", was: "Ob ein Abiturzeugnis als C1-Nachweis genügt", wo: "Office for International Admission" },
+    { punkt: "TU Dresden, Gleichwertigkeit", was: "Ob Werkstoffwissenschaft als gleichwertiges Fach anerkannt wird", wo: "Studienberatung Fakultät Elektrotechnik, 0351 463-37363" },
+    { punkt: "Fristen Erlangen, Aalen, Kiel", was: "Nur sekundär belegt", wo: "jeweilige Hochschule" },
+    { punkt: "CBRN-Fachgruppen", was: "Kein zentrales Verzeichnis vorhanden", wo: "Mail an den jeweiligen Ortsverband" },
+    { punkt: "Semesterbeiträge", was: "Nur Darmstadt exakt belegt, Dresden nur als Spanne", wo: "jeweilige Hochschule" },
+    { punkt: "Miete Aalen und Esslingen", was: "Kein Numbeo-Datensatz für Aalen, Werte geschätzt", wo: "lokale Wohnungsportale" },
+    { punkt: "Modulhandbücher", was: "Für Kassel, Erlangen, Kiel und Stuttgart noch nicht im Detail ausgewertet", wo: "Modulhandbücher der Hochschulen" },
+  ];
+
+  /* ============================================================
+     FORMAT
+     ============================================================ */
+
+  const nf0 = new Intl.NumberFormat("de-DE", { maximumFractionDigits: 0 });
+  const nf1 = new Intl.NumberFormat("de-DE", { maximumFractionDigits: 1, minimumFractionDigits: 1 });
+  const NBSP = " ";
+  const fmtEuro = v => (Number.isInteger(v) ? nf0.format(v) : nf1.format(v)) + NBSP + "€";
+  const fmtStunden = v => nf1.format(v) + NBSP + "h";
+  const fmtProzent = v => nf0.format(v) + NBSP + "%";
+  const fmtScore = v => nf1.format(v);
+
+  /* ============================================================
+     BERECHNUNG
+     ============================================================ */
+
+  function fahrzeitDaten(sg) {
+    if (sg.id === "aalen") return FAHRZEIT.aalen_kombiniert;
+    return FAHRZEIT[sg.stadt];
+  }
+
+  function distanzNutzen(sg, T0, k, autoAnteil, refGewichte) {
+    const ft = fahrzeitDaten(sg);
+    const g = REFERENZORTE.map(o => refGewichte[o.id]);
+    const gs = g.reduce((a, b) => a + b, 0) || 1;
+    const mix = arr => arr.reduce((sum, t, i) => sum + g[i] * U.fahrzeit(t, T0, k), 0) / gs;
+    return autoAnteil * mix(ft.auto) + (1 - autoAnteil) * mix(ft.bahn);
+  }
+
+  function teilscores(sg, s) {
+    const st = STAEDTE[sg.stadt];
+    const fach = Object.entries(FACH_GEWICHTE).reduce((sum, [key, w]) => sum + w * sg.fach[key], 0);
+    const kosten = KOSTEN_GEWICHTE.miete * U.miete(st.miete)
+                 + KOSTEN_GEWICHTE.leben * st.leben
+                 + KOSTEN_GEWICHTE.beitrag * U.beitrag(st.beitrag);
+    const stadt = STADT_GEWICHTE.hotline * st.hotline + STADT_GEWICHTE.thw * st.thw
+                + STADT_GEWICHTE.cbrn * st.cbrn + STADT_GEWICHTE.oepnv * st.oepnv;
+    return {
+      fach, kosten, stadt,
+      zulassung: sg.zulassung,
+      distanz: distanzNutzen(sg, s.T0, s.k, s.autoAnteil, s.referenzorte),
+      umfeld: sg.umfeld,
+    };
+  }
+
+  function gesamtscore(sg, s) {
+    const teile = teilscores(sg, s);
+    const summe = Object.values(s.gewichte).reduce((a, b) => a + b, 0) || 1;
+    return Object.entries(s.gewichte).reduce((sum, [key, w]) => sum + w * teile[key], 0) / summe;
+  }
+
+  function berechneFristStatus(sg) {
+    if (sg.fristZu) return "zu";
+    if (!sg.frist) return "unklar";
+    const heute = new Date();
+    const ziel = new Date(sg.frist + "T23:59:59");
+    const tageRest = (ziel - heute) / 86400000;
+    if (tageRest < 0) return "zu";
+    if (tageRest < 35) return "knapp";
+    return "offen";
+  }
+
+  function tageBisFrist(sg) {
+    if (sg.fristZu || !sg.frist) return null;
+    const heute = new Date();
+    const ziel = new Date(sg.frist + "T23:59:59");
+    return Math.ceil((ziel - heute) / 86400000);
+  }
+
+  const STATUS_LABEL = { offen: "offen", knapp: "knapp", unklar: "unklar", zu: "zu" };
+  const STATUS_FARBE_VAR = { offen: "--status-offen", knapp: "--status-knapp", unklar: "--status-unklar", zu: "--status-zu" };
+  const STATUS_BG_VAR = { offen: "--status-offen-bg", knapp: "--status-knapp-bg", unklar: "--status-unklar-bg", zu: "--status-zu-bg" };
+
+  /* Reine Positionsfarben für die Rangliste-Balken. Zyklisches Vergeben nach
+     Index garantiert, dass zwei benachbarte Balken nie dieselbe Farbe tragen,
+     unabhängig von der aktuellen Sortierung. */
+  const BAR_FARBEN = ["--bar-color-1", "--bar-color-2", "--bar-color-3", "--bar-color-4"];
+
+  function statusBadge(status) {
+    return '<span class="status-badge" style="--status-farbe:var(' + STATUS_FARBE_VAR[status] + ');--status-bg:var(' + STATUS_BG_VAR[status] + ')">' +
+      '<span class="status-dot" style="--status-farbe:var(' + STATUS_FARBE_VAR[status] + ')"></span>' + STATUS_LABEL[status] + '</span>';
+  }
+
+  const BELEG_LABEL = { amtlich: "amtlich", pdf: "pdf", sekundaer: "sekundär" };
+
+  function belegBadge(beleg) {
+    return '<span class="beleg-badge">' + BELEG_LABEL[beleg] + '</span>';
+  }
+
+  function numbeoUrl(stadtSchluessel) {
+    const ohneNumbeo = ["aalen", "esslingen"];
+    if (ohneNumbeo.indexOf(stadtSchluessel) !== -1) return null;
+    return "https://www.numbeo.com/cost-of-living/in/" + STAEDTE[stadtSchluessel].name;
+  }
+
+  /* ============================================================
+     STATE
+     ============================================================ */
+
+  const STORAGE_KEY = "masteranalyse.weights";
+
+  function defaultState() {
+    return {
+      gewichte: Object.assign({}, GEWICHTE_STANDARD),
+      referenzorte: Object.fromEntries(REFERENZORTE.map(o => [o.id, o.gewicht])),
+      T0: T0_STANDARD,
+      k: K_STANDARD,
+      autoAnteil: AUTOANTEIL_STANDARD,
+    };
+  }
+
+  function ladeState() {
+    const d = defaultState();
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return d;
+      const p = JSON.parse(raw);
+      return {
+        gewichte: Object.assign({}, d.gewichte, p.gewichte || {}),
+        referenzorte: Object.assign({}, d.referenzorte, p.referenzorte || {}),
+        T0: typeof p.T0 === "number" ? p.T0 : d.T0,
+        k: typeof p.k === "number" ? p.k : d.k,
+        autoAnteil: typeof p.autoAnteil === "number" ? p.autoAnteil : d.autoAnteil,
+      };
+    } catch (e) {
+      return d;
+    }
+  }
+
+  let state = ladeState();
+
+  function speichereState() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) { /* localStorage nicht verfügbar */ }
+  }
+
+  const PRESETS = {
+    standard: Object.assign({}, GEWICHTE_STANDARD),
+    kosten: { fach: 0.20, kosten: 0.40, stadt: 0.15, zulassung: 0.14, distanz: 0.06, umfeld: 0.05 },
+    fach: { fach: 0.70, kosten: 0.06, stadt: 0.06, zulassung: 0.10, distanz: 0.03, umfeld: 0.05 },
+  };
+
+  /* ============================================================
+     DOM HELFER
+     ============================================================ */
+
+  const $ = sel => document.querySelector(sel);
+  const $$ = sel => Array.from(document.querySelectorAll(sel));
+
+  function el(tag, attrs, children) {
+    const node = document.createElement(tag);
+    if (attrs) Object.entries(attrs).forEach(([k, v]) => {
+      if (k === "class") node.className = v;
+      else if (k === "html") node.innerHTML = v;
+      else if (k.indexOf("on") === 0 && typeof v === "function") node.addEventListener(k.slice(2), v);
+      else node.setAttribute(k, v);
+    });
+    (children || []).forEach(c => { if (c) node.appendChild(typeof c === "string" ? document.createTextNode(c) : c); });
+    return node;
+  }
+
+  /* ============================================================
+     RENDER: HERO
+     ============================================================ */
+
+  function renderHero() {
+    const statusListe = STUDIENGAENGE.map(sg => ({ sg, status: berechneFristStatus(sg), tage: tageBisFrist(sg) }));
+    const offenCount = statusListe.filter(x => x.status !== "zu").length;
+    $("#kernzahl-anzahl").textContent = offenCount;
+    $("#kernzahl-von").textContent = "von " + STUDIENGAENGE.length + " Studiengängen";
+
+    const kacheln = statusListe
+      .filter(x => x.status !== "zu")
+      .sort((a, b) => (a.tage === null ? 999 : a.tage) - (b.tage === null ? 999 : b.tage));
+
+    const grid = $("#frist-kacheln");
+    grid.innerHTML = "";
+    kacheln.forEach(({ sg, status, tage }) => {
+      const kachel = el("div", { class: "frist-kachel", style: "--kachel-farbe:var(" + STATUS_FARBE_VAR[status] + ")" }, [
+        el("div", { class: "kachel-hs" }, [sg.hochschule]),
+        el("div", { class: "kachel-name" }, [sg.name]),
+        el("div", { class: "kachel-tage" }, [tage === null ? "?" : String(tage)]),
+        el("div", { class: "kachel-tage-label" }, [tage === null ? "Tage unklar" : (tage === 1 ? "Tag verbleibend" : "Tage verbleibend")]),
+        el("div", { class: "kachel-datum", html: sg.fristAnzeige + " " + belegBadge(sg.beleg) }),
+      ]);
+      grid.appendChild(kachel);
+    });
+  }
+
+  /* ============================================================
+     RENDER: RANGLISTE
+     ============================================================ */
+
+  function reducedMotion() {
+    return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+
+  function renderRanglisteLegende() {
+    const wrap = $("#rangliste-legende");
+    wrap.innerHTML = "";
+    ["offen", "knapp", "unklar", "zu"].forEach(status => {
+      wrap.appendChild(el("span", { class: "legende-item" }, [
+        el("span", { class: "status-dot", style: "background:var(" + STATUS_FARBE_VAR[status] + ")" }),
+        STATUS_LABEL[status],
+      ]));
+    });
+  }
+
+  function renderRangliste() {
+    const liste = $("#bar-liste");
+    const alt = new Map();
+    if (!reducedMotion()) {
+      $$(".bar-row").forEach(row => alt.set(row.dataset.id, row.querySelector(".bar-track").getBoundingClientRect()));
+    }
+
+    const bewertet = STUDIENGAENGE.map(sg => ({ sg, score: gesamtscore(sg, state), status: berechneFristStatus(sg) }))
+      .sort((a, b) => b.score - a.score);
+    const maxScore = Math.max(...bewertet.map(b => b.score), 1);
+
+    liste.innerHTML = "";
+    bewertet.forEach(({ sg, score, status }, index) => {
+      const balkenFarbe = BAR_FARBEN[index % BAR_FARBEN.length];
+      const btn = el("button", {
+        type: "button", class: "bar-row", "data-id": sg.id,
+        "aria-label": sg.hochschule + " " + sg.name + ", Score " + fmtScore(score) + ", Frist " + STATUS_LABEL[status],
+        onclick: () => oeffneDetail(sg.id),
+      }, [
+        el("span", { class: "bar-name" }, [
+          sg.hochschule,
+          el("span", { class: "bar-meta" }, [
+            el("span", { class: "bar-stadt" }, [sg.name]),
+            el("span", { html: statusBadge(status).replace('class="status-badge"', 'class="status-badge status-badge-sm"') }),
+          ]),
+        ]),
+        el("span", { class: "bar-track" }, [
+          el("span", { class: "bar-fill", style: "width:" + (score / maxScore * 100) + "%;--bar-farbe:var(" + balkenFarbe + ")" }),
+        ]),
+        el("span", { class: "bar-score num" }, [fmtScore(score)]),
+      ]);
+      liste.appendChild(btn);
+    });
+
+    if (!reducedMotion()) {
+      $$(".bar-row").forEach(row => {
+        const alte = alt.get(row.dataset.id);
+        if (!alte) return;
+        const neue = row.querySelector(".bar-track").getBoundingClientRect();
+        const delta = alte.top - neue.top;
+        if (Math.abs(delta) < 1) return;
+        const track = row.querySelector(".bar-track");
+        track.style.transition = "none";
+        track.style.transform = "translateY(" + delta + "px)";
+        requestAnimationFrame(() => {
+          track.style.transition = "transform 420ms cubic-bezier(0.16,1,0.30,1)";
+          track.style.transform = "translateY(0)";
+        });
+      });
+    }
+  }
+
+  /* ============================================================
+     RENDER: KARTE
+     ============================================================ */
+
+  const LAT0 = 51.0, K_PROJ = 100;
+  function projiziere(lat, lon) {
+    return [(lon - 5.8) * Math.cos(LAT0 * Math.PI / 180) * K_PROJ, (55.2 - lat) * K_PROJ];
+  }
+
+  const DE_UMRISS = [
+    [54.90,8.70],[54.80,8.30],[54.50,8.80],[53.90,8.70],[53.70,8.10],[53.55,7.20],
+    [53.35,7.05],[52.90,7.05],[52.30,7.05],[51.85,6.10],[51.30,6.05],[50.75,6.00],
+    [50.30,6.35],[49.85,6.35],[49.45,6.65],[49.05,7.60],[48.95,8.10],[48.55,7.75],
+    [47.75,7.60],[47.55,8.50],[47.65,9.20],[47.55,9.60],[47.40,10.20],[47.55,10.90],
+    [47.45,11.90],[47.60,12.90],[48.30,13.50],[48.95,13.80],[49.30,12.50],[49.65,12.45],
+    [50.15,12.15],[50.40,12.20],[50.85,14.30],[51.20,14.75],[51.60,14.70],[52.10,14.70],
+    [52.60,14.55],[53.10,14.35],[53.30,14.15],[54.15,13.80],[54.55,12.90],[54.45,11.40],
+    [54.35,10.60],[54.80,9.90],
+  ];
+
+  const SVGNS = "http://www.w3.org/2000/svg";
+  function svgEl(tag, attrs) {
+    const node = document.createElementNS(SVGNS, tag);
+    if (attrs) Object.entries(attrs).forEach(([k, v]) => node.setAttribute(k, v));
+    return node;
+  }
+
+  let karteAusgewaehlt = null;
+  const mapState = { x: 0, y: 0, scale: 1 };
+  let mapInteractive = false;
+
+  function karteInit() {
+    $("#karte-umriss").setAttribute("d", DE_UMRISS.map((p, i) => {
+      const [x, y] = projiziere(p[0], p[1]);
+      return (i === 0 ? "M" : "L") + x.toFixed(1) + "," + y.toFixed(1);
+    }).join(" ") + " Z");
+
+    const beschriftungen = [];
+
+    const basenG = $("#karte-basen");
+    basenG.innerHTML = "";
+    REFERENZORTE.forEach(ort => {
+      const [x, y] = projiziere(ort.lat, ort.lon);
+      const g = svgEl("g", { class: "karte-basis" });
+      g.appendChild(svgEl("rect", { x: x - 7, y: y - 7, width: 14, height: 14, transform: "rotate(45 " + x + " " + y + ")" }));
+      const t = svgEl("text", { x: x + 10, y: y + 3 });
+      t.textContent = ort.name;
+      g.appendChild(t);
+      basenG.appendChild(g);
+      beschriftungen.push({ text: t, ax: x, ay: y, formR: 10 });
+    });
+
+    const [ex, ey] = projiziere(STAEDTE.esslingen.lat, STAEDTE.esslingen.lon);
+    const [ax, ay] = projiziere(STAEDTE.aalen.lat, STAEDTE.aalen.lon);
+    const esslG = $("#karte-esslingen-linie");
+    esslG.innerHTML = "";
+    esslG.appendChild(svgEl("line", { x1: ax, y1: ay, x2: ex, y2: ey, class: "karte-esslingen" }));
+    esslG.appendChild(svgEl("circle", { cx: ex, cy: ey, r: 5, class: "karte-esslingen" }));
+    const esslLabel = svgEl("text", { x: ex + 8, y: ey + 3, class: "karte-verbindung-label" });
+    esslLabel.textContent = "Esslingen";
+    esslG.appendChild(esslLabel);
+    beschriftungen.push({ text: esslLabel, ax: ex, ay: ey, formR: 5 });
+
+    const markerG = $("#karte-marker");
+    markerG.innerHTML = "";
+    STUDIENGAENGE.forEach(sg => {
+      const st = STAEDTE[sg.stadt];
+      const [x, y] = projiziere(st.lat, st.lon);
+      const g = svgEl("g", { class: "karte-marker", "data-id": sg.id, tabindex: "0", role: "button" });
+      const circle = svgEl("circle", { cx: x, cy: y, r: 8 });
+      g.appendChild(circle);
+      const t = svgEl("text", { x: x + 10, y: y + 3 });
+      t.textContent = st.name;
+      g.appendChild(t);
+      const aktivieren = () => karteToggleAuswahl(sg.id);
+      g.addEventListener("click", aktivieren);
+      g.addEventListener("keydown", e => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); aktivieren(); }
+      });
+      markerG.appendChild(g);
+      beschriftungen.push({ text: t, ax: x, ay: y, formR: 12 });
+    });
+
+    karteBeschriftungenPlatzieren(beschriftungen);
+    karteUpdate();
+    karteFallbackListe();
+    karteInteraktionInit();
+  }
+
+  /* Löst überlappende Kartenbeschriftungen auf. Dichte Regionen wie der
+     Raum Stuttgart/Ludwigsburg/Esslingen/Aalen liegen bei diesem Maßstab
+     nur wenige Bildschirmpixel auseinander, ohne Ausweichen verschmelzen
+     die Texte zu einem unlesbaren Block. Kandidatenpositionen im
+     Uhrzeigersinn um den Ankerpunkt, erste kollisionsfreie gewinnt. */
+  function karteBeschriftungenPlatzieren(beschriftungen) {
+    const PADDING = 2;
+    const platziert = [];
+    const kandidaten = [
+      { dx: 15, dy: 4, anchor: "start" },
+      { dx: 15, dy: -8, anchor: "start" },
+      { dx: 15, dy: 17, anchor: "start" },
+      { dx: -15, dy: 4, anchor: "end" },
+      { dx: -15, dy: -8, anchor: "end" },
+      { dx: -15, dy: 17, anchor: "end" },
+      { dx: 0, dy: -14, anchor: "middle" },
+      { dx: 0, dy: 23, anchor: "middle" },
+    ];
+    function ueberlappt(a, b) {
+      return !(a.x + a.width + PADDING < b.x || b.x + b.width + PADDING < a.x ||
+               a.y + a.height + PADDING < b.y || b.y + b.height + PADDING < a.y);
+    }
+    // Markerflächen selbst zuerst als belegt eintragen, damit Beschriftungen
+    // auch benachbarten Kreisen und Rauten ausweichen, nicht nur anderem Text.
+    beschriftungen.forEach(({ ax, ay, formR }) => {
+      platziert.push({ x: ax - formR, y: ay - formR, width: formR * 2, height: formR * 2 });
+    });
+    beschriftungen.forEach(({ text, ax, ay }) => {
+      let gewaehlteBox = null;
+      for (const k of kandidaten) {
+        text.setAttribute("x", ax + k.dx);
+        text.setAttribute("y", ay + k.dy);
+        text.setAttribute("text-anchor", k.anchor);
+        const bb = text.getBBox();
+        const box = { x: bb.x, y: bb.y, width: bb.width, height: bb.height };
+        if (!platziert.some(p => ueberlappt(p, box))) { gewaehlteBox = box; break; }
+        if (!gewaehlteBox) gewaehlteBox = box;
+      }
+      platziert.push(gewaehlteBox);
+    });
+  }
+
+  function karteUpdate() {
+    STUDIENGAENGE.forEach(sg => {
+      const score = gesamtscore(sg, state);
+      const status = berechneFristStatus(sg);
+      const g = $('#karte-marker g[data-id="' + sg.id + '"]');
+      if (!g) return;
+      const circle = g.querySelector("circle");
+      circle.setAttribute("r", 5 + (score / 100) * 7);
+      circle.setAttribute("fill", "var(" + STATUS_FARBE_VAR[status] + ")");
+      g.setAttribute("aria-label", sg.hochschule + " " + sg.name + ", Score " + fmtScore(score) + ", Frist " + STATUS_LABEL[status]);
+      g.setAttribute("aria-pressed", karteAusgewaehlt === sg.id ? "true" : "false");
+    });
+    if (karteAusgewaehlt) karteZeichneVerbindungen(karteAusgewaehlt);
+  }
+
+  function karteToggleAuswahl(id) {
+    karteAusgewaehlt = karteAusgewaehlt === id ? null : id;
+    if (!karteAusgewaehlt) $("#karte-linien").innerHTML = "";
+    karteUpdate();
+  }
+
+  function karteZeichneVerbindungen(id) {
+    const sg = STUDIENGAENGE.find(s => s.id === id);
+    const st = STAEDTE[sg.stadt];
+    const ft = fahrzeitDaten(sg);
+    const [x1, y1] = projiziere(st.lat, st.lon);
+    const linienG = $("#karte-linien");
+    linienG.innerHTML = "";
+    REFERENZORTE.forEach((ort, i) => {
+      const [x2, y2] = projiziere(ort.lat, ort.lon);
+      const gewicht = state.referenzorte[ort.id];
+      const breite = 1 + gewicht * 12;
+      linienG.appendChild(svgEl("line", { x1, y1, x2, y2, class: "karte-verbindung", "stroke-width": breite }));
+      const mx = x1 + (x2 - x1) * 0.35, my = y1 + (y2 - y1) * 0.35;
+      const label = "Auto " + fmtStunden(ft.auto[i]) + " · Bahn " + fmtStunden(ft.bahn[i]);
+      const textNode = svgEl("text", { x: mx, y: my, class: "karte-verbindung-label" });
+      textNode.textContent = label;
+      linienG.appendChild(textNode);
+    });
+  }
+
+  function karteFallbackListe() {
+    const ul = $("#karte-fallback-liste");
+    ul.innerHTML = "";
+    STUDIENGAENGE.forEach(sg => {
+      const st = STAEDTE[sg.stadt];
+      const score = gesamtscore(sg, state);
+      const status = berechneFristStatus(sg);
+      const ft = fahrzeitDaten(sg);
+      const zeiten = REFERENZORTE.map((ort, i) => ort.name + " Auto " + fmtStunden(ft.auto[i]) + ", Bahn " + fmtStunden(ft.bahn[i])).join("; ");
+      ul.appendChild(el("li", {}, [
+        el("span", { class: "fb-hs" }, [sg.hochschule + ", " + st.name]),
+        "Score " + fmtScore(score) + ", Frist " + STATUS_LABEL[status] + ". " + zeiten + ".",
+      ]));
+    });
+  }
+
+  function karteApplyTransform() {
+    $("#karte-viewport").setAttribute("transform", "translate(" + mapState.x + "," + mapState.y + ") scale(" + mapState.scale + ")");
+  }
+
+  function karteReset() {
+    mapState.x = 0; mapState.y = 0; mapState.scale = 1;
+    karteApplyTransform();
+  }
+
+  function karteInteraktionInit() {
+    const frame = $(".karte-frame");
+    const pointers = new Map();
+    let dragStart = null, lastDist = null, lastMid = null, lastTapTime = 0;
+
+    function dist(a, b) { return Math.hypot(a.x - b.x, a.y - b.y); }
+    function mid(a, b) { return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 }; }
+    function pxToUnits() { return 620 / frame.getBoundingClientRect().width; }
+
+    frame.addEventListener("pointerdown", e => {
+      pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (e.pointerType === "mouse" || mapInteractive) {
+        try { frame.setPointerCapture(e.pointerId); } catch (err) { /* ignoriert */ }
+        dragStart = { x: e.clientX, y: e.clientY, ox: mapState.x, oy: mapState.y };
+      }
+      if (pointers.size === 2) {
+        mapInteractive = true;
+        const pts = Array.from(pointers.values());
+        lastDist = dist(pts[0], pts[1]);
+        lastMid = mid(pts[0], pts[1]);
+      }
+    });
+
+    frame.addEventListener("pointermove", e => {
+      if (!pointers.has(e.pointerId)) return;
+      pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      const unit = pxToUnits();
+      if (pointers.size === 2) {
+        e.preventDefault();
+        const pts = Array.from(pointers.values());
+        const d = dist(pts[0], pts[1]);
+        const m = mid(pts[0], pts[1]);
+        const scaleDelta = d / lastDist;
+        mapState.scale = Math.min(4, Math.max(0.6, mapState.scale * scaleDelta));
+        mapState.x += (m.x - lastMid.x) * unit;
+        mapState.y += (m.y - lastMid.y) * unit;
+        lastDist = d; lastMid = m;
+        karteApplyTransform();
+      } else if (pointers.size === 1 && dragStart && mapInteractive) {
+        e.preventDefault();
+        mapState.x = dragStart.ox + (e.clientX - dragStart.x) * unit;
+        mapState.y = dragStart.oy + (e.clientY - dragStart.y) * unit;
+        karteApplyTransform();
+      }
+    });
+
+    function endPointer(e) {
+      pointers.delete(e.pointerId);
+      if (pointers.size < 2) { lastDist = null; lastMid = null; }
+      if (pointers.size === 0) dragStart = null;
+    }
+    frame.addEventListener("pointerup", endPointer);
+    frame.addEventListener("pointercancel", endPointer);
+
+    frame.addEventListener("dblclick", () => karteReset());
+    frame.addEventListener("pointerup", e => {
+      if (e.pointerType !== "touch") return;
+      const now = Date.now();
+      if (now - lastTapTime < 320) karteReset();
+      lastTapTime = now;
+    });
+
+    $("#karte-aktiv-btn").addEventListener("click", () => {
+      mapInteractive = !mapInteractive;
+      $("#karte-aktiv-btn").setAttribute("aria-pressed", mapInteractive ? "true" : "false");
+      $("#karte-aktiv-btn").classList.toggle("is-active", mapInteractive);
+      frame.style.touchAction = mapInteractive ? "none" : "pan-y";
+    });
+    $("#karte-reset-btn").addEventListener("click", karteReset);
+  }
+
+  /* ============================================================
+     RENDER: GEWICHTUNGSPANEL
+     ============================================================ */
+
+  function slider(opts) {
+    const row = el("div", { class: "slider-row" }, [
+      el("div", { class: "slider-head" }, [
+        el("label", { for: opts.id }, [opts.label]),
+        el("span", { class: "slider-value num", id: opts.id + "-wert" }, [opts.format(opts.value)]),
+      ]),
+      el("input", {
+        type: "range", id: opts.id, min: opts.min, max: opts.max, step: opts.step, value: opts.value,
+        oninput: e => {
+          const v = parseFloat(e.target.value);
+          $("#" + opts.id + "-wert").textContent = opts.format(v);
+          opts.onChange(v);
+        },
+      }),
+    ]);
+    return row;
+  }
+
+  function renderGewichtPanel() {
+    const kat = $("#kategorie-slider");
+    kat.innerHTML = "";
+    KATEGORIE_REIHENFOLGE.forEach(key => {
+      kat.appendChild(slider({
+        id: "gewicht-" + key, label: KATEGORIE_LABEL[key], min: 0, max: 80, step: 1,
+        value: Math.round(state.gewichte[key] * 100), format: v => fmtProzent(v),
+        onChange: v => { state.gewichte[key] = v / 100; onGewichtChange(); },
+      }));
+    });
+
+    const ref = $("#referenzort-slider");
+    ref.innerHTML = "";
+    REFERENZORTE.forEach(ort => {
+      ref.appendChild(slider({
+        id: "ref-" + ort.id, label: ort.name, min: 0, max: 60, step: 1,
+        value: Math.round(state.referenzorte[ort.id] * 100), format: v => fmtProzent(v),
+        onChange: v => { state.referenzorte[ort.id] = v / 100; onGewichtChange(); },
+      }));
+    });
+
+    const kurven = $("#kurven-slider");
+    kurven.innerHTML = "";
+    kurven.appendChild(slider({
+      id: "param-t0", label: "T0, Wendepunkt der Fahrzeitkurve", min: 1, max: 5, step: 0.05,
+      value: state.T0, format: v => fmtStunden(v),
+      onChange: v => { state.T0 = v; onGewichtChange(); },
+    }));
+    kurven.appendChild(slider({
+      id: "param-k", label: "k, Steilheit der Fahrzeitkurve", min: 0.3, max: 2, step: 0.05,
+      value: state.k, format: v => nf1.format(v),
+      onChange: v => { state.k = v; onGewichtChange(); },
+    }));
+    kurven.appendChild(slider({
+      id: "param-auto", label: "Anteil Auto gegenüber Bahn", min: 0, max: 100, step: 5,
+      value: Math.round(state.autoAnteil * 100), format: v => fmtProzent(v) + " Auto",
+      onChange: v => { state.autoAnteil = v / 100; onGewichtChange(); },
+    }));
+
+    const presetRow = $("#preset-row");
+    presetRow.innerHTML = "";
+    [["standard", "Standard"], ["kosten", "Kosten zuerst"], ["fach", "Nur Fachlichkeit"]].forEach(([key, label]) => {
+      presetRow.appendChild(el("button", {
+        type: "button", class: "btn btn-secondary",
+        onclick: () => { state.gewichte = Object.assign({}, PRESETS[key]); onGewichtChange(); syncSliderInputs(); },
+      }, [label]));
+    });
+
+    $("#reset-btn").addEventListener("click", () => {
+      state = defaultState();
+      onGewichtChange();
+      syncSliderInputs();
+    });
+
+    $("#gewicht-toggle").addEventListener("click", () => {
+      const panel = $("#gewicht-panel");
+      const collapsed = panel.classList.toggle("collapsed");
+      $("#gewicht-toggle").setAttribute("aria-expanded", collapsed ? "false" : "true");
+    });
+    if (window.innerWidth < 768) {
+      $("#gewicht-panel").classList.add("collapsed");
+      $("#gewicht-toggle").setAttribute("aria-expanded", "false");
+    }
+  }
+
+  function syncSliderInputs() {
+    KATEGORIE_REIHENFOLGE.forEach(key => {
+      const input = $("#gewicht-" + key);
+      if (input) { input.value = Math.round(state.gewichte[key] * 100); $("#gewicht-" + key + "-wert").textContent = fmtProzent(Math.round(state.gewichte[key] * 100)); }
+    });
+    REFERENZORTE.forEach(ort => {
+      const input = $("#ref-" + ort.id);
+      if (input) { input.value = Math.round(state.referenzorte[ort.id] * 100); $("#ref-" + ort.id + "-wert").textContent = fmtProzent(Math.round(state.referenzorte[ort.id] * 100)); }
+    });
+    const t0 = $("#param-t0"); if (t0) { t0.value = state.T0; $("#param-t0-wert").textContent = fmtStunden(state.T0); }
+    const k = $("#param-k"); if (k) { k.value = state.k; $("#param-k-wert").textContent = nf1.format(state.k); }
+    const auto = $("#param-auto"); if (auto) { auto.value = Math.round(state.autoAnteil * 100); $("#param-auto-wert").textContent = fmtProzent(Math.round(state.autoAnteil * 100)) + " Auto"; }
+  }
+
+  /* ============================================================
+     RENDER: VERGLEICHSTABELLE
+     ============================================================ */
+
+  const TABELLE_SPALTEN = [
+    { key: "hochschule", label: "Studiengang", numeric: false },
+    { key: "score", label: "Gesamtscore", numeric: true },
+    { key: "fach", label: "Fachliche Passung", numeric: true },
+    { key: "kosten", label: "Kosten", numeric: true },
+    { key: "stadt", label: "Stadtinfrastruktur", numeric: true },
+    { key: "zulassung", label: "Zulassung", numeric: true },
+    { key: "distanz", label: "Zeitdistanz", numeric: true },
+    { key: "umfeld", label: "Umfeld", numeric: true },
+    { key: "friststatus", label: "Frist", numeric: false },
+  ];
+
+  let tabelleSort = { key: "score", dir: -1 };
+
+  function tabelleZeilen() {
+    return STUDIENGAENGE.map(sg => {
+      const teile = teilscores(sg, state);
+      const score = gesamtscore(sg, state);
+      const status = berechneFristStatus(sg);
+      const st = STAEDTE[sg.stadt];
+      return { sg, st, teile, score, status };
+    });
+  }
+
+  function renderTabelleKopf() {
+    const kopf = $("#tabelle-kopf");
+    kopf.innerHTML = "";
+    TABELLE_SPALTEN.forEach(spalte => {
+      const th = el("th", {
+        class: spalte.key === "hochschule" ? "name-col" : (tabelleSort.key === spalte.key ? "sorted" : ""),
+        onclick: () => {
+          tabelleSort = { key: spalte.key, dir: tabelleSort.key === spalte.key ? -tabelleSort.dir : -1 };
+          renderTabelle();
+        },
+      }, [spalte.label, el("span", { class: "sort-arrow" }, [tabelleSort.key === spalte.key ? (tabelleSort.dir === -1 ? "↓" : "↑") : "↕"])]);
+      kopf.appendChild(th);
+    });
+  }
+
+  function renderTabelle() {
+    renderTabelleKopf();
+    const filterStatus = $("#filter-status").value;
+    const nurBewerbbar = $("#filter-bewerbbar").checked;
+
+    let zeilen = tabelleZeilen();
+    if (filterStatus !== "alle") zeilen = zeilen.filter(z => z.status === filterStatus);
+    if (nurBewerbbar) zeilen = zeilen.filter(z => z.status !== "zu");
+
+    zeilen.sort((a, b) => {
+      let av, bv;
+      if (tabelleSort.key === "hochschule") { av = a.sg.hochschule; bv = b.sg.hochschule; return tabelleSort.dir * av.localeCompare(bv, "de"); }
+      if (tabelleSort.key === "friststatus") { av = tageBisFrist(a.sg); bv = tageBisFrist(b.sg); av = av === null ? 99999 : av; bv = bv === null ? 99999 : bv; return tabelleSort.dir * (av - bv); }
+      if (tabelleSort.key === "score") { av = a.score; bv = b.score; return tabelleSort.dir * (av - bv); }
+      av = a.teile[tabelleSort.key]; bv = b.teile[tabelleSort.key];
+      return tabelleSort.dir * (av - bv);
+    });
+
+    const koerper = $("#tabelle-koerper");
+    koerper.innerHTML = "";
+    zeilen.forEach(({ sg, st, teile, score, status }, zeilenIndex) => {
+      const tr = el("tr", {}, [
+        el("td", { class: "name-cell", lang: "de" }, [
+          el("span", { class: "hs-name" }, [sg.hochschule]),
+          el("span", {}, [sg.name]),
+          el("span", { class: "hs-stadt" }, [st.name]),
+        ]),
+        numCell(fmtScore(score), score, zeilenIndex + 0),
+        numCell(fmtScore(teile.fach), teile.fach, zeilenIndex + 1),
+        numCell(fmtEuro(st.miete) + (st.mieteGeschaetzt ? " *" : ""), teile.kosten, zeilenIndex + 2),
+        numCell(fmtScore(teile.stadt), teile.stadt, zeilenIndex + 3),
+        numCell(fmtScore(teile.zulassung), teile.zulassung, zeilenIndex + 4),
+        numCell(fmtScore(teile.distanz), teile.distanz, zeilenIndex + 5),
+        numCell(fmtScore(teile.umfeld), teile.umfeld, zeilenIndex + 6),
+        el("td", { html: statusBadge(status) }),
+      ]);
+      koerper.appendChild(tr);
+    });
+
+    $("#wuerzburg-hinweis").innerHTML = "Uni Würzburg, M.Sc. Nanostrukturtechnik, ist eingestellt und erscheint hier nicht: Der Studiengang läuft aus, eine Bewerbung ist nicht mehr möglich. Details im Abschnitt Datenstand. Werte mit * sind geschätzt.";
+  }
+
+  function numCell(text, util, farbIndex) {
+    const td = el("td", { class: "num-cell" });
+    const farbe = typeof farbIndex === "number" ? BAR_FARBEN[((farbIndex % 4) + 4) % 4] + "-bg" : null;
+    const style = "width:" + Math.max(0, Math.min(100, util)) + "%" + (farbe ? ";--bar-farbe-bg:var(" + farbe + ")" : "");
+    td.appendChild(el("span", { class: "util-bar", style }));
+    td.appendChild(el("span", { class: "num-content" }, [text]));
+    return td;
+  }
+
+  /* ============================================================
+     RENDER: STÄDTEVERGLEICH
+     ============================================================ */
+
+  function renderStaedte() {
+    const wStadt = state.gewichte.stadt, wKosten = state.gewichte.kosten, wDistanz = state.gewichte.distanz;
+    const summe = (wStadt + wKosten + wDistanz) || 1;
+
+    const zeilen = STUDIENGAENGE.map(sg => {
+      const st = STAEDTE[sg.stadt];
+      const kosten = KOSTEN_GEWICHTE.miete * U.miete(st.miete) + KOSTEN_GEWICHTE.leben * st.leben + KOSTEN_GEWICHTE.beitrag * U.beitrag(st.beitrag);
+      const stadtUtil = STADT_GEWICHTE.hotline * st.hotline + STADT_GEWICHTE.thw * st.thw + STADT_GEWICHTE.cbrn * st.cbrn + STADT_GEWICHTE.oepnv * st.oepnv;
+      const distanz = distanzNutzen(sg, state.T0, state.k, state.autoAnteil, state.referenzorte);
+      const cityScore = (wStadt * stadtUtil + wKosten * kosten + wDistanz * distanz) / summe;
+      return { sg, st, kosten, stadtUtil, distanz, cityScore };
+    }).sort((a, b) => b.cityScore - a.cityScore);
+
+    const koerper = $("#staedtetabelle-koerper");
+    koerper.innerHTML = "";
+    zeilen.forEach(({ sg, st, kosten, stadtUtil, distanz, cityScore }, zeilenIndex) => {
+      const url = numbeoUrl(sg.stadt);
+      const tr = el("tr", {}, [
+        el("td", { class: "name-cell", lang: "de" }, [el("span", { class: "hs-name" }, [st.name])]),
+        numCell(fmtScore(cityScore), cityScore, zeilenIndex + 0),
+        numCell(fmtScore(kosten), kosten, zeilenIndex + 1),
+        numCell(fmtScore(distanz), distanz, zeilenIndex + 2),
+        el("td", { html: fmtEuro(st.miete) + (st.mieteGeschaetzt ? " *" : "") + (url ? ' <a class="text-link" href="' + url + '" target="_blank" rel="noopener" style="font-size:11px;">Numbeo</a>' : "") }),
+        el("td", {}, [fmtScore(st.hotline)]),
+        el("td", {}, [st.thw + " / " + st.cbrn]),
+        el("td", {}, [fmtScore(st.oepnv)]),
+      ]);
+      koerper.appendChild(tr);
+    });
+  }
+
+  /* ============================================================
+     RENDER: DETAILKARTEN
+     ============================================================ */
+
+  function renderDetails() {
+    const wrap = $("#detail-liste");
+    wrap.innerHTML = "";
+    const gesorted = STUDIENGAENGE.map(sg => ({ sg, score: gesamtscore(sg, state) })).sort((a, b) => b.score - a.score);
+
+    gesorted.forEach(({ sg, score }) => {
+      const text = STUDIENGAENGE_TEXT[sg.id];
+      const status = berechneFristStatus(sg);
+      const st = STAEDTE[sg.stadt];
+
+      const details = el("details", { class: "detail-card", id: "detail-" + sg.id });
+      const summary = el("summary", { class: "detail-summary" }, [
+        el("span", { class: "ds-left" }, [
+          el("span", { class: "ds-hs", lang: "de" }, [sg.hochschule]),
+          el("span", { class: "ds-name", lang: "de" }, [sg.name]),
+        ]),
+        el("span", { class: "ds-right" }, [
+          el("span", { html: statusBadge(status) }),
+          el("span", { class: "ds-score num" }, [fmtScore(score)]),
+          el("span", { class: "detail-chevron", "aria-hidden": "true" }, ["▼"]),
+        ]),
+      ]);
+      details.appendChild(summary);
+
+      const body = el("div", { class: "detail-body" });
+
+      const steckbrief = el("dl", { class: "steckbrief" });
+      const felder = [
+        ["Stadt", st.name + (sg.zweitstadt ? " und " + STAEDTE[sg.zweitstadt].name : "")],
+        ["Frist WiSe 2026/27", sg.fristAnzeige],
+        ["Beleg", BELEG_LABEL[sg.beleg]],
+        ["Zulassung", sg.zulassungsmodus],
+        ["Sprache", sg.sprache],
+        ["Start", sg.start],
+      ];
+      if (sg.regelstudienzeit) felder.push(["Regelstudienzeit", sg.regelstudienzeit]);
+      felder.push(["Anschluss Ilmenauer Bachelor", sg.ilmenauAnschluss]);
+      felder.push(["Umgewöhnung", sg.umgewoehnung]);
+      felder.push(["Studienfreiheit", sg.fach.freiheit + " % (" + (sg.freiheitGemessen ? "aus Modulhandbuch gemessen" : "geschätzt") + ")"]);
+      felder.forEach(([dt, dd]) => {
+        steckbrief.appendChild(el("dt", {}, [dt]));
+        steckbrief.appendChild(el("dd", { lang: "de" }, [dd]));
+      });
+      body.appendChild(steckbrief);
+
+      if (text.aufbau) body.appendChild(el("div", { class: "detail-block" }, [el("h4", {}, ["Aufbau"]), el("p", {}, [text.aufbau])]));
+      if (text.zugang) body.appendChild(el("div", { class: "detail-block" }, [el("h4", {}, ["Zugang"]), el("p", {}, [text.zugang])]));
+      if (text.besonderheit) body.appendChild(el("div", { class: "detail-block" }, [el("h4", {}, ["Einordnung"]), el("p", {}, [text.besonderheit])]));
+
+      if (text.module && text.module.length) {
+        const modBlock = el("div", { class: "detail-block" }, [el("h4", {}, ["Einschlägige Module"])]);
+        const modList = el("ul", { class: "module-liste" });
+        text.module.forEach(m => modList.appendChild(el("li", {}, [m])));
+        modBlock.appendChild(modList);
+        body.appendChild(modBlock);
+      }
+
+      if (sg.huerden.length) {
+        const hBlock = el("div", { class: "detail-block" }, [el("h4", {}, ["Zulassungshürden"])]);
+        const hList = el("ul", { class: "huerden-liste" });
+        sg.huerden.forEach(h => hList.appendChild(el("li", {}, [h])));
+        hBlock.appendChild(hList);
+        body.appendChild(hBlock);
+      }
+
+      const vnGrid = el("div", { class: "vor-nach-grid" });
+      const vBlock = el("div", { class: "detail-block" }, [el("h4", {}, ["Vorteile"])]);
+      const vList = el("ul", { class: "vor-nachteile-liste" });
+      text.vorteile.forEach(v => vList.appendChild(el("li", {}, [v])));
+      vBlock.appendChild(vList);
+      const nBlock = el("div", { class: "detail-block" }, [el("h4", {}, ["Nachteile"])]);
+      const nList = el("ul", { class: "vor-nachteile-liste" });
+      text.nachteile.forEach(n => nList.appendChild(el("li", {}, [n])));
+      nBlock.appendChild(nList);
+      vnGrid.appendChild(vBlock);
+      vnGrid.appendChild(nBlock);
+      body.appendChild(vnGrid);
+
+      const qBlock = el("div", { class: "detail-block" }, [el("h4", {}, ["Quellen"])]);
+      const qList = el("div", { class: "quellen-liste" });
+      text.quellen.forEach(q => qList.appendChild(el("a", { class: "text-link", href: q.url, target: "_blank", rel: "noopener" }, [q.label])));
+      qBlock.appendChild(qList);
+      body.appendChild(qBlock);
+
+      details.appendChild(body);
+      wrap.appendChild(details);
+    });
+
+    $("#wuerzburg-detail").innerHTML = "Uni Würzburg, M.Sc. Nanostrukturtechnik: eingestellt, keine Bewertung. Details im Abschnitt Datenstand.";
+  }
+
+  function oeffneDetail(id) {
+    const node = $("#detail-" + id);
+    if (!node) return;
+    node.open = true;
+    node.scrollIntoView({ behavior: reducedMotion() ? "auto" : "smooth", block: "start" });
+  }
+
+  /* ============================================================
+     RENDER: METHODIK
+     ============================================================ */
+
+  function zeichneKurve(svgSel, fn, xMin, xMax, xAktuell, unitSuffix) {
+    const svg = $(svgSel);
+    svg.innerHTML = "";
+    const W = 260, H = 160, padL = 28, padR = 10, padT = 10, padB = 22;
+    const plotW = W - padL - padR, plotH = H - padT - padB;
+    const toX = x => padL + (x - xMin) / (xMax - xMin) * plotW;
+    const toY = y => padT + (1 - y / 100) * plotH;
+
+    svg.appendChild(svgEl("line", { x1: padL, y1: padT, x2: padL, y2: H - padB, class: "kurve-achse" }));
+    svg.appendChild(svgEl("line", { x1: padL, y1: H - padB, x2: W - padR, y2: H - padB, class: "kurve-achse" }));
+
+    const punkte = [];
+    for (let i = 0; i <= 60; i++) {
+      const x = xMin + (xMax - xMin) * i / 60;
+      punkte.push(toX(x) + "," + toY(fn(x)));
+    }
+    svg.appendChild(svgEl("polyline", { points: punkte.join(" "), class: "kurve-linie" }));
+
+    const label0 = svgEl("text", { x: padL, y: H - 8, class: "kurve-label" }); label0.textContent = xMin + unitSuffix;
+    const label1 = svgEl("text", { x: W - padR - 18, y: H - 8, class: "kurve-label" }); label1.textContent = xMax + unitSuffix;
+    svg.appendChild(label0); svg.appendChild(label1);
+    const labelY = svgEl("text", { x: 2, y: padT + 6, class: "kurve-label" }); labelY.textContent = "100";
+    svg.appendChild(labelY);
+
+    if (xAktuell !== null) {
+      svg.appendChild(svgEl("circle", { cx: toX(xAktuell), cy: toY(fn(xAktuell)), r: 4, class: "kurve-marker" }));
+      svg.appendChild(svgEl("line", { x1: toX(xAktuell), y1: toY(fn(xAktuell)), x2: toX(xAktuell), y2: H - padB, class: "kurve-achse", "stroke-dasharray": "2 2" }));
+    }
+  }
+
+  function renderMethodik() {
+    zeichneKurve("#kurve-fahrzeit", x => U.fahrzeit(x, state.T0, state.k), 0, 8, state.T0, "h");
+    zeichneKurve("#kurve-miete", x => U.miete(x), 350, 850, 620, "€");
+    zeichneKurve("#kurve-beitrag", x => U.beitrag(x), 150, 450, null, "€");
+
+    const summe = Object.values(state.gewichte).reduce((a, b) => a + b, 0) || 1;
+    const tbody = $("#methodik-gewichte");
+    tbody.innerHTML = "";
+    KATEGORIE_REIHENFOLGE.forEach(key => {
+      tbody.appendChild(el("tr", {}, [
+        el("td", {}, [KATEGORIE_LABEL[key]]),
+        el("td", { class: "num-cell" }, [fmtProzent(Math.round(state.gewichte[key] / summe * 100))]),
+      ]));
+    });
+  }
+
+  /* ============================================================
+     RENDER: DATENSTAND
+     ============================================================ */
+
+  function renderDatenstand() {
+    const tbody = $("#belegstatus-tabelle tbody");
+    tbody.innerHTML = "";
+    STUDIENGAENGE.forEach(sg => {
+      tbody.appendChild(el("tr", {}, [
+        el("td", { lang: "de" }, [sg.hochschule + ", " + sg.name]),
+        el("td", {}, [sg.fristAnzeige]),
+        el("td", { html: belegBadge(sg.beleg) }),
+      ]));
+    });
+
+    const op = $("#offene-punkte-koerper");
+    op.innerHTML = "";
+    OFFENE_PUNKTE.forEach(p => {
+      op.appendChild(el("tr", {}, [el("td", {}, [p.punkt]), el("td", {}, [p.was]), el("td", {}, [p.wo])]));
+    });
+  }
+
+  /* ============================================================
+     TOC
+     ============================================================ */
+
+  const TOC_EINTRAEGE = [
+    ["hero", "Übersicht"], ["rangliste", "Rangliste"], ["gewichtung", "Gewichtung"], ["karte", "Karte"],
+    ["tabelle", "Vergleichstabelle"], ["staedte", "Städtevergleich"], ["details", "Studiengänge im Detail"],
+    ["methodik", "Methodik"], ["datenstand", "Datenstand"],
+  ];
+
+  function renderToc() {
+    const links = $("#toc-links");
+    links.innerHTML = "";
+    TOC_EINTRAEGE.forEach(([id, label]) => {
+      links.appendChild(el("a", { href: "#" + id, "data-toc": id, onclick: () => schliesseToc() }, [label]));
+    });
+  }
+
+  function schliesseToc() {
+    $("#toc-drawer").classList.remove("open");
+    $("#toc-backdrop").classList.remove("open");
+    $("#toc-toggle").setAttribute("aria-expanded", "false");
+    $("#toc-toggle").setAttribute("aria-label", "Inhaltsverzeichnis öffnen");
+  }
+
+  function tocInit() {
+    $("#toc-toggle").addEventListener("click", () => {
+      const open = $("#toc-drawer").classList.toggle("open");
+      $("#toc-backdrop").classList.toggle("open", open);
+      $("#toc-toggle").setAttribute("aria-expanded", open ? "true" : "false");
+      $("#toc-toggle").setAttribute("aria-label", open ? "Inhaltsverzeichnis schließen" : "Inhaltsverzeichnis öffnen");
+    });
+    $("#toc-backdrop").addEventListener("click", schliesseToc);
+    document.addEventListener("keydown", e => { if (e.key === "Escape") schliesseToc(); });
+
+    const sections = TOC_EINTRAEGE.map(([id]) => document.getElementById(id));
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const id = entry.target.id;
+        $$("[data-toc]").forEach(a => a.classList.toggle("active", a.dataset.toc === id));
+      });
+    }, { rootMargin: "-30% 0px -60% 0px", threshold: 0 });
+    sections.forEach(s => s && observer.observe(s));
+  }
+
+  /* ============================================================
+     ZENTRALES RENDER
+     ============================================================ */
+
+  function onGewichtChange() {
+    speichereState();
+    renderRangliste();
+    karteUpdate();
+    karteFallbackListe();
+    renderTabelle();
+    renderStaedte();
+    renderDetails();
+    renderMethodik();
+  }
+
+  function initEvents() {
+    $("#filter-status").addEventListener("change", renderTabelle);
+    $("#filter-bewerbbar").addEventListener("change", renderTabelle);
+  }
+
+  function init() {
+    renderToc();
+    tocInit();
+    renderHero();
+    renderRanglisteLegende();
+    renderRangliste();
+    karteInit();
+    renderGewichtPanel();
+    initEvents();
+    renderTabelle();
+    renderStaedte();
+    renderDetails();
+    renderMethodik();
+    renderDatenstand();
+  }
+
+  document.addEventListener("DOMContentLoaded", init);
+})();
+</script>
+
+</body>
+</html>
