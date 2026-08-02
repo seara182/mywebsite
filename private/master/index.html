@@ -389,6 +389,23 @@
   }
   .back-link:hover { background: var(--sienna); border-color: var(--sienna); transform: translateX(-4px); }
 
+  /* ---------- Interaktions-Feedback ---------- */
+  .sort-chip:not(.is-active):hover { background: var(--paper-2); border-color: var(--hairline-strong); color: var(--ink); }
+  .karte-marker:hover circle { stroke-width: 3; }
+  .slider-row input[type="range"]:hover::-webkit-slider-thumb,
+  .slider-row input[type="range"]:active::-webkit-slider-thumb { transform: scale(1.15); box-shadow: var(--shadow-md); }
+  .slider-row input[type="range"]:hover::-moz-range-thumb,
+  .slider-row input[type="range"]:active::-moz-range-thumb { transform: scale(1.15); box-shadow: var(--shadow-md); }
+
+  /* Animate the above state changes only when motion is welcome; the states
+     themselves still apply instantly under reduced-motion. */
+  @media (prefers-reduced-motion: no-preference) {
+    .sort-chip { transition: background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out); }
+    .karte-marker circle { transition: stroke-width var(--dur-fast) var(--ease-out); }
+    .slider-row input[type="range"]::-webkit-slider-thumb { transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out); }
+    .slider-row input[type="range"]::-moz-range-thumb { transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out); }
+  }
+
   [lang="de"] { hyphens: auto; }
   h1, h2, h3, h4 { hyphens: auto; }
 
@@ -1247,6 +1264,14 @@
     return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   }
 
+  function triggerReveal(container) {
+    if (reducedMotion()) return;
+    const els = container.querySelectorAll(".reveal");
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      els.forEach(el => el.classList.add("is-in"));
+    }));
+  }
+
   function renderRanglisteLegende() {
     const wrap = $("#rangliste-legende");
     wrap.innerHTML = "";
@@ -1726,7 +1751,7 @@
         class: "sort-chip" + (tabelleSort.key === spalte.key ? " is-active" : ""),
         onclick: () => {
           tabelleSort = { key: spalte.key, dir: tabelleSort.key === spalte.key ? -tabelleSort.dir : -1 };
-          renderTabelle();
+          renderTabelle(true);
         },
       }, [spalte.label, el("span", { class: "sort-arrow" }, [tabelleSort.key === spalte.key ? (tabelleSort.dir === -1 ? "↓" : "↑") : "↕"])]);
       kopf.appendChild(chip);
@@ -1740,7 +1765,7 @@
     ]);
   }
 
-  function renderTabelle() {
+  function renderTabelle(zeigeReveal) {
     renderTabelleKopf();
     const filterStatus = $("#filter-status").value;
     const nurBewerbbar = $("#filter-bewerbbar").checked;
@@ -1761,7 +1786,8 @@
     const koerper = $("#tabelle-koerper");
     koerper.innerHTML = "";
     zeilen.forEach(({ sg, st, teile, score, status }, zeilenIndex) => {
-      const karte = el("details", { class: "detail-card vergleich-karte" }, [
+      const revealClass = zeigeReveal ? " reveal reveal-d" + (Math.min(zeilenIndex, 3) + 1) : "";
+      const karte = el("details", { class: "detail-card vergleich-karte" + revealClass }, [
         el("summary", { class: "detail-summary" }, [
           el("span", { class: "vk-summary-left" }, [
             el("span", { class: "vk-hs", lang: "de" }, [sg.hochschule]),
@@ -1785,6 +1811,7 @@
       ]);
       koerper.appendChild(karte);
     });
+    if (zeigeReveal) triggerReveal(koerper);
 
     $("#wuerzburg-hinweis").innerHTML = "Uni Würzburg, M.Sc. Nanostrukturtechnik, ist eingestellt und erscheint hier nicht: Der Studiengang läuft aus, eine Bewerbung ist nicht mehr möglich. Details im Abschnitt Datenstand. Werte mit * sind geschätzt.";
   }
@@ -1802,7 +1829,7 @@
      RENDER: STÄDTEVERGLEICH
      ============================================================ */
 
-  function renderStaedte() {
+  function renderStaedte(zeigeReveal) {
     const wStadt = state.gewichte.stadt, wKosten = state.gewichte.kosten, wDistanz = state.gewichte.distanz;
     const summe = (wStadt + wKosten + wDistanz) || 1;
 
@@ -1819,7 +1846,8 @@
     koerper.innerHTML = "";
     zeilen.forEach(({ sg, st, kosten, stadtUtil, distanz, cityScore }, zeilenIndex) => {
       const url = numbeoUrl(sg.stadt);
-      const karte = el("details", { class: "detail-card vergleich-karte" }, [
+      const revealClass = zeigeReveal ? " reveal reveal-d" + (Math.min(zeilenIndex, 3) + 1) : "";
+      const karte = el("details", { class: "detail-card vergleich-karte" + revealClass }, [
         el("summary", { class: "detail-summary" }, [
           el("span", { class: "vk-summary-left" }, [
             el("span", { class: "vk-hs", lang: "de" }, [st.name]),
@@ -1852,6 +1880,7 @@
       ]);
       koerper.appendChild(karte);
     });
+    if (zeigeReveal) triggerReveal(koerper);
   }
 
   /* ============================================================
@@ -2097,8 +2126,8 @@
   }
 
   function initEvents() {
-    $("#filter-status").addEventListener("change", renderTabelle);
-    $("#filter-bewerbbar").addEventListener("change", renderTabelle);
+    $("#filter-status").addEventListener("change", () => renderTabelle(true));
+    $("#filter-bewerbbar").addEventListener("change", () => renderTabelle(true));
   }
 
   function init() {
@@ -2110,8 +2139,8 @@
     karteInit();
     renderGewichtPanel();
     initEvents();
-    renderTabelle();
-    renderStaedte();
+    renderTabelle(true);
+    renderStaedte(true);
     renderDetails();
     renderMethodik();
     renderDatenstand();
