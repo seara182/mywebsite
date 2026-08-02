@@ -148,6 +148,22 @@
     .hero-glow-blob { transform: scale(0.6); transform-origin: top right; opacity: 0.7 !important; }
     .lang-hint { display: none !important; }
 
+    /* hero: shrink the second ambient shape (bottom-left arch) so it stops
+       swallowing the scroll hint and the fixed bottom-right contact chip */
+    .hero-glow-arch { transform: scale(0.55); transform-origin: bottom left; opacity: 0.75 !important; }
+
+    /* Intro (navy band): shrink + tuck the ambient circle into the corner so
+       it doesn't wash out the headline text wrapping beneath it on phones */
+    .intro-glow { transform: scale(0.55); transform-origin: top right; opacity: 0.6 !important; }
+
+    /* Story: shrink the low-opacity ambient squircle to match the reduced
+       scale of everything else at this width */
+    .story-glow { transform: scale(0.7); transform-origin: top left; }
+
+    /* Engagement (sienna band): shrink + tuck the ambient blob into the
+       corner so it clears the timeline entries above it */
+    .engagement-glow { transform: scale(0.55); transform-origin: bottom right; opacity: 0.7 !important; }
+
     /* Next-Game preview tile: let it grow to fit its content instead of clipping
        the wrapped stat row inside a fixed 16/10 box */
     .bay-preview { aspect-ratio: auto !important; min-height: 0 !important; }

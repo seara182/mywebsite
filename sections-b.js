@@ -238,6 +238,7 @@ function Engagement() {
     glow: "amber",
     size: 340,
     ink: "var(--sienna-deep)",
+    className: "engagement-glow",
     style: {
       position: "absolute",
       bottom: "6%",

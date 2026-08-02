@@ -13,7 +13,7 @@ function Hero() {
     <section className="hero" style={{ position: "relative", display: "flex", flexDirection: "column", justifyContent: "center", overflow: "hidden", padding: "0 var(--gutter)" }}>
       {/* ambient drifting shapes */}
       <GlowShape shape="blob" glow="duo" size={420} drift className="hero-glow-blob" style={{ position: "absolute", top: "-8%", right: "-6%", zIndex: 2, opacity: 0.9, transition: "opacity 1.2s ease", pointerEvents: "none" }} />
-      <GlowShape shape="arch" glow="navy" size={240} drift style={{ position: "absolute", bottom: 0, left: "-4%", zIndex: 2, pointerEvents: "none" }} />
+      <GlowShape shape="arch" glow="navy" size={240} drift className="hero-glow-arch" style={{ position: "absolute", bottom: 0, left: "-4%", zIndex: 2, pointerEvents: "none" }} />
       {/* portrait — widescreen only (≥1440px, see .hero-photo in index.template.html);
          sits in front of the ambient blobs, drifts a hair via drift-soft */}
       <div className="hero-photo" aria-hidden="true" style={{ position: "absolute", zIndex: 2, right: "clamp(80px, 15vw, 340px)", bottom: 0, height: "clamp(520px, 66vh, 820px)", pointerEvents: "none" }}>
@@ -55,7 +55,7 @@ function Intro() {
     <section className="on-navy" style={{ position: "relative", overflow: "hidden", padding: "var(--section-y) 0" }}>
       {/* paper (Hero) above laps DOWN over this navy band; bottom seam is handled by Story's top wave (navy laps over paper) */}
       <WaveBlend edge="top" color="var(--paper)" seed={5} shadow="rgba(15,23,42,0.55)" />
-      <GlowShape shape="circle" glow="sienna" size={300} ink="var(--navy-deep)" style={{ position: "absolute", top: "6%", right: "4%", pointerEvents: "none" }} />
+      <GlowShape shape="circle" glow="sienna" size={300} ink="var(--navy-deep)" className="intro-glow" style={{ position: "absolute", top: "6%", right: "4%", pointerEvents: "none" }} />
       {/* photo cluster fills the empty right half on wide screens (desktop-only) */}
       <div className="fill-slot fill-slot--right">
         <Reveal>

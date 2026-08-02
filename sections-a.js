@@ -55,6 +55,7 @@ function Hero() {
     glow: "navy",
     size: 240,
     drift: true,
+    className: "hero-glow-arch",
     style: {
       position: "absolute",
       bottom: 0,
@@ -222,6 +223,7 @@ function Intro() {
     glow: "sienna",
     size: 300,
     ink: "var(--navy-deep)",
+    className: "intro-glow",
     style: {
       position: "absolute",
       top: "6%",

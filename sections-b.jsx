@@ -90,7 +90,7 @@ function Engagement() {
     <section className="on-sienna" style={{ position: "relative", overflow: "hidden", padding: "var(--section-y) 0" }}>
       {/* paper (Cleanroom) above laps DOWN over this sienna band; bottom seam is handled by ConfiTear's top wave (sienna laps over paper) */}
       <WaveBlend edge="top" color="var(--paper)" seed={31} shadow="rgba(120,52,28,0.5)" />
-      <GlowShape shape="blob" glow="amber" size={340} ink="var(--sienna-deep)" style={{ position: "absolute", bottom: "6%", right: "-4%", pointerEvents: "none" }} />
+      <GlowShape shape="blob" glow="amber" size={340} ink="var(--sienna-deep)" className="engagement-glow" style={{ position: "absolute", bottom: "6%", right: "-4%", pointerEvents: "none" }} />
       {/* photo cluster fills the empty left half on wide screens (desktop-only) */}
       <div className="fill-slot fill-slot--left">
         <Reveal>

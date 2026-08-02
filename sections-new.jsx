@@ -239,7 +239,7 @@ function Story() {
     <section style={{ padding: "var(--section-y) 0", position: "relative", overflow: "hidden" }}>
       {/* navy band above laps DOWN over this paper section, casting a navy shadow on the white */}
       <WaveBlend edge="top" color="var(--navy)" seed={63} shadow="rgba(28,44,76,0.45)" />
-      <GlowShape shape="squircle" glow="amber" size={200} drift style={{ position: "absolute", top: "8%", left: "-5%", opacity: 0.35, pointerEvents: "none" }} />
+      <GlowShape shape="squircle" glow="amber" size={200} drift className="story-glow" style={{ position: "absolute", top: "8%", left: "-5%", opacity: 0.35, pointerEvents: "none" }} />
       <div className="container align-track">
         {/* on wide screens (≥1440px) the two thesis figures sit in the empty left
             half beside the narrative; below that they're hidden and the text

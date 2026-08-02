@@ -437,6 +437,7 @@ function Story() {
     glow: "amber",
     size: 200,
     drift: true,
+    className: "story-glow",
     style: {
       position: "absolute",
       top: "8%",
