@@ -46,7 +46,7 @@
     color: var(--text-body);
   }
 
-  .num, .zahl, td.num-cell, .frist-tage, .roller-number, table td { font-variant-numeric: tabular-nums; }
+  .num, .zahl, .num-cell, .frist-tage, .roller-number, table td { font-variant-numeric: tabular-nums; }
 
   .sr-only-inline { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
@@ -256,25 +256,39 @@
   .switch input:checked + .track + .thumb { transform: translateX(18px); }
 
   .tabelle-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius-md); }
-  table.vergleich { border-collapse: collapse; width: 100%; min-width: 760px; }
-  table.vergleich th, table.vergleich td { padding: 10px 14px; border-bottom: 1px solid var(--border); text-align: left; font-size: var(--fs-caption); white-space: nowrap; }
-  table.vergleich thead th {
-    background: var(--paper-2); font-family: var(--font-text); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em;
-    color: var(--text-muted); cursor: pointer; user-select: none; min-height: 44px; position: sticky; top: 0; z-index: 2;
-  }
-  table.vergleich thead th .sort-arrow { margin-left: 4px; opacity: 0.5; }
-  table.vergleich thead th.sorted .sort-arrow { opacity: 1; color: var(--sienna); }
-  table.vergleich tbody tr:hover { background: var(--hover-tint); }
-  table.vergleich td.name-cell, table.vergleich th.name-col {
-    position: sticky; left: 0; background: var(--paper); z-index: 1; border-right: 1px solid var(--border); white-space: normal; max-width: 220px; hyphens: auto;
-  }
-  table.vergleich thead th.name-col { background: var(--paper-2); z-index: 3; }
-  table.vergleich td.name-cell .hs-name { font-weight: 600; color: var(--ink); display: block; }
-  table.vergleich td.name-cell .hs-stadt { font-size: 11px; color: var(--text-muted); }
-  td.num-cell { position: relative; font-family: var(--font-mono); }
-  td.num-cell .util-bar { position: absolute; left: 0; top: 0; bottom: 0; background: var(--bar-farbe-bg, var(--paper-3)); z-index: 0; }
-  td.num-cell .num-content { position: relative; z-index: 1; }
+  .num-cell { font-family: var(--font-mono); }
   .wuerzburg-hinweis { margin-top: 14px; font-size: var(--fs-caption); color: var(--text-muted); border: 1px dashed var(--border); border-radius: var(--radius-sm); padding: 12px 16px; }
+
+  /* ---------- Vergleichs-/Städtekarten ---------- */
+  .karten-liste { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  @media (min-width: 640px) { .karten-liste { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); align-items: start; } }
+  .vergleich-karte .detail-summary { align-items: center; }
+  .vk-summary-left { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .vk-hs { font-weight: 700; color: var(--ink); font-size: var(--fs-body); hyphens: auto; }
+  .vk-name { font-size: var(--fs-small); color: var(--text-muted); hyphens: auto; }
+  .vk-stadt { font-size: var(--fs-caption); color: var(--text-muted); }
+  .vk-summary-right { display: flex; align-items: center; gap: 10px; flex: 0 0 auto; }
+  .vk-score { font-family: var(--font-mono); font-weight: 700; font-size: var(--fs-title); color: var(--sienna); }
+  .vk-body { display: flex; flex-direction: column; gap: 12px; }
+  .vk-metric { display: flex; flex-direction: column; gap: 4px; }
+  .vk-metric-label { font-size: var(--fs-caption); color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+  .vk-plain { font-size: var(--fs-body); color: var(--ink); }
+  .vk-metric .num-cell {
+    position: relative; display: block; border-radius: var(--radius-sm); overflow: hidden;
+    background: var(--paper-3); min-height: 30px;
+  }
+  .vk-metric .num-cell .util-bar { position: absolute; left: 0; top: 0; bottom: 0; background: var(--bar-farbe-bg, var(--paper-3)); z-index: 0; }
+  .vk-metric .num-cell .num-content { position: relative; z-index: 1; display: block; padding: 6px 10px; font-size: var(--fs-caption); color: var(--ink); }
+
+  .sort-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+  .sort-chip {
+    min-height: 44px; padding: 8px 14px; border-radius: var(--radius-pill); border: 1px solid var(--border);
+    background: var(--paper); color: var(--text-muted); font-family: var(--font-text); font-size: var(--fs-caption);
+    font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;
+  }
+  .sort-chip .sort-arrow { opacity: 0.6; }
+  .sort-chip.is-active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .sort-chip.is-active .sort-arrow { opacity: 1; color: var(--sienna-glow); }
 
   /* ---------- Städtevergleich ---------- */
   .staedte-grid-info { font-size: var(--fs-caption); color: var(--text-muted); margin-bottom: 16px; max-width: 68ch; }
@@ -480,7 +494,7 @@
     <section id="tabelle">
       <span class="eyebrow">Abschnitt 5</span>
       <h2 class="t-h2 section-title">Vergleichstabelle</h2>
-      <p class="lead">Jede Zelle zeigt den Rohwert mit Einheit. Der helle Balken im Zellhintergrund zeigt den zugehörigen Nutzenwert von 0 bis 100. Spalten lassen sich durch Klick auf den Kopf sortieren.</p>
+      <p class="lead">Jede Karte zeigt den Gesamtscore auf einen Blick. Die Detailwerte je Kriterium mit Rohwert, Einheit und Nutzenbalken liegen aufgeklappt darunter. Die Knöpfe darüber sortieren die Karten.</p>
       <div class="filter-bar">
         <label for="filter-status">Fristenstatus
           <select id="filter-status">
@@ -500,11 +514,9 @@
           nur bewerbbare
         </label>
       </div>
-      <div class="tabelle-wrap">
-        <table class="vergleich" id="vergleichstabelle">
-          <thead><tr id="tabelle-kopf"></tr></thead>
-          <tbody id="tabelle-koerper"></tbody>
-        </table>
+      <div id="vergleichstabelle">
+        <div class="sort-bar" id="tabelle-kopf" role="group" aria-label="Sortieren nach"></div>
+        <div class="karten-liste" id="tabelle-koerper"></div>
       </div>
       <p class="wuerzburg-hinweis" id="wuerzburg-hinweis"></p>
     </section>
@@ -513,22 +525,8 @@
       <span class="eyebrow">Abschnitt 6</span>
       <h2 class="t-h2 section-title">Städtevergleich</h2>
       <p class="staedte-grid-info">Eigenes Ranking allein aus Stadtinfrastruktur, Kosten und Zeitdistanz, ohne fachliche Passung, Zulassungswahrscheinlichkeit oder Umfeld. Zeigt, ob ein fachlich guter Studiengang in einer schwachen Stadt liegt. Die drei Anteile werden im aktuellen Verhältnis der zugehörigen Kategoriegewichte gemischt.</p>
-      <div class="tabelle-wrap">
-        <table class="vergleich" id="staedtetabelle">
-          <thead>
-            <tr>
-              <th class="name-col">Stadt</th>
-              <th>Stadtscore</th>
-              <th>Kosten</th>
-              <th>Distanz</th>
-              <th>Kaltmiete</th>
-              <th>Hotline</th>
-              <th>THW / CBRN</th>
-              <th>ÖPNV</th>
-            </tr>
-          </thead>
-          <tbody id="staedtetabelle-koerper"></tbody>
-        </table>
+      <div id="staedtetabelle">
+        <div class="karten-liste" id="staedtetabelle-koerper"></div>
       </div>
       <div class="detail-block" style="margin-top:24px;">
         <h4>Datenlage Ehrenamt und Hotline</h4>
@@ -1667,15 +1665,23 @@
     const kopf = $("#tabelle-kopf");
     kopf.innerHTML = "";
     TABELLE_SPALTEN.forEach(spalte => {
-      const th = el("th", {
-        class: spalte.key === "hochschule" ? "name-col" : (tabelleSort.key === spalte.key ? "sorted" : ""),
+      const chip = el("button", {
+        type: "button",
+        class: "sort-chip" + (tabelleSort.key === spalte.key ? " is-active" : ""),
         onclick: () => {
           tabelleSort = { key: spalte.key, dir: tabelleSort.key === spalte.key ? -tabelleSort.dir : -1 };
           renderTabelle();
         },
       }, [spalte.label, el("span", { class: "sort-arrow" }, [tabelleSort.key === spalte.key ? (tabelleSort.dir === -1 ? "↓" : "↑") : "↕"])]);
-      kopf.appendChild(th);
+      kopf.appendChild(chip);
     });
+  }
+
+  function vkMetric(label, util, text, farbIndex) {
+    return el("div", { class: "vk-metric" }, [
+      el("span", { class: "vk-metric-label" }, [label]),
+      numCell("div", text, util, farbIndex),
+    ]);
   }
 
   function renderTabelle() {
@@ -1699,34 +1705,41 @@
     const koerper = $("#tabelle-koerper");
     koerper.innerHTML = "";
     zeilen.forEach(({ sg, st, teile, score, status }, zeilenIndex) => {
-      const tr = el("tr", {}, [
-        el("td", { class: "name-cell", lang: "de" }, [
-          el("span", { class: "hs-name" }, [sg.hochschule]),
-          el("span", {}, [sg.name]),
-          el("span", { class: "hs-stadt" }, [st.name]),
+      const karte = el("details", { class: "detail-card vergleich-karte" }, [
+        el("summary", { class: "detail-summary" }, [
+          el("span", { class: "vk-summary-left" }, [
+            el("span", { class: "vk-hs", lang: "de" }, [sg.hochschule]),
+            el("span", { class: "vk-name", lang: "de" }, [sg.name]),
+            el("span", { class: "vk-stadt" }, [st.name]),
+          ]),
+          el("span", { class: "vk-summary-right" }, [
+            el("span", { html: statusBadge(status) }),
+            el("span", { class: "vk-score num" }, [fmtScore(score)]),
+            el("span", { class: "detail-chevron", "aria-hidden": "true" }, ["▼"]),
+          ]),
         ]),
-        numCell(fmtScore(score), score, zeilenIndex + 0),
-        numCell(fmtScore(teile.fach), teile.fach, zeilenIndex + 1),
-        numCell(fmtEuro(st.miete) + (st.mieteGeschaetzt ? " *" : ""), teile.kosten, zeilenIndex + 2),
-        numCell(fmtScore(teile.stadt), teile.stadt, zeilenIndex + 3),
-        numCell(fmtScore(teile.zulassung), teile.zulassung, zeilenIndex + 4),
-        numCell(fmtScore(teile.distanz), teile.distanz, zeilenIndex + 5),
-        numCell(fmtScore(teile.umfeld), teile.umfeld, zeilenIndex + 6),
-        el("td", { html: statusBadge(status) }),
+        el("div", { class: "detail-body vk-body" }, [
+          vkMetric("Fachliche Passung", teile.fach, fmtScore(teile.fach), zeilenIndex + 1),
+          vkMetric("Kosten", teile.kosten, fmtEuro(st.miete) + (st.mieteGeschaetzt ? " *" : ""), zeilenIndex + 2),
+          vkMetric("Stadtinfrastruktur", teile.stadt, fmtScore(teile.stadt), zeilenIndex + 3),
+          vkMetric("Zulassung", teile.zulassung, fmtScore(teile.zulassung), zeilenIndex + 4),
+          vkMetric("Zeitdistanz", teile.distanz, fmtScore(teile.distanz), zeilenIndex + 5),
+          vkMetric("Umfeld", teile.umfeld, fmtScore(teile.umfeld), zeilenIndex + 6),
+        ]),
       ]);
-      koerper.appendChild(tr);
+      koerper.appendChild(karte);
     });
 
     $("#wuerzburg-hinweis").innerHTML = "Uni Würzburg, M.Sc. Nanostrukturtechnik, ist eingestellt und erscheint hier nicht: Der Studiengang läuft aus, eine Bewerbung ist nicht mehr möglich. Details im Abschnitt Datenstand. Werte mit * sind geschätzt.";
   }
 
-  function numCell(text, util, farbIndex) {
-    const td = el("td", { class: "num-cell" });
+  function numCell(tag, text, util, farbIndex) {
+    const node = el(tag, { class: "num-cell" });
     const farbe = typeof farbIndex === "number" ? BAR_FARBEN[((farbIndex % 4) + 4) % 4] + "-bg" : null;
     const style = "width:" + Math.max(0, Math.min(100, util)) + "%" + (farbe ? ";--bar-farbe-bg:var(" + farbe + ")" : "");
-    td.appendChild(el("span", { class: "util-bar", style }));
-    td.appendChild(el("span", { class: "num-content" }, [text]));
-    return td;
+    node.appendChild(el("span", { class: "util-bar", style }));
+    node.appendChild(el("span", { class: "num-content" }, [text]));
+    return node;
   }
 
   /* ============================================================
@@ -1750,17 +1763,38 @@
     koerper.innerHTML = "";
     zeilen.forEach(({ sg, st, kosten, stadtUtil, distanz, cityScore }, zeilenIndex) => {
       const url = numbeoUrl(sg.stadt);
-      const tr = el("tr", {}, [
-        el("td", { class: "name-cell", lang: "de" }, [el("span", { class: "hs-name" }, [st.name])]),
-        numCell(fmtScore(cityScore), cityScore, zeilenIndex + 0),
-        numCell(fmtScore(kosten), kosten, zeilenIndex + 1),
-        numCell(fmtScore(distanz), distanz, zeilenIndex + 2),
-        el("td", { html: fmtEuro(st.miete) + (st.mieteGeschaetzt ? " *" : "") + (url ? ' <a class="text-link" href="' + url + '" target="_blank" rel="noopener" style="font-size:11px;">Numbeo</a>' : "") }),
-        el("td", {}, [fmtScore(st.hotline)]),
-        el("td", {}, [st.thw + " / " + st.cbrn]),
-        el("td", {}, [fmtScore(st.oepnv)]),
+      const karte = el("details", { class: "detail-card vergleich-karte" }, [
+        el("summary", { class: "detail-summary" }, [
+          el("span", { class: "vk-summary-left" }, [
+            el("span", { class: "vk-hs", lang: "de" }, [st.name]),
+          ]),
+          el("span", { class: "vk-summary-right" }, [
+            el("span", { class: "vk-score num" }, [fmtScore(cityScore)]),
+            el("span", { class: "detail-chevron", "aria-hidden": "true" }, ["▼"]),
+          ]),
+        ]),
+        el("div", { class: "detail-body vk-body" }, [
+          vkMetric("Kosten", kosten, fmtScore(kosten), zeilenIndex + 1),
+          vkMetric("Distanz", distanz, fmtScore(distanz), zeilenIndex + 2),
+          el("div", { class: "vk-metric" }, [
+            el("span", { class: "vk-metric-label" }, ["Kaltmiete"]),
+            el("span", { class: "vk-plain", html: fmtEuro(st.miete) + (st.mieteGeschaetzt ? " *" : "") + (url ? ' <a class="text-link" href="' + url + '" target="_blank" rel="noopener" style="font-size:11px;">Numbeo</a>' : "") }),
+          ]),
+          el("div", { class: "vk-metric" }, [
+            el("span", { class: "vk-metric-label" }, ["Hotline"]),
+            el("span", { class: "vk-plain" }, [fmtScore(st.hotline)]),
+          ]),
+          el("div", { class: "vk-metric" }, [
+            el("span", { class: "vk-metric-label" }, ["THW / CBRN"]),
+            el("span", { class: "vk-plain" }, [st.thw + " / " + st.cbrn]),
+          ]),
+          el("div", { class: "vk-metric" }, [
+            el("span", { class: "vk-metric-label" }, ["ÖPNV"]),
+            el("span", { class: "vk-plain" }, [fmtScore(st.oepnv)]),
+          ]),
+        ]),
       ]);
-      koerper.appendChild(tr);
+      koerper.appendChild(karte);
     });
   }
 
