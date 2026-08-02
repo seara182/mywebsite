@@ -60,7 +60,7 @@
     padding: 0 16px; background: var(--glass-light); backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
   }
-  .top-bar .brand { font-family: var(--font-mono); font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--sienna); }
+  .top-bar .brand { font-family: var(--font-mono); font-size: var(--fs-label); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--sienna); }
   .toc-toggle-btn {
     height: 44px; width: 44px; flex: 0 0 auto; padding: 0; display: inline-flex; flex-direction: column;
     align-items: center; justify-content: center; gap: 4px;
@@ -91,7 +91,7 @@
   .toc-drawer.open { transform: translateX(0); }
   @media (prefers-reduced-motion: reduce) { .toc-drawer { transition: none; } }
   .toc-drawer .toc-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); padding: 4px 12px 12px; }
-  .toc-drawer a { display: flex; align-items: center; min-height: 44px; padding: 0 12px; font-size: 16px; color: var(--text-body); border-bottom: 1px solid var(--border); }
+  .toc-drawer a { display: flex; align-items: center; min-height: 44px; padding: 0 12px; font-size: var(--fs-body); color: var(--text-body); border-bottom: 1px solid var(--border); }
   .toc-drawer a.active { color: var(--sienna); font-weight: 600; }
 
   section { scroll-margin-top: 76px; margin-bottom: clamp(64px, 8vw, 104px); }
@@ -113,43 +113,43 @@
   }
   .rahmen-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 40px; }
   .chip {
-    font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); background: var(--paper-2);
+    font-family: var(--font-mono); font-size: var(--fs-label); color: var(--text-muted); background: var(--paper-2);
     border: 1px solid var(--border); border-radius: var(--radius-pill); padding: 6px 14px;
   }
 
   .kernzahl-card {
     background: var(--paper-2); border-radius: var(--radius-lg); padding: clamp(28px, 5vw, 48px);
-    box-shadow: inset 0 0 32px rgba(0,0,0,0.04); margin-bottom: clamp(28px, 4vw, 40px);
+    box-shadow: inset 0 0 32px rgba(22,20,15,0.04); margin-bottom: clamp(28px, 4vw, 40px);
   }
-  .kernzahl-label { font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 12px; }
-  .kernzahl-wert { font-family: var(--font-display); font-weight: 700; font-size: clamp(56px, 12vw, 96px); line-height: 1; color: var(--sienna); }
-  .kernzahl-wert span.von { font-size: 0.4em; color: var(--text-muted); font-weight: 600; margin-left: 6px; }
+  .kernzahl-label { font-family: var(--font-mono); font-size: var(--fs-label); text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 12px; }
+  .kernzahl-wert { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-display); line-height: var(--lh-tight); color: var(--sienna); }
+  .kernzahl-wert span.von { font-size: var(--fs-h3); color: var(--text-muted); font-weight: 600; margin-left: 6px; }
 
   .kachel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
   .frist-kachel { background: var(--paper); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px 18px; position: relative; overflow: hidden; }
   .frist-kachel::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--kachel-farbe, var(--status-offen)); }
-  .frist-kachel .kachel-hs { font-family: var(--font-text); font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
-  .frist-kachel .kachel-name { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; }
+  .frist-kachel .kachel-hs { font-family: var(--font-text); font-size: var(--fs-caption); font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+  .frist-kachel .kachel-name { font-size: var(--fs-label); color: var(--text-muted); margin-bottom: 10px; }
   .frist-kachel .kachel-tage { font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--ink); line-height: 1; }
   .frist-kachel .kachel-tage-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
-  .frist-kachel .kachel-datum { font-size: 12px; color: var(--text-muted); margin-top: 8px; }
+  .frist-kachel .kachel-datum { font-size: var(--fs-label); color: var(--text-muted); margin-top: 8px; }
 
   /* ---------- Status / Beleg badges ---------- */
-  .status-badge { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-text); font-size: 12px; font-weight: 600; padding: 4px 10px 4px 8px; border-radius: var(--radius-pill); background: var(--status-bg, var(--status-zu-bg)); color: var(--text-body); white-space: nowrap; }
+  .status-badge { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-text); font-size: var(--fs-label); font-weight: 600; padding: 4px 10px 4px 8px; border-radius: var(--radius-pill); background: var(--status-bg, var(--status-zu-bg)); color: var(--text-body); white-space: nowrap; }
   .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--status-farbe, var(--status-zu)); flex: 0 0 auto; }
   .beleg-badge { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 2px 8px; white-space: nowrap; }
 
   /* ---------- Buttons ---------- */
-  .btn { min-height: 44px; padding: 10px 22px; border-radius: var(--radius-md); font-family: var(--font-text); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; transition: all 240ms var(--ease-out); border: 1px solid transparent; }
-  .btn-primary { background: var(--sienna); color: white; border-color: var(--sienna); }
+  .btn { min-height: 44px; padding: 10px 22px; border-radius: var(--radius-md); font-family: var(--font-text); font-size: var(--fs-caption); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; transition: all var(--dur-base) var(--ease-out); border: 1px solid transparent; }
+  .btn-primary { background: var(--sienna); color: var(--accent-on); border-color: var(--sienna); }
   .btn-primary:hover { background: var(--sienna-deep); transform: translateY(-1px); box-shadow: var(--shadow-md); }
   .btn-secondary { background: transparent; color: var(--text-muted); border-color: var(--border); }
   .btn-secondary:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
-  .btn-secondary.is-active { background: var(--sienna); color: white; border-color: var(--sienna); }
+  .btn-secondary.is-active { background: var(--sienna); color: var(--accent-on); border-color: var(--sienna); }
   .btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
 
   /* ---------- Rangliste ---------- */
-  .rangliste-legende { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 20px; font-size: 12px; color: var(--text-muted); }
+  .rangliste-legende { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 20px; font-size: var(--fs-label); color: var(--text-muted); }
   .rangliste-legende .legende-item { display: flex; align-items: center; gap: 6px; }
   .bar-liste { display: flex; flex-direction: column; gap: 10px; }
 
@@ -166,7 +166,7 @@
     display: grid; grid-template-columns: minmax(120px, 200px) 1fr 64px; align-items: center; gap: 12px;
     min-height: 44px; cursor: pointer; background: none; border: none; padding: 4px 0; width: 100%; text-align: left; font: inherit;
   }
-  .bar-row .bar-name { font-size: 13px; font-weight: 600; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bar-row .bar-name { font-size: var(--fs-caption); font-weight: 600; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .bar-row .bar-meta { display: flex; align-items: center; gap: 8px; margin-top: 3px; }
   .bar-row .bar-stadt { font-weight: 400; font-size: 11px; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .status-badge-sm { font-size: 10px; padding: 2px 7px 2px 5px; }
@@ -195,12 +195,12 @@
   @media (max-width: 767px) {
     .karte-frame { aspect-ratio: auto; height: 60vh; max-width: 100%; }
   }
-  .karte-hinweis { font-size: 13px; color: var(--text-muted); margin-top: 14px; max-width: 60ch; }
-  .karte-legende { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 14px; font-size: 12px; color: var(--text-muted); }
+  .karte-hinweis { font-size: var(--fs-caption); color: var(--text-muted); margin-top: 14px; max-width: 60ch; }
+  .karte-legende { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 14px; font-size: var(--fs-label); color: var(--text-muted); }
   .karte-legende .legende-item { display: flex; align-items: center; gap: 6px; }
   .karte-fallback { margin-top: 28px; }
   .karte-fallback ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap: 8px; }
-  .karte-fallback li { font-size: 13px; color: var(--text-body); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 12px; }
+  .karte-fallback li { font-size: var(--fs-caption); color: var(--text-body); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 12px; }
   .karte-fallback li .fb-hs { font-weight: 600; color: var(--ink); display: block; margin-bottom: 2px; }
 
   /* ---------- Gewichtungspanel ---------- */
@@ -208,16 +208,16 @@
   .gewicht-panel-toggle { display: none; }
   .gewicht-gruppe { margin-bottom: 28px; }
   .gewicht-gruppe:last-child { margin-bottom: 0; }
-  .gewicht-gruppe-titel { font-family: var(--font-text); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink); margin-bottom: 14px; }
+  .gewicht-gruppe-titel { font-family: var(--font-text); font-size: var(--fs-caption); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink); margin-bottom: 14px; }
   .slider-row { touch-action: pan-y; margin-bottom: 16px; }
   .slider-row:last-child { margin-bottom: 0; }
   .slider-row .slider-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; gap: 8px; }
-  .slider-row label { font-size: 13px; color: var(--text-body); }
-  .slider-row .slider-value { font-family: var(--font-mono); font-size: 13px; font-weight: 600; color: var(--sienna); white-space: nowrap; }
+  .slider-row label { font-size: var(--fs-caption); color: var(--text-body); }
+  .slider-row .slider-value { font-family: var(--font-mono); font-size: var(--fs-caption); font-weight: 600; color: var(--sienna); white-space: nowrap; }
   .slider-row input[type="range"] {
     width: 100%; height: 44px; accent-color: var(--sienna); cursor: pointer; background: transparent;
   }
-  .gewicht-summe-hinweis { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+  .gewicht-summe-hinweis { font-size: var(--fs-label); color: var(--text-muted); margin-top: 4px; }
 
   .gewicht-spalten { display: flex; flex-direction: column; gap: 28px; }
   .gewicht-spalte { display: flex; flex-direction: column; min-width: 0; }
@@ -233,7 +233,7 @@
     }
     .gewicht-panel-toggle {
       display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; min-height: 48px;
-      background: none; border: none; font-family: var(--font-text); font-size: 13px; font-weight: 700;
+      background: none; border: none; font-family: var(--font-text); font-size: var(--fs-caption); font-weight: 700;
       text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink); cursor: pointer; flex: 0 0 auto;
     }
     .gewicht-panel-body { overflow-y: auto; padding: 0 20px 24px; }
@@ -245,8 +245,8 @@
 
   /* ---------- Tabelle ---------- */
   .filter-bar { display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; margin-bottom: 18px; }
-  .filter-bar label { font-size: 13px; color: var(--text-muted); display: flex; align-items: center; gap: 6px; min-height: 44px; }
-  .filter-bar select { min-height: 44px; padding: 6px 10px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--paper); font-family: var(--font-text); font-size: 13px; }
+  .filter-bar label { font-size: var(--fs-caption); color: var(--text-muted); display: flex; align-items: center; gap: 6px; min-height: 44px; }
+  .filter-bar select { min-height: 44px; padding: 6px 10px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--paper); font-family: var(--font-text); font-size: var(--fs-caption); }
   .switch-label { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; cursor: pointer; }
   .switch { position: relative; width: 40px; height: 22px; }
   .switch input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
@@ -257,7 +257,7 @@
 
   .tabelle-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius-md); }
   table.vergleich { border-collapse: collapse; width: 100%; min-width: 760px; }
-  table.vergleich th, table.vergleich td { padding: 10px 14px; border-bottom: 1px solid var(--border); text-align: left; font-size: 13px; white-space: nowrap; }
+  table.vergleich th, table.vergleich td { padding: 10px 14px; border-bottom: 1px solid var(--border); text-align: left; font-size: var(--fs-caption); white-space: nowrap; }
   table.vergleich thead th {
     background: var(--paper-2); font-family: var(--font-text); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em;
     color: var(--text-muted); cursor: pointer; user-select: none; min-height: 44px; position: sticky; top: 0; z-index: 2;
@@ -274,10 +274,10 @@
   td.num-cell { position: relative; font-family: var(--font-mono); }
   td.num-cell .util-bar { position: absolute; left: 0; top: 0; bottom: 0; background: var(--bar-farbe-bg, var(--paper-3)); z-index: 0; }
   td.num-cell .num-content { position: relative; z-index: 1; }
-  .wuerzburg-hinweis { margin-top: 14px; font-size: 13px; color: var(--text-muted); border: 1px dashed var(--border); border-radius: var(--radius-sm); padding: 12px 16px; }
+  .wuerzburg-hinweis { margin-top: 14px; font-size: var(--fs-caption); color: var(--text-muted); border: 1px dashed var(--border); border-radius: var(--radius-sm); padding: 12px 16px; }
 
   /* ---------- Städtevergleich ---------- */
-  .staedte-grid-info { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; max-width: 68ch; }
+  .staedte-grid-info { font-size: var(--fs-caption); color: var(--text-muted); margin-bottom: 16px; max-width: 68ch; }
 
   /* ---------- Detailkarten ---------- */
   .detail-card { border: 1px solid var(--border); border-radius: var(--radius-md); margin-bottom: 12px; overflow: hidden; background: var(--paper); }
@@ -312,7 +312,7 @@
   .kurven-grid { display: grid; grid-template-columns: 1fr; gap: 24px; margin: 24px 0 32px; }
   @media (min-width: 720px) { .kurven-grid { grid-template-columns: repeat(3, 1fr); } }
   .kurve-card { border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; background: var(--paper); }
-  .kurve-card h4 { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+  .kurve-card h4 { font-size: var(--fs-caption); font-weight: 700; color: var(--ink); margin-bottom: 8px; }
   .kurve-card svg { width: 100%; height: auto; }
   .kurve-achse { stroke: var(--hairline-strong); stroke-width: 1; }
   .kurve-linie { fill: none; stroke: var(--sienna); stroke-width: 2; }
@@ -321,17 +321,17 @@
   .kurve-label { font-family: var(--font-mono); font-size: 8px; fill: var(--text-muted); }
 
   .gewichtstabelle { width: 100%; border-collapse: collapse; margin-top: 12px; }
-  .gewichtstabelle th, .gewichtstabelle td { padding: 8px 12px; border-bottom: 1px solid var(--border); text-align: left; font-size: 13px; }
+  .gewichtstabelle th, .gewichtstabelle td { padding: 8px 12px; border-bottom: 1px solid var(--border); text-align: left; font-size: var(--fs-caption); }
   .gewichtstabelle th { font-size: 11px; text-transform: uppercase; color: var(--text-muted); }
   .gewichtstabelle td.num-cell { font-family: var(--font-mono); }
 
   .profil-tabelle { width: 100%; border-collapse: collapse; margin: 12px 0; }
-  .profil-tabelle th, .profil-tabelle td { padding: 8px 12px; border-bottom: 1px solid var(--border); text-align: left; font-size: 13px; }
+  .profil-tabelle th, .profil-tabelle td { padding: 8px 12px; border-bottom: 1px solid var(--border); text-align: left; font-size: var(--fs-caption); }
   .profil-tabelle th { font-size: 11px; text-transform: uppercase; color: var(--text-muted); }
 
   /* ---------- Datenstand ---------- */
   .offene-punkte-tabelle { width: 100%; border-collapse: collapse; margin-top: 12px; }
-  .offene-punkte-tabelle th, .offene-punkte-tabelle td { padding: 10px 12px; border-bottom: 1px solid var(--border); text-align: left; font-size: 13px; vertical-align: top; }
+  .offene-punkte-tabelle th, .offene-punkte-tabelle td { padding: 10px 12px; border-bottom: 1px solid var(--border); text-align: left; font-size: var(--fs-caption); vertical-align: top; }
   .offene-punkte-tabelle th { font-size: 11px; text-transform: uppercase; color: var(--text-muted); }
   .beleg-legende { display: flex; flex-wrap: wrap; gap: 10px; margin: 14px 0 24px; }
   .caveat-liste { margin: 0; padding-left: 20px; font-size: 14px; line-height: var(--lh-relaxed); color: var(--text-body); }
@@ -340,8 +340,8 @@
   .footer-nav { display: flex; gap: 16px; margin-top: clamp(56px, 8vw, 96px); padding-top: clamp(32px, 5vw, 56px); border-top: 1px solid var(--border); justify-content: space-between; flex-wrap: wrap; }
   .back-link {
     display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 10px 20px; background: var(--ink); color: var(--paper);
-    text-decoration: none; border-radius: var(--radius-md); font-family: var(--font-text); font-size: 13px; font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.05em; transition: all 240ms var(--ease-out); border: 1px solid var(--ink);
+    text-decoration: none; border-radius: var(--radius-md); font-family: var(--font-text); font-size: var(--fs-caption); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.05em; transition: all var(--dur-base) var(--ease-out); border: 1px solid var(--ink);
   }
   .back-link:hover { background: var(--sienna); border-color: var(--sienna); transform: translateX(-4px); }
 
