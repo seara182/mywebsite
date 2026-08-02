@@ -1,19 +1,10 @@
 .claude/
 projects/*
-!projects/sports-window/
-design-brief.local.md
+!projects/sports_app/
+_notes/
+private/master/CLAUDE.md
 Mika Jeske Design System.zip
 Mika Jeske Design System
-fixes-and-code.md
-design-and-new.md
-claude-vscode-prompt.md
-translator.md
-todo.md
-2do.md
-website-texts.local.md
-animations.md
-HANDOFF.md
-password.md
 
 # build tooling — the compiled *.js files ARE committed (GitHub Pages serves them),
 # but the toolchain that produces them is not
