@@ -20,6 +20,9 @@ function Hero() {
         <div aria-hidden style={{ position: "absolute", left: "50%", top: "42%", width: "82%", height: "82%", transform: "translate(-50%,-50%)", background: "var(--glow-duo)", opacity: 0.55, filter: "var(--blur-md)", borderRadius: "50%", pointerEvents: "none", zIndex: 0 }} />
         <img src={asset("ci/assets/Bilder/Weitere/site_header.png")} alt="Mika Jeske" className="drift-soft"
           style={{ position: "relative", zIndex: 1, display: "block", height: "100%", width: "auto" }} />
+        <span style={{ position: "absolute", zIndex: 2, left: 10, bottom: 10, fontFamily: "var(--font-text)", fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--ink)", textShadow: "0 0 8px var(--bg), 0 0 14px var(--bg)" }}>
+          {t("hero.aiImageLabel")}
+        </span>
       </div>
       <div style={{ position: "relative", zIndex: 3, maxWidth: "var(--content)", margin: "0 auto", width: "100%" }}>
         <div style={{ overflow: "hidden", marginBottom: 8 }}>

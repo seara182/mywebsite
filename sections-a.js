@@ -101,7 +101,21 @@ function Hero() {
       height: "100%",
       width: "auto"
     }
-  })), /*#__PURE__*/React.createElement("div", {
+  }), /*#__PURE__*/React.createElement("span", {
+    style: {
+      position: "absolute",
+      zIndex: 2,
+      left: 10,
+      bottom: 10,
+      fontFamily: "var(--font-text)",
+      fontSize: 11,
+      fontWeight: 600,
+      letterSpacing: "0.14em",
+      textTransform: "uppercase",
+      color: "var(--ink)",
+      textShadow: "0 0 8px var(--bg), 0 0 14px var(--bg)"
+    }
+  }, t("hero.aiImageLabel"))), /*#__PURE__*/React.createElement("div", {
     style: {
       position: "relative",
       zIndex: 3,
