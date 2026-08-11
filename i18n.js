@@ -67,7 +67,7 @@
         title: "Mika Jeske — Werkstoffwissenschaft & Messtechnik",
         description: "Mika Jeske, Werkstoffwissenschaftler (B.Sc.) mit Fokus auf Messtechnik, Sensorik und zerstörungsfreie Prüfung. Auf der Suche nach einer Position im DACH-Raum — ab sofort verfügbar.",
       },
-      hero: { eyebrow: "Werkstoffwissenschaft · B.Sc.", scrollHint: "Scroll", aiImageLabel: "KI-generiertes Bild" },
+      hero: { eyebrow: "Werkstoffwissenschaft · B.Sc.", scrollHint: "Scroll", aiImageLabel: "KI-bearbeitetes Bild" },
       intro: {
         eyebrow: "Moin.",
         headline: "Mein Name ist Mika: Werkstoffwissenschaftler mit Fokus auf Messtechnik und Präzision.",
@@ -227,7 +227,7 @@
         title: "Mika Jeske — Materials Science & Measurement",
         description: "Mika Jeske, materials scientist (B.Sc.) focused on measurement technology, sensor technology and non-destructive testing. Looking for a position in the DACH region — available immediately.",
       },
-      hero: { eyebrow: "Materials Science · B.Sc.", scrollHint: "Scroll", aiImageLabel: "AI-generated image" },
+      hero: { eyebrow: "Materials Science · B.Sc.", scrollHint: "Scroll", aiImageLabel: "AI-edited image" },
       intro: {
         eyebrow: "Hey.",
         headline: "My name is Mika: a materials scientist focused on measurement and precision.",
@@ -387,7 +387,7 @@
         title: "Mika Jeske — Science des matériaux & métrologie",
         description: "Mika Jeske, scientifique des matériaux (B.Sc.) spécialisé en métrologie, capteurs et contrôle non destructif. À la recherche d'un poste dans l'espace germanophone (DACH) — disponible immédiatement.",
       },
-      hero: { eyebrow: "Science des matériaux · B.Sc.", scrollHint: "Scroll", aiImageLabel: "Image générée par IA" },
+      hero: { eyebrow: "Science des matériaux · B.Sc.", scrollHint: "Scroll", aiImageLabel: "Image retouchée par IA" },
       intro: {
         eyebrow: "Salut.",
         headline: "Je m'appelle Mika : scientifique des matériaux, spécialisé en métrologie et en précision.",
@@ -547,7 +547,7 @@
         title: "Mika Jeske — Ciencia de materiales y metrología",
         description: "Mika Jeske, científico de materiales (B.Sc.) centrado en metrología, sensórica y ensayos no destructivos. En busca de un puesto en el espacio germanoparlante (DACH) — disponible de inmediato.",
       },
-      hero: { eyebrow: "Ciencia de materiales · B.Sc.", scrollHint: "Scroll", aiImageLabel: "Imagen generada por IA" },
+      hero: { eyebrow: "Ciencia de materiales · B.Sc.", scrollHint: "Scroll", aiImageLabel: "Imagen editada con IA" },
       intro: {
         eyebrow: "Hola.",
         headline: "Me llamo Mika: científico de materiales centrado en la técnica de medición y la precisión.",
@@ -720,7 +720,7 @@
         title: "Mika Jeske — Scienza dei materiali e metrologia",
         description: "Mika Jeske, scienziato dei materiali (B.Sc.) specializzato in metrologia, sensoristica e controlli non distruttivi. In cerca di una posizione nell'area germanofona (DACH) — disponibile da subito.",
       },
-      hero: { eyebrow: "Scienza dei materiali · B.Sc.", scrollHint: "Scroll", aiImageLabel: "Immagine generata dall'IA" },
+      hero: { eyebrow: "Scienza dei materiali · B.Sc.", scrollHint: "Scroll", aiImageLabel: "Immagine modificata con IA" },
       intro: {
         eyebrow: "Ciao.",
         headline: "Mi chiamo Mika: scienziato dei materiali, specializzato in metrologia e precisione.",
