@@ -68,3 +68,12 @@
   color: var(--label);
 }
 .t-mono { font-family: var(--font-mono); font-size: var(--fs-small); }
+
+/* ---- Hero display cut ----
+   The hero name is the only text allowed to break out of the content
+   column on ultrawide displays, so it gets its own clamp with a higher
+   ceiling. --fs-display above is deliberately left untouched: .t-display
+   and every other page keep the existing scale. */
+:root {
+  --fs-display-hero: clamp(3.25rem, 1.2rem + 8.4vw, 10rem); /* @kind other */
+}

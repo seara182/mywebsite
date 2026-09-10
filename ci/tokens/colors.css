@@ -6,20 +6,25 @@
    ============================================================ */
 
 :root {
-  /* ---- Base neutrals (warm, never pure white/black) ---- */
-  --paper:        #FAF7F1;  /* primary surface — warm off-white */
-  --paper-2:      #F3EEE4;  /* recessed / alternating surface */
-  --paper-3:      #EAE3D5;  /* hairline fills, track backgrounds */
-  --ink:          #16140F;  /* near-black — the shape/icon color, headings */
-  --ink-soft:     #211E18;  /* slightly lifted black for large fills */
+  /* ---- Base neutrals (never pure white/black) ----
+     A quiet, barely-cool grey off-white. The previous ramp was a warm cream
+     (#FAF7F1 and friends); at large areas the yellow read as staining rather
+     than warmth. The whole ramp moves together — surfaces, ink and text — so
+     nothing is left with a brown cast sitting on a grey ground. Warmth in the
+     brand now comes from where it belongs: the sienna and amber glows. */
+  --paper:        #F6F6F7;  /* primary surface — neutral off-white */
+  --paper-2:      #EFEFF1;  /* recessed / alternating surface */
+  --paper-3:      #E4E4E8;  /* hairline fills, track backgrounds */
+  --ink:          #15151A;  /* near-black — the shape/icon color, headings */
+  --ink-soft:     #202027;  /* slightly lifted black for large fills */
 
   /* ---- Text on light surfaces ---- */
-  --text-strong:  #16140F;  /* headings */
-  --text-body:    #3A362E;  /* body copy */
-  --text-muted:   #756F62;  /* captions, meta, labels */
-  --text-faint:   #A39C8C;  /* disabled, watermark */
-  --hairline:     #E2DACB;  /* borders, dividers */
-  --hairline-strong: #D2C8B4;
+  --text-strong:  #15151A;  /* headings */
+  --text-body:    #3C3C45;  /* body copy */
+  --text-muted:   #71717C;  /* captions, meta, labels */
+  --text-faint:   #A2A2AC;  /* disabled, watermark */
+  --hairline:     #E2E2E7;  /* borders, dividers */
+  --hairline-strong: #CECED5;
 
   /* ---- Navy accent (contrast surface) ---- */
   --navy:         #1C2C4C;  /* navy surface */
@@ -59,8 +64,8 @@
   --accent-on:       var(--on-dark-strong);
 
   /* Interaction tints (Apple-style subtle press/hover) */
-  --press-tint:      rgba(22,20,15,0.05);
-  --hover-tint:      rgba(22,20,15,0.035);
+  --press-tint:      rgba(20,20,26,0.05);
+  --hover-tint:      rgba(20,20,26,0.035);
   --focus-ring:      rgba(188,90,55,0.45); /* sienna @ 45% */
 }
 

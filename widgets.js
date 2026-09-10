@@ -13,6 +13,21 @@
     return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   }
 
+  /* The hero is choreographed so that for the first second the page shows
+     the name and nothing else. The fixed chrome (language globe, contact
+     chip) is part of that sequence rather than being present from frame
+     one, so it arrives last. Reduced motion skips the wait. */
+  var CHROME_DELAY = 1400;
+  /* The hint is decoration. It used to linger for 15s, which meant it was
+     still on screen - and unreadable - once the reader reached the navy
+     band. 7s is long enough to notice the globe and short enough that it is
+     always gone before the first colour band. */
+  var HINT_LIFE = 7000;
+  function arm(el) {
+    if (reduceMotion()) { el.classList.add("is-ready"); return; }
+    setTimeout(function () { el.classList.add("is-ready"); }, CHROME_DELAY);
+  }
+
   /* ---------- language switcher ---------- */
   function mountLanguageSwitcher(root) {
     var wrap = document.createElement("div");
@@ -79,7 +94,15 @@
       hint.classList.add("is-hidden");
       setTimeout(function () { hint.style.display = "none"; }, 400);
     }
-    setTimeout(dismissHint, 15000);
+    setTimeout(dismissHint, CHROME_DELAY + HINT_LIFE);
+    /* ...and immediately once the reader starts moving. The hint has served
+       its purpose by then, and this guarantees it is never on screen over the
+       navy or sienna band, where plain muted text would be unreadable. */
+    window.addEventListener("scroll", function onFirstScroll() {
+      if (window.pageYOffset < 120) return;
+      window.removeEventListener("scroll", onFirstScroll);
+      dismissHint();
+    }, { passive: true });
 
     function fadeSwitch(applyFn) {
       var app = document.getElementById("root") || document.body;
@@ -111,6 +134,7 @@
     wrap.appendChild(hint);
     wrap.appendChild(menu);
     root.appendChild(wrap);
+    arm(wrap);
   }
 
   /* ---------- contact chip ---------- */
@@ -139,15 +163,22 @@
 
     wrap.appendChild(btn);
     root.appendChild(wrap);
+    arm(wrap);
 
-    var footer = document.querySelector("footer");
-    if (footer && "IntersectionObserver" in window) {
+    /* The chip hides over the footer (its target is already on screen) and
+       over the hero. On a 390px viewport the hero's scroll hint and the chip
+       otherwise land on the same line and collide; hiding it here also keeps
+       the promised "name only" first frame clean. */
+    if ("IntersectionObserver" in window) {
+      var zones = [document.querySelector("footer"), document.querySelector(".hero")].filter(Boolean);
+      var over = new Set();
       var io = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
-          wrap.classList.toggle("is-faded", entry.isIntersecting);
+          if (entry.isIntersecting) over.add(entry.target); else over.delete(entry.target);
         });
+        wrap.classList.toggle("is-faded", over.size > 0);
       }, { threshold: 0.05 });
-      io.observe(footer);
+      zones.forEach(function (z) { io.observe(z); });
     }
   }
 

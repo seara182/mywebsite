@@ -6,6 +6,7 @@
 const {
   asset,
   Reveal,
+  Parallax,
   Eyebrow,
   Badge,
   GlowShape,
@@ -16,7 +17,22 @@ const {
   useLang
 } = window.MJ;
 
-/* ---------- Hero ---------- */
+/* ---------- Hero ----------
+   The brief asks that on load you see the NAME and nothing else, and
+   that it should arrive with movement and depth rather than a plain
+   fade. So the hero is choreographed as one sequence instead of five
+   independent fades: the two name lines rise out of focus and settle
+   (0.10s / 0.22s), the eyebrow follows (0.5s), the portrait comes
+   forward out of depth (1.0s), and only then do the scroll hint and the
+   floating chrome arrive (1.4s). For the first second the screen really
+   is just "Mika Jeske". */
+const HERO_T = {
+  name: 100,
+  nameStep: 120,
+  eyebrow: 500,
+  portrait: 1000,
+  chrome: 1400
+};
 function Hero() {
   const [, t] = useLang();
   const [mounted, setMounted] = React.useState(false);
@@ -26,6 +42,8 @@ function Hero() {
   }, []);
   const words = ["Mika", "Jeske"];
   return /*#__PURE__*/React.createElement("section", {
+    id: "top",
+    "data-section": true,
     className: "hero",
     style: {
       position: "relative",
@@ -39,28 +57,30 @@ function Hero() {
     shape: "blob",
     glow: "duo",
     size: 420,
-    drift: true,
+    parallax: "--depth-3",
     className: "hero-glow-blob",
     style: {
       position: "absolute",
       top: "-8%",
       right: "-6%",
       zIndex: 2,
-      opacity: 0.9,
-      transition: "opacity 1.2s ease",
+      opacity: mounted ? 1 : 0,
+      transition: "opacity 1.4s var(--ease-emphasized) 200ms",
       pointerEvents: "none"
     }
   }), /*#__PURE__*/React.createElement(GlowShape, {
     shape: "arch",
     glow: "navy",
     size: 240,
-    drift: true,
+    parallax: "--depth-2",
     className: "hero-glow-arch",
     style: {
       position: "absolute",
       bottom: 0,
       left: "-4%",
       zIndex: 2,
+      opacity: mounted ? 1 : 0,
+      transition: "opacity 1.4s var(--ease-emphasized) 340ms",
       pointerEvents: "none"
     }
   }), /*#__PURE__*/React.createElement("div", {
@@ -72,7 +92,11 @@ function Hero() {
       right: "clamp(80px, 15vw, 340px)",
       bottom: 0,
       height: "clamp(520px, 66vh, 820px)",
-      pointerEvents: "none"
+      pointerEvents: "none",
+      opacity: mounted ? 1 : 0,
+      transform: mounted ? "none" : "translateY(26px) scale(0.965)",
+      filter: mounted ? "blur(0px)" : "blur(10px)",
+      transition: "opacity 1.1s var(--ease-emphasized) " + HERO_T.portrait + "ms, transform 1.1s var(--ease-emphasized) " + HERO_T.portrait + "ms, filter 1.1s var(--ease-emphasized) " + HERO_T.portrait + "ms"
     }
   }, /*#__PURE__*/React.createElement("div", {
     "aria-hidden": true,
@@ -116,12 +140,10 @@ function Hero() {
       textShadow: "0 0 8px var(--bg), 0 0 14px var(--bg)"
     }
   }, t("hero.aiImageLabel"))), /*#__PURE__*/React.createElement("div", {
+    className: "hero-namewrap",
     style: {
       position: "relative",
-      zIndex: 3,
-      maxWidth: "var(--content)",
-      margin: "0 auto",
-      width: "100%"
+      zIndex: 3
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -140,13 +162,14 @@ function Hero() {
       color: "var(--label)",
       transform: mounted ? "none" : "translateY(120%)",
       opacity: mounted ? 1 : 0,
-      transition: "transform 0.7s var(--ease-glide) 0.5s, opacity 0.7s ease 0.5s"
+      transition: "transform 0.7s var(--ease-emphasized) " + HERO_T.eyebrow + "ms, opacity 0.7s ease " + HERO_T.eyebrow + "ms"
     }
   }, t("hero.eyebrow"))), /*#__PURE__*/React.createElement("h1", {
+    className: "hero-name",
     style: {
       fontFamily: "var(--font-display)",
       fontWeight: 700,
-      fontSize: "var(--fs-display)",
+      fontSize: "var(--fs-display-hero)",
       lineHeight: 0.98,
       letterSpacing: "var(--ls-display)",
       color: "var(--ink)",
@@ -164,11 +187,14 @@ function Hero() {
     className: "hero-line",
     style: {
       display: "inline-block",
-      transform: mounted ? "none" : "translateY(108%) rotate(4deg)",
+      transformOrigin: "0% 100%",
+      transform: mounted ? "none" : "translateY(108%) scale(0.94)",
+      filter: mounted ? "blur(0px)" : "blur(9px)",
       opacity: mounted ? 1 : 0,
-      transition: `transform 0.9s var(--ease-glide) ${0.1 + i * 0.12}s, opacity 0.9s ease ${0.1 + i * 0.12}s`
+      transition: "transform 1s var(--ease-emphasized) " + (HERO_T.name + i * HERO_T.nameStep) + "ms, filter 1s var(--ease-emphasized) " + (HERO_T.name + i * HERO_T.nameStep) + "ms, opacity 0.8s ease " + (HERO_T.name + i * HERO_T.nameStep) + "ms"
     }
   }, w))))), /*#__PURE__*/React.createElement("div", {
+    className: "hero-hint",
     style: {
       position: "absolute",
       zIndex: 4,
@@ -180,7 +206,7 @@ function Hero() {
       alignItems: "center",
       gap: 10,
       opacity: mounted ? 0.92 : 0,
-      transition: "opacity 1s ease 1.4s"
+      transition: "opacity 1s ease " + HERO_T.chrome + "ms"
     }
   }, /*#__PURE__*/React.createElement("span", {
     style: {
@@ -221,6 +247,8 @@ function Intro() {
   const [, t] = useLang();
   const ip = t("intro.photos") || [];
   return /*#__PURE__*/React.createElement("section", {
+    id: "intro",
+    "data-section": true,
     className: "on-navy",
     style: {
       position: "relative",
@@ -234,9 +262,10 @@ function Intro() {
     shadow: "rgba(15,23,42,0.55)"
   }), /*#__PURE__*/React.createElement(GlowShape, {
     shape: "circle",
-    glow: "sienna",
+    glow: "white",
     size: 300,
     ink: "var(--navy-deep)",
+    parallax: "--depth-3",
     className: "intro-glow",
     style: {
       position: "absolute",
@@ -259,7 +288,7 @@ function Intro() {
       h: 430,
       focus: "50% 38%",
       rot: -4,
-      drift: true,
+      parallax: "--depth-2",
       radius: "62% 38% 46% 54% / 58% 52% 48% 42%",
       pos: {
         top: 0,
@@ -273,7 +302,7 @@ function Intro() {
       h: 248,
       focus: "50% 45%",
       rot: 5,
-      drift: true,
+      parallax: "--depth-1",
       radius: "46% 54% 60% 40% / 52% 44% 56% 48%",
       pos: {
         top: 520,

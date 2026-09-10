@@ -16,16 +16,16 @@
   --radius-card: var(--radius-lg);
 
   /* ---- Soft elevation shadows (warm-tinted, diffuse, never harsh) ---- */
-  --shadow-sm:  0 1px 2px rgba(22,20,15,0.04), 0 2px 6px rgba(22,20,15,0.05);
-  --shadow-md:  0 2px 8px rgba(22,20,15,0.05), 0 12px 28px rgba(22,20,15,0.07);
-  --shadow-lg:  0 4px 16px rgba(22,20,15,0.06), 0 28px 60px rgba(22,20,15,0.10);
+  --shadow-sm:  0 1px 2px rgba(20,20,26,0.04), 0 2px 6px rgba(20,20,26,0.05);
+  --shadow-md:  0 2px 8px rgba(20,20,26,0.05), 0 12px 28px rgba(20,20,26,0.07);
+  --shadow-lg:  0 4px 16px rgba(20,20,26,0.06), 0 28px 60px rgba(20,20,26,0.10);
   --shadow-inset: inset 0 1px 0 rgba(255,255,255,0.6);
 
   /* ---- Glass / blur ---- */
   --blur-sm:  blur(8px); /* @kind other */
   --blur-md:  blur(18px); /* @kind other */
   --blur-lg:  blur(40px); /* @kind other */
-  --glass-light: rgba(250,247,241,0.72);
+  --glass-light: rgba(246,246,247,0.72);
   --glass-dark:  rgba(20,21,29,0.55);
 
   /* ---- SIGNATURE GRADIENT GLOWS ----
@@ -48,4 +48,38 @@
   /* Box-shadow form of the glow (for elements that can't host a pseudo-bg) */
   --glow-shadow-sienna: 0 24px 80px -20px rgba(188,90,55,0.55);
   --glow-shadow-navy:   0 24px 80px -20px rgba(28,44,76,0.55);
+}
+
+/* ============================================================
+   DENSE GLOWS + CHROME MATERIAL
+   The base --glow-* gradients were tuned for large ambient shapes.
+   Below ~140px their falloff is so wide that the halo disappears and
+   the near-black shape reads as a hard grey drop shadow — exactly what
+   the brand forbids. The -dense variants keep the same hues but hold
+   more alpha in the inner stop so small section decos still glow.
+   ============================================================ */
+
+:root {
+  --glow-sienna-dense: radial-gradient(closest-side,
+                        rgba(232,154,92,0.95), rgba(188,90,55,0.62) 46%, rgba(188,90,55,0.18) 72%, transparent 88%); /* @kind other */
+  --glow-amber-dense:  radial-gradient(closest-side,
+                        rgba(226,161,76,0.92), rgba(226,161,76,0.50) 46%, rgba(188,90,55,0.16) 72%, transparent 88%); /* @kind other */
+  --glow-navy-dense:   radial-gradient(closest-side,
+                        rgba(91,124,192,0.90), rgba(28,44,76,0.55) 46%, rgba(28,44,76,0.16) 72%, transparent 88%); /* @kind other */
+  --glow-duo-dense:    radial-gradient(closest-side at 34% 34%,
+                        rgba(232,154,92,0.92), transparent 68%),
+                       radial-gradient(closest-side at 72% 72%,
+                        rgba(91,124,192,0.78), transparent 70%); /* @kind other */
+  /* Inverted halo for near-black shapes on the navy / sienna bands. */
+  --glow-white-strong: radial-gradient(closest-side,
+                        rgba(255,255,255,0.72), rgba(255,255,255,0.30) 48%, rgba(255,255,255,0.10) 72%, transparent 88%); /* @kind other */
+
+  /* ---- Chrome material ----
+     Translucency is confined to floating chrome (language globe, contact
+     chip, section rail). Content surfaces stay opaque: this is not a
+     glassmorphism brand, and the readme says so explicitly. */
+  --material-chrome: rgba(246,246,247,0.72);
+  --material-chrome-dark: rgba(20,21,29,0.55);
+  --blur-chrome: blur(20px) saturate(1.4); /* @kind other */
+  --chrome-hairline: rgba(20,20,26,0.10);
 }

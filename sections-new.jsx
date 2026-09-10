@@ -4,7 +4,7 @@
    Built on the design-system tokens + window.MJ primitives.
    ============================================================ */
 const { useState, useRef, useEffect } = React;
-const { asset, Reveal, Eyebrow, GlowShape, WaveBlend, AlignBlock, FigurePlot, useLang } = window.MJ;
+const { asset, Reveal, Pressable, Eyebrow, GlowShape, WaveBlend, AlignBlock, FigurePlot, useLang } = window.MJ;
 
 /* ---------- Bachelor-thesis measurement data ----------
    From Jeske-Mika_Bachelorarbeit-Messdaten.xlsx. Two figures:
@@ -85,8 +85,6 @@ function TornSection({ label, seed = 7, teaser, children }) {
   const [open, setOpen] = useState(false);
   const [h, setH] = useState(0);
   const inner = useRef(null);
-  const reduce = typeof window !== "undefined" && window.matchMedia &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   useEffect(() => {
     if (!inner.current) return;
@@ -154,11 +152,15 @@ function TornSection({ label, seed = 7, teaser, children }) {
         )}
       </div>
 
-      {/* the hole that tears open — full-bleed to the page edges */}
-      <div style={{
-        maxHeight: open ? (reduce ? "none" : h + 80) : 0,
+      {/* the hole that tears open — full-bleed to the page edges.
+          The transition is declared unconditionally and switched off for
+          reduced motion in CSS (.tear-panel): branching on the media query
+          here would differ between the Node prerender and the browser, and
+          React keeps the server's inline style when the two disagree. */}
+      <div className="tear-panel" style={{
+        maxHeight: open ? h + 80 : 0,
         overflow: "hidden",
-        transition: reduce ? "none" : "max-height .8s var(--ease-glide)",
+        transition: "max-height .8s var(--ease-glide)",
       }}>
         <div ref={inner}>
           <div style={{ position: "relative", overflow: "hidden" }}>
@@ -169,14 +171,14 @@ function TornSection({ label, seed = 7, teaser, children }) {
               position: "relative", zIndex: 1,
               padding: "clamp(44px,6vw,72px) 0",
               background:
-                "radial-gradient(120% 80% at 50% -10%, rgba(22,20,15,0.10), transparent 60%)," +
+                "radial-gradient(120% 80% at 50% -10%, rgba(20,20,26,0.10), transparent 60%)," +
                 "linear-gradient(180deg, var(--paper-3), var(--paper-2) 22%, var(--paper-2))",
-              boxShadow: "inset 0 14px 30px -16px rgba(22,20,15,0.45), inset 0 -14px 30px -16px rgba(22,20,15,0.30)",
+              boxShadow: "inset 0 14px 30px -16px rgba(20,20,26,0.45), inset 0 -14px 30px -16px rgba(20,20,26,0.30)",
             }}>
               {/* faint paper-fibre texture */}
               <div aria-hidden style={{
                 position: "absolute", inset: 0, pointerEvents: "none", opacity: 0.5,
-                backgroundImage: "repeating-linear-gradient(92deg, rgba(22,20,15,0.022) 0 2px, transparent 2px 6px)",
+                backgroundImage: "repeating-linear-gradient(92deg, rgba(20,20,26,0.022) 0 2px, transparent 2px 6px)",
               }} />
               <div className="container" style={{ position: "relative" }}>{children}</div>
             </div>
@@ -194,7 +196,7 @@ function LoosePhoto({ src, caption, rot, w }) {
       className="loose-photo">
       <div style={{
         padding: 6, background: "var(--paper)", borderRadius: 10,
-        boxShadow: "0 2px 10px -2px rgba(22,20,15,0.18), 0 18px 40px -22px rgba(188,90,55,0.45)",
+        boxShadow: "0 2px 10px -2px rgba(20,20,26,0.18), 0 18px 40px -22px rgba(188,90,55,0.45)",
         border: "1px solid var(--hairline)",
       }}>
         <img src={src} alt={caption} loading="lazy" style={{ display: "block", width: "100%", height: "auto", borderRadius: 5 }} />
@@ -215,14 +217,14 @@ function Polaroid({ src, caption, rot, tape }) {
         position: "absolute", top: -12, left: "50%", width: 78, height: 26,
         transform: "translateX(-50%) rotate(-3deg)", background: "rgba(226,161,76,0.28)",
         border: "1px solid rgba(226,161,76,0.18)", borderRadius: 2,
-        boxShadow: "0 1px 3px rgba(22,20,15,0.10)",
+        boxShadow: "0 1px 3px rgba(20,20,26,0.10)",
       }} />}
       <div style={{
-        background: "#FCFAF5", padding: "12px 12px 0", borderRadius: 3,
-        boxShadow: "0 6px 22px -10px rgba(22,20,15,0.40), 0 30px 50px -30px rgba(188,90,55,0.40)",
+        background: "#FBFBFC", padding: "12px 12px 0", borderRadius: 3,
+        boxShadow: "0 6px 22px -10px rgba(20,20,26,0.40), 0 30px 50px -30px rgba(188,90,55,0.40)",
       }}>
         <img src={src} alt={caption} loading="lazy" style={{ display: "block", width: "100%", height: "auto", filter: "saturate(1.02) contrast(1.02)" }} />
-        <figcaption style={{ fontFamily: "var(--font-mono)", fontSize: "12px", color: "#5a5346", textAlign: "center", padding: "14px 6px 16px", lineHeight: 1.4 }}>
+        <figcaption style={{ fontFamily: "var(--font-mono)", fontSize: "12px", color: "#55555E", textAlign: "center", padding: "14px 6px 16px", lineHeight: 1.4 }}>
           {caption}
         </figcaption>
       </div>
@@ -236,10 +238,12 @@ function Polaroid({ src, caption, rot, tape }) {
 function Story() {
   const [, t] = useLang();
   return (
-    <section style={{ padding: "var(--section-y) 0", position: "relative", overflow: "hidden" }}>
+    <section id="story" data-section style={{ padding: "var(--section-y) 0", position: "relative", overflow: "hidden" }}>
       {/* navy band above laps DOWN over this paper section, casting a navy shadow on the white */}
       <WaveBlend edge="top" color="var(--navy)" seed={63} shadow="rgba(28,44,76,0.45)" />
-      <GlowShape shape="squircle" glow="amber" size={200} drift className="story-glow" style={{ position: "absolute", top: "8%", left: "-5%", opacity: 0.35, pointerEvents: "none" }} />
+      {/* the ambient squircle used to live here. At low opacity a near-black
+         shape just reads as a grey lump, and this section already carries two
+         figures, a wave seam and the narrative - it needed no more furniture. */}
       <div className="container align-track">
         {/* on wide screens (≥1440px) the two thesis figures sit in the empty left
             half beside the narrative; below that they're hidden and the text
@@ -386,7 +390,7 @@ function Reunion() {
   const r = t("reunion");
   const [p1Before, p1After] = r.p1.split("{{site}}");
   return (
-    <section style={{ padding: "clamp(48px,6vw,96px) 0", position: "relative" }}>
+    <section id="nebenbei" data-section style={{ padding: "clamp(48px,6vw,96px) 0", position: "relative" }}>
       <div className="container">
         <Reveal>
           <div style={{
@@ -409,13 +413,13 @@ function Reunion() {
               <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text-body)", margin: "0 0 26px", maxWidth: "54ch" }}>
                 {r.p2}
               </p>
-              <a href={GGI} target="_blank" rel="noopener" className="ggi-link" style={{
+              <Pressable as="a" href={GGI} target="_blank" rel="noopener" className="ggi-link cta-ink" lift={-3} style={{
                 display: "inline-flex", alignItems: "center", gap: 8, padding: "12px 22px",
                 background: "var(--ink)", color: "var(--paper)", borderRadius: "var(--radius-md)",
                 fontFamily: "var(--font-text)", fontSize: "var(--fs-body)", fontWeight: 600, textDecoration: "none",
               }}>
-                {r.linkLabel} <span aria-hidden>→</span>
-              </a>
+                {r.linkLabel} <span aria-hidden className="cta-arrow">→</span>
+              </Pressable>
             </div>
             {/* playful "map pin + countdown" ornament */}
             <div style={{ position: "relative", display: "flex", flexDirection: "column", alignItems: "center", gap: 18, justifySelf: "center" }}>

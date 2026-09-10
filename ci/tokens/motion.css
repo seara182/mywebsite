@@ -62,3 +62,46 @@
   .drift-soft { animation: drift-soft calc(var(--dur-drift) * 1.6) var(--ease-in-out) infinite; }
   .drift-soft:nth-of-type(2n) { animation-duration: calc(var(--dur-drift) * 1.95); animation-delay: -5s; }
 }
+
+/* ============================================================
+   FLUID-INTERFACE LAYER
+   Apple's fluid-interface guidance: motion tracks input, stays
+   interruptible, and never blocks interaction. These tokens back
+   the scroll-linked parallax and the pointer-tracked press/lift.
+   ============================================================ */
+
+:root {
+  /* Asymmetric settle — fast to leave, long to arrive. Used for
+     entrances that should feel "placed" rather than "played". */
+  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1); /* @kind other */
+  /* Exits run ~65% of the entrance so dismissal feels responsive. */
+  --dur-exit: 160ms; /* @kind other */
+
+  /* Parallax depth planes. Multiplied against the element's distance
+     from the viewport centre to produce its --py offset. Depth is a
+     token so planes stay consistent across sections. */
+  --depth-1: 0.04; /* @kind other */ /* foreground detail — barely moves */
+  --depth-2: 0.08; /* @kind other */ /* mid plane — photos, clusters */
+  --depth-3: 0.14; /* @kind other */ /* far plane — ambient shapes */
+}
+
+/* Parallax carrier. --py is written by the shared rAF loop in
+   primitives.jsx; the element itself only ever transforms. */
+.parallax { transform: translate3d(0, var(--py, 0px), 0); will-change: transform; }
+
+/* Pointer-tracked lift. --mx/--my are set by Pressable and read here so
+   the tilt is expressed in CSS and can be neutralised wholesale. */
+.pressable {
+  transform: translate3d(0, var(--lift, 0px), 0) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale(var(--pscale, 1));
+  transition: transform var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out);
+  transform-style: preserve-3d;
+}
+.pressable:active { --pscale: 0.97; transition-duration: var(--dur-exit); }
+
+/* Reduced motion: freeze every input-linked plane. The elements stay
+   exactly where layout puts them; nothing animates. */
+@media (prefers-reduced-motion: reduce) {
+  .parallax { --py: 0px !important; transform: none !important; will-change: auto; }
+  .pressable { --lift: 0px !important; --rx: 0deg !important; --ry: 0deg !important; transform: none !important; }
+  .pressable:active { --pscale: 1; }
+}

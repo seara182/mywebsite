@@ -7,6 +7,9 @@ function _extends() { return _extends = Object.assign ? Object.assign.bind() : f
 const {
   asset,
   Reveal,
+  Parallax,
+  Pressable,
+  SectionRail,
   Eyebrow,
   Badge,
   GlowShape,
@@ -59,16 +62,21 @@ function SectionHead({
       maxWidth: "16ch"
     }
   }, title))), /*#__PURE__*/React.createElement(Reveal, {
-    delay: 120,
+    delay: 80,
     className: "section-head__deco",
     style: {
       flex: "none"
     }
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "section-head__glow",
+    style: {
+      display: "block"
+    }
   }, /*#__PURE__*/React.createElement(GlowShape, {
     shape: shape,
     glow: glow,
-    size: 96
-  })));
+    size: 84
+  }))));
 }
 
 /* ---------- Résumé ---------- */
@@ -79,6 +87,8 @@ function Resume() {
   const education = t("education");
   const skills = t("skills");
   return /*#__PURE__*/React.createElement("section", {
+    id: "lebenslauf",
+    "data-section": true,
     style: {
       padding: "var(--section-y) 0"
     }
@@ -88,10 +98,12 @@ function Resume() {
     kicker: r.kicker,
     title: r.title
   }), /*#__PURE__*/React.createElement("div", {
+    className: "resume-grid",
     style: {
       display: "grid",
       gridTemplateColumns: "repeat(auto-fit, minmax(min(420px,100%),1fr))",
-      gap: "clamp(32px,5vw,72px)"
+      gap: "clamp(32px,5vw,72px)",
+      alignItems: "start"
     }
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Reveal, null, /*#__PURE__*/React.createElement("h3", {
     className: "t-h3",
@@ -155,7 +167,9 @@ function Resume() {
     style: {
       marginTop: "clamp(40px,5vw,72px)"
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement(Pressable, {
+    className: "award-card",
+    lift: -5,
     style: {
       display: "flex",
       flexWrap: "wrap",
@@ -163,7 +177,7 @@ function Resume() {
       justifyContent: "space-between",
       gap: 24,
       padding: "clamp(24px,3vw,36px)",
-      background: "var(--surface-card)",
+      background: "linear-gradient(140deg, var(--paper), var(--paper-2))",
       border: "1px solid var(--border)",
       borderRadius: "var(--radius-lg)",
       boxShadow: "var(--shadow-md)"
@@ -194,10 +208,13 @@ function Resume() {
       fontSize: "var(--fs-title)",
       color: "var(--heading)"
     }
-  }, r.awardName))), /*#__PURE__*/React.createElement("a", {
+  }, r.awardName))), /*#__PURE__*/React.createElement(Pressable, {
+    as: "a",
+    className: "cta-ink",
     href: LINKEDIN,
     target: "_blank",
     rel: "noopener",
+    lift: -3,
     style: {
       display: "inline-flex",
       alignItems: "center",
@@ -211,7 +228,8 @@ function Resume() {
       fontWeight: 600
     }
   }, r.linkedinLabel, " ", /*#__PURE__*/React.createElement("span", {
-    "aria-hidden": true
+    "aria-hidden": true,
+    className: "cta-arrow"
   }, "\u2192"))))));
 }
 
@@ -222,6 +240,8 @@ function Engagement() {
   const engagement = t("engagement");
   const ep = s.photos || [];
   return /*#__PURE__*/React.createElement("section", {
+    id: "ehrenamt",
+    "data-section": true,
     className: "on-sienna",
     style: {
       position: "relative",
@@ -235,9 +255,10 @@ function Engagement() {
     shadow: "rgba(120,52,28,0.5)"
   }), /*#__PURE__*/React.createElement(GlowShape, {
     shape: "blob",
-    glow: "amber",
+    glow: "white",
     size: 340,
     ink: "var(--sienna-deep)",
+    parallax: "--depth-3",
     className: "engagement-glow",
     style: {
       position: "absolute",
@@ -260,7 +281,7 @@ function Engagement() {
       h: 282,
       focus: "50% 45%",
       rot: 4,
-      drift: true,
+      parallax: "--depth-1",
       radius: "58% 42% 52% 48% / 46% 56% 44% 54%",
       pos: {
         top: 0,
@@ -274,7 +295,7 @@ function Engagement() {
       h: 408,
       focus: "50% 32%",
       rot: -5,
-      drift: true,
+      parallax: "--depth-2",
       radius: "52% 48% 40% 60% / 56% 46% 54% 44%",
       pos: {
         top: 410,
@@ -333,6 +354,8 @@ function Projects() {
   const [, t] = useLang();
   const p = t("projects");
   return /*#__PURE__*/React.createElement("section", {
+    id: "projekt",
+    "data-section": true,
     style: {
       padding: "var(--section-y) 0"
     }
@@ -391,8 +414,11 @@ function Projects() {
       borderRadius: "50%",
       background: "var(--accent)"
     }
-  }), f))), /*#__PURE__*/React.createElement("a", {
+  }), f))), /*#__PURE__*/React.createElement(Pressable, {
+    as: "a",
+    className: "cta-outline",
     href: asset("projects/sports-window/"),
+    lift: -3,
     style: {
       display: "inline-flex",
       alignItems: "center",
@@ -407,9 +433,18 @@ function Projects() {
       color: "var(--heading)"
     }
   }, p.cta, " ", /*#__PURE__*/React.createElement("span", {
-    "aria-hidden": true
+    "aria-hidden": true,
+    className: "cta-arrow"
   }, "\u2192"))), /*#__PURE__*/React.createElement("div", {
+    className: "bay-stage",
+    style: {
+      perspective: 1200,
+      minWidth: 0
+    }
+  }, /*#__PURE__*/React.createElement(Pressable, {
     className: "bay-preview",
+    tilt: 7,
+    lift: -6,
     style: {
       position: "relative",
       minWidth: 0,
@@ -435,10 +470,12 @@ function Projects() {
   }), /*#__PURE__*/React.createElement("div", {
     style: {
       position: "relative",
+      transform: "translateZ(34px)",
       padding: "20px 22px",
       borderRadius: "var(--radius-lg)",
       background: "linear-gradient(110deg, var(--sienna-deep), var(--amber))",
-      color: "#fff"
+      color: "#fff",
+      boxShadow: "0 18px 40px -22px rgba(0,0,0,0.8)"
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -464,6 +501,7 @@ function Projects() {
   }, "Sat, Jun 20 \xB7 1:10 AM \xB7 loanDepot park")), /*#__PURE__*/React.createElement("div", {
     style: {
       position: "relative",
+      transform: "translateZ(18px)",
       display: "grid",
       gridTemplateColumns: "repeat(auto-fit, minmax(96px, 1fr))",
       gap: 12
@@ -492,7 +530,7 @@ function Projects() {
       color: "#fff",
       marginTop: 4
     }
-  }, v)))))))));
+  }, v))))))))));
 }
 
 /* ---------- Footer ---------- */
@@ -636,70 +674,38 @@ function Footer() {
   })))));
 }
 
-/* ---------- ambient side orbs ----------
-   A few drifting, colour-glowing shapes pinned in the side gutters.
-   Only shown on 16:9-and-wider displays (see .side-orbs in index.html),
-   where the centred content column leaves the margins feeling empty.
-   Fixed layer sits behind the content; the navy/sienna bands cover it,
-   so the orbs only read over the paper sections. */
-function SideOrbs() {
-  return /*#__PURE__*/React.createElement("div", {
-    className: "side-orbs",
-    "aria-hidden": "true"
-  }, /*#__PURE__*/React.createElement(GlowShape, {
-    shape: "circle",
-    glow: "duo",
-    size: 150,
-    drift: true,
-    style: {
-      position: "absolute",
-      right: "1vw",
-      top: "22%"
-    }
-  }), /*#__PURE__*/React.createElement(GlowShape, {
-    shape: "blob",
-    glow: "sienna",
-    size: 180,
-    drift: true,
-    style: {
-      position: "absolute",
-      left: "1.5vw",
-      top: "40%"
-    }
-  }), /*#__PURE__*/React.createElement(GlowShape, {
-    shape: "squircle",
-    glow: "amber",
-    size: 140,
-    drift: true,
-    style: {
-      position: "absolute",
-      right: "2vw",
-      top: "58%"
-    }
-  }), /*#__PURE__*/React.createElement(GlowShape, {
-    shape: "blob",
-    glow: "navy",
-    size: 170,
-    drift: true,
-    style: {
-      position: "absolute",
-      left: "1vw",
-      top: "76%"
-    }
-  }), /*#__PURE__*/React.createElement(GlowShape, {
-    shape: "circle",
-    glow: "duo",
-    size: 150,
-    drift: true,
-    style: {
-      position: "absolute",
-      right: "1.5vw",
-      top: "90%"
-    }
-  }));
+/* The rail's labels reuse each section's own eyebrow/kicker, so it stays
+   translated in all five languages without a new i18n surface. */
+function useRailItems() {
+  const [, t] = useLang();
+  return [{
+    id: "top",
+    label: "Mika Jeske"
+  }, {
+    id: "intro",
+    label: t("intro.eyebrow")
+  }, {
+    id: "story",
+    label: t("story.eyebrow")
+  }, {
+    id: "lebenslauf",
+    label: t("resume").kicker
+  }, {
+    id: "ehrenamt",
+    label: t("engagementSection").eyebrow
+  }, {
+    id: "nebenbei",
+    label: t("reunion").eyebrow
+  }, {
+    id: "projekt",
+    label: t("projects").kicker
+  }];
 }
 function App() {
-  return /*#__PURE__*/React.createElement("main", null, /*#__PURE__*/React.createElement(SideOrbs, null), /*#__PURE__*/React.createElement(LanguageSwitcherMount, null), /*#__PURE__*/React.createElement(ContactChipMount, null), /*#__PURE__*/React.createElement(Hero, null), /*#__PURE__*/React.createElement(Intro, null), /*#__PURE__*/React.createElement(Story, null), /*#__PURE__*/React.createElement(Resume, null), /*#__PURE__*/React.createElement(CleanroomTear, null), /*#__PURE__*/React.createElement(Engagement, null), /*#__PURE__*/React.createElement(ConfiTear, null), /*#__PURE__*/React.createElement(Reunion, null), /*#__PURE__*/React.createElement(Projects, null), /*#__PURE__*/React.createElement(Footer, null));
+  const railItems = useRailItems();
+  return /*#__PURE__*/React.createElement("main", null, /*#__PURE__*/React.createElement(LanguageSwitcherMount, null), /*#__PURE__*/React.createElement(ContactChipMount, null), /*#__PURE__*/React.createElement(SectionRail, {
+    items: railItems
+  }), /*#__PURE__*/React.createElement(Hero, null), /*#__PURE__*/React.createElement(Intro, null), /*#__PURE__*/React.createElement(Story, null), /*#__PURE__*/React.createElement(Resume, null), /*#__PURE__*/React.createElement(CleanroomTear, null), /*#__PURE__*/React.createElement(Engagement, null), /*#__PURE__*/React.createElement(ConfiTear, null), /*#__PURE__*/React.createElement(Reunion, null), /*#__PURE__*/React.createElement(Projects, null), /*#__PURE__*/React.createElement(Footer, null));
 }
 
 /* Expose the root component so the build-time prerender (build.mjs) can render it

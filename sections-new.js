@@ -13,6 +13,7 @@ const {
 const {
   asset,
   Reveal,
+  Pressable,
   Eyebrow,
   GlowShape,
   WaveBlend,
@@ -134,7 +135,6 @@ function TornSection({
   const [open, setOpen] = useState(false);
   const [h, setH] = useState(0);
   const inner = useRef(null);
-  const reduce = typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   useEffect(() => {
     if (!inner.current) return;
     const measure = () => setH(inner.current ? inner.current.scrollHeight : 0);
@@ -271,10 +271,11 @@ function TornSection({
       opacity: 0.7
     }
   }))), /*#__PURE__*/React.createElement("div", {
+    className: "tear-panel",
     style: {
-      maxHeight: open ? reduce ? "none" : h + 80 : 0,
+      maxHeight: open ? h + 80 : 0,
       overflow: "hidden",
-      transition: reduce ? "none" : "max-height .8s var(--ease-glide)"
+      transition: "max-height .8s var(--ease-glide)"
     }
   }, /*#__PURE__*/React.createElement("div", {
     ref: inner
@@ -294,8 +295,8 @@ function TornSection({
       position: "relative",
       zIndex: 1,
       padding: "clamp(44px,6vw,72px) 0",
-      background: "radial-gradient(120% 80% at 50% -10%, rgba(22,20,15,0.10), transparent 60%)," + "linear-gradient(180deg, var(--paper-3), var(--paper-2) 22%, var(--paper-2))",
-      boxShadow: "inset 0 14px 30px -16px rgba(22,20,15,0.45), inset 0 -14px 30px -16px rgba(22,20,15,0.30)"
+      background: "radial-gradient(120% 80% at 50% -10%, rgba(20,20,26,0.10), transparent 60%)," + "linear-gradient(180deg, var(--paper-3), var(--paper-2) 22%, var(--paper-2))",
+      boxShadow: "inset 0 14px 30px -16px rgba(20,20,26,0.45), inset 0 -14px 30px -16px rgba(20,20,26,0.30)"
     }
   }, /*#__PURE__*/React.createElement("div", {
     "aria-hidden": true,
@@ -304,7 +305,7 @@ function TornSection({
       inset: 0,
       pointerEvents: "none",
       opacity: 0.5,
-      backgroundImage: "repeating-linear-gradient(92deg, rgba(22,20,15,0.022) 0 2px, transparent 2px 6px)"
+      backgroundImage: "repeating-linear-gradient(92deg, rgba(20,20,26,0.022) 0 2px, transparent 2px 6px)"
     }
   }), /*#__PURE__*/React.createElement("div", {
     className: "container",
@@ -334,7 +335,7 @@ function LoosePhoto({
       padding: 6,
       background: "var(--paper)",
       borderRadius: 10,
-      boxShadow: "0 2px 10px -2px rgba(22,20,15,0.18), 0 18px 40px -22px rgba(188,90,55,0.45)",
+      boxShadow: "0 2px 10px -2px rgba(20,20,26,0.18), 0 18px 40px -22px rgba(188,90,55,0.45)",
       border: "1px solid var(--hairline)"
     }
   }, /*#__PURE__*/React.createElement("img", {
@@ -385,14 +386,14 @@ function Polaroid({
       background: "rgba(226,161,76,0.28)",
       border: "1px solid rgba(226,161,76,0.18)",
       borderRadius: 2,
-      boxShadow: "0 1px 3px rgba(22,20,15,0.10)"
+      boxShadow: "0 1px 3px rgba(20,20,26,0.10)"
     }
   }), /*#__PURE__*/React.createElement("div", {
     style: {
-      background: "#FCFAF5",
+      background: "#FBFBFC",
       padding: "12px 12px 0",
       borderRadius: 3,
-      boxShadow: "0 6px 22px -10px rgba(22,20,15,0.40), 0 30px 50px -30px rgba(188,90,55,0.40)"
+      boxShadow: "0 6px 22px -10px rgba(20,20,26,0.40), 0 30px 50px -30px rgba(188,90,55,0.40)"
     }
   }, /*#__PURE__*/React.createElement("img", {
     src: src,
@@ -408,7 +409,7 @@ function Polaroid({
     style: {
       fontFamily: "var(--font-mono)",
       fontSize: "12px",
-      color: "#5a5346",
+      color: "#55555E",
       textAlign: "center",
       padding: "14px 6px 16px",
       lineHeight: 1.4
@@ -422,6 +423,8 @@ function Polaroid({
 function Story() {
   const [, t] = useLang();
   return /*#__PURE__*/React.createElement("section", {
+    id: "story",
+    "data-section": true,
     style: {
       padding: "var(--section-y) 0",
       position: "relative",
@@ -432,19 +435,6 @@ function Story() {
     color: "var(--navy)",
     seed: 63,
     shadow: "rgba(28,44,76,0.45)"
-  }), /*#__PURE__*/React.createElement(GlowShape, {
-    shape: "squircle",
-    glow: "amber",
-    size: 200,
-    drift: true,
-    className: "story-glow",
-    style: {
-      position: "absolute",
-      top: "8%",
-      left: "-5%",
-      opacity: 0.35,
-      pointerEvents: "none"
-    }
   }), /*#__PURE__*/React.createElement("div", {
     className: "container align-track"
   }, /*#__PURE__*/React.createElement("div", {
@@ -736,6 +726,8 @@ function Reunion() {
   const r = t("reunion");
   const [p1Before, p1After] = r.p1.split("{{site}}");
   return /*#__PURE__*/React.createElement("section", {
+    id: "nebenbei",
+    "data-section": true,
     style: {
       padding: "clamp(48px,6vw,96px) 0",
       position: "relative"
@@ -793,11 +785,13 @@ function Reunion() {
       margin: "0 0 26px",
       maxWidth: "54ch"
     }
-  }, r.p2), /*#__PURE__*/React.createElement("a", {
+  }, r.p2), /*#__PURE__*/React.createElement(Pressable, {
+    as: "a",
     href: GGI,
     target: "_blank",
     rel: "noopener",
-    className: "ggi-link",
+    className: "ggi-link cta-ink",
+    lift: -3,
     style: {
       display: "inline-flex",
       alignItems: "center",
@@ -812,7 +806,8 @@ function Reunion() {
       textDecoration: "none"
     }
   }, r.linkLabel, " ", /*#__PURE__*/React.createElement("span", {
-    "aria-hidden": true
+    "aria-hidden": true,
+    className: "cta-arrow"
   }, "\u2192"))), /*#__PURE__*/React.createElement("div", {
     style: {
       position: "relative",

@@ -63,16 +63,90 @@
   body { margin: 0; background: var(--paper); overflow-x: hidden; }
   @keyframes scrollHint { 0% { transform: translateY(-100%); } 60%,100% { transform: translateY(220%); } }
 
-  /* ambient side orbs — only where wide displays leave the gutters empty.
-     #root becomes the stacking context; the orb layer is absolute (so it
-     spans the full document height and scrolls WITH the page, never pinned
-     to the screen) and sits behind the content (z-index:-1) but above the
-     paper backdrop, so it shows in the side margins of the paper sections
-     and is covered by the colour bands. */
+  /* #root owns the stacking context for the page's depth planes. */
   #root { position: relative; z-index: 0; }
-  .side-orbs { display: none; }
-  @media (min-aspect-ratio: 16 / 9) {
-    .side-orbs { display: block; position: absolute; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+
+  /* ------------------------------------------------------------
+     Section rail. The brief rules out a classic menu but allows a
+     discreet scroll indicator, so this reports position and offers a
+     jump - nothing else. A hairline and seven dots: no pill, no border,
+     no shadow. It sits at 40% until you approach it. Pointer-only
+     chrome, hidden below 1024px where the phone gets the scroll
+     narrative uninterrupted.
+     ------------------------------------------------------------ */
+  .section-rail { display: none; }
+  @media (min-width: 1024px) {
+    .section-rail {
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      position: fixed; top: 50%; right: clamp(12px, 1.3vw, 30px);
+      transform: translateY(-50%);
+      z-index: 58; padding: 14px 7px;
+      opacity: 0.4;
+      transition: opacity .35s var(--ease-out);
+    }
+    .section-rail:hover, .section-rail:focus-within { opacity: 1; }
+  }
+  .section-rail__track {
+    position: absolute; top: 16px; bottom: 16px; width: 1px;
+    background: var(--hairline-strong); z-index: 0;
+  }
+  .section-rail__dot {
+    position: relative; z-index: 1;
+    width: 26px; height: 22px; padding: 0; margin: 0;
+    border: none; background: none; cursor: pointer;
+    display: grid; place-items: center;
+  }
+  .section-rail__dot::before {
+    content: ""; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--hairline-strong);
+    transition: transform .3s var(--ease-spring), background .3s var(--ease-out), box-shadow .3s var(--ease-out);
+  }
+  .section-rail__dot:hover::before { transform: scale(1.4); background: var(--text-muted); }
+  .section-rail__dot.is-active::before {
+    background: var(--sienna); transform: scale(1.45);
+    box-shadow: 0 0 0 3px rgba(188,90,55,0.14);
+  }
+  .section-rail__dot:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+  .section-rail__label {
+    position: absolute; right: calc(100% + 10px); white-space: nowrap;
+    font-family: var(--font-text); font-size: 11px; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-body);
+    background: var(--material-chrome);
+    -webkit-backdrop-filter: var(--blur-chrome); backdrop-filter: var(--blur-chrome);
+    border: 1px solid var(--chrome-hairline); border-radius: var(--radius-pill);
+    padding: 6px 11px; pointer-events: none;
+    opacity: 0; transform: translateX(6px);
+    transition: opacity .24s var(--ease-out), transform .24s var(--ease-out);
+  }
+  .section-rail__dot:hover .section-rail__label,
+  .section-rail__dot:focus-visible .section-rail__label { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .section-rail__dot::before, .section-rail__label { transition: none; }
+    .section-rail__label { transform: none; }
+  }
+  @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+    .section-rail__label { background: var(--paper); }
+  }
+
+  /* ------------------------------------------------------------
+     Interaction surfaces. Pressable supplies the pointer-tracked
+     transform; these add the surface response that goes with it.
+     ------------------------------------------------------------ */
+  .cta-arrow { display: inline-block; transition: transform .24s var(--ease-out); }
+  .pressable:hover .cta-arrow { transform: translateX(3px); }
+  .cta-ink:hover { box-shadow: 0 14px 30px -16px rgba(20,20,26,0.55), 0 28px 60px -34px rgba(188,90,55,0.5); }
+  .cta-outline { transition: border-color .24s var(--ease-out), background .24s var(--ease-out), color .24s var(--ease-out); }
+  .cta-outline:hover { border-color: rgba(188,90,55,0.55); color: var(--sienna-deep); background: rgba(188,90,55,0.06); }
+  .award-card:hover { box-shadow: var(--shadow-lg), 0 44px 80px -52px rgba(188,90,55,0.5); }
+  .bay-preview:hover { box-shadow: var(--shadow-lg), 0 50px 90px -44px rgba(232,154,92,0.42); }
+  @media (prefers-reduced-motion: reduce) { .pressable:hover .cta-arrow { transform: none; } }
+
+  /* Resume columns. Bildungsweg is the shorter of the two timelines, so on
+     wide screens it takes the narrower column and both start at the top;
+     the pair stops ending in a ragged void. !important because the grid is
+     declared inline by the component. */
+  @media (min-width: 980px) {
+    .resume-grid { grid-template-columns: minmax(0, 1.18fr) minmax(0, 0.92fr) !important; }
   }
 
   /* torn-paper deep-dives + photo treatments */
@@ -84,10 +158,33 @@
   .ggi-link:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
   @media (prefers-reduced-motion: reduce) {
     .loose-photo, .polaroid { transition: none !important; }
+    .tear-panel { transition: none !important; }
+
+    /* The reveal and the hero sequence are rendered unconditionally (the page
+       is prerendered in Node, so the components cannot branch on a media
+       query without breaking hydration). Reduced motion is honoured here:
+       no travel, no defocus, no scale - content simply fades up in place. */
+    .js-reveal, .hero-line, .hero-photo {
+      transform: none !important;
+      filter: none !important;
+    }
+    .js-reveal { transition: opacity var(--dur-reveal) linear !important; }
+    .hero-line, .hero-photo, .hero-hint { transition: opacity .3s linear !important; }
   }
 
   /* hero: progressive-enhancement fallback for browsers without svh */
   .hero { min-height: 100vh; min-height: 100svh; }
+
+  /* Hero name track. The name is the ONLY text allowed out of the reading
+     column: at 21:9 a 1080px-capped, 120px-max name sits marooned in the
+     middle of the canvas, which is exactly the "lost in the width" failure
+     the brief rules out. The block widens in two steps and the display cut
+     (--fs-display-hero) carries it to 160px. Body measures are untouched. */
+  .hero-namewrap { max-width: var(--content); margin-inline: auto; width: 100%; }
+  @media (min-width: 1760px) { .hero-namewrap { max-width: var(--content-wide); } }
+  @media (min-width: 2000px) { .hero-namewrap { max-width: var(--content-full); } }
+  /* optical tightening grows with size, as large display type needs */
+  @media (min-width: 1760px) { .hero-name { letter-spacing: -0.032em; } }
 
   /* hero portrait — widescreen only; below 1440px there isn't clearance
      between the name and the ambient blob, so it stays hidden and the
@@ -141,24 +238,25 @@
     /* section headers: stack the heading above the decorative glow on phones */
     .section-head { flex-direction: column; align-items: flex-start; gap: 20px; }
     .section-head__deco { align-self: flex-end; }
+    /* the mark and its halo scale together, so it stays an ornament instead of
+       taking over a 390px column */
+    .section-head__glow { transform: scale(0.62); transform-origin: right center; }
 
-    /* hero: shrink the ambient blob into the top-right corner so it clears the
-       name and the fixed top-left language switcher; hide the decorative,
-       self-dismissing "select language" hint (unreadable over the dark blob) */
-    .hero-glow-blob { transform: scale(0.6); transform-origin: top right; opacity: 0.7 !important; }
+    /* hero: shrink the ambient shapes into the corners so the name owns the
+       frame. They keep their FULL ink value - the old opacity override
+       rendered them as a washed-out grey mass over a third of the screen,
+       which is the opposite of the near-black-shape-over-coloured-glow
+       motif. Smaller, not fainter. */
+    .hero-glow-blob { transform: scale(0.46); transform-origin: top right; }
     .lang-hint { display: none !important; }
+    .hero-glow-arch { transform: scale(0.42); transform-origin: bottom left; }
 
-    /* hero: shrink the second ambient shape (bottom-left arch) so it stops
-       swallowing the scroll hint and the fixed bottom-right contact chip */
-    .hero-glow-arch { transform: scale(0.55); transform-origin: bottom left; opacity: 0.75 !important; }
+    /* the scroll hint sits clear of the home indicator */
+    .hero-hint { bottom: max(30px, env(safe-area-inset-bottom, 0px)) !important; }
 
     /* Intro (navy band): shrink + tuck the ambient circle into the corner so
        it doesn't wash out the headline text wrapping beneath it on phones */
     .intro-glow { transform: scale(0.55); transform-origin: top right; opacity: 0.6 !important; }
-
-    /* Story: shrink the low-opacity ambient squircle to match the reduced
-       scale of everything else at this width */
-    .story-glow { transform: scale(0.7); transform-origin: top left; }
 
     /* Engagement (sienna band): shrink + tuck the ambient blob into the
        corner so it clears the timeline entries above it */
@@ -172,7 +270,8 @@
 <noscript>
   <!-- Without JS the scroll-reveal animations never fire; force the prerendered
        content visible so the page is fully readable without script execution. -->
-  <style>.js-reveal, .hero-line { opacity: 1 !important; transform: none !important; }</style>
+  <style>.js-reveal, .hero-line, .hero-photo { opacity: 1 !important; transform: none !important; filter: none !important; }
+         .parallax { transform: none !important; }</style>
 </noscript>
 </head>
 <body>

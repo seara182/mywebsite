@@ -1,7 +1,7 @@
 /* ============================================================
    Mika Jeske — résumé, engagement, projects, footer + App shell
    ============================================================ */
-const { asset, Reveal, Eyebrow, Badge, GlowShape, WaveBlend, TimelineEntry, AlignBlock, BlobCluster, useLang, LanguageSwitcherMount, ContactChipMount } = window.MJ;
+const { asset, Reveal, Parallax, Pressable, SectionRail, Eyebrow, Badge, GlowShape, WaveBlend, TimelineEntry, AlignBlock, BlobCluster, useLang, LanguageSwitcherMount, ContactChipMount } = window.MJ;
 const { Hero, Intro } = window.SECTIONS_A;
 const { Story, CleanroomTear, ConfiTear, Reunion } = window.SECTIONS_NEW;
 
@@ -16,7 +16,11 @@ function SectionHead({ kicker, title, glow = "sienna", shape = "blob" }) {
         <Reveal><Eyebrow>{kicker}</Eyebrow></Reveal>
         <Reveal delay={80}><h2 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h1)", letterSpacing: "var(--ls-heading)", color: "var(--heading)", margin: "16px 0 0", maxWidth: "16ch" }}>{title}</h2></Reveal>
       </div>
-      <Reveal delay={120} className="section-head__deco" style={{ flex: "none" }}><GlowShape shape={shape} glow={glow} size={96} /></Reveal>
+      <Reveal delay={80} className="section-head__deco" style={{ flex: "none" }}>
+        {/* wrapped so the phone can scale the mark down without fighting the
+           inline transform Reveal uses for its entrance */}
+        <span className="section-head__glow" style={{ display: "block" }}><GlowShape shape={shape} glow={glow} size={84} /></span>
+      </Reveal>
     </div>
   );
 }
@@ -29,10 +33,13 @@ function Resume() {
   const education = t("education");
   const skills = t("skills");
   return (
-    <section style={{ padding: "var(--section-y) 0" }}>
+    <section id="lebenslauf" data-section style={{ padding: "var(--section-y) 0" }}>
       <div className="container">
         <SectionHead kicker={r.kicker} title={r.title} />
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(420px,100%),1fr))", gap: "clamp(32px,5vw,72px)" }}>
+        {/* Bildungsweg is naturally the shorter of the two timelines, so on wide
+            screens it gets the narrower column and both start from the top -
+            the two lists stop ending in a ragged void (see .resume-grid). */}
+        <div className="resume-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(420px,100%),1fr))", gap: "clamp(32px,5vw,72px)", alignItems: "start" }}>
           <div>
             <Reveal><h3 className="t-h3" style={{ marginBottom: 28 }}>{r.experienceHeading}</h3></Reveal>
             <Reveal delay={60}><div>{experience.map((e, i) => <TimelineEntry key={i} {...e} last={i === experience.length - 1} />)}</div></Reveal>
@@ -62,7 +69,7 @@ function Resume() {
 
         {/* award + linkedin */}
         <Reveal style={{ marginTop: "clamp(40px,5vw,72px)" }}>
-          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 24, padding: "clamp(24px,3vw,36px)", background: "var(--surface-card)", border: "1px solid var(--border)", borderRadius: "var(--radius-lg)", boxShadow: "var(--shadow-md)" }}>
+          <Pressable className="award-card" lift={-5} style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 24, padding: "clamp(24px,3vw,36px)", background: "linear-gradient(140deg, var(--paper), var(--paper-2))", border: "1px solid var(--border)", borderRadius: "var(--radius-lg)", boxShadow: "var(--shadow-md)" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
               <GlowShape shape="squircle" glow="amber" size={64} />
               <div>
@@ -70,10 +77,10 @@ function Resume() {
                 <div style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-title)", color: "var(--heading)" }}>{r.awardName}</div>
               </div>
             </div>
-            <a href={LINKEDIN} target="_blank" rel="noopener" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "12px 22px", background: "var(--ink)", color: "var(--paper)", borderRadius: "var(--radius-md)", fontFamily: "var(--font-text)", fontSize: "var(--fs-body)", fontWeight: 600 }}>
-              {r.linkedinLabel} <span aria-hidden>→</span>
-            </a>
-          </div>
+            <Pressable as="a" className="cta-ink" href={LINKEDIN} target="_blank" rel="noopener" lift={-3} style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "12px 22px", background: "var(--ink)", color: "var(--paper)", borderRadius: "var(--radius-md)", fontFamily: "var(--font-text)", fontSize: "var(--fs-body)", fontWeight: 600 }}>
+              {r.linkedinLabel} <span aria-hidden className="cta-arrow">→</span>
+            </Pressable>
+          </Pressable>
         </Reveal>
       </div>
     </section>
@@ -87,16 +94,16 @@ function Engagement() {
   const engagement = t("engagement");
   const ep = s.photos || [];
   return (
-    <section className="on-sienna" style={{ position: "relative", overflow: "hidden", padding: "var(--section-y) 0" }}>
+    <section id="ehrenamt" data-section className="on-sienna" style={{ position: "relative", overflow: "hidden", padding: "var(--section-y) 0" }}>
       {/* paper (Cleanroom) above laps DOWN over this sienna band; bottom seam is handled by ConfiTear's top wave (sienna laps over paper) */}
       <WaveBlend edge="top" color="var(--paper)" seed={31} shadow="rgba(120,52,28,0.5)" />
-      <GlowShape shape="blob" glow="amber" size={340} ink="var(--sienna-deep)" className="engagement-glow" style={{ position: "absolute", bottom: "6%", right: "-4%", pointerEvents: "none" }} />
+      <GlowShape shape="blob" glow="white" size={340} ink="var(--sienna-deep)" parallax="--depth-3" className="engagement-glow" style={{ position: "absolute", bottom: "6%", right: "-4%", pointerEvents: "none" }} />
       {/* photo cluster fills the empty left half on wide screens (desktop-only) */}
       <div className="fill-slot fill-slot--left">
         <Reveal>
           <BlobCluster style={{ width: 560, height: 860 }} photos={[
-            { src: asset("ci/assets/Bilder/Weitere/e_kids.jpeg"), caption: ep[0], glow: "white", w: 430, h: 282, focus: "50% 45%", rot: 4, drift: true, radius: "58% 42% 52% 48% / 46% 56% 44% 54%", pos: { top: 0, left: 130 } },
-            { src: asset("ci/assets/Bilder/Weitere/e_hfc.jpeg"), caption: ep[1], glow: "white", w: 288, h: 408, focus: "50% 32%", rot: -5, drift: true, radius: "52% 48% 40% 60% / 56% 46% 54% 44%", pos: { top: 410, left: 0 } },
+            { src: asset("ci/assets/Bilder/Weitere/e_kids.jpeg"), caption: ep[0], glow: "white", w: 430, h: 282, focus: "50% 45%", rot: 4, parallax: "--depth-1", radius: "58% 42% 52% 48% / 46% 56% 44% 54%", pos: { top: 0, left: 130 } },
+            { src: asset("ci/assets/Bilder/Weitere/e_hfc.jpeg"), caption: ep[1], glow: "white", w: 288, h: 408, focus: "50% 32%", rot: -5, parallax: "--depth-2", radius: "52% 48% 40% 60% / 56% 46% 54% 44%", pos: { top: 410, left: 0 } },
           ]} />
         </Reveal>
       </div>
@@ -123,7 +130,7 @@ function Projects() {
   const [, t] = useLang();
   const p = t("projects");
   return (
-    <section style={{ padding: "var(--section-y) 0" }}>
+    <section id="projekt" data-section style={{ padding: "var(--section-y) 0" }}>
       <div className="container align-track">
         {/* heading spans the section (title left, deco right) so it sits above and
             aligns with the description column it introduces */}
@@ -144,19 +151,25 @@ function Projects() {
                   </div>
                 ))}
               </div>
-              <a href={asset("projects/sports-window/")} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, padding: "13px 24px", border: "1px solid var(--border-strong)", borderRadius: "var(--radius-md)", fontFamily: "var(--font-text)", fontSize: "var(--fs-body)", fontWeight: 600, color: "var(--heading)" }}>
-                {p.cta} <span aria-hidden>→</span>
-              </a>
+              <Pressable as="a" className="cta-outline" href={asset("projects/sports-window/")} lift={-3} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, padding: "13px 24px", border: "1px solid var(--border-strong)", borderRadius: "var(--radius-md)", fontFamily: "var(--font-text)", fontSize: "var(--fs-body)", fontWeight: 600, color: "var(--heading)" }}>
+                {p.cta} <span aria-hidden className="cta-arrow">→</span>
+              </Pressable>
             </div>
-            {/* preview tile */}
-            <div className="bay-preview" style={{ position: "relative", minWidth: 0, aspectRatio: "16/10", minHeight: 300, display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 16, padding: 26, borderRadius: "var(--radius-xl)", overflow: "hidden", background: "#14151D", boxShadow: "var(--shadow-lg)", border: "1px solid var(--border)" }}>
+            {/* preview tile - the one place boldness is spent.
+                It is a window into a dark product surface, so it behaves like
+                one: the card tilts toward the cursor and its layers sit at
+                different depths, so the header and stat row separate as you
+                move. Everything springs back on leave, and reduced motion
+                flattens it completely. */}
+            <div className="bay-stage" style={{ perspective: 1200, minWidth: 0 }}>
+            <Pressable className="bay-preview" tilt={7} lift={-6} style={{ position: "relative", minWidth: 0, aspectRatio: "16/10", minHeight: 300, display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 16, padding: 26, borderRadius: "var(--radius-xl)", overflow: "hidden", background: "#14151D", boxShadow: "var(--shadow-lg)", border: "1px solid var(--border)" }}>
               <div style={{ position: "absolute", inset: 0, background: "radial-gradient(120% 120% at 80% 0%, rgba(232,154,92,0.5), transparent 55%)" }} />
-              <div style={{ position: "relative", padding: "20px 22px", borderRadius: "var(--radius-lg)", background: "linear-gradient(110deg, var(--sienna-deep), var(--amber))", color: "#fff" }}>
+              <div style={{ position: "relative", transform: "translateZ(34px)", padding: "20px 22px", borderRadius: "var(--radius-lg)", background: "linear-gradient(110deg, var(--sienna-deep), var(--amber))", color: "#fff", boxShadow: "0 18px 40px -22px rgba(0,0,0,0.8)" }}>
                 <div style={{ fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", opacity: 0.85, fontWeight: 600 }}>Next Game · Week 25</div>
                 <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "clamp(20px,3vw,34px)", marginTop: 6 }}>@ Miami Marlins</div>
                 <div style={{ fontSize: 13, opacity: 0.9, marginTop: 8 }}>Sat, Jun 20 · 1:10 AM · loanDepot park</div>
               </div>
-              <div style={{ position: "relative", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(96px, 1fr))", gap: 12 }}>
+              <div style={{ position: "relative", transform: "translateZ(18px)", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(96px, 1fr))", gap: 12 }}>
                 {[["ERA","5.73"],["K","48"],["WHIP","1.58"],["W-L","2-6"]].map(([k,v],i)=>(
                   <div key={i} style={{ minWidth: 0, padding: "12px 10px", borderRadius: "var(--radius-sm)", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.08)" }}>
                     <div style={{ fontSize: 10, letterSpacing: "0.1em", color: "rgba(255,255,255,0.55)", fontWeight: 600 }}>{k}</div>
@@ -164,6 +177,7 @@ function Projects() {
                   </div>
                 ))}
               </div>
+            </Pressable>
             </div>
           </div>
         </Reveal>
@@ -207,30 +221,28 @@ function Footer() {
   );
 }
 
-/* ---------- ambient side orbs ----------
-   A few drifting, colour-glowing shapes pinned in the side gutters.
-   Only shown on 16:9-and-wider displays (see .side-orbs in index.html),
-   where the centred content column leaves the margins feeling empty.
-   Fixed layer sits behind the content; the navy/sienna bands cover it,
-   so the orbs only read over the paper sections. */
-function SideOrbs() {
-  return (
-    <div className="side-orbs" aria-hidden="true">
-      <GlowShape shape="circle"   glow="duo"    size={150} drift style={{ position: "absolute", right: "1vw",   top: "22%" }} />
-      <GlowShape shape="blob"     glow="sienna" size={180} drift style={{ position: "absolute", left: "1.5vw",  top: "40%" }} />
-      <GlowShape shape="squircle" glow="amber"  size={140} drift style={{ position: "absolute", right: "2vw",   top: "58%" }} />
-      <GlowShape shape="blob"     glow="navy"   size={170} drift style={{ position: "absolute", left: "1vw",    top: "76%" }} />
-      <GlowShape shape="circle"   glow="duo"    size={150} drift style={{ position: "absolute", right: "1.5vw", top: "90%" }} />
-    </div>
-  );
+/* The rail's labels reuse each section's own eyebrow/kicker, so it stays
+   translated in all five languages without a new i18n surface. */
+function useRailItems() {
+  const [, t] = useLang();
+  return [
+    { id: "top", label: "Mika Jeske" },
+    { id: "intro", label: t("intro.eyebrow") },
+    { id: "story", label: t("story.eyebrow") },
+    { id: "lebenslauf", label: t("resume").kicker },
+    { id: "ehrenamt", label: t("engagementSection").eyebrow },
+    { id: "nebenbei", label: t("reunion").eyebrow },
+    { id: "projekt", label: t("projects").kicker },
+  ];
 }
 
 function App() {
+  const railItems = useRailItems();
   return (
     <main>
-      <SideOrbs />
       <LanguageSwitcherMount />
       <ContactChipMount />
+      <SectionRail items={railItems} />
       <Hero />
       <Intro />
       <Story />

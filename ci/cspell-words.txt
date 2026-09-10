@@ -239,3 +239,16 @@ WHIP
 ERA
 Streak
 brackets
+
+# --- motion / layout identifiers ---
+defocus
+namewrap
+pressable
+
+# --- metrology / TU Braunschweig master ---
+gesputterten
+Metrologieinstitut
+Specialisation
+metrological
+metrológica
+metrológico
