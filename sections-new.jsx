@@ -4,7 +4,7 @@
    Built on the design-system tokens + window.MJ primitives.
    ============================================================ */
 const { useState, useRef, useEffect } = React;
-const { asset, Reveal, Pressable, Eyebrow, GlowShape, WaveBlend, AlignBlock, FigurePlot, useLang } = window.MJ;
+const { asset, Reveal, Pressable, SplitFeature, Eyebrow, GlowShape, WaveBlend, AlignBlock, FigurePlot, useLang } = window.MJ;
 
 /* ---------- Bachelor-thesis measurement data ----------
    From Jeske-Mika_Bachelorarbeit-Messdaten.xlsx. Two figures:
@@ -196,7 +196,7 @@ function LoosePhoto({ src, caption, rot, w }) {
       className="loose-photo">
       <div style={{
         padding: 6, background: "var(--paper)", borderRadius: 10,
-        boxShadow: "0 2px 10px -2px rgba(20,20,26,0.18), 0 18px 40px -22px rgba(188,90,55,0.45)",
+        boxShadow: "0 2px 10px -2px rgba(20,20,26,0.18), 0 18px 40px -22px rgb(var(--accent-2-rgb) / 0.45)",
         border: "1px solid var(--hairline)",
       }}>
         <img src={src} alt={caption} loading="lazy" style={{ display: "block", width: "100%", height: "auto", borderRadius: 5 }} />
@@ -215,13 +215,13 @@ function Polaroid({ src, caption, rot, tape }) {
       className="polaroid">
       {tape && <span aria-hidden style={{
         position: "absolute", top: -12, left: "50%", width: 78, height: 26,
-        transform: "translateX(-50%) rotate(-3deg)", background: "rgba(226,161,76,0.28)",
-        border: "1px solid rgba(226,161,76,0.18)", borderRadius: 2,
+        transform: "translateX(-50%) rotate(-3deg)", background: "rgb(var(--amber-rgb) / 0.28)",
+        border: "1px solid rgb(var(--amber-rgb) / 0.18)", borderRadius: 2,
         boxShadow: "0 1px 3px rgba(20,20,26,0.10)",
       }} />}
       <div style={{
         background: "#FBFBFC", padding: "12px 12px 0", borderRadius: 3,
-        boxShadow: "0 6px 22px -10px rgba(20,20,26,0.40), 0 30px 50px -30px rgba(188,90,55,0.40)",
+        boxShadow: "0 6px 22px -10px rgba(20,20,26,0.40), 0 30px 50px -30px rgb(var(--accent-2-rgb) / 0.40)",
       }}>
         <img src={src} alt={caption} loading="lazy" style={{ display: "block", width: "100%", height: "auto", filter: "saturate(1.02) contrast(1.02)" }} />
         <figcaption style={{ fontFamily: "var(--font-mono)", fontSize: "12px", color: "#55555E", textAlign: "center", padding: "14px 6px 16px", lineHeight: 1.4 }}>
@@ -239,9 +239,9 @@ function Story() {
   const [, t] = useLang();
   return (
     <section id="story" data-section style={{ padding: "var(--section-y) 0", position: "relative", overflow: "hidden" }}>
-      {/* navy band above laps DOWN over this paper section, casting a navy shadow on the white */}
-      <WaveBlend edge="top" color="var(--navy)" seed={63} shadow="rgba(28,44,76,0.45)" />
-      {/* the ambient squircle used to live here. At low opacity a near-black
+      {/* No wave seam here any more: the navy band no longer sits directly
+          above this section - the Seeking block does, and it carries the seam.
+          The ambient squircle used to live here. At low opacity a near-black
          shape just reads as a grey lump, and this section already carries two
          figures, a wave seam and the narrative - it needed no more furniture. */}
       <div className="container align-track">
@@ -345,7 +345,7 @@ function ConfiTear() {
   return (
     <section style={{ position: "relative", padding: "clamp(40px,6vw,80px) 0 clamp(40px,6vw,80px)" }}>
       {/* sienna band above laps DOWN over this paper section, casting a sienna shadow on the white */}
-      <WaveBlend edge="top" color="var(--sienna)" seed={71} shadow="rgba(188,90,55,0.45)" />
+      <WaveBlend edge="top" color="var(--sienna)" seed={71} shadow="rgb(var(--accent-2-rgb) / 0.45)" />
       <div className="container align-track" style={{ position: "relative", zIndex: 1 }}>
         <AlignBlock align="left" maxWidth="54ch">
         <Reveal>
@@ -356,23 +356,29 @@ function ConfiTear() {
         </AlignBlock>
       </div>
 
-      <TornSection label={c.label} seed={23} teaser={{ photo: asset("ci/assets/Bilder/Konfi/Konfi_speach.jpeg"), text: c.teaser }}>
+      <TornSection label={c.label} seed={23} teaser={{ photo: asset("ci/assets/Bilder/Konfi/Konfi_Phe.jpeg"), text: c.teaser }}>
         <Eyebrow color="var(--sienna)">{c.eyebrow}</Eyebrow>
         <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-title)", color: "var(--heading)", margin: "14px 0 18px", maxWidth: "24ch" }}>
           {c.heading}
         </h3>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px,100%),1fr))", gap: "clamp(28px,4vw,56px)", alignItems: "start" }}>
-          <div style={{ maxWidth: "58ch" }}>
-            <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 16px" }}>{c.p1}</p>
-            <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 16px" }}>{c.p2}</p>
-            <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: 0 }}>{c.p3}</p>
+        {/* The strongest photograph here is him in front of the group rather
+            than behind the camera, so it stops being one polaroid among three
+            and fills half the torn panel, flush to the page edge. The two
+            remaining polaroids stay hand-glued underneath - the contrast
+            between the masked image and the loose snapshots is the point. */}
+        <SplitFeature flip
+          src={asset("ci/assets/Bilder/Konfi/Konfi_speach.jpeg")}
+          alt={c.photos[0]} caption={c.photos[0]} focus="50% 38%"
+          style={{ marginTop: "clamp(8px,1.5vw,20px)" }}>
+          <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 16px", maxWidth: "48ch" }}>{c.p1}</p>
+          <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: 0, maxWidth: "48ch" }}>{c.p2}</p>
+        </SplitFeature>
+        {/* hand-glued polaroids */}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "clamp(18px,2.4vw,34px)", alignItems: "flex-start", marginTop: "clamp(28px,4vw,48px)" }}>
+          <div style={{ flex: "1 1 260px", maxWidth: 340 }}>
+            <Polaroid src={asset("ci/assets/Bilder/Konfi/Konfi_Phe.jpeg")} caption={c.photos[1]} rot={3} tape />
           </div>
-          {/* hand-glued polaroids */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "clamp(18px,2.4vw,30px)", padding: "8px 0 18px" }}>
-            <div style={{ gridColumn: "1 / -1", maxWidth: 460, justifySelf: "center" }}>
-              <Polaroid src={asset("ci/assets/Bilder/Konfi/Konfi_speach.jpeg")} caption={c.photos[0]} rot={-2.5} tape />
-            </div>
-            <Polaroid src={asset("ci/assets/Bilder/Konfi/Konfi_Phe.jpeg")} caption={c.photos[1]} rot={3} />
+          <div style={{ flex: "1 1 260px", maxWidth: 340 }}>
             <Polaroid src={asset("ci/assets/Bilder/Konfi/Konfi_Party.jpeg")} caption={c.photos[2]} rot={-3.5} />
           </div>
         </div>
@@ -401,7 +407,7 @@ function Reunion() {
             background: "linear-gradient(135deg, var(--paper-2), var(--paper))",
             border: "1px dashed var(--hairline-strong)",
           }}>
-            <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(80% 120% at 110% -10%, rgba(91,124,192,0.16), transparent 60%)", pointerEvents: "none" }} />
+            <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(80% 120% at 110% -10%, rgb(var(--accent-1-glow-rgb) / 0.16), transparent 60%)", pointerEvents: "none" }} />
             <div style={{ position: "relative" }}>
               <Eyebrow>{r.eyebrow}</Eyebrow>
               <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h2)", letterSpacing: "var(--ls-heading)", color: "var(--heading)", margin: "14px 0 18px", maxWidth: "16ch" }}>

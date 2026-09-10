@@ -24,6 +24,57 @@
     .reveal.seen { opacity: 1; transform: none; }
     @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1 !important; transform: none !important; } }
 
+    /* ---- section skipper ----
+       Mirrors .skipper on the landing page. Kept here rather than in ci/
+       because the landing page's copy lives in its own build template; if a
+       third page ever needs it, that is the moment to promote it to ci/. */
+    .skipper {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 58;
+      display: flex; justify-content: center;
+      background: var(--material-chrome);
+      -webkit-backdrop-filter: var(--blur-chrome); backdrop-filter: var(--blur-chrome);
+      border-bottom: 1px solid var(--chrome-hairline);
+      opacity: 0; transform: translateY(-100%); pointer-events: none;
+      transition: opacity .3s var(--ease-out), transform .42s var(--ease-emphasized);
+    }
+    .skipper.is-visible { opacity: 1; transform: none; pointer-events: auto; }
+    .skipper__track {
+      display: flex; align-items: center;
+      width: 100%; max-width: var(--content-wide);
+      padding: 0 var(--gutter, clamp(20px,5vw,64px));
+      overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+      scroll-snap-type: x proximity; overscroll-behavior-x: contain;
+    }
+    .skipper__track::-webkit-scrollbar { display: none; }
+    .skipper__link {
+      flex: none; scroll-snap-align: start;
+      padding: 15px 0; white-space: nowrap; text-decoration: none;
+      font-family: var(--font-text); font-size: 12px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted);
+      transition: color .2s var(--ease-out);
+    }
+    .skipper__link + .skipper__link::before {
+      content: "\00B7"; display: inline-block; margin: 0 14px;
+      color: var(--border-strong); font-weight: 400; letter-spacing: 0;
+    }
+    .skipper__link:hover { color: var(--ink); }
+    .skipper__link.is-active { color: var(--accent); }
+    .skipper__link:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+    .lang-switcher { transition: top .42s var(--ease-emphasized), opacity .6s var(--ease-emphasized); }
+    .has-skipper .lang-switcher { top: 68px; }
+    @media (max-width: 560px) {
+      .skipper__link { font-size: 11px; padding: 13px 0; }
+      .skipper__link + .skipper__link::before { margin: 0 10px; }
+      .has-skipper .lang-switcher { top: 62px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .skipper { transform: none; transition: opacity .2s linear; }
+      .lang-switcher { transition: opacity .2s linear; }
+    }
+    @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+      .skipper { background: var(--paper); }
+    }
+
     /* ---- top bar ---- */
     .topbar { display: flex; align-items: center; justify-content: space-between; padding: clamp(20px,3vw,32px) 0; }
     .back-link {
@@ -60,7 +111,7 @@
     .chip {
       display: inline-flex; align-items: center; padding: 6px 13px; font-family: var(--font-text);
       font-size: var(--fs-caption); font-weight: 600; border-radius: var(--radius-pill); white-space: nowrap;
-      background: rgba(28,44,76,0.10); color: var(--navy); border: 1px solid rgba(28,44,76,0.20);
+      background: rgb(var(--accent-1-rgb) / 0.10); color: var(--navy); border: 1px solid rgb(var(--accent-1-rgb) / 0.20);
     }
 
     /* ---- hero showcase (off-centre big screenshot) ---- */
@@ -159,6 +210,18 @@
   <div id="lang-switcher-root"></div>
   <div id="contact-chip-root"></div>
 
+  <!-- Same skipper as the landing page: text links, no pills, absent until
+       the hero has scrolled away. Written in vanilla because this page is
+       static HTML with data-i18n bindings rather than React. -->
+  <nav class="skipper" id="skipper" aria-label="Zum Abschnitt springen">
+    <div class="skipper__track">
+      <a class="skipper__link" href="#features" data-i18n="sports.nav.features">Funktionen</a>
+      <a class="skipper__link" href="#einblicke" data-i18n="sports.nav.deepDive">Einblicke</a>
+      <a class="skipper__link" href="#mobil" data-i18n="sports.nav.mobile">Mobil</a>
+      <a class="skipper__link" href="#technik" data-i18n="sports.nav.tech">Technik</a>
+    </div>
+  </nav>
+
   <div class="wrap">
     <div class="topbar">
       <a class="back-link" href="../../"><span aria-hidden>←</span> <span data-i18n="sports.backLink">Startseite</span></a>
@@ -209,7 +272,7 @@
   </section>
 
   <!-- DEEP DIVE: HISTORY (dark shot, off-centre) -->
-  <section>
+  <section id="einblicke">
     <div class="wrap">
       <div class="row">
         <div class="copy reveal">
@@ -247,7 +310,7 @@
   </section>
 
   <!-- PHONES (navy band) -->
-  <section class="phones">
+  <section class="phones" id="mobil">
     <div class="phones-glow"></div>
     <div class="wrap" style="position:relative;z-index:1">
       <span class="section-label reveal" data-i18n="sports.everywhereLabel">Überall zu Hause</span>
@@ -264,7 +327,7 @@
   </section>
 
   <!-- TECH + PHILOSOPHY -->
-  <section>
+  <section id="technik">
     <div class="wrap">
       <span class="section-label reveal" data-i18n="sports.techLabel">Unter der Haube</span>
       <h2 class="reveal" data-i18n="sports.techHeading">Technisches Fundament</h2>
@@ -349,6 +412,42 @@
         entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('seen'); io.unobserve(en.target); } });
       }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
       els.forEach(function (e) { io.observe(e); });
+    })();
+    // skipper: appears past the hero, tracks the section under the reader
+    (function () {
+      var bar = document.getElementById('skipper');
+      var links = [].slice.call(bar.querySelectorAll('.skipper__link'));
+      var hero = document.querySelector('.hero');
+      if (!('IntersectionObserver' in window)) { bar.classList.add('is-visible'); return; }
+
+      new IntersectionObserver(function (entries) {
+        var past = !entries[0].isIntersecting;
+        bar.classList.toggle('is-visible', past);
+        document.documentElement.classList.toggle('has-skipper', past);
+      }, { threshold: 0 }).observe(hero);
+
+      var sections = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+      var spy = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (!en.isIntersecting) return;
+          links.forEach(function (a, i) {
+            var on = sections[i] === en.target;
+            a.classList.toggle('is-active', on);
+            a.setAttribute('aria-current', on ? 'true' : 'false');
+          });
+        });
+      }, { rootMargin: '-45% 0px -45% 0px' });
+      sections.forEach(function (s) { if (s) spy.observe(s); });
+
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      links.forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          var el = document.querySelector(a.getAttribute('href'));
+          if (!el) return;              // no target: let the anchor do its job
+          e.preventDefault();
+          el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+        });
+      });
     })();
     // lightbox
     (function () {

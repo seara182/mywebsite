@@ -251,46 +251,93 @@ function Pressable({ children, as = "div", tilt = 0, lift = -4, className = "", 
   );
 }
 
-/* ---------- SectionRail ----------
-   The brief allows a discreet scroll indicator but no classic menu, so
-   this is a hairline track of dots on the right edge: it reports where
-   you are and lets you jump, and nothing else. Desktop-only (hidden
-   below 1024px in index.template.html) and frosted, so it reads as
-   chrome rather than content. */
-function SectionRail({ items = [] }) {
-  const [active, setActive] = useState(0);
+/* ---------- SectionSkipper ----------
+   Replaces the dot rail. The brief rules out a classic navbar AND asks
+   that the first frame is the name alone, so this is neither: a thin row
+   of text links that does not exist until the hero has left the viewport.
+
+   Two deliberate choices:
+   - Real <a href="#id"> anchors, not buttons. The page is prerendered, so
+     with JS disabled the links still navigate; the smooth scroll and the
+     active-section highlight are enhancement layered on top.
+   - Visibility is a CLASS toggle, never an inline style computed during
+     render. The markup is rendered in Node and hydrated in the browser,
+     and React keeps the SERVER's inline style when the two disagree - the
+     same trap that broke Reveal and TornSection earlier. */
+function SectionSkipper({ items = [], label = "Zum Abschnitt springen" }) {
+  const [past, setPast] = useState(false);
+  const [active, setActive] = useState("");
+
+  /* past-the-hero gate */
+  useEffect(() => {
+    const hero = document.querySelector(".hero");
+    if (!hero) return;
+    const io = new IntersectionObserver(([e]) => setPast(!e.isIntersecting), { threshold: 0 });
+    io.observe(hero);
+    return () => io.disconnect();
+  }, []);
+
+  /* The language globe is fixed chrome owned by widgets.js, outside React.
+     Rather than duplicate the observer there, the skipper publishes its own
+     state as a class on <html> and the globe's CSS reacts to it. */
+  useEffect(() => {
+    document.documentElement.classList.toggle("has-skipper", past);
+  }, [past]);
+
+  /* which section is currently under the reader */
   useEffect(() => {
     const els = items.map((it) => document.getElementById(it.id)).filter(Boolean);
     if (!els.length) return;
     const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (!e.isIntersecting) return;
-        const k = els.indexOf(e.target);
-        if (k > -1) setActive(k);
-      });
+      entries.forEach((e) => { if (e.isIntersecting) setActive(e.target.id); });
     }, { rootMargin: "-45% 0px -45% 0px" });
     els.forEach((el) => io.observe(el));
     return () => io.disconnect();
   }, [items.length]);
 
-  function jump(id) {
+  function jump(e, id) {
     const el = document.getElementById(id);
-    if (!el) return;
+    if (!el) return;               /* no target: let the anchor do its job */
+    e.preventDefault();
     el.scrollIntoView({ behavior: prefersReduced() ? "auto" : "smooth", block: "start" });
+    if (window.history && window.history.replaceState) window.history.replaceState(null, "", "#" + id);
   }
 
   return (
-    <nav className="section-rail" aria-label="Abschnitte">
-      <span className="section-rail__track" aria-hidden="true" />
-      {items.map((it, i) => (
-        <button key={it.id} type="button"
-          className={"section-rail__dot" + (i === active ? " is-active" : "")}
-          aria-label={it.label} aria-current={i === active ? "true" : "false"}
-          onClick={() => jump(it.id)}>
-          <span className="section-rail__label" aria-hidden="true">{it.label}</span>
-        </button>
-      ))}
+    <nav className={"skipper" + (past ? " is-visible" : "")} aria-label={label}>
+      <div className="skipper__track">
+        {items.map((it) => (
+          <a key={it.id} href={"#" + it.id}
+            className={"skipper__link" + (active === it.id ? " is-active" : "")}
+            aria-current={active === it.id ? "true" : "false"}
+            onClick={(e) => jump(e, it.id)}>{it.label}</a>
+        ))}
+      </div>
     </nav>
+  );
+}
+
+/* ---------- SplitFeature ----------
+   Copy in one half, a photograph filling the other out to the real
+   viewport edge - masked INTO the section rather than framed on top of
+   it, so only the inner edge carries the organic radius and the outer
+   edge runs flush off the page.
+
+   It deliberately does NOT sit inside .container: a grid item cannot
+   escape a centred container reliably (the percentage in the usual
+   `calc(50% - 50vw)` bleed resolves against the grid area, not the
+   container). So the grid spans the full width and the COPY cell carries
+   the padding that lines its text up with the content column instead.
+   See .split* in index.template.html. */
+function SplitFeature({ src, alt, caption, focus = "50% 50%", flip = false, children, className = "", style = {} }) {
+  return (
+    <div className={("split" + (flip ? " split--flip" : "") + (className ? " " + className : "")).trim()} style={style}>
+      <div className="split__copy">{children}</div>
+      <figure className="split__media">
+        <img className="split__img" src={src} alt={alt} loading="lazy" style={{ objectPosition: focus }} />
+        {caption ? <figcaption className="split__cap">{caption}</figcaption> : null}
+      </figure>
+    </div>
   );
 }
 
@@ -324,8 +371,8 @@ function Eyebrow({ children, color }) {
 function Badge({ children, variant = "neutral" }) {
   const v = {
     neutral: { background: "var(--paper-2)", color: "var(--text-body)", border: "1px solid var(--border)" },
-    accent: { background: "rgba(188,90,55,0.12)", color: "var(--sienna-deep)", border: "1px solid rgba(188,90,55,0.22)" },
-    navy: { background: "rgba(28,44,76,0.10)", color: "var(--navy)", border: "1px solid rgba(28,44,76,0.20)" },
+    accent: { background: "rgb(var(--accent-2-rgb) / 0.12)", color: "var(--sienna-deep)", border: "1px solid rgb(var(--accent-2-rgb) / 0.22)" },
+    navy: { background: "rgb(var(--accent-1-rgb) / 0.10)", color: "var(--navy)", border: "1px solid rgb(var(--accent-1-rgb) / 0.20)" },
     onDark: { background: "rgba(255,255,255,0.10)", color: "var(--on-dark-body)", border: "1px solid var(--on-dark-hairline)" },
   }[variant];
   return <span style={{ display: "inline-flex", alignItems: "center", padding: "5px 12px", fontFamily: "var(--font-text)", fontSize: "var(--fs-caption)", fontWeight: 600, borderRadius: 999, whiteSpace: "nowrap", ...v }}>{children}</span>;
@@ -433,7 +480,7 @@ function FigurePlot({ series = [], xDomain, yDomain, y2Domain, xTicks = [], yTic
   const leftCol = colors[series.findIndex((s) => s.axis !== 2)] || "var(--text)";
   const rightCol = colors[series.findIndex((s) => s.axis === 2)] || "var(--text)";
   return (
-    <figure className="figure-plot" style={{ margin: 0, padding: "clamp(16px,1.8vw,24px)", background: "var(--paper)", border: "1px solid var(--hairline)", borderRadius: "var(--radius-lg)", boxShadow: "0 10px 26px -14px rgba(20,20,26,0.3), 0 36px 70px -40px rgba(188,90,55,0.4)", maxWidth: width + 56 }}>
+    <figure className="figure-plot" style={{ margin: 0, padding: "clamp(16px,1.8vw,24px)", background: "var(--paper)", border: "1px solid var(--hairline)", borderRadius: "var(--radius-lg)", boxShadow: "0 10px 26px -14px rgba(20,20,26,0.3), 0 36px 70px -40px rgb(var(--accent-2-rgb) / 0.4)", maxWidth: width + 56 }}>
       <svg viewBox={`0 0 ${width} ${height}`} width="100%" role="img" aria-label={caption} style={{ display: "block", overflow: "visible" }}>
         {yTicks.map((v, i) => (
           <g key={`y${i}`}>
@@ -570,4 +617,4 @@ function TimelineEntry({ role, org, period, location, points = [], last, accent 
   );
 }
 
-window.MJ = { asset, useReveal, useLang, useParallax, prefersReduced, Reveal, Parallax, Pressable, SectionRail, Eyebrow, Badge, GlowShape, WaveBlend, TimelineEntry, AlignBlock, BlobPhoto, BlobCluster, FigurePlot, LanguageSwitcherMount, ContactChipMount };
+window.MJ = { asset, useReveal, useLang, useParallax, prefersReduced, Reveal, Parallax, Pressable, SectionSkipper, SplitFeature, Eyebrow, Badge, GlowShape, WaveBlend, TimelineEntry, AlignBlock, BlobPhoto, BlobCluster, FigurePlot, LanguageSwitcherMount, ContactChipMount };

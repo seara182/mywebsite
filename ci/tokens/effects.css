@@ -32,22 +32,22 @@
      Soft radial color halos placed BEHIND/UNDER near-black shapes.
      Use on light surfaces. On .on-navy / .on-sienna use --glow-white. */
   --glow-sienna: radial-gradient(closest-side,
-                  rgba(232,154,92,0.85), rgba(188,90,55,0.45) 55%, transparent 80%); /* @kind other */
+                  rgb(var(--accent-2-glow-rgb) / 0.85), rgb(var(--accent-2-rgb) / 0.45) 55%, transparent 80%); /* @kind other */
   --glow-amber:  radial-gradient(closest-side,
-                  rgba(226,161,76,0.80), rgba(226,161,76,0.30) 55%, transparent 80%); /* @kind other */
+                  rgb(var(--amber-rgb) / 0.80), rgb(var(--amber-rgb) / 0.30) 55%, transparent 80%); /* @kind other */
   --glow-navy:   radial-gradient(closest-side,
-                  rgba(91,124,192,0.75), rgba(28,44,76,0.40) 55%, transparent 80%); /* @kind other */
+                  rgb(var(--accent-1-glow-rgb) / 0.75), rgb(var(--accent-1-rgb) / 0.40) 55%, transparent 80%); /* @kind other */
   --glow-duo:    radial-gradient(closest-side at 35% 35%,
-                  rgba(232,154,92,0.80), transparent 70%),
+                  rgb(var(--accent-2-glow-rgb) / 0.80), transparent 70%),
                  radial-gradient(closest-side at 70% 70%,
-                  rgba(91,124,192,0.65), transparent 72%); /* @kind other */
+                  rgb(var(--accent-1-glow-rgb) / 0.65), transparent 72%); /* @kind other */
   /* Inverted: white halo for black shapes on dark accent surfaces */
   --glow-white:  radial-gradient(closest-side,
                   rgba(255,255,255,0.55), rgba(255,255,255,0.18) 55%, transparent 80%); /* @kind other */
 
   /* Box-shadow form of the glow (for elements that can't host a pseudo-bg) */
-  --glow-shadow-sienna: 0 24px 80px -20px rgba(188,90,55,0.55);
-  --glow-shadow-navy:   0 24px 80px -20px rgba(28,44,76,0.55);
+  --glow-shadow-sienna: 0 24px 80px -20px rgb(var(--accent-2-rgb) / 0.55);
+  --glow-shadow-navy:   0 24px 80px -20px rgb(var(--accent-1-rgb) / 0.55);
 }
 
 /* ============================================================
@@ -61,15 +61,15 @@
 
 :root {
   --glow-sienna-dense: radial-gradient(closest-side,
-                        rgba(232,154,92,0.95), rgba(188,90,55,0.62) 46%, rgba(188,90,55,0.18) 72%, transparent 88%); /* @kind other */
+                        rgb(var(--accent-2-glow-rgb) / 0.95), rgb(var(--accent-2-rgb) / 0.62) 46%, rgb(var(--accent-2-rgb) / 0.18) 72%, transparent 88%); /* @kind other */
   --glow-amber-dense:  radial-gradient(closest-side,
-                        rgba(226,161,76,0.92), rgba(226,161,76,0.50) 46%, rgba(188,90,55,0.16) 72%, transparent 88%); /* @kind other */
+                        rgb(var(--amber-rgb) / 0.92), rgb(var(--amber-rgb) / 0.50) 46%, rgb(var(--accent-2-rgb) / 0.16) 72%, transparent 88%); /* @kind other */
   --glow-navy-dense:   radial-gradient(closest-side,
-                        rgba(91,124,192,0.90), rgba(28,44,76,0.55) 46%, rgba(28,44,76,0.16) 72%, transparent 88%); /* @kind other */
+                        rgb(var(--accent-1-glow-rgb) / 0.90), rgb(var(--accent-1-rgb) / 0.55) 46%, rgb(var(--accent-1-rgb) / 0.16) 72%, transparent 88%); /* @kind other */
   --glow-duo-dense:    radial-gradient(closest-side at 34% 34%,
-                        rgba(232,154,92,0.92), transparent 68%),
+                        rgb(var(--accent-2-glow-rgb) / 0.92), transparent 68%),
                        radial-gradient(closest-side at 72% 72%,
-                        rgba(91,124,192,0.78), transparent 70%); /* @kind other */
+                        rgb(var(--accent-1-glow-rgb) / 0.78), transparent 70%); /* @kind other */
   /* Inverted halo for near-black shapes on the navy / sienna bands. */
   --glow-white-strong: radial-gradient(closest-side,
                         rgba(255,255,255,0.72), rgba(255,255,255,0.30) 48%, rgba(255,255,255,0.10) 72%, transparent 88%); /* @kind other */

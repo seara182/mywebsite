@@ -14,6 +14,7 @@ const {
   asset,
   Reveal,
   Pressable,
+  SplitFeature,
   Eyebrow,
   GlowShape,
   WaveBlend,
@@ -335,7 +336,7 @@ function LoosePhoto({
       padding: 6,
       background: "var(--paper)",
       borderRadius: 10,
-      boxShadow: "0 2px 10px -2px rgba(20,20,26,0.18), 0 18px 40px -22px rgba(188,90,55,0.45)",
+      boxShadow: "0 2px 10px -2px rgba(20,20,26,0.18), 0 18px 40px -22px rgb(var(--accent-2-rgb) / 0.45)",
       border: "1px solid var(--hairline)"
     }
   }, /*#__PURE__*/React.createElement("img", {
@@ -383,8 +384,8 @@ function Polaroid({
       width: 78,
       height: 26,
       transform: "translateX(-50%) rotate(-3deg)",
-      background: "rgba(226,161,76,0.28)",
-      border: "1px solid rgba(226,161,76,0.18)",
+      background: "rgb(var(--amber-rgb) / 0.28)",
+      border: "1px solid rgb(var(--amber-rgb) / 0.18)",
       borderRadius: 2,
       boxShadow: "0 1px 3px rgba(20,20,26,0.10)"
     }
@@ -393,7 +394,7 @@ function Polaroid({
       background: "#FBFBFC",
       padding: "12px 12px 0",
       borderRadius: 3,
-      boxShadow: "0 6px 22px -10px rgba(20,20,26,0.40), 0 30px 50px -30px rgba(188,90,55,0.40)"
+      boxShadow: "0 6px 22px -10px rgba(20,20,26,0.40), 0 30px 50px -30px rgb(var(--accent-2-rgb) / 0.40)"
     }
   }, /*#__PURE__*/React.createElement("img", {
     src: src,
@@ -430,12 +431,7 @@ function Story() {
       position: "relative",
       overflow: "hidden"
     }
-  }, /*#__PURE__*/React.createElement(WaveBlend, {
-    edge: "top",
-    color: "var(--navy)",
-    seed: 63,
-    shadow: "rgba(28,44,76,0.45)"
-  }), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: "container align-track"
   }, /*#__PURE__*/React.createElement("div", {
     className: "story-grid"
@@ -621,7 +617,7 @@ function ConfiTear() {
     edge: "top",
     color: "var(--sienna)",
     seed: 71,
-    shadow: "rgba(188,90,55,0.45)"
+    shadow: "rgb(var(--accent-2-rgb) / 0.45)"
   }), /*#__PURE__*/React.createElement("div", {
     className: "container align-track",
     style: {
@@ -642,7 +638,7 @@ function ConfiTear() {
     label: c.label,
     seed: 23,
     teaser: {
-      photo: asset("ci/assets/Bilder/Konfi/Konfi_speach.jpeg"),
+      photo: asset("ci/assets/Bilder/Konfi/Konfi_Phe.jpeg"),
       text: c.teaser
     }
   }, /*#__PURE__*/React.createElement(Eyebrow, {
@@ -656,61 +652,55 @@ function ConfiTear() {
       margin: "14px 0 18px",
       maxWidth: "24ch"
     }
-  }, c.heading), /*#__PURE__*/React.createElement("div", {
+  }, c.heading), /*#__PURE__*/React.createElement(SplitFeature, {
+    flip: true,
+    src: asset("ci/assets/Bilder/Konfi/Konfi_speach.jpeg"),
+    alt: c.photos[0],
+    caption: c.photos[0],
+    focus: "50% 38%",
     style: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(min(300px,100%),1fr))",
-      gap: "clamp(28px,4vw,56px)",
-      alignItems: "start"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      maxWidth: "58ch"
+      marginTop: "clamp(8px,1.5vw,20px)"
     }
   }, /*#__PURE__*/React.createElement("p", {
     style: {
       fontSize: "var(--fs-body)",
       lineHeight: "var(--lh-relaxed)",
       color: "var(--text)",
-      margin: "0 0 16px"
+      margin: "0 0 16px",
+      maxWidth: "48ch"
     }
   }, c.p1), /*#__PURE__*/React.createElement("p", {
     style: {
       fontSize: "var(--fs-body)",
       lineHeight: "var(--lh-relaxed)",
       color: "var(--text)",
-      margin: "0 0 16px"
+      margin: 0,
+      maxWidth: "48ch"
     }
-  }, c.p2), /*#__PURE__*/React.createElement("p", {
+  }, c.p2)), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: "var(--fs-body)",
-      lineHeight: "var(--lh-relaxed)",
-      color: "var(--text)",
-      margin: 0
-    }
-  }, c.p3)), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "grid",
-      gridTemplateColumns: "repeat(2, 1fr)",
-      gap: "clamp(18px,2.4vw,30px)",
-      padding: "8px 0 18px"
+      display: "flex",
+      flexWrap: "wrap",
+      gap: "clamp(18px,2.4vw,34px)",
+      alignItems: "flex-start",
+      marginTop: "clamp(28px,4vw,48px)"
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      gridColumn: "1 / -1",
-      maxWidth: 460,
-      justifySelf: "center"
+      flex: "1 1 260px",
+      maxWidth: 340
     }
   }, /*#__PURE__*/React.createElement(Polaroid, {
-    src: asset("ci/assets/Bilder/Konfi/Konfi_speach.jpeg"),
-    caption: c.photos[0],
-    rot: -2.5,
-    tape: true
-  })), /*#__PURE__*/React.createElement(Polaroid, {
     src: asset("ci/assets/Bilder/Konfi/Konfi_Phe.jpeg"),
     caption: c.photos[1],
-    rot: 3
-  }), /*#__PURE__*/React.createElement(Polaroid, {
+    rot: 3,
+    tape: true
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: "1 1 260px",
+      maxWidth: 340
+    }
+  }, /*#__PURE__*/React.createElement(Polaroid, {
     src: asset("ci/assets/Bilder/Konfi/Konfi_Party.jpeg"),
     caption: c.photos[2],
     rot: -3.5
@@ -752,7 +742,7 @@ function Reunion() {
     style: {
       position: "absolute",
       inset: 0,
-      background: "radial-gradient(80% 120% at 110% -10%, rgba(91,124,192,0.16), transparent 60%)",
+      background: "radial-gradient(80% 120% at 110% -10%, rgb(var(--accent-1-glow-rgb) / 0.16), transparent 60%)",
       pointerEvents: "none"
     }
   }), /*#__PURE__*/React.createElement("div", {

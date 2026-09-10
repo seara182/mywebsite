@@ -26,6 +26,26 @@
   --hairline:     #E2E2E7;  /* borders, dividers */
   --hairline-strong: #CECED5;
 
+  /* ============================================================
+     CHANNEL TOKENS — the palette lives here and nowhere else
+     ============================================================
+     A custom property holding a hex cannot be given an alpha, which is why
+     every glow, tint, ring and shadow used to spell its hue out again as an
+     rgba() literal. These hold the same colours as raw channels, for the
+     rgb(R G B / A) form, which does accept a var().
+
+     --accent-1 is the cool contrast surface (Intro band), --accent-2 the
+     warm one (Ehrenamt band). Changing the brand means changing these seven
+     lines and the six hexes below them. Nothing else in the codebase names
+     a brand colour. */
+  --accent-1-rgb:       28 44 76;    /* navy */
+  --accent-1-deep-rgb:  15 23 42;
+  --accent-1-glow-rgb:  91 124 192;  /* dusty blue halo */
+  --accent-2-rgb:       188 90 55;   /* burnt sienna */
+  --accent-2-deep-rgb:  120 52 28;
+  --accent-2-glow-rgb:  232 154 92;  /* warm amber halo */
+  --amber-rgb:          226 161 76;  /* third glow tone */
+
   /* ---- Navy accent (contrast surface) ---- */
   --navy:         #1C2C4C;  /* navy surface */
   --navy-deep:    #14213B;  /* darker navy */
@@ -66,7 +86,7 @@
   /* Interaction tints (Apple-style subtle press/hover) */
   --press-tint:      rgba(20,20,26,0.05);
   --hover-tint:      rgba(20,20,26,0.035);
-  --focus-ring:      rgba(188,90,55,0.45); /* sienna @ 45% */
+  --focus-ring:      rgb(var(--accent-2-rgb) / 0.45); /* sienna @ 45% */
 }
 
 /* Dark/accent section scope — opt-in by adding class to a section.

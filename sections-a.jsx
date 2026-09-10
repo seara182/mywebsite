@@ -1,7 +1,7 @@
 /* ===========================================================
    Mika Jeske — landing page sections (single-scroll narrative)
    ============================================================ */
-const { asset, Reveal, Parallax, Eyebrow, Badge, GlowShape, WaveBlend, TimelineEntry, AlignBlock, BlobCluster, useLang } = window.MJ;
+const { asset, Reveal, Parallax, Pressable, SplitFeature, Eyebrow, Badge, GlowShape, WaveBlend, TimelineEntry, AlignBlock, BlobCluster, useLang } = window.MJ;
 
 /* ---------- Hero ----------
    The brief asks that on load you see the NAME and nothing else, and
@@ -64,58 +64,96 @@ function Hero() {
   );
 }
 
-/* ---------- Intro (navy accent band) ---------- */
+/* ---------- Intro (navy accent band) ----------
+   The DGZfP photograph used to be one of two small blobs floating in the
+   right half, visible only above 1440px. It is the strongest image on the
+   page - him at the award, in the field he is applying into - so it now
+   fills half the band edge to edge and is visible at every width.
+
+   The ambient glow circle that used to sit top-right went with it: that
+   corner is the photograph now, and a near-black disc floating over a
+   photograph is furniture, not motif. */
 function Intro() {
   const [, t] = useLang();
   const ip = t("intro.photos") || [];
   return (
     <section id="intro" data-section className="on-navy" style={{ position: "relative", overflow: "hidden", padding: "var(--section-y) 0" }}>
-      {/* paper (Hero) above laps DOWN over this navy band; bottom seam is handled by Story's top wave (navy laps over paper) */}
-      <WaveBlend edge="top" color="var(--paper)" seed={5} shadow="rgba(15,23,42,0.55)" />
-      <GlowShape shape="circle" glow="white" size={300} ink="var(--navy-deep)" parallax="--depth-3" className="intro-glow" style={{ position: "absolute", top: "6%", right: "4%", pointerEvents: "none" }} />
-      {/* photo cluster fills the empty right half on wide screens (desktop-only) */}
-      <div className="fill-slot fill-slot--right">
-        <Reveal>
-          <BlobCluster style={{ width: 640, height: 820 }} photos={[
-            { src: asset("ci/assets/Bilder/Weitere/i_e_chem.jpeg"), caption: ip[0], glow: "white", w: 300, h: 430, focus: "50% 38%", rot: -4, parallax: "--depth-2", radius: "62% 38% 46% 54% / 58% 52% 48% 42%", pos: { top: 0, left: 0 } },
-            { src: asset("ci/assets/Bilder/Weitere/i_zfp.jpeg"), caption: ip[1], glow: "white", w: 380, h: 248, focus: "50% 45%", rot: 5, parallax: "--depth-1", radius: "46% 54% 60% 40% / 52% 44% 56% 48%", pos: { top: 520, left: 252 } },
-          ]} />
-        </Reveal>
-      </div>
-      <div className="container align-track" style={{ position: "relative", zIndex: 1 }}>
-        <AlignBlock align="left" maxWidth="58ch">
-        <Reveal><Eyebrow color="var(--sienna-glow)">{t("intro.eyebrow")}</Eyebrow></Reveal>
-        <Reveal delay={80}>
-          {/* real <h2> (not a styled <p>) so the document has a heading here for
-              crawlers/SR; inline styles keep the visual rendering identical. */}
-          <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h2)", lineHeight: 1.22, letterSpacing: "var(--ls-heading)", color: "var(--on-dark-strong)", margin: "20px 0 0", maxWidth: "20ch" }}>
-            {t("intro.headline")}
-          </h2>
-        </Reveal>
-        <Reveal delay={160}>
-          <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--on-dark-body)", margin: "24px 0 0", maxWidth: "54ch" }}>
-            {t("intro.p1")}
-          </p>
-        </Reveal>
-        <Reveal delay={220}>
-          <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--on-dark-body)", margin: "16px 0 0", maxWidth: "54ch" }}>
-            {t("intro.p2")}
-          </p>
-        </Reveal>
-        <Reveal delay={280}>
-          <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--on-dark-body)", margin: "16px 0 0", maxWidth: "54ch" }}>
-            {t("intro.p3")}
-          </p>
-        </Reveal>
-        <Reveal delay={340}>
-          <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--on-dark-strong)", margin: "16px 0 0", maxWidth: "54ch" }}>
-            {t("intro.p4")}
-          </p>
-        </Reveal>
-        </AlignBlock>
+      {/* paper (Hero) above laps DOWN over this navy band; the bottom seam is
+          handled by Seeking's top wave (navy laps over paper) */}
+      <WaveBlend edge="top" color="var(--paper)" seed={5} shadow="rgb(var(--accent-1-deep-rgb) / 0.55)" />
+      <div className="container" style={{ position: "relative", zIndex: 1 }}>
+        <SplitFeature
+          src={asset("ci/assets/Bilder/Weitere/i_zfp.jpeg")}
+          alt={ip[0]} caption={ip[0]} focus="50% 42%">
+          <Reveal><Eyebrow color="var(--sienna-glow)">{t("intro.eyebrow")}</Eyebrow></Reveal>
+          <Reveal delay={80}>
+            {/* real <h2> (not a styled <p>) so the document has a heading here
+                for crawlers/SR; inline styles keep the visual rendering. */}
+            <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h2)", lineHeight: 1.22, letterSpacing: "var(--ls-heading)", color: "var(--on-dark-strong)", margin: "20px 0 0", maxWidth: "18ch" }}>
+              {t("intro.headline")}
+            </h2>
+          </Reveal>
+          <Reveal delay={160}>
+            <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--on-dark-body)", margin: "24px 0 0", maxWidth: "46ch" }}>
+              {t("intro.p1")}
+            </p>
+          </Reveal>
+          <Reveal delay={220}>
+            <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--on-dark-body)", margin: "16px 0 0", maxWidth: "46ch" }}>
+              {t("intro.p2")}
+            </p>
+          </Reveal>
+        </SplitFeature>
       </div>
     </section>
   );
 }
 
-window.SECTIONS_A = { Hero, Intro };
+/* ---------- Seeking ("Was ich suche") ----------
+   The pitch used to end on "available immediately, I can start Monday",
+   written for a full-time search that no longer exists. This replaces it
+   with the handful of facts a recruiter actually needs, set as a spec list
+   rather than a paragraph so it survives a five-second skim. It is also
+   the target the skipper's first link points at. */
+function Seeking() {
+  const [, t] = useLang();
+  const s = t("seeking");
+  return (
+    <section id="werkstudent" data-section style={{ position: "relative", overflow: "hidden", padding: "var(--section-y-sm) 0 var(--section-y)" }}>
+      {/* navy band above laps DOWN over this paper section */}
+      <WaveBlend edge="top" color="var(--navy)" seed={63} shadow="rgb(var(--accent-1-rgb) / 0.45)" />
+      <div className="container" style={{ position: "relative", zIndex: 1 }}>
+        <div className="seeking">
+          <div>
+            <Reveal><Eyebrow>{s.eyebrow}</Eyebrow></Reveal>
+            <Reveal delay={80}>
+              <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h2)", lineHeight: 1.15, letterSpacing: "var(--ls-heading)", color: "var(--heading)", margin: "16px 0 0", maxWidth: "14ch" }}>
+                {s.heading}
+              </h2>
+            </Reveal>
+          </div>
+          <div>
+            <Reveal>
+              <dl className="seeking__list">
+                {s.rows.map((r, i) => (
+                  <React.Fragment key={i}>
+                    <dt className="seeking__k">{r.k}</dt>
+                    <dd className="seeking__v">{r.v}</dd>
+                  </React.Fragment>
+                ))}
+              </dl>
+            </Reveal>
+            <Reveal delay={80}>
+              <Pressable as="a" className="cta-ink" href="https://www.linkedin.com/in/mika-jeske-835092313/" target="_blank" rel="noopener" lift={-3}
+                style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: "clamp(24px,3vw,36px)", padding: "12px 22px", background: "var(--ink)", color: "var(--paper)", borderRadius: "var(--radius-md)", fontFamily: "var(--font-text)", fontSize: "var(--fs-body)", fontWeight: 600, textDecoration: "none" }}>
+                {s.cta} <span aria-hidden className="cta-arrow">&rarr;</span>
+              </Pressable>
+            </Reveal>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+window.SECTIONS_A = { Hero, Intro, Seeking };

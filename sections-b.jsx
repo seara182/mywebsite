@@ -1,8 +1,8 @@
 /* ============================================================
    Mika Jeske — résumé, engagement, projects, footer + App shell
    ============================================================ */
-const { asset, Reveal, Parallax, Pressable, SectionRail, Eyebrow, Badge, GlowShape, WaveBlend, TimelineEntry, AlignBlock, BlobCluster, useLang, LanguageSwitcherMount, ContactChipMount } = window.MJ;
-const { Hero, Intro } = window.SECTIONS_A;
+const { asset, Reveal, Parallax, Pressable, SectionSkipper, Eyebrow, Badge, GlowShape, WaveBlend, TimelineEntry, AlignBlock, BlobCluster, useLang, LanguageSwitcherMount, ContactChipMount } = window.MJ;
+const { Hero, Intro, Seeking } = window.SECTIONS_A;
 const { Story, CleanroomTear, ConfiTear, Reunion } = window.SECTIONS_NEW;
 
 const LINKEDIN = "https://www.linkedin.com/in/mika-jeske-835092313/";
@@ -96,7 +96,7 @@ function Engagement() {
   return (
     <section id="ehrenamt" data-section className="on-sienna" style={{ position: "relative", overflow: "hidden", padding: "var(--section-y) 0" }}>
       {/* paper (Cleanroom) above laps DOWN over this sienna band; bottom seam is handled by ConfiTear's top wave (sienna laps over paper) */}
-      <WaveBlend edge="top" color="var(--paper)" seed={31} shadow="rgba(120,52,28,0.5)" />
+      <WaveBlend edge="top" color="var(--paper)" seed={31} shadow="rgb(var(--accent-2-deep-rgb) / 0.5)" />
       <GlowShape shape="blob" glow="white" size={340} ink="var(--sienna-deep)" parallax="--depth-3" className="engagement-glow" style={{ position: "absolute", bottom: "6%", right: "-4%", pointerEvents: "none" }} />
       {/* photo cluster fills the empty left half on wide screens (desktop-only) */}
       <div className="fill-slot fill-slot--left">
@@ -163,7 +163,7 @@ function Projects() {
                 flattens it completely. */}
             <div className="bay-stage" style={{ perspective: 1200, minWidth: 0 }}>
             <Pressable className="bay-preview" tilt={7} lift={-6} style={{ position: "relative", minWidth: 0, aspectRatio: "16/10", minHeight: 300, display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 16, padding: 26, borderRadius: "var(--radius-xl)", overflow: "hidden", background: "#14151D", boxShadow: "var(--shadow-lg)", border: "1px solid var(--border)" }}>
-              <div style={{ position: "absolute", inset: 0, background: "radial-gradient(120% 120% at 80% 0%, rgba(232,154,92,0.5), transparent 55%)" }} />
+              <div style={{ position: "absolute", inset: 0, background: "radial-gradient(120% 120% at 80% 0%, rgb(var(--accent-2-glow-rgb) / 0.5), transparent 55%)" }} />
               <div style={{ position: "relative", transform: "translateZ(34px)", padding: "20px 22px", borderRadius: "var(--radius-lg)", background: "linear-gradient(110deg, var(--sienna-deep), var(--amber))", color: "#fff", boxShadow: "0 18px 40px -22px rgba(0,0,0,0.8)" }}>
                 <div style={{ fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", opacity: 0.85, fontWeight: 600 }}>Next Game · Week 25</div>
                 <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "clamp(20px,3vw,34px)", marginTop: 6 }}>@ Miami Marlins</div>
@@ -221,35 +221,41 @@ function Footer() {
   );
 }
 
-/* The rail's labels reuse each section's own eyebrow/kicker, so it stays
-   translated in all five languages without a new i18n surface. */
-function useRailItems() {
+/* Four destinations, in page order. The dot rail drew its labels from each
+   section's own eyebrow, which gave it things like "Moin." and "Nebenbei" -
+   fine as a tooltip, useless as a navigation label. The skipper gets its own
+   short strings instead; they are the only new translation surface here. */
+function useSkipperItems() {
   const [, t] = useLang();
+  const nav = t("nav");
   return [
-    { id: "top", label: "Mika Jeske" },
-    { id: "intro", label: t("intro.eyebrow") },
-    { id: "story", label: t("story.eyebrow") },
-    { id: "lebenslauf", label: t("resume").kicker },
-    { id: "ehrenamt", label: t("engagementSection").eyebrow },
-    { id: "nebenbei", label: t("reunion").eyebrow },
-    { id: "projekt", label: t("projects").kicker },
+    { id: "werkstudent", label: nav.werkstudent },
+    { id: "ehrenamt", label: nav.ehrenamt },
+    { id: "lebenslauf", label: nav.lebenslauf },
+    { id: "projekt", label: nav.projekt },
   ];
 }
 
+/* Page order follows the new priority: the volunteer work and the pitch come
+   before the CV, not after it. Each deep-dive tear stays welded to the
+   section it tears open (ConfiTear under Engagement, CleanroomTear under
+   Resume), so they move as pairs. */
 function App() {
-  const railItems = useRailItems();
+  const [, t] = useLang();
+  const skipItems = useSkipperItems();
   return (
     <main>
       <LanguageSwitcherMount />
       <ContactChipMount />
-      <SectionRail items={railItems} />
+      <SectionSkipper items={skipItems} label={t("nav").skipLabel} />
       <Hero />
       <Intro />
+      <Seeking />
       <Story />
-      <Resume />
-      <CleanroomTear />
       <Engagement />
       <ConfiTear />
+      <Resume />
+      <CleanroomTear />
       <Reunion />
       <Projects />
       <Footer />

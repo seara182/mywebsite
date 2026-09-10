@@ -9,7 +9,7 @@ const {
   Reveal,
   Parallax,
   Pressable,
-  SectionRail,
+  SectionSkipper,
   Eyebrow,
   Badge,
   GlowShape,
@@ -23,7 +23,8 @@ const {
 } = window.MJ;
 const {
   Hero,
-  Intro
+  Intro,
+  Seeking
 } = window.SECTIONS_A;
 const {
   Story,
@@ -252,7 +253,7 @@ function Engagement() {
     edge: "top",
     color: "var(--paper)",
     seed: 31,
-    shadow: "rgba(120,52,28,0.5)"
+    shadow: "rgb(var(--accent-2-deep-rgb) / 0.5)"
   }), /*#__PURE__*/React.createElement(GlowShape, {
     shape: "blob",
     glow: "white",
@@ -465,7 +466,7 @@ function Projects() {
     style: {
       position: "absolute",
       inset: 0,
-      background: "radial-gradient(120% 120% at 80% 0%, rgba(232,154,92,0.5), transparent 55%)"
+      background: "radial-gradient(120% 120% at 80% 0%, rgb(var(--accent-2-glow-rgb) / 0.5), transparent 55%)"
     }
   }), /*#__PURE__*/React.createElement("div", {
     style: {
@@ -674,38 +675,39 @@ function Footer() {
   })))));
 }
 
-/* The rail's labels reuse each section's own eyebrow/kicker, so it stays
-   translated in all five languages without a new i18n surface. */
-function useRailItems() {
+/* Four destinations, in page order. The dot rail drew its labels from each
+   section's own eyebrow, which gave it things like "Moin." and "Nebenbei" -
+   fine as a tooltip, useless as a navigation label. The skipper gets its own
+   short strings instead; they are the only new translation surface here. */
+function useSkipperItems() {
   const [, t] = useLang();
+  const nav = t("nav");
   return [{
-    id: "top",
-    label: "Mika Jeske"
-  }, {
-    id: "intro",
-    label: t("intro.eyebrow")
-  }, {
-    id: "story",
-    label: t("story.eyebrow")
-  }, {
-    id: "lebenslauf",
-    label: t("resume").kicker
+    id: "werkstudent",
+    label: nav.werkstudent
   }, {
     id: "ehrenamt",
-    label: t("engagementSection").eyebrow
+    label: nav.ehrenamt
   }, {
-    id: "nebenbei",
-    label: t("reunion").eyebrow
+    id: "lebenslauf",
+    label: nav.lebenslauf
   }, {
     id: "projekt",
-    label: t("projects").kicker
+    label: nav.projekt
   }];
 }
+
+/* Page order follows the new priority: the volunteer work and the pitch come
+   before the CV, not after it. Each deep-dive tear stays welded to the
+   section it tears open (ConfiTear under Engagement, CleanroomTear under
+   Resume), so they move as pairs. */
 function App() {
-  const railItems = useRailItems();
-  return /*#__PURE__*/React.createElement("main", null, /*#__PURE__*/React.createElement(LanguageSwitcherMount, null), /*#__PURE__*/React.createElement(ContactChipMount, null), /*#__PURE__*/React.createElement(SectionRail, {
-    items: railItems
-  }), /*#__PURE__*/React.createElement(Hero, null), /*#__PURE__*/React.createElement(Intro, null), /*#__PURE__*/React.createElement(Story, null), /*#__PURE__*/React.createElement(Resume, null), /*#__PURE__*/React.createElement(CleanroomTear, null), /*#__PURE__*/React.createElement(Engagement, null), /*#__PURE__*/React.createElement(ConfiTear, null), /*#__PURE__*/React.createElement(Reunion, null), /*#__PURE__*/React.createElement(Projects, null), /*#__PURE__*/React.createElement(Footer, null));
+  const [, t] = useLang();
+  const skipItems = useSkipperItems();
+  return /*#__PURE__*/React.createElement("main", null, /*#__PURE__*/React.createElement(LanguageSwitcherMount, null), /*#__PURE__*/React.createElement(ContactChipMount, null), /*#__PURE__*/React.createElement(SectionSkipper, {
+    items: skipItems,
+    label: t("nav").skipLabel
+  }), /*#__PURE__*/React.createElement(Hero, null), /*#__PURE__*/React.createElement(Intro, null), /*#__PURE__*/React.createElement(Seeking, null), /*#__PURE__*/React.createElement(Story, null), /*#__PURE__*/React.createElement(Engagement, null), /*#__PURE__*/React.createElement(ConfiTear, null), /*#__PURE__*/React.createElement(Resume, null), /*#__PURE__*/React.createElement(CleanroomTear, null), /*#__PURE__*/React.createElement(Reunion, null), /*#__PURE__*/React.createElement(Projects, null), /*#__PURE__*/React.createElement(Footer, null));
 }
 
 /* Expose the root component so the build-time prerender (build.mjs) can render it

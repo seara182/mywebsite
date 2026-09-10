@@ -7,6 +7,8 @@ const {
   asset,
   Reveal,
   Parallax,
+  Pressable,
+  SplitFeature,
   Eyebrow,
   Badge,
   GlowShape,
@@ -242,7 +244,15 @@ function Hero() {
   }))));
 }
 
-/* ---------- Intro (navy accent band) ---------- */
+/* ---------- Intro (navy accent band) ----------
+   The DGZfP photograph used to be one of two small blobs floating in the
+   right half, visible only above 1440px. It is the strongest image on the
+   page - him at the award, in the field he is applying into - so it now
+   fills half the band edge to edge and is visible at every width.
+
+   The ambient glow circle that used to sit top-right went with it: that
+   corner is the photograph now, and a near-black disc floating over a
+   photograph is furniture, not motif. */
 function Intro() {
   const [, t] = useLang();
   const ip = t("intro.photos") || [];
@@ -259,65 +269,18 @@ function Intro() {
     edge: "top",
     color: "var(--paper)",
     seed: 5,
-    shadow: "rgba(15,23,42,0.55)"
-  }), /*#__PURE__*/React.createElement(GlowShape, {
-    shape: "circle",
-    glow: "white",
-    size: 300,
-    ink: "var(--navy-deep)",
-    parallax: "--depth-3",
-    className: "intro-glow",
-    style: {
-      position: "absolute",
-      top: "6%",
-      right: "4%",
-      pointerEvents: "none"
-    }
+    shadow: "rgb(var(--accent-1-deep-rgb) / 0.55)"
   }), /*#__PURE__*/React.createElement("div", {
-    className: "fill-slot fill-slot--right"
-  }, /*#__PURE__*/React.createElement(Reveal, null, /*#__PURE__*/React.createElement(BlobCluster, {
-    style: {
-      width: 640,
-      height: 820
-    },
-    photos: [{
-      src: asset("ci/assets/Bilder/Weitere/i_e_chem.jpeg"),
-      caption: ip[0],
-      glow: "white",
-      w: 300,
-      h: 430,
-      focus: "50% 38%",
-      rot: -4,
-      parallax: "--depth-2",
-      radius: "62% 38% 46% 54% / 58% 52% 48% 42%",
-      pos: {
-        top: 0,
-        left: 0
-      }
-    }, {
-      src: asset("ci/assets/Bilder/Weitere/i_zfp.jpeg"),
-      caption: ip[1],
-      glow: "white",
-      w: 380,
-      h: 248,
-      focus: "50% 45%",
-      rot: 5,
-      parallax: "--depth-1",
-      radius: "46% 54% 60% 40% / 52% 44% 56% 48%",
-      pos: {
-        top: 520,
-        left: 252
-      }
-    }]
-  }))), /*#__PURE__*/React.createElement("div", {
-    className: "container align-track",
+    className: "container",
     style: {
       position: "relative",
       zIndex: 1
     }
-  }, /*#__PURE__*/React.createElement(AlignBlock, {
-    align: "left",
-    maxWidth: "58ch"
+  }, /*#__PURE__*/React.createElement(SplitFeature, {
+    src: asset("ci/assets/Bilder/Weitere/i_zfp.jpeg"),
+    alt: ip[0],
+    caption: ip[0],
+    focus: "50% 42%"
   }, /*#__PURE__*/React.createElement(Reveal, null, /*#__PURE__*/React.createElement(Eyebrow, {
     color: "var(--sienna-glow)"
   }, t("intro.eyebrow"))), /*#__PURE__*/React.createElement(Reveal, {
@@ -331,7 +294,7 @@ function Intro() {
       letterSpacing: "var(--ls-heading)",
       color: "var(--on-dark-strong)",
       margin: "20px 0 0",
-      maxWidth: "20ch"
+      maxWidth: "18ch"
     }
   }, t("intro.headline"))), /*#__PURE__*/React.createElement(Reveal, {
     delay: 160
@@ -341,7 +304,7 @@ function Intro() {
       lineHeight: "var(--lh-relaxed)",
       color: "var(--on-dark-body)",
       margin: "24px 0 0",
-      maxWidth: "54ch"
+      maxWidth: "46ch"
     }
   }, t("intro.p1"))), /*#__PURE__*/React.createElement(Reveal, {
     delay: 220
@@ -351,32 +314,93 @@ function Intro() {
       lineHeight: "var(--lh-relaxed)",
       color: "var(--on-dark-body)",
       margin: "16px 0 0",
-      maxWidth: "54ch"
+      maxWidth: "46ch"
     }
-  }, t("intro.p2"))), /*#__PURE__*/React.createElement(Reveal, {
-    delay: 280
-  }, /*#__PURE__*/React.createElement("p", {
+  }, t("intro.p2"))))));
+}
+
+/* ---------- Seeking ("Was ich suche") ----------
+   The pitch used to end on "available immediately, I can start Monday",
+   written for a full-time search that no longer exists. This replaces it
+   with the handful of facts a recruiter actually needs, set as a spec list
+   rather than a paragraph so it survives a five-second skim. It is also
+   the target the skipper's first link points at. */
+function Seeking() {
+  const [, t] = useLang();
+  const s = t("seeking");
+  return /*#__PURE__*/React.createElement("section", {
+    id: "werkstudent",
+    "data-section": true,
     style: {
-      fontSize: "var(--fs-lead)",
-      lineHeight: "var(--lh-relaxed)",
-      color: "var(--on-dark-body)",
-      margin: "16px 0 0",
-      maxWidth: "54ch"
+      position: "relative",
+      overflow: "hidden",
+      padding: "var(--section-y-sm) 0 var(--section-y)"
     }
-  }, t("intro.p3"))), /*#__PURE__*/React.createElement(Reveal, {
-    delay: 340
-  }, /*#__PURE__*/React.createElement("p", {
+  }, /*#__PURE__*/React.createElement(WaveBlend, {
+    edge: "top",
+    color: "var(--navy)",
+    seed: 63,
+    shadow: "rgb(var(--accent-1-rgb) / 0.45)"
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "container",
     style: {
-      fontSize: "var(--fs-lead)",
-      lineHeight: "var(--lh-relaxed)",
-      color: "var(--on-dark-strong)",
-      margin: "16px 0 0",
-      maxWidth: "54ch"
+      position: "relative",
+      zIndex: 1
     }
-  }, t("intro.p4"))))));
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "seeking"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Reveal, null, /*#__PURE__*/React.createElement(Eyebrow, null, s.eyebrow)), /*#__PURE__*/React.createElement(Reveal, {
+    delay: 80
+  }, /*#__PURE__*/React.createElement("h2", {
+    style: {
+      fontFamily: "var(--font-display)",
+      fontWeight: 600,
+      fontSize: "var(--fs-h2)",
+      lineHeight: 1.15,
+      letterSpacing: "var(--ls-heading)",
+      color: "var(--heading)",
+      margin: "16px 0 0",
+      maxWidth: "14ch"
+    }
+  }, s.heading))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Reveal, null, /*#__PURE__*/React.createElement("dl", {
+    className: "seeking__list"
+  }, s.rows.map((r, i) => /*#__PURE__*/React.createElement(React.Fragment, {
+    key: i
+  }, /*#__PURE__*/React.createElement("dt", {
+    className: "seeking__k"
+  }, r.k), /*#__PURE__*/React.createElement("dd", {
+    className: "seeking__v"
+  }, r.v))))), /*#__PURE__*/React.createElement(Reveal, {
+    delay: 80
+  }, /*#__PURE__*/React.createElement(Pressable, {
+    as: "a",
+    className: "cta-ink",
+    href: "https://www.linkedin.com/in/mika-jeske-835092313/",
+    target: "_blank",
+    rel: "noopener",
+    lift: -3,
+    style: {
+      display: "inline-flex",
+      alignItems: "center",
+      gap: 8,
+      marginTop: "clamp(24px,3vw,36px)",
+      padding: "12px 22px",
+      background: "var(--ink)",
+      color: "var(--paper)",
+      borderRadius: "var(--radius-md)",
+      fontFamily: "var(--font-text)",
+      fontSize: "var(--fs-body)",
+      fontWeight: 600,
+      textDecoration: "none"
+    }
+  }, s.cta, " ", /*#__PURE__*/React.createElement("span", {
+    "aria-hidden": true,
+    className: "cta-arrow"
+  }, "\u2192")))))));
 }
 window.SECTIONS_A = {
   Hero,
-  Intro
+  Intro,
+  Seeking
 };
 })();

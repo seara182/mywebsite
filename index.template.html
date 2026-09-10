@@ -67,65 +67,193 @@
   #root { position: relative; z-index: 0; }
 
   /* ------------------------------------------------------------
-     Section rail. The brief rules out a classic menu but allows a
-     discreet scroll indicator, so this reports position and offers a
-     jump - nothing else. A hairline and seven dots: no pill, no border,
-     no shadow. It sits at 40% until you approach it. Pointer-only
-     chrome, hidden below 1024px where the phone gets the scroll
-     narrative uninterrupted.
+     Section skipper. Replaces the dot rail. The brief rules out a
+     classic navbar, so this is four text links and a hairline: no
+     pills, no dropdown, no box around each item. It is absent until
+     the hero has scrolled away, which is what keeps the promised
+     name-only first frame intact.
      ------------------------------------------------------------ */
-  .section-rail { display: none; }
-  @media (min-width: 1024px) {
-    .section-rail {
-      display: flex; flex-direction: column; align-items: center; gap: 10px;
-      position: fixed; top: 50%; right: clamp(12px, 1.3vw, 30px);
-      transform: translateY(-50%);
-      z-index: 58; padding: 14px 7px;
-      opacity: 0.4;
-      transition: opacity .35s var(--ease-out);
-    }
-    .section-rail:hover, .section-rail:focus-within { opacity: 1; }
-  }
-  .section-rail__track {
-    position: absolute; top: 16px; bottom: 16px; width: 1px;
-    background: var(--hairline-strong); z-index: 0;
-  }
-  .section-rail__dot {
-    position: relative; z-index: 1;
-    width: 26px; height: 22px; padding: 0; margin: 0;
-    border: none; background: none; cursor: pointer;
-    display: grid; place-items: center;
-  }
-  .section-rail__dot::before {
-    content: ""; width: 6px; height: 6px; border-radius: 50%;
-    background: var(--hairline-strong);
-    transition: transform .3s var(--ease-spring), background .3s var(--ease-out), box-shadow .3s var(--ease-out);
-  }
-  .section-rail__dot:hover::before { transform: scale(1.4); background: var(--text-muted); }
-  .section-rail__dot.is-active::before {
-    background: var(--sienna); transform: scale(1.45);
-    box-shadow: 0 0 0 3px rgba(188,90,55,0.14);
-  }
-  .section-rail__dot:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
-  .section-rail__label {
-    position: absolute; right: calc(100% + 10px); white-space: nowrap;
-    font-family: var(--font-text); font-size: 11px; font-weight: 600;
-    letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-body);
+  .skipper {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 58;
+    display: flex; justify-content: center;
     background: var(--material-chrome);
     -webkit-backdrop-filter: var(--blur-chrome); backdrop-filter: var(--blur-chrome);
-    border: 1px solid var(--chrome-hairline); border-radius: var(--radius-pill);
-    padding: 6px 11px; pointer-events: none;
-    opacity: 0; transform: translateX(6px);
-    transition: opacity .24s var(--ease-out), transform .24s var(--ease-out);
+    border-bottom: 1px solid var(--chrome-hairline);
+    opacity: 0; transform: translateY(-100%); pointer-events: none;
+    transition: opacity .3s var(--ease-out), transform .42s var(--ease-emphasized);
   }
-  .section-rail__dot:hover .section-rail__label,
-  .section-rail__dot:focus-visible .section-rail__label { opacity: 1; transform: none; }
+  .skipper.is-visible { opacity: 1; transform: none; pointer-events: auto; }
+  .skipper__track {
+    display: flex; align-items: center;
+    width: 100%; max-width: var(--content);
+    /* --gutter, not --gutter-sm, so the first link sits on the same optical
+       line as every section heading below it */
+    padding: 0 var(--gutter);
+    overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+    scroll-snap-type: x proximity; overscroll-behavior-x: contain;
+  }
+  .skipper__track::-webkit-scrollbar { display: none; }
+  .skipper__link {
+    flex: none; scroll-snap-align: start;
+    padding: 15px 0; white-space: nowrap; text-decoration: none;
+    font-family: var(--font-text); font-size: 12px; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-muted);
+    transition: color .2s var(--ease-out);
+  }
+  /* the separator is a pseudo-element, so it never reaches the a11y tree */
+  .skipper__link + .skipper__link::before {
+    content: "\00B7"; display: inline-block; margin: 0 14px;
+    color: var(--hairline-strong); font-weight: 400; letter-spacing: 0;
+  }
+  .skipper__link:hover { color: var(--ink); }
+  .skipper__link.is-active { color: var(--accent); }
+  .skipper__link:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+  /* The language globe is fixed at top-left and would otherwise be
+     half-swallowed by the bar. It drops below it instead, in step with the
+     bar's own entrance. The class is toggled by SectionSkipper. */
+  .lang-switcher { transition: top .42s var(--ease-emphasized), opacity .6s var(--ease-emphasized); }
+  .has-skipper .lang-switcher { top: 68px; }
+
+  @media (max-width: 560px) {
+    .skipper__link { font-size: 11px; padding: 13px 0; }
+    .skipper__link + .skipper__link::before { margin: 0 10px; }
+    .has-skipper .lang-switcher { top: 62px; }
+  }
   @media (prefers-reduced-motion: reduce) {
-    .section-rail__dot::before, .section-rail__label { transition: none; }
-    .section-rail__label { transform: none; }
+    .skipper { transform: none; transition: opacity .2s linear; }
+    .lang-switcher { transition: opacity .2s linear; }
   }
   @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
-    .section-rail__label { background: var(--paper); }
+    .skipper { background: var(--paper); }
+  }
+
+  /* ------------------------------------------------------------
+     "Was ich suche" spec list. A recruiter skimming for thirty seconds
+     needs four facts, not a paragraph - so this is set as a data sheet:
+     mono keys, hairline rules, one fact per row.
+     ------------------------------------------------------------ */
+  .seeking {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: clamp(24px, 4vw, 72px);
+    align-items: start;
+  }
+  .seeking__list {
+    display: grid; grid-template-columns: max-content minmax(0, 1fr);
+    gap: 0 clamp(20px, 2.6vw, 40px); margin: 0;
+  }
+  .seeking__k, .seeking__v {
+    border-bottom: 1px solid var(--hairline);
+    padding: 12px 0;
+  }
+  .seeking__list > .seeking__k:first-of-type,
+  .seeking__list > .seeking__k:first-of-type + .seeking__v { padding-top: 0; }
+  .seeking__k {
+    font-family: var(--font-mono); font-size: var(--fs-caption);
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted);
+  }
+  .seeking__v {
+    margin: 0; font-size: var(--fs-body); line-height: 1.45;
+    color: var(--heading); font-weight: 500;
+  }
+  @media (max-width: 860px) {
+    .seeking { grid-template-columns: 1fr; }
+    /* stacked, the two-column rule pattern falls apart - each row becomes a
+       label sitting directly on its value, with the rule under the pair */
+    .seeking__list { grid-template-columns: 1fr; gap: 0; }
+    .seeking__k { border-bottom: none; padding: 14px 0 2px; }
+    .seeking__list > .seeking__k:first-of-type + .seeking__v { padding-top: 0; }
+    .seeking__v { padding-top: 0; }
+  }
+
+  /* ------------------------------------------------------------
+     SplitFeature. Copy in one half, photograph filling the other out
+     to the true viewport edge. The image is MASKED INTO the section
+     rather than framed on it: the inner edge carries the organic
+     radius, the outer edge runs flush off the page.
+
+     .split escapes whatever centred .container it sits in via the
+     margin-left:50% / translateX(-50%) pair. A centred container's
+     content-box centre IS the viewport centre, so that lands the left
+     edge at 0 for any container width - which is what lets one
+     component work inside the torn panel and on the accent band alike.
+     ------------------------------------------------------------ */
+  .split {
+    /* 100vw counts the scrollbar, so a raw 100vw bleed overshoots by the
+       scrollbar width and pushes half of that off each side. widgets.js
+       publishes the real difference as --sbw; without JS it is 0, which is
+       the old behaviour rather than a broken one. */
+    width: calc(100vw - var(--sbw, 0px));
+    margin-left: 50%; transform: translateX(-50%);
+    display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 0;
+  }
+  .split__copy {
+    min-width: 0;
+    padding-block: clamp(28px, 4vw, 64px);
+    padding-left: max(var(--gutter), calc(50vw - var(--content) / 2));
+    padding-right: clamp(28px, 4vw, 72px);
+  }
+  .split--flip .split__copy {
+    grid-column: 2; grid-row: 1;
+    padding-left: clamp(28px, 4vw, 72px);
+    padding-right: max(var(--gutter), calc(50vw - var(--content) / 2));
+  }
+  .split__media {
+    position: relative; margin: 0; min-width: 0; overflow: hidden;
+    height: clamp(360px, 40vw, 620px);
+    border-radius: 34% 0 0 34% / 24% 0 0 24%;
+  }
+  .split--flip .split__media {
+    grid-column: 1; grid-row: 1;
+    border-radius: 0 34% 34% 0 / 0 24% 24% 0;
+  }
+  .split__img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  /* The caption hangs off the OUTER edge, which is the square one. On the
+     masked side the radius cuts a long way in at exactly the caption's line -
+     at 2560 it swallowed the first half of the string - so that side is
+     padded clear of the curve instead. */
+  .split__cap {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    padding: 56px clamp(20px, 2.4vw, 34px) 16px 36%;
+    text-align: right;
+    font-family: var(--font-mono); font-size: var(--fs-caption); line-height: 1.45;
+    color: rgba(255,255,255,0.92);
+    /* the scrim carries a dark photograph; the shadow carries a light one */
+    text-shadow: 0 1px 3px rgba(0,0,0,0.75);
+    background: linear-gradient(180deg, transparent, rgba(0,0,0,0.30) 38%, rgba(0,0,0,0.72));
+  }
+  .split--flip .split__cap {
+    padding-left: clamp(20px, 2.4vw, 34px); padding-right: 36%;
+    text-align: left;
+  }
+  /* ultrawide: the photograph must not become a billboard, so the media
+     column stops growing and the copy column takes the extra width */
+  @media (min-width: 1760px) {
+    .split { grid-template-columns: 1fr minmax(0, 38vw); }
+    .split--flip { grid-template-columns: minmax(0, 38vw) 1fr; }
+  }
+  /* stacked: image first, then the copy - the photograph is the hook */
+  @media (max-width: 900px) {
+    .split, .split--flip { grid-template-columns: 1fr; }
+    .split__media, .split--flip .split__media {
+      grid-column: 1; grid-row: 1;
+      height: clamp(230px, 42vh, 360px);
+      border-radius: 0 0 30% 30% / 0 0 9% 9%;
+    }
+    .split__copy, .split--flip .split__copy {
+      grid-column: 1; grid-row: 2;
+      padding-inline: var(--gutter);
+      padding-block: clamp(24px, 6vw, 40px);
+    }
+    /* stacked, the mask is along the bottom, so the caption clears both
+       corners and centres instead of hanging off one edge */
+    .split__cap, .split--flip .split__cap {
+      padding: 52px var(--gutter) 14px; text-align: left;
+      font-size: 11px;
+      background: linear-gradient(180deg, transparent, rgba(0,0,0,0.38) 34%, rgba(0,0,0,0.78));
+    }
   }
 
   /* ------------------------------------------------------------
@@ -134,11 +262,11 @@
      ------------------------------------------------------------ */
   .cta-arrow { display: inline-block; transition: transform .24s var(--ease-out); }
   .pressable:hover .cta-arrow { transform: translateX(3px); }
-  .cta-ink:hover { box-shadow: 0 14px 30px -16px rgba(20,20,26,0.55), 0 28px 60px -34px rgba(188,90,55,0.5); }
+  .cta-ink:hover { box-shadow: 0 14px 30px -16px rgba(20,20,26,0.55), 0 28px 60px -34px rgb(var(--accent-2-rgb) / 0.5); }
   .cta-outline { transition: border-color .24s var(--ease-out), background .24s var(--ease-out), color .24s var(--ease-out); }
-  .cta-outline:hover { border-color: rgba(188,90,55,0.55); color: var(--sienna-deep); background: rgba(188,90,55,0.06); }
-  .award-card:hover { box-shadow: var(--shadow-lg), 0 44px 80px -52px rgba(188,90,55,0.5); }
-  .bay-preview:hover { box-shadow: var(--shadow-lg), 0 50px 90px -44px rgba(232,154,92,0.42); }
+  .cta-outline:hover { border-color: rgb(var(--accent-2-rgb) / 0.55); color: var(--sienna-deep); background: rgb(var(--accent-2-rgb) / 0.06); }
+  .award-card:hover { box-shadow: var(--shadow-lg), 0 44px 80px -52px rgb(var(--accent-2-rgb) / 0.5); }
+  .bay-preview:hover { box-shadow: var(--shadow-lg), 0 50px 90px -44px rgb(var(--accent-2-glow-rgb) / 0.42); }
   @media (prefers-reduced-motion: reduce) { .pressable:hover .cta-arrow { transform: none; } }
 
   /* Resume columns. Bildungsweg is the shorter of the two timelines, so on
@@ -151,7 +279,7 @@
 
   /* torn-paper deep-dives + photo treatments */
   .tear-trigger:hover .tear-label { color: var(--sienna); }
-  .tear-trigger:hover .tear-label > span:last-child { background: rgba(188,90,55,0.10); border-color: rgba(188,90,55,0.30); }
+  .tear-trigger:hover .tear-label > span:last-child { background: rgb(var(--accent-2-rgb) / 0.10); border-color: rgb(var(--accent-2-rgb) / 0.30); }
   .loose-photo:hover { transform: rotate(0deg) translateY(-4px) !important; }
   .polaroid:hover { transform: rotate(0deg) scale(1.02) !important; z-index: 2; }
   .ggi-link { transition: transform .24s var(--ease-out), box-shadow .24s var(--ease-out); }
@@ -271,7 +399,10 @@
   <!-- Without JS the scroll-reveal animations never fire; force the prerendered
        content visible so the page is fully readable without script execution. -->
   <style>.js-reveal, .hero-line, .hero-photo { opacity: 1 !important; transform: none !important; filter: none !important; }
-         .parallax { transform: none !important; }</style>
+         .parallax { transform: none !important; }
+         /* the skipper is revealed by an observer, so without JS it would
+            never appear at all: make it a plain static row at the top. */
+         .skipper { position: static; opacity: 1 !important; transform: none !important; pointer-events: auto !important; }</style>
 </noscript>
 </head>
 <body>

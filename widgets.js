@@ -28,6 +28,21 @@
     setTimeout(function () { el.classList.add("is-ready"); }, CHROME_DELAY);
   }
 
+  /* ---------- scrollbar width ----------
+     The full-bleed split sections are sized in vw, and vw counts the
+     scrollbar. Publishing the real difference lets the CSS subtract it
+     instead of overshooting by ~15px on Windows. */
+  function measureScrollbar() {
+    var w = window.innerWidth - document.documentElement.clientWidth;
+    document.documentElement.style.setProperty("--sbw", (w > 0 ? w : 0) + "px");
+  }
+  /* This file is also loaded into the Node prerender sandbox (build.mjs), where
+     there is no document - so nothing may touch the DOM at module scope. */
+  if (typeof document !== "undefined") {
+    measureScrollbar();
+    window.addEventListener("resize", measureScrollbar, { passive: true });
+  }
+
   /* ---------- language switcher ---------- */
   function mountLanguageSwitcher(root) {
     var wrap = document.createElement("div");

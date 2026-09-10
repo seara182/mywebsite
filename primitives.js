@@ -287,24 +287,51 @@ function Pressable({
   }, rest), children);
 }
 
-/* ---------- SectionRail ----------
-   The brief allows a discreet scroll indicator but no classic menu, so
-   this is a hairline track of dots on the right edge: it reports where
-   you are and lets you jump, and nothing else. Desktop-only (hidden
-   below 1024px in index.template.html) and frosted, so it reads as
-   chrome rather than content. */
-function SectionRail({
-  items = []
+/* ---------- SectionSkipper ----------
+   Replaces the dot rail. The brief rules out a classic navbar AND asks
+   that the first frame is the name alone, so this is neither: a thin row
+   of text links that does not exist until the hero has left the viewport.
+
+   Two deliberate choices:
+   - Real <a href="#id"> anchors, not buttons. The page is prerendered, so
+     with JS disabled the links still navigate; the smooth scroll and the
+     active-section highlight are enhancement layered on top.
+   - Visibility is a CLASS toggle, never an inline style computed during
+     render. The markup is rendered in Node and hydrated in the browser,
+     and React keeps the SERVER's inline style when the two disagree - the
+     same trap that broke Reveal and TornSection earlier. */
+function SectionSkipper({
+  items = [],
+  label = "Zum Abschnitt springen"
 }) {
-  const [active, setActive] = useState(0);
+  const [past, setPast] = useState(false);
+  const [active, setActive] = useState("");
+
+  /* past-the-hero gate */
+  useEffect(() => {
+    const hero = document.querySelector(".hero");
+    if (!hero) return;
+    const io = new IntersectionObserver(([e]) => setPast(!e.isIntersecting), {
+      threshold: 0
+    });
+    io.observe(hero);
+    return () => io.disconnect();
+  }, []);
+
+  /* The language globe is fixed chrome owned by widgets.js, outside React.
+     Rather than duplicate the observer there, the skipper publishes its own
+     state as a class on <html> and the globe's CSS reacts to it. */
+  useEffect(() => {
+    document.documentElement.classList.toggle("has-skipper", past);
+  }, [past]);
+
+  /* which section is currently under the reader */
   useEffect(() => {
     const els = items.map(it => document.getElementById(it.id)).filter(Boolean);
     if (!els.length) return;
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => {
-        if (!e.isIntersecting) return;
-        const k = els.indexOf(e.target);
-        if (k > -1) setActive(k);
+        if (e.isIntersecting) setActive(e.target.id);
       });
     }, {
       rootMargin: "-45% 0px -45% 0px"
@@ -312,31 +339,70 @@ function SectionRail({
     els.forEach(el => io.observe(el));
     return () => io.disconnect();
   }, [items.length]);
-  function jump(id) {
+  function jump(e, id) {
     const el = document.getElementById(id);
-    if (!el) return;
+    if (!el) return; /* no target: let the anchor do its job */
+    e.preventDefault();
     el.scrollIntoView({
       behavior: prefersReduced() ? "auto" : "smooth",
       block: "start"
     });
+    if (window.history && window.history.replaceState) window.history.replaceState(null, "", "#" + id);
   }
   return /*#__PURE__*/React.createElement("nav", {
-    className: "section-rail",
-    "aria-label": "Abschnitte"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "section-rail__track",
-    "aria-hidden": "true"
-  }), items.map((it, i) => /*#__PURE__*/React.createElement("button", {
+    className: "skipper" + (past ? " is-visible" : ""),
+    "aria-label": label
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "skipper__track"
+  }, items.map(it => /*#__PURE__*/React.createElement("a", {
     key: it.id,
-    type: "button",
-    className: "section-rail__dot" + (i === active ? " is-active" : ""),
-    "aria-label": it.label,
-    "aria-current": i === active ? "true" : "false",
-    onClick: () => jump(it.id)
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "section-rail__label",
-    "aria-hidden": "true"
+    href: "#" + it.id,
+    className: "skipper__link" + (active === it.id ? " is-active" : ""),
+    "aria-current": active === it.id ? "true" : "false",
+    onClick: e => jump(e, it.id)
   }, it.label))));
+}
+
+/* ---------- SplitFeature ----------
+   Copy in one half, a photograph filling the other out to the real
+   viewport edge - masked INTO the section rather than framed on top of
+   it, so only the inner edge carries the organic radius and the outer
+   edge runs flush off the page.
+
+   It deliberately does NOT sit inside .container: a grid item cannot
+   escape a centred container reliably (the percentage in the usual
+   `calc(50% - 50vw)` bleed resolves against the grid area, not the
+   container). So the grid spans the full width and the COPY cell carries
+   the padding that lines its text up with the content column instead.
+   See .split* in index.template.html. */
+function SplitFeature({
+  src,
+  alt,
+  caption,
+  focus = "50% 50%",
+  flip = false,
+  children,
+  className = "",
+  style = {}
+}) {
+  return /*#__PURE__*/React.createElement("div", {
+    className: ("split" + (flip ? " split--flip" : "") + (className ? " " + className : "")).trim(),
+    style: style
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "split__copy"
+  }, children), /*#__PURE__*/React.createElement("figure", {
+    className: "split__media"
+  }, /*#__PURE__*/React.createElement("img", {
+    className: "split__img",
+    src: src,
+    alt: alt,
+    loading: "lazy",
+    style: {
+      objectPosition: focus
+    }
+  }), caption ? /*#__PURE__*/React.createElement("figcaption", {
+    className: "split__cap"
+  }, caption) : null));
 }
 
 /* ---------- AlignBlock ----------
@@ -399,14 +465,14 @@ function Badge({
       border: "1px solid var(--border)"
     },
     accent: {
-      background: "rgba(188,90,55,0.12)",
+      background: "rgb(var(--accent-2-rgb) / 0.12)",
       color: "var(--sienna-deep)",
-      border: "1px solid rgba(188,90,55,0.22)"
+      border: "1px solid rgb(var(--accent-2-rgb) / 0.22)"
     },
     navy: {
-      background: "rgba(28,44,76,0.10)",
+      background: "rgb(var(--accent-1-rgb) / 0.10)",
       color: "var(--navy)",
-      border: "1px solid rgba(28,44,76,0.20)"
+      border: "1px solid rgb(var(--accent-1-rgb) / 0.20)"
     },
     onDark: {
       background: "rgba(255,255,255,0.10)",
@@ -692,7 +758,7 @@ function FigurePlot({
       background: "var(--paper)",
       border: "1px solid var(--hairline)",
       borderRadius: "var(--radius-lg)",
-      boxShadow: "0 10px 26px -14px rgba(20,20,26,0.3), 0 36px 70px -40px rgba(188,90,55,0.4)",
+      boxShadow: "0 10px 26px -14px rgba(20,20,26,0.3), 0 36px 70px -40px rgb(var(--accent-2-rgb) / 0.4)",
       maxWidth: width + 56
     }
   }, /*#__PURE__*/React.createElement("svg", {
@@ -1072,7 +1138,8 @@ window.MJ = {
   Reveal,
   Parallax,
   Pressable,
-  SectionRail,
+  SectionSkipper,
+  SplitFeature,
   Eyebrow,
   Badge,
   GlowShape,
