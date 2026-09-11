@@ -1,6 +1,7 @@
 .claude/
 projects/*
 !projects/sports_app/
+!projects/sports-window/
 _notes/
 private/master/CLAUDE.md
 PWChange.bat
@@ -11,3 +12,32 @@ Mika Jeske Design System
 # build tooling — the compiled *.js files ARE committed (GitHub Pages serves them),
 # but the toolchain that produces them is not
 node_modules/
+npm-debug.log*
+.npm/
+
+# browser automation / screenshots used while building the layout
+.playwright-mcp/
+playwright-report/
+test-results/
+*.local.png
+screenshot*.png
+seam*.png
+
+# editors + OS junk
+.vscode/
+.idea/
+*.code-workspace
+.DS_Store
+Thumbs.db
+desktop.ini
+*~
+*.swp
+
+# scratch + secrets
+.env
+.env.*
+*.local
+*.bak
+*.tmp
+*.log
+.cache/

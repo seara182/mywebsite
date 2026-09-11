@@ -6,7 +6,7 @@
 /* ---------- floating chrome ----------
    The globe and the contact chip are the only translucent surfaces on the
    site. Content surfaces stay opaque - this is not a glassmorphism brand -
-   but chrome floats over paper, navy, sienna and photographs alike, so it
+   but chrome floats over paper, plum, sage and photographs alike, so it
    needs to be a material rather than a colour to stay legible everywhere.
    Both arrive at the end of the hero sequence via .is-ready (widgets.js). */
 .lang-switcher, .contact-chip-wrap {
@@ -71,7 +71,7 @@
   transition: opacity .3s var(--ease-spring), transform .3s var(--ease-spring);
 }
 .lang-menu.is-open .lang-option { opacity: 1; transform: translateY(0) scale(1); }
-.lang-option[aria-current="true"] { color: var(--sienna-deep); border-color: rgb(var(--accent-2-rgb) / 0.35); background: rgb(var(--accent-2-rgb) / 0.08); }
+.lang-option[aria-current="true"] { color: var(--sage-deep); border-color: rgb(var(--accent-2-rgb) / 0.35); background: rgb(var(--accent-2-rgb) / 0.08); }
 .lang-option:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 @media (prefers-reduced-motion: reduce) {
@@ -85,7 +85,7 @@
 /* .is-faded must win over .is-ready - it is the later rule, same specificity */
 .contact-chip-wrap.is-faded { opacity: 0; pointer-events: none; }
 
-/* The chip keeps its material - it floats over navy, sienna and photographs
+/* The chip keeps its material - it floats over plum, sage and photographs
    for the whole page and bare text washed out on all three - but it is the
    quietest version of that: hairline only, no shadow, muted until hover. */
 .contact-chip {

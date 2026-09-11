@@ -1,8 +1,5 @@
 // AUTO-GENERATED from sections-a.jsx by build.mjs — do not edit directly.
 (function () {
-/* ===========================================================
-   Mika Jeske — landing page sections (single-scroll narrative)
-   ============================================================ */
 const {
   asset,
   Reveal,
@@ -12,6 +9,7 @@ const {
   Eyebrow,
   Badge,
   GlowShape,
+  Scribble,
   WaveBlend,
   TimelineEntry,
   AlignBlock,
@@ -19,15 +17,7 @@ const {
   useLang
 } = window.MJ;
 
-/* ---------- Hero ----------
-   The brief asks that on load you see the NAME and nothing else, and
-   that it should arrive with movement and depth rather than a plain
-   fade. So the hero is choreographed as one sequence instead of five
-   independent fades: the two name lines rise out of focus and settle
-   (0.10s / 0.22s), the eyebrow follows (0.5s), the portrait comes
-   forward out of depth (1.0s), and only then do the scroll hint and the
-   floating chrome arrive (1.4s). For the first second the screen really
-   is just "Mika Jeske". */
+/* entrance delays, in ms */
 const HERO_T = {
   name: 100,
   nameStep: 120,
@@ -43,6 +33,8 @@ function Hero() {
     return () => clearTimeout(timer);
   }, []);
   const words = ["Mika", "Jeske"];
+  /* no overflow here: .hero clips on the x axis only, so the ambient shapes
+     bleed past the bottom edge and the plum band covers them */
   return /*#__PURE__*/React.createElement("section", {
     id: "top",
     "data-section": true,
@@ -52,13 +44,13 @@ function Hero() {
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
-      overflow: "hidden",
       padding: "0 var(--gutter)"
     }
   }, /*#__PURE__*/React.createElement(GlowShape, {
     shape: "blob",
     glow: "duo",
     size: 420,
+    seed: 1,
     parallax: "--depth-3",
     className: "hero-glow-blob",
     style: {
@@ -72,8 +64,9 @@ function Hero() {
     }
   }), /*#__PURE__*/React.createElement(GlowShape, {
     shape: "arch",
-    glow: "navy",
+    glow: "plum",
     size: 240,
+    seed: 2,
     parallax: "--depth-2",
     className: "hero-glow-arch",
     style: {
@@ -100,20 +93,15 @@ function Hero() {
       filter: mounted ? "blur(0px)" : "blur(10px)",
       transition: "opacity 1.1s var(--ease-emphasized) " + HERO_T.portrait + "ms, transform 1.1s var(--ease-emphasized) " + HERO_T.portrait + "ms, filter 1.1s var(--ease-emphasized) " + HERO_T.portrait + "ms"
     }
-  }, /*#__PURE__*/React.createElement("div", {
-    "aria-hidden": true,
+  }, /*#__PURE__*/React.createElement(Scribble, {
+    seed: 9,
+    glow: "duo",
+    size: 340,
     style: {
-      position: "absolute",
-      left: "50%",
       top: "42%",
-      width: "82%",
-      height: "82%",
-      transform: "translate(-50%,-50%)",
-      background: "var(--glow-duo)",
-      opacity: 0.55,
-      filter: "var(--blur-md)",
-      borderRadius: "50%",
-      pointerEvents: "none",
+      left: "50%",
+      width: "84%",
+      height: "84%",
       zIndex: 0
     }
   }), /*#__PURE__*/React.createElement("img", {
@@ -131,14 +119,14 @@ function Hero() {
     style: {
       position: "absolute",
       zIndex: 2,
-      left: 10,
+      right: 10,
       bottom: 10,
       fontFamily: "var(--font-text)",
       fontSize: 11,
       fontWeight: 600,
       letterSpacing: "0.14em",
       textTransform: "uppercase",
-      color: "var(--ink)",
+      color: "#808080",
       textShadow: "0 0 8px var(--bg), 0 0 14px var(--bg)"
     }
   }, t("hero.aiImageLabel"))), /*#__PURE__*/React.createElement("div", {
@@ -244,32 +232,35 @@ function Hero() {
   }))));
 }
 
-/* ---------- Intro (navy accent band) ----------
-   The DGZfP photograph used to be one of two small blobs floating in the
-   right half, visible only above 1440px. It is the strongest image on the
-   page - him at the award, in the field he is applying into - so it now
-   fills half the band edge to edge and is visible at every width.
-
-   The ambient glow circle that used to sit top-right went with it: that
-   corner is the photograph now, and a near-black disc floating over a
-   photograph is furniture, not motif. */
+/* px the plum band overhangs the section below, so it draws its own bottom seam */
+const LAP = 48;
 function Intro() {
   const [, t] = useLang();
   const ip = t("intro.photos") || [];
   return /*#__PURE__*/React.createElement("section", {
     id: "intro",
     "data-section": true,
-    className: "on-navy",
+    className: "on-plum",
     style: {
       position: "relative",
+      zIndex: 1,
       overflow: "hidden",
-      padding: "var(--section-y) 0"
+      padding: `var(--section-y) 0 calc(var(--section-y) + ${LAP}px)`,
+      marginBottom: -LAP
     }
   }, /*#__PURE__*/React.createElement(WaveBlend, {
     edge: "top",
     color: "var(--paper)",
     seed: 5,
-    shadow: "rgb(var(--accent-1-deep-rgb) / 0.55)"
+    shadow: "rgb(var(--accent-1-deep-rgb) / 0.55)",
+    z: 2
+  }), /*#__PURE__*/React.createElement(WaveBlend, {
+    edge: "bottom",
+    lap: "under",
+    color: "var(--paper)",
+    seed: 63,
+    shadow: "rgb(var(--accent-1-rgb) / 0.45)",
+    z: 2
   }), /*#__PURE__*/React.createElement("div", {
     className: "container",
     style: {
@@ -277,12 +268,15 @@ function Intro() {
       zIndex: 1
     }
   }, /*#__PURE__*/React.createElement(SplitFeature, {
+    bleed: true,
+    bleedTop: "var(--section-y)",
+    bleedBottom: `calc(var(--section-y) + ${LAP}px)`,
     src: asset("ci/assets/Bilder/Weitere/i_zfp.jpeg"),
     alt: ip[0],
     caption: ip[0],
-    focus: "50% 42%"
+    focus: "25% 40%"
   }, /*#__PURE__*/React.createElement(Reveal, null, /*#__PURE__*/React.createElement(Eyebrow, {
-    color: "var(--sienna-glow)"
+    color: "var(--sage-glow)"
   }, t("intro.eyebrow"))), /*#__PURE__*/React.createElement(Reveal, {
     delay: 80
   }, /*#__PURE__*/React.createElement("h2", {
@@ -316,15 +310,27 @@ function Intro() {
       margin: "16px 0 0",
       maxWidth: "46ch"
     }
-  }, t("intro.p2"))))));
+  }, t("intro.p2"))), /*#__PURE__*/React.createElement(Reveal, {
+    delay: 300
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      maxWidth: "46ch",
+      marginTop: "clamp(24px,3vw,40px)"
+    }
+  }, /*#__PURE__*/React.createElement("img", {
+    src: asset("ci/assets/Bilder/Weitere/signatur-mika-jeske.png"),
+    alt: "Mika Andreas Jeske",
+    loading: "lazy",
+    style: {
+      display: "block",
+      marginInline: "auto",
+      width: "min(300px, 66%)",
+      height: "auto",
+      filter: "invert(1)",
+      opacity: 0.9
+    }
+  }))))));
 }
-
-/* ---------- Seeking ("Was ich suche") ----------
-   The pitch used to end on "available immediately, I can start Monday",
-   written for a full-time search that no longer exists. This replaces it
-   with the handful of facts a recruiter actually needs, set as a spec list
-   rather than a paragraph so it survives a five-second skim. It is also
-   the target the skipper's first link points at. */
 function Seeking() {
   const [, t] = useLang();
   const s = t("seeking");
@@ -336,12 +342,7 @@ function Seeking() {
       overflow: "hidden",
       padding: "var(--section-y-sm) 0 var(--section-y)"
     }
-  }, /*#__PURE__*/React.createElement(WaveBlend, {
-    edge: "top",
-    color: "var(--navy)",
-    seed: 63,
-    shadow: "rgb(var(--accent-1-rgb) / 0.45)"
-  }), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: "container",
     style: {
       position: "relative",

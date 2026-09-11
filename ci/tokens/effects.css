@@ -1,7 +1,10 @@
 /* ============================================================
-   EFFECTS — radii, soft shadows, blur, and the signature
-   COLORED GRADIENT GLOWS cast by black abstract shapes.
-   No hard drop shadows anywhere in the brand.
+   EFFECTS — radii, soft shadows, blur, and the signature motif:
+   near-black abstract shapes traced by a hand-drawn COLOURED
+   SCRIBBLE and grounded by a clear, legible drop shadow. The
+   colour used to live in a blurred gradient glow sitting behind
+   the shape; it now lives in the scribble's ink instead, so the
+   shadow underneath the shape can just be a shadow.
    ============================================================ */
 
 :root {
@@ -21,6 +24,16 @@
   --shadow-lg:  0 4px 16px rgba(20,20,26,0.06), 0 28px 60px rgba(20,20,26,0.10);
   --shadow-inset: inset 0 1px 0 rgba(255,255,255,0.6);
 
+  /* ---- Shape drop shadow (the near-black GlowShape/BlobPhoto silhouettes) ----
+     Deliberately more present than the card shadows above: a shorter blur,
+     a bigger offset, more opacity — it has to read as a CLEAR cast shadow
+     at a glance, not as another soft ambient haze. Colour stays out of it;
+     colour is the scribble's job now. -sm is scaled for the <150px "dense"
+     shapes (SectionHead deco, award icon) where the full shadow overpowers
+     the shape. */
+  --shadow-shape:    0 26px 46px -16px rgba(21,21,26,0.42), 0 10px 20px -10px rgba(21,21,26,0.26);
+  --shadow-shape-sm: 0 12px 22px -8px rgba(21,21,26,0.38), 0 5px 10px -5px rgba(21,21,26,0.24);
+
   /* ---- Glass / blur ---- */
   --blur-sm:  blur(8px); /* @kind other */
   --blur-md:  blur(18px); /* @kind other */
@@ -28,14 +41,17 @@
   --glass-light: rgba(246,246,247,0.72);
   --glass-dark:  rgba(20,21,29,0.55);
 
-  /* ---- SIGNATURE GRADIENT GLOWS ----
-     Soft radial color halos placed BEHIND/UNDER near-black shapes.
-     Use on light surfaces. On .on-navy / .on-sienna use --glow-white. */
-  --glow-sienna: radial-gradient(closest-side,
+  /* ---- LEGACY/SMALL-SCALE GRADIENT GLOWS ----
+     Soft radial color halos. No longer the main shape motif (GlowShape and
+     BlobPhoto trace a Scribble around the shape instead, in primitives.jsx)
+     but still used at dot scale, where a hand-drawn stroke has no room to
+     read: the TimelineEntry accent dot's halo. Use on light surfaces; on
+     .on-plum / .on-sage use --glow-white. */
+  --glow-sage: radial-gradient(closest-side,
                   rgb(var(--accent-2-glow-rgb) / 0.85), rgb(var(--accent-2-rgb) / 0.45) 55%, transparent 80%); /* @kind other */
-  --glow-amber:  radial-gradient(closest-side,
-                  rgb(var(--amber-rgb) / 0.80), rgb(var(--amber-rgb) / 0.30) 55%, transparent 80%); /* @kind other */
-  --glow-navy:   radial-gradient(closest-side,
+  --glow-honey:  radial-gradient(closest-side,
+                  rgb(var(--honey-rgb) / 0.80), rgb(var(--honey-rgb) / 0.30) 55%, transparent 80%); /* @kind other */
+  --glow-plum:   radial-gradient(closest-side,
                   rgb(var(--accent-1-glow-rgb) / 0.75), rgb(var(--accent-1-rgb) / 0.40) 55%, transparent 80%); /* @kind other */
   --glow-duo:    radial-gradient(closest-side at 35% 35%,
                   rgb(var(--accent-2-glow-rgb) / 0.80), transparent 70%),
@@ -46,8 +62,8 @@
                   rgba(255,255,255,0.55), rgba(255,255,255,0.18) 55%, transparent 80%); /* @kind other */
 
   /* Box-shadow form of the glow (for elements that can't host a pseudo-bg) */
-  --glow-shadow-sienna: 0 24px 80px -20px rgb(var(--accent-2-rgb) / 0.55);
-  --glow-shadow-navy:   0 24px 80px -20px rgb(var(--accent-1-rgb) / 0.55);
+  --glow-shadow-sage: 0 24px 80px -20px rgb(var(--accent-2-rgb) / 0.55);
+  --glow-shadow-plum:   0 24px 80px -20px rgb(var(--accent-1-rgb) / 0.55);
 }
 
 /* ============================================================
@@ -60,17 +76,17 @@
    ============================================================ */
 
 :root {
-  --glow-sienna-dense: radial-gradient(closest-side,
+  --glow-sage-dense: radial-gradient(closest-side,
                         rgb(var(--accent-2-glow-rgb) / 0.95), rgb(var(--accent-2-rgb) / 0.62) 46%, rgb(var(--accent-2-rgb) / 0.18) 72%, transparent 88%); /* @kind other */
-  --glow-amber-dense:  radial-gradient(closest-side,
-                        rgb(var(--amber-rgb) / 0.92), rgb(var(--amber-rgb) / 0.50) 46%, rgb(var(--accent-2-rgb) / 0.16) 72%, transparent 88%); /* @kind other */
-  --glow-navy-dense:   radial-gradient(closest-side,
+  --glow-honey-dense:  radial-gradient(closest-side,
+                        rgb(var(--honey-rgb) / 0.92), rgb(var(--honey-rgb) / 0.50) 46%, rgb(var(--accent-2-rgb) / 0.16) 72%, transparent 88%); /* @kind other */
+  --glow-plum-dense:   radial-gradient(closest-side,
                         rgb(var(--accent-1-glow-rgb) / 0.90), rgb(var(--accent-1-rgb) / 0.55) 46%, rgb(var(--accent-1-rgb) / 0.16) 72%, transparent 88%); /* @kind other */
   --glow-duo-dense:    radial-gradient(closest-side at 34% 34%,
                         rgb(var(--accent-2-glow-rgb) / 0.92), transparent 68%),
                        radial-gradient(closest-side at 72% 72%,
                         rgb(var(--accent-1-glow-rgb) / 0.78), transparent 70%); /* @kind other */
-  /* Inverted halo for near-black shapes on the navy / sienna bands. */
+  /* Inverted halo for near-black shapes on the plum / sage bands. */
   --glow-white-strong: radial-gradient(closest-side,
                         rgba(255,255,255,0.72), rgba(255,255,255,0.30) 48%, rgba(255,255,255,0.10) 72%, transparent 88%); /* @kind other */
 

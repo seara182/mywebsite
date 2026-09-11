@@ -1,6 +1,3 @@
-/* ============================================================
-   Mika Jeske — résumé, engagement, projects, footer + App shell
-   ============================================================ */
 const { asset, Reveal, Parallax, Pressable, SectionSkipper, Eyebrow, Badge, GlowShape, WaveBlend, TimelineEntry, AlignBlock, BlobCluster, useLang, LanguageSwitcherMount, ContactChipMount } = window.MJ;
 const { Hero, Intro, Seeking } = window.SECTIONS_A;
 const { Story, CleanroomTear, ConfiTear, Reunion } = window.SECTIONS_NEW;
@@ -9,7 +6,9 @@ const LINKEDIN = "https://www.linkedin.com/in/mika-jeske-835092313/";
 const EMAIL = "mailto:mikajeske@gmail.com";
 const PHONE = "tel:+491774866584";
 
-function SectionHead({ kicker, title, glow = "sienna", shape = "blob" }) {
+function SectionHead({ kicker, title, glow = "sage", shape = "blob" }) {
+  /* seed derived from the copy, so each doodle is stable but distinct */
+  const seed = kicker ? kicker.charCodeAt(0) * 7 + kicker.length : 1;
   return (
     <div className="section-head" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24, marginBottom: "clamp(32px,5vw,64px)" }}>
       <div>
@@ -17,15 +16,13 @@ function SectionHead({ kicker, title, glow = "sienna", shape = "blob" }) {
         <Reveal delay={80}><h2 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h1)", letterSpacing: "var(--ls-heading)", color: "var(--heading)", margin: "16px 0 0", maxWidth: "16ch" }}>{title}</h2></Reveal>
       </div>
       <Reveal delay={80} className="section-head__deco" style={{ flex: "none" }}>
-        {/* wrapped so the phone can scale the mark down without fighting the
-           inline transform Reveal uses for its entrance */}
-        <span className="section-head__glow" style={{ display: "block" }}><GlowShape shape={shape} glow={glow} size={84} /></span>
+        {/* wrapper keeps the phone's scale() off Reveal's own transform */}
+        <span className="section-head__glow" style={{ display: "block" }}><GlowShape shape={shape} glow={glow} size={84} seed={seed} /></span>
       </Reveal>
     </div>
   );
 }
 
-/* ---------- Résumé ---------- */
 function Resume() {
   const [, t] = useLang();
   const r = t("resume");
@@ -36,9 +33,6 @@ function Resume() {
     <section id="lebenslauf" data-section style={{ padding: "var(--section-y) 0" }}>
       <div className="container">
         <SectionHead kicker={r.kicker} title={r.title} />
-        {/* Bildungsweg is naturally the shorter of the two timelines, so on wide
-            screens it gets the narrower column and both start from the top -
-            the two lists stop ending in a ragged void (see .resume-grid). */}
         <div className="resume-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(420px,100%),1fr))", gap: "clamp(32px,5vw,72px)", alignItems: "start" }}>
           <div>
             <Reveal><h3 className="t-h3" style={{ marginBottom: 28 }}>{r.experienceHeading}</h3></Reveal>
@@ -50,7 +44,6 @@ function Resume() {
           </div>
         </div>
 
-        {/* skills */}
         <Reveal style={{ marginTop: "clamp(48px,6vw,88px)" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 28 }}>
             <Eyebrow>{r.skillsEyebrow}</Eyebrow>
@@ -67,11 +60,10 @@ function Resume() {
           </div>
         </Reveal>
 
-        {/* award + linkedin */}
         <Reveal style={{ marginTop: "clamp(40px,5vw,72px)" }}>
           <Pressable className="award-card" lift={-5} style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 24, padding: "clamp(24px,3vw,36px)", background: "linear-gradient(140deg, var(--paper), var(--paper-2))", border: "1px solid var(--border)", borderRadius: "var(--radius-lg)", boxShadow: "var(--shadow-md)" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
-              <GlowShape shape="squircle" glow="amber" size={64} />
+              <GlowShape shape="squircle" glow="honey" size={64} seed={41} />
               <div>
                 <div style={{ fontSize: "var(--fs-caption)", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--label)", fontWeight: 600, marginBottom: 4 }}>{r.awardLabel}</div>
                 <div style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-title)", color: "var(--heading)" }}>{r.awardName}</div>
@@ -87,28 +79,26 @@ function Resume() {
   );
 }
 
-/* ---------- Engagement (sienna accent band) ---------- */
 function Engagement() {
   const [, t] = useLang();
   const s = t("engagementSection");
   const engagement = t("engagement");
   const ep = s.photos || [];
   return (
-    <section id="ehrenamt" data-section className="on-sienna" style={{ position: "relative", overflow: "hidden", padding: "var(--section-y) 0" }}>
-      {/* paper (Cleanroom) above laps DOWN over this sienna band; bottom seam is handled by ConfiTear's top wave (sienna laps over paper) */}
+    <section id="ehrenamt" data-section className="on-sage" style={{ position: "relative", overflow: "hidden", padding: "var(--section-y) 0" }}>
+      {/* top seam only; the bottom one is drawn by ConfiTear's top wave */}
       <WaveBlend edge="top" color="var(--paper)" seed={31} shadow="rgb(var(--accent-2-deep-rgb) / 0.5)" />
-      <GlowShape shape="blob" glow="white" size={340} ink="var(--sienna-deep)" parallax="--depth-3" className="engagement-glow" style={{ position: "absolute", bottom: "6%", right: "-4%", pointerEvents: "none" }} />
-      {/* photo cluster fills the empty left half on wide screens (desktop-only) */}
+      {/* size is capped so the scribble ring clears the timeline column */}
+      <GlowShape shape="blob" glow="white" size={190} seed={17} ink="var(--sage-deep)" parallax="--depth-3" className="engagement-glow" style={{ position: "absolute", bottom: "6%", right: "-4%", pointerEvents: "none" }} />
       <div className="fill-slot fill-slot--left">
         <Reveal>
           <BlobCluster style={{ width: 560, height: 860 }} photos={[
-            { src: asset("ci/assets/Bilder/Weitere/e_kids.jpeg"), caption: ep[0], glow: "white", w: 430, h: 282, focus: "50% 45%", rot: 4, parallax: "--depth-1", radius: "58% 42% 52% 48% / 46% 56% 44% 54%", pos: { top: 0, left: 130 } },
-            { src: asset("ci/assets/Bilder/Weitere/e_hfc.jpeg"), caption: ep[1], glow: "white", w: 288, h: 408, focus: "50% 32%", rot: -5, parallax: "--depth-2", radius: "52% 48% 40% 60% / 56% 46% 54% 44%", pos: { top: 410, left: 0 } },
+            { src: asset("ci/assets/Bilder/Weitere/e_kids.jpeg"), caption: ep[0], glow: "white", seed: 22, w: 430, h: 282, focus: "50% 45%", rot: 4, parallax: "--depth-1", radius: "58% 42% 52% 48% / 46% 56% 44% 54%", pos: { top: 0, left: 130 } },
+            { src: asset("ci/assets/Bilder/Weitere/e_hfc.jpeg"), caption: ep[1], glow: "white", seed: 53, w: 288, h: 408, focus: "50% 32%", rot: -5, parallax: "--depth-2", radius: "52% 48% 40% 60% / 56% 46% 54% 44%", pos: { top: 410, left: 0 } },
           ]} />
         </Reveal>
       </div>
       <div className="container align-track" style={{ position: "relative", zIndex: 1 }}>
-        {/* heading + timeline share one right-aligned block so they stay aligned */}
         <AlignBlock align="right" maxWidth="var(--content-narrow)">
           <div style={{ marginBottom: "clamp(32px,5vw,56px)" }}>
             <Reveal><Eyebrow color="var(--on-dark-strong)">{s.eyebrow}</Eyebrow></Reveal>
@@ -125,16 +115,13 @@ function Engagement() {
   );
 }
 
-/* ---------- Projects (Sports Window showcase) ---------- */
 function Projects() {
   const [, t] = useLang();
   const p = t("projects");
   return (
     <section id="projekt" data-section style={{ padding: "var(--section-y) 0" }}>
       <div className="container align-track">
-        {/* heading spans the section (title left, deco right) so it sits above and
-            aligns with the description column it introduces */}
-        <SectionHead kicker={p.kicker} title={p.title} glow="navy" shape="arch" />
+        <SectionHead kicker={p.kicker} title={p.title} glow="plum" shape="arch" />
         <Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(340px,100%),1fr))", gap: "clamp(28px,4vw,56px)", alignItems: "center" }}>
             <div>
@@ -142,7 +129,7 @@ function Projects() {
                 {p.description}
               </p>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 28 }}>
-                {p.stack.map((s, i) => <Badge key={i} variant="navy">{s}</Badge>)}
+                {p.stack.map((s, i) => <Badge key={i} variant="plum">{s}</Badge>)}
               </div>
               <div style={{ display: "flex", flexWrap: "wrap", gap: "10px 24px", marginTop: 28 }}>
                 {p.features.map((f, i) => (
@@ -155,16 +142,11 @@ function Projects() {
                 {p.cta} <span aria-hidden className="cta-arrow">→</span>
               </Pressable>
             </div>
-            {/* preview tile - the one place boldness is spent.
-                It is a window into a dark product surface, so it behaves like
-                one: the card tilts toward the cursor and its layers sit at
-                different depths, so the header and stat row separate as you
-                move. Everything springs back on leave, and reduced motion
-                flattens it completely. */}
+            {/* translateZ on the children needs the perspective on this wrapper */}
             <div className="bay-stage" style={{ perspective: 1200, minWidth: 0 }}>
             <Pressable className="bay-preview" tilt={7} lift={-6} style={{ position: "relative", minWidth: 0, aspectRatio: "16/10", minHeight: 300, display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 16, padding: 26, borderRadius: "var(--radius-xl)", overflow: "hidden", background: "#14151D", boxShadow: "var(--shadow-lg)", border: "1px solid var(--border)" }}>
               <div style={{ position: "absolute", inset: 0, background: "radial-gradient(120% 120% at 80% 0%, rgb(var(--accent-2-glow-rgb) / 0.5), transparent 55%)" }} />
-              <div style={{ position: "relative", transform: "translateZ(34px)", padding: "20px 22px", borderRadius: "var(--radius-lg)", background: "linear-gradient(110deg, var(--sienna-deep), var(--amber))", color: "#fff", boxShadow: "0 18px 40px -22px rgba(0,0,0,0.8)" }}>
+              <div style={{ position: "relative", transform: "translateZ(34px)", padding: "20px 22px", borderRadius: "var(--radius-lg)", background: "linear-gradient(110deg, var(--sage-deep), var(--honey))", color: "#fff", boxShadow: "0 18px 40px -22px rgba(0,0,0,0.8)" }}>
                 <div style={{ fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", opacity: 0.85, fontWeight: 600 }}>Next Game · Week 25</div>
                 <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "clamp(20px,3vw,34px)", marginTop: 6 }}>@ Miami Marlins</div>
                 <div style={{ fontSize: 13, opacity: 0.9, marginTop: 8 }}>Sat, Jun 20 · 1:10 AM · loanDepot park</div>
@@ -186,7 +168,6 @@ function Projects() {
   );
 }
 
-/* ---------- Footer ---------- */
 function Footer() {
   const [, t] = useLang();
   const f = t("footer");
@@ -221,25 +202,18 @@ function Footer() {
   );
 }
 
-/* Four destinations, in page order. The dot rail drew its labels from each
-   section's own eyebrow, which gave it things like "Moin." and "Nebenbei" -
-   fine as a tooltip, useless as a navigation label. The skipper gets its own
-   short strings instead; they are the only new translation surface here. */
+/* keep in page order: the rail highlights by index */
 function useSkipperItems() {
   const [, t] = useLang();
   const nav = t("nav");
   return [
     { id: "werkstudent", label: nav.werkstudent },
-    { id: "ehrenamt", label: nav.ehrenamt },
     { id: "lebenslauf", label: nav.lebenslauf },
+    { id: "ehrenamt", label: nav.ehrenamt },
     { id: "projekt", label: nav.projekt },
   ];
 }
 
-/* Page order follows the new priority: the volunteer work and the pitch come
-   before the CV, not after it. Each deep-dive tear stays welded to the
-   section it tears open (ConfiTear under Engagement, CleanroomTear under
-   Resume), so they move as pairs. */
 function App() {
   const [, t] = useLang();
   const skipItems = useSkipperItems();
@@ -251,10 +225,10 @@ function App() {
       <Hero />
       <Intro />
       <Seeking />
-      <Story />
+      <Resume />
       <Engagement />
       <ConfiTear />
-      <Resume />
+      <Story />
       <CleanroomTear />
       <Reunion />
       <Projects />
@@ -263,14 +237,10 @@ function App() {
   );
 }
 
-/* Expose the root component so the build-time prerender (build.mjs) can render it
-   to static HTML in Node. */
+/* build.mjs renders this in Node to prerender each language */
 window.SECTIONS_B = { App };
 
-/* Mount only in the browser. The #root is pre-filled with prerendered markup at
-   build time, so hydrate it (preserving the server DOM); fall back to a fresh
-   render if the page was served without prerender (e.g. raw file:// of a source
-   checkout before `npm run build`). */
+/* hydrate the prerendered markup; plain render if it is missing */
 if (typeof document !== "undefined") {
   const rootEl = document.getElementById("root");
   if (rootEl) {

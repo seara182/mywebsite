@@ -1,20 +1,7 @@
-/* ============================================================
-   Mika Jeske — personal narrative, "torn-paper" deep-dives
-   (ZMN cleanroom · EKM Konfi work) and the Abi-reunion mention.
-   Built on the design-system tokens + window.MJ primitives.
-   ============================================================ */
 const { useState, useRef, useEffect } = React;
 const { asset, Reveal, Pressable, SplitFeature, Eyebrow, GlowShape, WaveBlend, AlignBlock, FigurePlot, useLang } = window.MJ;
 
-/* ---------- Bachelor-thesis measurement data ----------
-   From Jeske-Mika_Bachelorarbeit-Messdaten.xlsx. Two figures:
-   (1) SEEBECK_T — relative Seebeck coefficient (µV/K) vs temperature for three
-       sputtered films; Ni is negative while Ag/Al are positive (opposite
-       thermoelectric sign).  ("Seebeck" sheet, V/K → µV/K)
-   (2) SIGMA_TIME — electrical conductivity σ (MS/m) over one heat→cool cycle,
-       Ni vs Bi on two y-axes (their magnitudes differ ~100×). Nickel's σ falls
-       on heating (PTC), Bismuth's rises (NTC) — opposite responses.
-       ("Leitfähigkeit" sheet, time in s → min, S/m → MS/m) */
+/* bachelor-thesis data: µV/K vs °C */
 const SEEBECK_T = {
   series: [
     { label: "Ag · 100 nm", accent: true,
@@ -28,21 +15,19 @@ const SEEBECK_T = {
       y: [-15.34, -15.42, -15.63, -15.75, -15.89, -15.93, -16.12, -16.17, -16.28, -16.13, -16.43, -16.20, -16.22, -15.83, -15.89, -15.78, -15.46, -15.43, -15.03] },
   ],
 };
+/* MS/m vs min, two y-axes (Ni and Bi differ ~100x) */
 const SIGMA_TIME = {
   series: [
     { label: "Ni · 100 nm  (PTC)", color: "var(--accent)", axis: 1,
       x: [9, 54, 85, 115, 146, 177, 207, 238, 269, 300, 331, 365, 400, 436, 477, 531, 590, 659, 741, 840, 900],
       y: [6.64, 6.45, 6.28, 6.12, 5.99, 5.86, 5.75, 5.66, 5.59, 5.54, 5.51, 5.84, 6.08, 6.30, 6.52, 6.76, 6.99, 7.25, 7.50, 7.78, 8.05] },
-    { label: "Bi · 50 nm  (NTC)", color: "var(--navy)", axis: 2,
+    { label: "Bi · 50 nm  (NTC)", color: "var(--plum)", axis: 2,
       x: [5, 50, 85, 119, 154, 189, 227, 261, 296, 330, 365, 402, 441, 480, 522, 574, 633, 702, 785, 886, 957],
       y: [0.0579, 0.0589, 0.0598, 0.0607, 0.0618, 0.0631, 0.0648, 0.0668, 0.0691, 0.0705, 0.0723, 0.0704, 0.0686, 0.0669, 0.0652, 0.0636, 0.0620, 0.0605, 0.0590, 0.0575, 0.0559] },
   ],
 };
 
-/* ---------- torn-paper edge generator ----------
-   Deterministic jagged path so each tear looks hand-ripped
-   but stable between renders. Filled with the PAGE colour so
-   it reads as the surface tearing away to reveal what's below. */
+/* seeded, so the path is identical on server and client */
 function tornPath(seed, side) {
   const W = 1200, H = 26, teeth = 52;
   let s = (seed * 9301 + 49297) % 233280;
@@ -51,7 +36,6 @@ function tornPath(seed, side) {
   for (let i = 0; i <= teeth; i++) {
     const x = (W / teeth) * i;
     const j = rnd();
-    // small chance of a deeper "rip" for organic asymmetry
     const depth = (j < 0.12 ? 0.9 : 0.25 + j * 0.55);
     pts.push([x, side === "top" ? H * depth : H * (1 - depth)]);
   }
@@ -75,12 +59,6 @@ function TornEdge({ side, seed, color = "var(--paper)" }) {
   );
 }
 
-/* ---------- the torn-open deep dive ----------
-   Closed: a faint perforated seam inviting a pull.
-   Open: the page tears edge-to-edge across the viewport and a
-   recessed "under-surface" pushes the content below it down
-   (inline, not overlay). The seam and the panel's text stay in
-   the reading column; only the rip itself runs full-bleed. */
 function TornSection({ label, seed = 7, teaser, children }) {
   const [open, setOpen] = useState(false);
   const [h, setH] = useState(0);
@@ -98,7 +76,6 @@ function TornSection({ label, seed = 7, teaser, children }) {
 
   return (
     <div style={{ margin: "clamp(24px,4vw,40px) 0" }}>
-      {/* trigger — the seam, kept in the reading column */}
       <div className="container">
         {teaser ? (
           <button
@@ -120,7 +97,7 @@ function TornSection({ label, seed = 7, teaser, children }) {
               display: "inline-grid", placeItems: "center", width: 28, height: 28, borderRadius: "50%",
               background: "var(--paper)", border: "1px solid var(--hairline-strong)", flex: "none",
               transform: open ? "rotate(180deg)" : "none", transition: "transform .4s var(--ease-glide)",
-              fontSize: 13, lineHeight: 1, color: "var(--sienna)",
+              fontSize: 13, lineHeight: 1, color: "var(--sage)",
             }}>↓</span>
           </button>
         ) : (
@@ -144,7 +121,7 @@ function TornSection({ label, seed = 7, teaser, children }) {
                 display: "inline-grid", placeItems: "center", width: 22, height: 22, borderRadius: "50%",
                 background: "var(--paper-2)", border: "1px solid var(--hairline-strong)",
                 transform: open ? "rotate(180deg)" : "none", transition: "transform .4s var(--ease-glide)",
-                fontSize: 12, lineHeight: 1, color: "var(--sienna)",
+                fontSize: 12, lineHeight: 1, color: "var(--sage)",
               }}>↓</span>
             </span>
             <span aria-hidden style={{ flex: 1, height: 0, borderTop: "2px dashed var(--hairline-strong)", opacity: 0.7 }} />
@@ -152,11 +129,8 @@ function TornSection({ label, seed = 7, teaser, children }) {
         )}
       </div>
 
-      {/* the hole that tears open — full-bleed to the page edges.
-          The transition is declared unconditionally and switched off for
-          reduced motion in CSS (.tear-panel): branching on the media query
-          here would differ between the Node prerender and the browser, and
-          React keeps the server's inline style when the two disagree. */}
+      {/* transition is unconditional and disabled in CSS: branching on a media
+          query here would desync the prerender from the browser */}
       <div className="tear-panel" style={{
         maxHeight: open ? h + 80 : 0,
         overflow: "hidden",
@@ -166,7 +140,6 @@ function TornSection({ label, seed = 7, teaser, children }) {
           <div style={{ position: "relative", overflow: "hidden" }}>
             <TornEdge side="top" seed={seed} />
             <TornEdge side="bottom" seed={seed + 31} />
-            {/* recessed under-surface, spanning the full viewport width */}
             <div style={{
               position: "relative", zIndex: 1,
               padding: "clamp(44px,6vw,72px) 0",
@@ -175,7 +148,6 @@ function TornSection({ label, seed = 7, teaser, children }) {
                 "linear-gradient(180deg, var(--paper-3), var(--paper-2) 22%, var(--paper-2))",
               boxShadow: "inset 0 14px 30px -16px rgba(20,20,26,0.45), inset 0 -14px 30px -16px rgba(20,20,26,0.30)",
             }}>
-              {/* faint paper-fibre texture */}
               <div aria-hidden style={{
                 position: "absolute", inset: 0, pointerEvents: "none", opacity: 0.5,
                 backgroundImage: "repeating-linear-gradient(92deg, rgba(20,20,26,0.022) 0 2px, transparent 2px 6px)",
@@ -189,7 +161,6 @@ function TornSection({ label, seed = 7, teaser, children }) {
   );
 }
 
-/* ---------- ZMN photos: a relaxed, slightly-rotated row ---------- */
 function LoosePhoto({ src, caption, rot, w }) {
   return (
     <figure style={{ margin: 0, flex: `0 1 ${w}px`, transform: `rotate(${rot}deg)`, transition: "transform .4s var(--ease-out)" }}
@@ -201,22 +172,21 @@ function LoosePhoto({ src, caption, rot, w }) {
       }}>
         <img src={src} alt={caption} loading="lazy" style={{ display: "block", width: "100%", height: "auto", borderRadius: 5 }} />
       </div>
-      <figcaption style={{ fontFamily: "var(--font-mono)", fontSize: "var(--fs-caption)", color: "var(--text-muted)", marginTop: 10, paddingLeft: 4 }}>
+      <figcaption className="photo-cap" style={{ fontFamily: "var(--font-mono)", fontSize: "var(--fs-caption)", color: "var(--text-muted)", marginTop: 10, paddingLeft: 4 }}>
         {caption}
       </figcaption>
     </figure>
   );
 }
 
-/* ---------- Konfi photos: hand-glued polaroids ---------- */
 function Polaroid({ src, caption, rot, tape }) {
   return (
     <figure style={{ margin: 0, transform: `rotate(${rot}deg)`, transition: "transform .4s var(--ease-out)", position: "relative" }}
       className="polaroid">
       {tape && <span aria-hidden style={{
         position: "absolute", top: -12, left: "50%", width: 78, height: 26,
-        transform: "translateX(-50%) rotate(-3deg)", background: "rgb(var(--amber-rgb) / 0.28)",
-        border: "1px solid rgb(var(--amber-rgb) / 0.18)", borderRadius: 2,
+        transform: "translateX(-50%) rotate(-3deg)", background: "rgb(var(--honey-rgb) / 0.28)",
+        border: "1px solid rgb(var(--honey-rgb) / 0.18)", borderRadius: 2,
         boxShadow: "0 1px 3px rgba(20,20,26,0.10)",
       }} />}
       <div style={{
@@ -232,22 +202,12 @@ function Polaroid({ src, caption, rot, tape }) {
   );
 }
 
-/* ============================================================
-   STORY — how Mika ended up in the small scale
-   ============================================================ */
 function Story() {
   const [, t] = useLang();
   return (
     <section id="story" data-section style={{ padding: "var(--section-y) 0", position: "relative", overflow: "hidden" }}>
-      {/* No wave seam here any more: the navy band no longer sits directly
-          above this section - the Seeking block does, and it carries the seam.
-          The ambient squircle used to live here. At low opacity a near-black
-         shape just reads as a grey lump, and this section already carries two
-         figures, a wave seam and the narrative - it needed no more furniture. */}
       <div className="container align-track">
-        {/* on wide screens (≥1440px) the two thesis figures sit in the empty left
-            half beside the narrative; below that they're hidden and the text
-            renders exactly as before */}
+        {/* figures show at ≥1440px only, see .story-grid */}
         <div className="story-grid">
           <div className="story-figs">
             <Reveal>
@@ -264,7 +224,6 @@ function Story() {
             </Reveal>
           </div>
           <AlignBlock align="right" maxWidth="66ch">
-          {/* header */}
           <div style={{ marginBottom: "clamp(28px,4vw,48px)" }}>
             <Reveal><Eyebrow>{t("story.eyebrow")}</Eyebrow></Reveal>
             <Reveal delay={80}>
@@ -274,7 +233,6 @@ function Story() {
             </Reveal>
           </div>
 
-          {/* narrative */}
           <div style={{ maxWidth: "var(--content-narrow, 64ch)" }}>
             <Reveal delay={40}>
               <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 22px", maxWidth: "62ch" }}>
@@ -294,10 +252,6 @@ function Story() {
   );
 }
 
-/* ============================================================
-   CLEANROOM TEAR — sits directly under the CV; the dry line
-   in the résumé torn open to show what the work was really like
-   ============================================================ */
 function CleanroomTear() {
   const [, t] = useLang();
   const c = t("cleanroomTear");
@@ -314,7 +268,7 @@ function CleanroomTear() {
       </div>
 
       <TornSection label={c.label} seed={11}>
-        <Eyebrow color="var(--sienna)">{c.eyebrow}</Eyebrow>
+        <Eyebrow color="var(--sage)">{c.eyebrow}</Eyebrow>
         <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-title)", color: "var(--heading)", margin: "14px 0 18px", maxWidth: "22ch" }}>
           {c.heading}
         </h3>
@@ -323,7 +277,6 @@ function CleanroomTear() {
           <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 16px" }}>{c.p2}</p>
           <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: 0 }}>{c.p3}</p>
         </div>
-        {/* relaxed photo row */}
         <div style={{ display: "flex", flexWrap: "wrap", gap: "clamp(16px,2.4vw,30px)", alignItems: "flex-start", marginTop: "clamp(28px,4vw,44px)" }}>
           <LoosePhoto src={asset("ci/assets/Bilder/ZMN/ZMN_Sputter.jpeg")} caption={c.photos[0]} rot={-2.5} w={340} />
           <LoosePhoto src={asset("ci/assets/Bilder/ZMN/ZMN_Me.jpeg")} caption={c.photos[1]} rot={2.5} w={210} />
@@ -335,17 +288,13 @@ function CleanroomTear() {
   );
 }
 
-/* ============================================================
-   CONFI TEAR — sits directly under the Ehrenamt band; the
-   youth-work line opened up into the human side of it
-   ============================================================ */
 function ConfiTear() {
   const [, t] = useLang();
   const c = t("confiTear");
   return (
     <section style={{ position: "relative", padding: "clamp(40px,6vw,80px) 0 clamp(40px,6vw,80px)" }}>
-      {/* sienna band above laps DOWN over this paper section, casting a sienna shadow on the white */}
-      <WaveBlend edge="top" color="var(--sienna)" seed={71} shadow="rgb(var(--accent-2-rgb) / 0.45)" />
+      {/* the sage band above laps down over this paper section */}
+      <WaveBlend edge="top" color="var(--sage)" seed={71} shadow="rgb(var(--accent-2-rgb) / 0.45)" />
       <div className="container align-track" style={{ position: "relative", zIndex: 1 }}>
         <AlignBlock align="left" maxWidth="54ch">
         <Reveal>
@@ -357,23 +306,18 @@ function ConfiTear() {
       </div>
 
       <TornSection label={c.label} seed={23} teaser={{ photo: asset("ci/assets/Bilder/Konfi/Konfi_Phe.jpeg"), text: c.teaser }}>
-        <Eyebrow color="var(--sienna)">{c.eyebrow}</Eyebrow>
-        <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-title)", color: "var(--heading)", margin: "14px 0 18px", maxWidth: "24ch" }}>
-          {c.heading}
-        </h3>
-        {/* The strongest photograph here is him in front of the group rather
-            than behind the camera, so it stops being one polaroid among three
-            and fills half the torn panel, flush to the page edge. The two
-            remaining polaroids stay hand-glued underneath - the contrast
-            between the masked image and the loose snapshots is the point. */}
+        {/* eyebrow + heading go INSIDE the copy column; above the split they
+            would span the whole panel and read as a caption band */}
         <SplitFeature flip
           src={asset("ci/assets/Bilder/Konfi/Konfi_speach.jpeg")}
-          alt={c.photos[0]} caption={c.photos[0]} focus="50% 38%"
-          style={{ marginTop: "clamp(8px,1.5vw,20px)" }}>
+          alt={c.photos[0]} caption={c.photos[0]} focus="50% 38%">
+          <Eyebrow color="var(--sage)">{c.eyebrow}</Eyebrow>
+          <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-title)", color: "var(--heading)", margin: "14px 0 18px", maxWidth: "24ch" }}>
+            {c.heading}
+          </h3>
           <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 16px", maxWidth: "48ch" }}>{c.p1}</p>
           <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: 0, maxWidth: "48ch" }}>{c.p2}</p>
         </SplitFeature>
-        {/* hand-glued polaroids */}
         <div style={{ display: "flex", flexWrap: "wrap", gap: "clamp(18px,2.4vw,34px)", alignItems: "flex-start", marginTop: "clamp(28px,4vw,48px)" }}>
           <div style={{ flex: "1 1 260px", maxWidth: 340 }}>
             <Polaroid src={asset("ci/assets/Bilder/Konfi/Konfi_Phe.jpeg")} caption={c.photos[1]} rot={3} tape />
@@ -387,9 +331,6 @@ function ConfiTear() {
   );
 }
 
-/* ============================================================
-   REUNION — ggi-abitur2022.de (lighter, "student" register)
-   ============================================================ */
 function Reunion() {
   const GGI = "https://ggi-abitur2022.de/";
   const [, t] = useLang();
@@ -427,10 +368,9 @@ function Reunion() {
                 {r.linkLabel} <span aria-hidden className="cta-arrow">→</span>
               </Pressable>
             </div>
-            {/* playful "map pin + countdown" ornament */}
             <div style={{ position: "relative", display: "flex", flexDirection: "column", alignItems: "center", gap: 18, justifySelf: "center" }}>
               <div style={{ position: "relative", display: "grid", placeItems: "center" }}>
-                <GlowShape shape="circle" glow="navy" size={120} />
+                <GlowShape shape="circle" glow="plum" size={120} seed={64} />
                 <span aria-hidden style={{ position: "absolute", fontSize: 40, lineHeight: 1, color: "var(--paper)", transform: "translateY(-2px)" }}>◎</span>
               </div>
               <div style={{ display: "flex", gap: 8 }}>

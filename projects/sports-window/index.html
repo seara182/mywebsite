@@ -91,7 +91,7 @@
     .hero { position: relative; padding: clamp(40px,7vw,96px) 0 clamp(48px,8vw,104px); overflow: hidden; }
     .hero-glow {
       position: absolute; width: 620px; height: 620px; top: -180px; right: -160px; z-index: 0; pointer-events: none;
-      background: var(--glow-navy); filter: blur(70px); opacity: 0.5; border-radius: 50%;
+      background: var(--glow-plum); filter: blur(70px); opacity: 0.5; border-radius: 50%;
     }
     .eyebrow {
       display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-text);
@@ -111,7 +111,7 @@
     .chip {
       display: inline-flex; align-items: center; padding: 6px 13px; font-family: var(--font-text);
       font-size: var(--fs-caption); font-weight: 600; border-radius: var(--radius-pill); white-space: nowrap;
-      background: rgb(var(--accent-1-rgb) / 0.10); color: var(--navy); border: 1px solid rgb(var(--accent-1-rgb) / 0.20);
+      background: rgb(var(--accent-1-rgb) / 0.10); color: var(--plum); border: 1px solid rgb(var(--accent-1-rgb) / 0.20);
     }
 
     /* ---- hero showcase (off-centre big screenshot) ---- */
@@ -127,12 +127,12 @@
       background: var(--paper); border: 1px solid var(--border); border-radius: var(--radius-md);
       box-shadow: var(--shadow-md); padding: 16px 20px;
     }
-    .showcase .tag .k { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--sienna); font-weight: 600; }
+    .showcase .tag .k { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--sage); font-weight: 600; }
     .showcase .tag .v { font-size: var(--fs-small); color: var(--text-body); margin-top: 6px; line-height: 1.5; }
 
     /* ---- section scaffolding ---- */
     section { padding: clamp(56px,8vw,112px) 0; }
-    .section-label { font-family: var(--font-mono); font-size: clamp(11px,1.2vw,13px); font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--sienna); }
+    .section-label { font-family: var(--font-mono); font-size: clamp(11px,1.2vw,13px); font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--sage); }
     h2 { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h1); letter-spacing: var(--ls-heading); line-height: 1.12; color: var(--heading); margin: 14px 0 0; max-width: 18ch; }
     .lede { font-size: var(--fs-lead); line-height: var(--lh-relaxed); color: var(--text-body); max-width: 62ch; margin: 22px 0 0; }
 
@@ -144,7 +144,7 @@
     .row .copy p { font-size: var(--fs-body); line-height: var(--lh-relaxed); color: var(--text); margin: 0 0 18px; max-width: 50ch; }
     .ticks { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 11px; }
     .ticks li { display: flex; gap: 12px; font-size: var(--fs-small); color: var(--text-body); line-height: 1.5; }
-    .ticks li::before { content: '→'; color: var(--sienna); font-weight: 700; flex: none; }
+    .ticks li::before { content: '→'; color: var(--sage); font-weight: 700; flex: none; }
     .shot { border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow-md); background: var(--ink); cursor: zoom-in; transition: transform .3s var(--ease-out), box-shadow .3s var(--ease-out); }
     .shot:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
     .shot img { display: block; width: 100%; height: auto; }
@@ -158,13 +158,13 @@
     .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(248px,100%),1fr)); gap: clamp(16px,2vw,22px); margin-top: clamp(40px,5vw,64px); }
     .feature-card { padding: clamp(20px,2.5vw,28px); background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); transition: transform .24s var(--ease-out), box-shadow .24s var(--ease-out); }
     .feature-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
-    .feature-card .dot { width: 28px; height: 28px; border-radius: 9px; background: linear-gradient(135deg, var(--sienna), var(--amber)); margin-bottom: 14px; }
+    .feature-card .dot { width: 28px; height: 28px; border-radius: 9px; background: linear-gradient(135deg, var(--sage), var(--honey)); margin-bottom: 14px; }
     .feature-card h4 { font-family: var(--font-display); font-size: var(--fs-title); font-weight: 600; color: var(--heading); margin: 0 0 8px; }
     .feature-card p { font-size: var(--fs-small); line-height: 1.5; color: var(--text-body); margin: 0; }
 
-    /* ---- phones band (navy) ---- */
-    .phones { background: var(--navy); color: var(--on-dark-body); position: relative; overflow: hidden; }
-    .phones .section-label { color: var(--sienna-glow); }
+    /* ---- phones band (plum) ---- */
+    .phones { background: var(--plum); color: var(--on-dark-body); position: relative; overflow: hidden; }
+    .phones .section-label { color: var(--sage-glow); }
     .phones h2 { color: var(--on-dark-strong); }
     .phones .lede { color: var(--on-dark-body); }
     .phone-row { display: flex; gap: clamp(16px,3vw,40px); justify-content: center; align-items: flex-end; flex-wrap: wrap; margin-top: clamp(40px,6vw,72px); }
@@ -177,7 +177,7 @@
     /* ---- tech spec ---- */
     .spec { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px,100%),1fr)); gap: clamp(20px,3vw,40px); margin-top: clamp(40px,5vw,64px); }
     .spec dl { margin: 0; }
-    .spec dt { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--sienna); font-weight: 600; margin-bottom: 6px; }
+    .spec dt { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--sage); font-weight: 600; margin-bottom: 6px; }
     .spec dd { margin: 0 0 22px; font-size: var(--fs-small); line-height: 1.55; color: var(--text-body); }
     .spec dd strong { color: var(--heading); font-weight: 600; }
 
@@ -309,7 +309,7 @@
     </div>
   </section>
 
-  <!-- PHONES (navy band) -->
+  <!-- PHONES (plum band) -->
   <section class="phones" id="mobil">
     <div class="phones-glow"></div>
     <div class="wrap" style="position:relative;z-index:1">

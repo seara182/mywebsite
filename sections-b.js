@@ -1,9 +1,6 @@
 // AUTO-GENERATED from sections-b.jsx by build.mjs — do not edit directly.
 (function () {
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
-/* ============================================================
-   Mika Jeske — résumé, engagement, projects, footer + App shell
-   ============================================================ */
 const {
   asset,
   Reveal,
@@ -38,9 +35,11 @@ const PHONE = "tel:+491774866584";
 function SectionHead({
   kicker,
   title,
-  glow = "sienna",
+  glow = "sage",
   shape = "blob"
 }) {
+  /* seed derived from the copy, so each doodle is stable but distinct */
+  const seed = kicker ? kicker.charCodeAt(0) * 7 + kicker.length : 1;
   return /*#__PURE__*/React.createElement("div", {
     className: "section-head",
     style: {
@@ -76,11 +75,10 @@ function SectionHead({
   }, /*#__PURE__*/React.createElement(GlowShape, {
     shape: shape,
     glow: glow,
-    size: 84
+    size: 84,
+    seed: seed
   }))));
 }
-
-/* ---------- Résumé ---------- */
 function Resume() {
   const [, t] = useLang();
   const r = t("resume");
@@ -191,8 +189,9 @@ function Resume() {
     }
   }, /*#__PURE__*/React.createElement(GlowShape, {
     shape: "squircle",
-    glow: "amber",
-    size: 64
+    glow: "honey",
+    size: 64,
+    seed: 41
   }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: "var(--fs-caption)",
@@ -233,8 +232,6 @@ function Resume() {
     className: "cta-arrow"
   }, "\u2192"))))));
 }
-
-/* ---------- Engagement (sienna accent band) ---------- */
 function Engagement() {
   const [, t] = useLang();
   const s = t("engagementSection");
@@ -243,7 +240,7 @@ function Engagement() {
   return /*#__PURE__*/React.createElement("section", {
     id: "ehrenamt",
     "data-section": true,
-    className: "on-sienna",
+    className: "on-sage",
     style: {
       position: "relative",
       overflow: "hidden",
@@ -257,8 +254,9 @@ function Engagement() {
   }), /*#__PURE__*/React.createElement(GlowShape, {
     shape: "blob",
     glow: "white",
-    size: 340,
-    ink: "var(--sienna-deep)",
+    size: 190,
+    seed: 17,
+    ink: "var(--sage-deep)",
     parallax: "--depth-3",
     className: "engagement-glow",
     style: {
@@ -278,6 +276,7 @@ function Engagement() {
       src: asset("ci/assets/Bilder/Weitere/e_kids.jpeg"),
       caption: ep[0],
       glow: "white",
+      seed: 22,
       w: 430,
       h: 282,
       focus: "50% 45%",
@@ -292,6 +291,7 @@ function Engagement() {
       src: asset("ci/assets/Bilder/Weitere/e_hfc.jpeg"),
       caption: ep[1],
       glow: "white",
+      seed: 53,
       w: 288,
       h: 408,
       focus: "50% 32%",
@@ -349,8 +349,6 @@ function Engagement() {
     last: i === engagement.length - 1
   }))))))));
 }
-
-/* ---------- Projects (Sports Window showcase) ---------- */
 function Projects() {
   const [, t] = useLang();
   const p = t("projects");
@@ -365,7 +363,7 @@ function Projects() {
   }, /*#__PURE__*/React.createElement(SectionHead, {
     kicker: p.kicker,
     title: p.title,
-    glow: "navy",
+    glow: "plum",
     shape: "arch"
   }), /*#__PURE__*/React.createElement(Reveal, null, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -391,7 +389,7 @@ function Projects() {
     }
   }, p.stack.map((s, i) => /*#__PURE__*/React.createElement(Badge, {
     key: i,
-    variant: "navy"
+    variant: "plum"
   }, s))), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
@@ -474,7 +472,7 @@ function Projects() {
       transform: "translateZ(34px)",
       padding: "20px 22px",
       borderRadius: "var(--radius-lg)",
-      background: "linear-gradient(110deg, var(--sienna-deep), var(--amber))",
+      background: "linear-gradient(110deg, var(--sage-deep), var(--honey))",
       color: "#fff",
       boxShadow: "0 18px 40px -22px rgba(0,0,0,0.8)"
     }
@@ -533,8 +531,6 @@ function Projects() {
     }
   }, v))))))))));
 }
-
-/* ---------- Footer ---------- */
 function Footer() {
   const [, t] = useLang();
   const f = t("footer");
@@ -675,10 +671,7 @@ function Footer() {
   })))));
 }
 
-/* Four destinations, in page order. The dot rail drew its labels from each
-   section's own eyebrow, which gave it things like "Moin." and "Nebenbei" -
-   fine as a tooltip, useless as a navigation label. The skipper gets its own
-   short strings instead; they are the only new translation surface here. */
+/* keep in page order: the rail highlights by index */
 function useSkipperItems() {
   const [, t] = useLang();
   const nav = t("nav");
@@ -686,40 +679,31 @@ function useSkipperItems() {
     id: "werkstudent",
     label: nav.werkstudent
   }, {
-    id: "ehrenamt",
-    label: nav.ehrenamt
-  }, {
     id: "lebenslauf",
     label: nav.lebenslauf
+  }, {
+    id: "ehrenamt",
+    label: nav.ehrenamt
   }, {
     id: "projekt",
     label: nav.projekt
   }];
 }
-
-/* Page order follows the new priority: the volunteer work and the pitch come
-   before the CV, not after it. Each deep-dive tear stays welded to the
-   section it tears open (ConfiTear under Engagement, CleanroomTear under
-   Resume), so they move as pairs. */
 function App() {
   const [, t] = useLang();
   const skipItems = useSkipperItems();
   return /*#__PURE__*/React.createElement("main", null, /*#__PURE__*/React.createElement(LanguageSwitcherMount, null), /*#__PURE__*/React.createElement(ContactChipMount, null), /*#__PURE__*/React.createElement(SectionSkipper, {
     items: skipItems,
     label: t("nav").skipLabel
-  }), /*#__PURE__*/React.createElement(Hero, null), /*#__PURE__*/React.createElement(Intro, null), /*#__PURE__*/React.createElement(Seeking, null), /*#__PURE__*/React.createElement(Story, null), /*#__PURE__*/React.createElement(Engagement, null), /*#__PURE__*/React.createElement(ConfiTear, null), /*#__PURE__*/React.createElement(Resume, null), /*#__PURE__*/React.createElement(CleanroomTear, null), /*#__PURE__*/React.createElement(Reunion, null), /*#__PURE__*/React.createElement(Projects, null), /*#__PURE__*/React.createElement(Footer, null));
+  }), /*#__PURE__*/React.createElement(Hero, null), /*#__PURE__*/React.createElement(Intro, null), /*#__PURE__*/React.createElement(Seeking, null), /*#__PURE__*/React.createElement(Resume, null), /*#__PURE__*/React.createElement(Engagement, null), /*#__PURE__*/React.createElement(ConfiTear, null), /*#__PURE__*/React.createElement(Story, null), /*#__PURE__*/React.createElement(CleanroomTear, null), /*#__PURE__*/React.createElement(Reunion, null), /*#__PURE__*/React.createElement(Projects, null), /*#__PURE__*/React.createElement(Footer, null));
 }
 
-/* Expose the root component so the build-time prerender (build.mjs) can render it
-   to static HTML in Node. */
+/* build.mjs renders this in Node to prerender each language */
 window.SECTIONS_B = {
   App
 };
 
-/* Mount only in the browser. The #root is pre-filled with prerendered markup at
-   build time, so hydrate it (preserving the server DOM); fall back to a fresh
-   render if the page was served without prerender (e.g. raw file:// of a source
-   checkout before `npm run build`). */
+/* hydrate the prerendered markup; plain render if it is missing */
 if (typeof document !== "undefined") {
   const rootEl = document.getElementById("root");
   if (rootEl) {

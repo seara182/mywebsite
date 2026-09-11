@@ -1,24 +1,12 @@
-/* ============================================================
-   Mika Jeske — personal site UI kit
-   Self-contained brand primitives + section screens.
-   Built on the design-system tokens (styles.css).
-   ============================================================ */
-
 const { useState, useEffect, useRef } = React;
 
-/* ---------- asset base ----------
-   The same compiled JS runs on the root page (/) and on the per-language
-   prerendered pages (/en/, /fr/, /es/, /it/), which sit one directory deeper.
-   window.__ASSET_BASE__ is set per page by an inline <script> in the template
-   ("" for /, "../" for sub-dirs) and by build.mjs during prerender, so relative
-   asset URLs resolve correctly at any depth — on GitHub Pages and on file://
-   alike — with identical markup on server and client (no hydration mismatch). */
+/* __ASSET_BASE__ is "" on / and "../" on /en/ etc; set by the template and by
+   build.mjs, so the same markup resolves at any depth */
 function asset(p) {
   var base = (typeof window !== "undefined" && window.__ASSET_BASE__) || "";
   return base + p;
 }
 
-/* ---------- i18n hook ---------- */
 function useLang() {
   const [lang, setLang] = useState(window.I18N.getLang());
   useEffect(() => {
@@ -29,12 +17,10 @@ function useLang() {
   return [lang, window.I18N.t];
 }
 
-/* ---------- language switcher / contact chip mounts (delegate to widgets.js) ---------- */
 function LanguageSwitcherMount() {
   const ref = useRef(null);
   useEffect(() => { if (ref.current) window.Widgets.mountLanguageSwitcher(ref.current); }, []);
-  // <nav> landmark for assistive tech / crawlers; the switcher itself is
-  // position:fixed, so the wrapper is visually inert (no layout change).
+  /* landmark only; the switcher itself is position:fixed */
   return <nav aria-label="Sprache / Language" ref={ref} />;
 }
 
@@ -44,7 +30,6 @@ function ContactChipMount() {
   return <div ref={ref} />;
 }
 
-/* ---------- scroll reveal hook ---------- */
 function useReveal() {
   const ref = useRef(null);
   const [seen, setSeen] = useState(false);
@@ -61,23 +46,15 @@ function useReveal() {
   return [ref, seen];
 }
 
-/* ---------- reduced-motion ---------- */
 function prefersReduced() {
   return typeof window !== "undefined" && window.matchMedia
     ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
     : false;
 }
 
-/* ---------- scroll-linked parallax ----------
-   ONE rAF loop for the whole page, not one per element. Each subscriber
-   caches its document offset (re-measured only on resize) so the loop
-   never reads layout - it only writes a --py custom property that
-   `.parallax` turns into a transform. Subscribers pause while off-screen.
-
-   This is what makes the page feel continuous rather than "animated":
-   the offset is a pure function of scroll position, so it tracks the
-   user's finger, reverses instantly, and can be interrupted at any
-   moment. Fully disabled under prefers-reduced-motion. */
+/* one rAF loop for the page. Subscribers cache their document offset (remeasured
+   on resize) so the loop never reads layout - it only writes --py, which
+   .parallax turns into a transform. Off under prefers-reduced-motion. */
 var _pxSubs = [];
 var _pxQueued = false;
 var _pxDepths = null;
@@ -94,9 +71,7 @@ function _depth(name) {
   return v;
 }
 
-/* Travel budget in px for a depth of 1.0 across one full viewport pass.
-   The depth tokens (0.04 / 0.08 / 0.14) scale against this, so the far
-   plane moves ~59px and the foreground ~17px - felt, never hectic. */
+/* px of travel at depth 1.0 across one viewport pass */
 var PX_TRAVEL = 420;
 
 function _pxTick() {
@@ -174,28 +149,18 @@ function useParallax(depthVar) {
   return ref;
 }
 
-/* A drop-in wrapper for anything that should ride a depth plane. */
 function Parallax({ depth = "--depth-2", as = "div", className = "", style = {}, children, ...rest }) {
   const ref = useParallax(depth);
   const Tag = as;
   return <Tag ref={ref} className={("parallax " + className).trim()} style={style} {...rest}>{children}</Tag>;
 }
 
-/* ---------- Reveal ----------
-   Sections don't just fade up any more: they resolve OUT OF DEPTH -
-   opacity + rise + a 5px defocus + a hair of scale, on the emphasized
-   curve. It stays a CSS transition (not an animation) so a fast scroll
-   interrupts it mid-flight instead of queueing, and input is never
-   blocked. Reduced motion collapses it to a plain fade. */
 function Reveal({ children, delay = 0, as = "div", style = {}, className = "" }) {
   const [ref, seen] = useReveal();
   const Tag = as;
   const d = "var(--dur-reveal) var(--ease-emphasized) " + delay + "ms";
-  // Deliberately NOT branched on prefers-reduced-motion: this markup is
-  // prerendered in Node and hydrated in the browser, and React keeps the
-  // server's inline style when the two disagree - a reduced-motion visitor
-  // would have been left with a permanent blur. The `.js-reveal` rule in
-  // index.template.html strips the blur and the travel under `reduce`.
+  /* not branched on prefers-reduced-motion: React keeps the SERVER's inline
+     style when the two disagree, so .js-reveal handles reduce in CSS */
   return (
     <Tag
       ref={ref}
@@ -203,7 +168,7 @@ function Reveal({ children, delay = 0, as = "div", style = {}, className = "" })
       style={{
         opacity: seen ? 1 : 0,
         transform: seen ? "none" : "translateY(28px) scale(0.985)",
-        // blur(0px), never `none` - `none` is not an animatable end state
+        /* blur(0px), not none: none is not an animatable end state */
         filter: seen ? "blur(0px)" : "blur(3px)",
         transition: "opacity " + d + ", transform " + d + ", filter " + d,
         ...style,
@@ -214,11 +179,6 @@ function Reveal({ children, delay = 0, as = "div", style = {}, className = "" })
   );
 }
 
-/* ---------- Pressable ----------
-   Pointer-tracked lift. While the cursor is over the surface the tilt
-   follows it continuously (motion tracks input); on leave it springs
-   back; on press it scales to 0.97 per the design system. Touch pointers
-   get the press state only - no hover tilt to strand. */
 function Pressable({ children, as = "div", tilt = 0, lift = -4, className = "", style = {}, ...rest }) {
   const ref = useRef(null);
   const Tag = as;
@@ -251,19 +211,8 @@ function Pressable({ children, as = "div", tilt = 0, lift = -4, className = "", 
   );
 }
 
-/* ---------- SectionSkipper ----------
-   Replaces the dot rail. The brief rules out a classic navbar AND asks
-   that the first frame is the name alone, so this is neither: a thin row
-   of text links that does not exist until the hero has left the viewport.
-
-   Two deliberate choices:
-   - Real <a href="#id"> anchors, not buttons. The page is prerendered, so
-     with JS disabled the links still navigate; the smooth scroll and the
-     active-section highlight are enhancement layered on top.
-   - Visibility is a CLASS toggle, never an inline style computed during
-     render. The markup is rendered in Node and hydrated in the browser,
-     and React keeps the SERVER's inline style when the two disagree - the
-     same trap that broke Reveal and TornSection earlier. */
+/* real anchors so it still works without JS; visibility is a CLASS toggle, never
+   an inline style, or hydration would keep the server's value */
 function SectionSkipper({ items = [], label = "Zum Abschnitt springen" }) {
   const [past, setPast] = useState(false);
   const [active, setActive] = useState("");
@@ -277,9 +226,7 @@ function SectionSkipper({ items = [], label = "Zum Abschnitt springen" }) {
     return () => io.disconnect();
   }, []);
 
-  /* The language globe is fixed chrome owned by widgets.js, outside React.
-     Rather than duplicate the observer there, the skipper publishes its own
-     state as a class on <html> and the globe's CSS reacts to it. */
+  /* published on <html> so the globe in widgets.js can react in CSS */
   useEffect(() => {
     document.documentElement.classList.toggle("has-skipper", past);
   }, [past]);
@@ -317,21 +264,17 @@ function SectionSkipper({ items = [], label = "Zum Abschnitt springen" }) {
   );
 }
 
-/* ---------- SplitFeature ----------
-   Copy in one half, a photograph filling the other out to the real
-   viewport edge - masked INTO the section rather than framed on top of
-   it, so only the inner edge carries the organic radius and the outer
-   edge runs flush off the page.
-
-   It deliberately does NOT sit inside .container: a grid item cannot
-   escape a centred container reliably (the percentage in the usual
-   `calc(50% - 50vw)` bleed resolves against the grid area, not the
-   container). So the grid spans the full width and the COPY cell carries
-   the padding that lines its text up with the content column instead.
-   See .split* in index.template.html. */
-function SplitFeature({ src, alt, caption, focus = "50% 50%", flip = false, children, className = "", style = {} }) {
+/* Spans the full width rather than sitting in .container: the copy cell carries
+   the padding that lines it up with the content column. `bleed` hands the
+   section's block padding back as negative margins. See .split* in the template. */
+function SplitFeature({ src, alt, caption, focus = "50% 50%", flip = false, bleed = false,
+  bleedTop = "0px", bleedBottom = "0px", children, className = "", style = {} }) {
+  var cls = "split" + (flip ? " split--flip" : "") + (bleed ? " split--bleed" : "") + (className ? " " + className : "");
+  var css = bleed
+    ? Object.assign({ "--split-bleed-top": bleedTop, "--split-bleed-bottom": bleedBottom }, style)
+    : style;
   return (
-    <div className={("split" + (flip ? " split--flip" : "") + (className ? " " + className : "")).trim()} style={style}>
+    <div className={cls} style={css}>
       <div className="split__copy">{children}</div>
       <figure className="split__media">
         <img className="split__img" src={src} alt={alt} loading="lazy" style={{ objectPosition: focus }} />
@@ -341,11 +284,7 @@ function SplitFeature({ src, alt, caption, focus = "50% 50%", flip = false, chil
   );
 }
 
-/* ---------- AlignBlock ----------
-   Wraps a section's heading/lead-paragraph block to give it a left / center /
-   right resting position on desktop, breaking up the uniform centred rhythm.
-   On mobile (≤768px) the .align-block rule in index.html neutralises this back
-   to centred, full-width — so the phone layout stays exactly as it was. */
+/* desktop only; .align-block re-centres it below 768px */
 function AlignBlock({ align = "center", maxWidth = "var(--content-narrow)", style = {}, children }) {
   return (
     <div className="align-block" style={{
@@ -358,7 +297,6 @@ function AlignBlock({ align = "center", maxWidth = "var(--content-narrow)", styl
   );
 }
 
-/* ---------- brand primitives (mirror the DS components) ---------- */
 function Eyebrow({ children, color }) {
   return (
     <span style={{ display: "inline-flex", alignItems: "center", gap: 10, fontFamily: "var(--font-text)", fontSize: "var(--fs-label)", fontWeight: 600, letterSpacing: "var(--ls-label)", textTransform: "uppercase", color: color || "var(--label)" }}>
@@ -371,38 +309,79 @@ function Eyebrow({ children, color }) {
 function Badge({ children, variant = "neutral" }) {
   const v = {
     neutral: { background: "var(--paper-2)", color: "var(--text-body)", border: "1px solid var(--border)" },
-    accent: { background: "rgb(var(--accent-2-rgb) / 0.12)", color: "var(--sienna-deep)", border: "1px solid rgb(var(--accent-2-rgb) / 0.22)" },
-    navy: { background: "rgb(var(--accent-1-rgb) / 0.10)", color: "var(--navy)", border: "1px solid rgb(var(--accent-1-rgb) / 0.20)" },
+    accent: { background: "rgb(var(--accent-1-rgb) / 0.12)", color: "var(--plum-deep)", border: "1px solid rgb(var(--accent-1-rgb) / 0.22)" },
+    plum: { background: "rgb(var(--accent-1-rgb) / 0.10)", color: "var(--plum)", border: "1px solid rgb(var(--accent-1-rgb) / 0.20)" },
     onDark: { background: "rgba(255,255,255,0.10)", color: "var(--on-dark-body)", border: "1px solid var(--on-dark-hairline)" },
   }[variant];
   return <span style={{ display: "inline-flex", alignItems: "center", padding: "5px 12px", fontFamily: "var(--font-text)", fontSize: "var(--fs-caption)", fontWeight: 600, borderRadius: 999, whiteSpace: "nowrap", ...v }}>{children}</span>;
 }
 
-/* ---------- GlowShape ----------
-   The brand's defining motif: a near-black abstract shape floating over
-   a soft COLOURED gradient glow - never a hard drop shadow.
+/* seeded, so a given shape's loop is stable across renders */
+function scribbleLoop(seed, opts) {
+  var cx = opts.cx, cy = opts.cy, r = opts.r, wobble = opts.wobble != null ? opts.wobble : 0.16, n = opts.n || 10;
+  var s = (seed * 9301 + 49297) % 233280;
+  var rnd = function () { s = (s * 9301 + 49297) % 233280; return s / 233280; };
+  var f1 = 2 + rnd() * 1.4, f2 = 5 + rnd() * 2.5;
+  var p1 = rnd() * Math.PI * 2, p2 = rnd() * Math.PI * 2;
+  var rot = rnd() * Math.PI * 2;
+  var pts = [];
+  for (var i = 0; i < n; i++) {
+    var a = rot + (Math.PI * 2 / n) * i;
+    var rr = r * (1 + wobble * Math.sin(a * f1 + p1) + wobble * 0.5 * Math.sin(a * f2 + p2));
+    pts.push([cx + Math.cos(a) * rr, cy + Math.sin(a) * rr]);
+  }
+  var mid0 = [(pts[n - 1][0] + pts[0][0]) / 2, (pts[n - 1][1] + pts[0][1]) / 2];
+  var d = "M" + mid0[0].toFixed(1) + "," + mid0[1].toFixed(1);
+  for (var k = 0; k < n; k++) {
+    var next = pts[(k + 1) % n];
+    var mid = [(pts[k][0] + next[0]) / 2, (pts[k][1] + next[1]) / 2];
+    d += " Q" + pts[k][0].toFixed(1) + "," + pts[k][1].toFixed(1) + " " + mid[0].toFixed(1) + "," + mid[1].toFixed(1);
+  }
+  return d + " Z";
+}
 
-   The halo has to grow FASTER than the shape. At a fixed 1.5x ratio a
-   96px section deco hides its own glow behind itself and the only thing
-   left visible is the grey tail of the gradient, which reads as exactly
-   the drop shadow the brand forbids. Small shapes therefore get a much
-   wider halo and the denser gradient stops, plus a second warm core
-   offset below the shape so a rim of colour is always visible. */
-function GlowShape({ shape = "blob", glow = "sienna", size = 220, drift = false, parallax = null, ink = "var(--ink)", className = "", style = {} }) {
+/* [inner pass, outer pass] */
+const SCRIBBLE_COLORS = {
+  sage:  ["var(--sage-glow)", "var(--sage-deep)"],
+  plum:  ["var(--plum-glow)", "var(--plum-deep)"],
+  honey: ["var(--honey)", "var(--sage-deep)"],
+  duo:   ["var(--plum-glow)", "var(--sage-glow)"],
+  white: ["var(--on-dark-strong)", "var(--on-dark-muted)"],
+};
+
+function Scribble({ seed = 1, glow = "sage", size = 320, className = "", style = {} }) {
+  const colors = SCRIBBLE_COLORS[glow] || SCRIBBLE_COLORS.sage;
+  const cx = size / 2, cy = size / 2;
+  const baseR = size * 0.34;
+  const strokeWidth = Math.max(1.8, size / 120);
+  /* centre jitter, so the two passes are not concentric */
+  const j = size * 0.045;
+  const loops = [
+    { seed: seed, cx: cx - j * 0.4, cy: cy + j * 0.3, r: baseR, wobble: 0.22, n: 14, color: colors[0], opacity: 0.88, w: strokeWidth },
+    { seed: seed + 31, cx: cx + j * 0.5, cy: cy - j * 0.25, r: baseR * 1.18, wobble: 0.26, n: 12, color: colors[1], opacity: 0.55, w: strokeWidth * 0.78 },
+  ];
+  return (
+    <svg aria-hidden="true" viewBox={`0 0 ${size} ${size}`} width={size} height={size} className={className}
+      style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", overflow: "visible", pointerEvents: "none", ...style }}>
+      {loops.map((l, i) => (
+        <path key={i} d={scribbleLoop(l.seed, { cx: l.cx, cy: l.cy, r: l.r, wobble: l.wobble, n: l.n })}
+          fill="none" stroke={l.color} strokeWidth={l.w} strokeLinecap="round" strokeLinejoin="round" opacity={l.opacity} />
+      ))}
+    </svg>
+  );
+}
+
+function GlowShape({ shape = "blob", glow = "sage", size = 220, seed = 1, drift = false, parallax = null, ink = "var(--ink)", className = "", style = {} }) {
   const shapes = { blob: "60% 40% 55% 45% / 55% 50% 50% 45%", circle: "50%", squircle: "34%", capsule: "999px", arch: "50% 50% 12% 12% / 70% 70% 12% 12%" };
   const dense = size < 150;
-  const glowBg = (dense
-    ? { sienna: "var(--glow-sienna-dense)", amber: "var(--glow-amber-dense)", navy: "var(--glow-navy-dense)", duo: "var(--glow-duo-dense)", white: "var(--glow-white-strong)" }
-    : { sienna: "var(--glow-sienna)", amber: "var(--glow-amber)", navy: "var(--glow-navy)", duo: "var(--glow-duo)", white: "var(--glow-white)" }
-  )[glow];
-  // halo/shape ratio: the smaller the shape, the wider the halo has to be
-  const ratio = size < 150 ? 2.6 : size < 280 ? 1.9 : 1.6;
+  /* smaller shapes need a proportionally wider ring to clear the silhouette */
+  const ratio = dense ? 1.6 : size < 280 ? 1.42 : 1.28;
   const g = size * ratio;
   const pxRef = useParallax(parallax || "--depth-3");
   const inner = (
     <div style={{ position: "relative", width: size, height: size, display: "grid", placeItems: "center" }}>
-      <div aria-hidden style={{ position: "absolute", width: g, height: g, top: "62%", left: "50%", transform: "translate(-50%,-50%)", background: glowBg, opacity: dense ? 0.62 : 1, filter: "var(--blur-md)", borderRadius: "50%", pointerEvents: "none" }} />
-      <div className={drift ? "drift" : ""} style={{ position: "relative", zIndex: 1, width: "100%", height: "100%", background: ink, borderRadius: shapes[shape] }} />
+      <Scribble seed={seed} glow={glow} size={g} />
+      <div className={drift ? "drift" : ""} style={{ position: "relative", zIndex: 1, width: "100%", height: "100%", background: ink, borderRadius: shapes[shape], boxShadow: dense ? "var(--shadow-shape-sm)" : "var(--shadow-shape)" }} />
     </div>
   );
   if (!parallax) {
@@ -415,26 +394,20 @@ function GlowShape({ shape = "blob", glow = "sienna", size = 220, drift = false,
   );
 }
 
-/* ---------- BlobPhoto ----------
-   A photo clipped into an organic blob (varied border-radius, NOT a rectangle
-   or a paper frame) floating over the signature soft COLOURED glow — the brand's
-   "shape over glow" motif, here "photo over glow". Slight rotation; optional
-   slow drift, gated on prefers-reduced-motion via the shared .drift class. */
-function BlobPhoto({ src, caption, glow = "sienna", radius, rot = 0, w = 220, h, focus = "50% 50%", drift = false, parallax = null, glowScale = 1.12, glowOpacity = 0.5 }) {
-  const glowBg = { sienna: "var(--glow-sienna)", amber: "var(--glow-amber)", navy: "var(--glow-navy)", duo: "var(--glow-duo)", white: "var(--glow-white)" }[glow] || "var(--glow-sienna)";
+function BlobPhoto({ src, caption, glow = "sage", seed = 1, radius, rot = 0, w = 220, h, focus = "50% 50%", drift = false, parallax = null, glowScale = 1.32 }) {
   const blob = radius || "60% 40% 55% 45% / 55% 50% 50% 45%";
   const height = h || w;
   const g = Math.max(w, height) * glowScale;
   const pxRef = useParallax(parallax || "--depth-2");
   return (
     <figure ref={parallax ? pxRef : null} className={"blob-photo" + (parallax ? " parallax" : "")} style={{ margin: 0, position: "relative", width: w }}>
-      <div aria-hidden style={{ position: "absolute", left: "50%", top: "46%", width: g, height: g, transform: "translate(-50%,-50%)", background: glowBg, opacity: glowOpacity, filter: "var(--blur-md)", borderRadius: "50%", pointerEvents: "none", zIndex: 0 }} />
+      <Scribble seed={seed} glow={glow} size={g} style={{ top: "46%", zIndex: 0 }} />
       <div className={drift ? "drift-soft" : ""} style={{ position: "relative", zIndex: 1, transform: `rotate(${rot}deg)`, transition: "transform .5s var(--ease-out)" }}>
         <img src={src} alt={caption || ""} loading="lazy"
           style={{ display: "block", width: "100%", height, objectFit: "cover", objectPosition: focus, borderRadius: blob, boxShadow: "0 10px 26px -12px rgba(20,20,26,0.42), 0 30px 60px -30px rgba(20,20,26,0.4)" }} />
       </div>
       {caption && (
-        <figcaption style={{ fontFamily: "var(--font-mono)", fontSize: "var(--fs-caption)", color: "var(--on-dark-muted)", marginTop: 12, maxWidth: w + 40, lineHeight: 1.4 }}>
+        <figcaption className="photo-cap" style={{ fontFamily: "var(--font-mono)", fontSize: "var(--fs-caption)", color: "var(--on-dark-muted)", marginTop: 12, maxWidth: w + 40, lineHeight: 1.4 }}>
           {caption}
         </figcaption>
       )}
@@ -442,10 +415,7 @@ function BlobPhoto({ src, caption, glow = "sienna", radius, rot = 0, w = 220, h,
   );
 }
 
-/* ---------- BlobCluster ----------
-   A few BlobPhotos staggered/overlapping organically inside a section's empty
-   half. Each photo carries its own absolute `pos` so the section composes the
-   arrangement; the cluster just provides the relative stage. */
+/* each photo positions itself via `pos`; this is just the relative stage */
 function BlobCluster({ photos = [], style = {} }) {
   return (
     <div className="blob-cluster" style={{ position: "relative", ...style }}>
@@ -458,13 +428,7 @@ function BlobCluster({ photos = [], style = {} }) {
   );
 }
 
-/* ---------- FigurePlot ----------
-   A clean inline-SVG line chart for the Bachelor-thesis data. Warm-ink
-   axes/gridlines, accent series in sienna, others muted — obeys the
-   no-pure-black/white brand rule a raster export couldn't. Data-driven, with
-   optional second (right) y-axis for comparing series of different magnitude,
-   and an optional dashed zero line. Each series: { label, x:[], y:[], accent?,
-   color?, axis? (1|2) }. */
+/* series: { label, x:[], y:[], accent?, color?, axis? (1|2) } */
 function FigurePlot({ series = [], xDomain, yDomain, y2Domain, xTicks = [], yTicks = [], y2Ticks = [], xLabel, yLabel, y2Label, caption, zeroLine = false, width = 460, height = 300 }) {
   const dual = !!y2Domain;
   const padL = 54, padR = dual ? 54 : 18, padT = 16, padB = 46;
@@ -530,26 +494,18 @@ function FigurePlot({ series = [], xDomain, yDomain, y2Domain, xTicks = [], yTic
   );
 }
 
-/* ---------- WaveBlend ----------
-   A full-bleed SVG that overlaps a colour band's paper neighbour onto
-   the band edge as an "overlapping scale/tile": the paper fills the edge
-   along a shallow, crisp wave and casts a drop shadow in the band's own
-   colour (a bit darker) so the band reads as tucked underneath the paper.
-   The wave is drawn ONCE on a fixed wide virtual canvas and shown via
-   `preserveAspectRatio="slice"`, so it renders at a constant pixel scale
-   on every screen (wide screens show more crests, phones show a gentle
-   slice) — it never squishes into steep spikes. Lives INSIDE the band
-   section, which clips it. */
+/* Drawn once on a fixed wide canvas and shown with preserveAspectRatio="slice",
+   so crests keep a constant pixel scale at any viewport width. */
 function wavePath(seed, edge, opts) {
   var VBW = opts.width, H = opts.height, amp = opts.amp;
   var s = (seed * 9301 + 49297) % 233280;
   var rnd = function () { s = (s * 9301 + 49297) % 233280; return s / 233280; };
-  // constant pixel wavelength (seed-varied a touch) → identical crest shape
-  // at any viewport width; one dominant wave + a gentle higher overlap.
   var wl = 760 + rnd() * 220;
   var k1 = (Math.PI * 2) / wl, k2 = k1 * (1.7 + rnd() * 0.4);
   var p1 = rnd() * Math.PI * 2, p2 = rnd() * Math.PI * 2;
   var a1 = 1, a2 = 0.22, totalW = a1 + a2;
+  /* overridable: the inner shadow needs the same curve filled the other way */
+  var anchor = opts.anchor || edge;
   var baseline = H * 0.5, N = Math.round(VBW / 40), pts = [];
   for (var i = 0; i <= N; i++) {
     var x = (VBW / N) * i;
@@ -558,7 +514,7 @@ function wavePath(seed, edge, opts) {
     if (edge === "bottom") cy = H - cy;
     pts.push([x, cy]);
   }
-  var edgeY = edge === "top" ? 0 : H; // outer (paper-side) edge of the fill
+  var edgeY = anchor === "top" ? 0 : H; // outer edge of the fill
   var d = "M0," + edgeY + " L" + pts[0][0].toFixed(1) + "," + pts[0][1].toFixed(1);
   for (var k = 1; k <= N; k++) {
     var mx = (pts[k - 1][0] + pts[k][0]) / 2, my = (pts[k - 1][1] + pts[k][1]) / 2;
@@ -568,31 +524,45 @@ function wavePath(seed, edge, opts) {
   return d;
 }
 
-function WaveBlend({ edge = "top", color = "var(--paper)", seed = 1, height = 52, amp = 11, over = 4, shadow, shadowOffset = 5, shadowBlur = 8 }) {
+function WaveBlend({ edge = "top", color = "var(--paper)", seed = 1, height = 52, amp = 11, over = 4, shadow, shadowOffset = 5, shadowBlur = 8, lap = "over", z = 0 }) {
   var VBW = 5600; // fixed virtual width (~35:9); shown as a centred px-scale slice
-  var d = wavePath(seed, edge, { width: VBW, height: height, amp: amp });
+  var geom = { width: VBW, height: height, amp: amp };
+  var d = wavePath(seed, edge, geom);
   var sy = edge === "top" ? shadowOffset : -shadowOffset; // cast into the band
-  var filter = shadow ? `drop-shadow(0 ${sy}px ${shadowBlur}px ${shadow})` : "none";
+  /* lap="under" inverts which side is filled, so the seam can be painted OVER a
+     bleeding photograph. drop-shadow only casts outwards, so the edge shadow is
+     drawn as the complementary half, clipped to the fill. */
+  var under = lap === "under";
+  var uid = "wb" + edge + seed + lap;
+  var filter = (shadow && !under) ? `drop-shadow(0 ${sy}px ${shadowBlur}px ${shadow})` : "none";
   return (
     <svg viewBox={`0 0 ${VBW} ${height}`} preserveAspectRatio="xMidYMid slice" aria-hidden="true"
-      style={{ position: "absolute", left: 0, right: 0, width: "100%", height: height, [edge]: -over, zIndex: 0, display: "block", pointerEvents: "none", filter: filter }}>
+      style={{ position: "absolute", left: 0, right: 0, width: "100%", height: height, [edge]: -over, zIndex: z, display: "block", pointerEvents: "none", filter: filter }}>
+      {under && shadow ? (
+        <defs>
+          <clipPath id={uid + "c"}><path d={d} /></clipPath>
+          <filter id={uid + "f"} x="-5%" y="-100%" width="110%" height="300%">
+            <feGaussianBlur stdDeviation={shadowBlur / 2} />
+          </filter>
+        </defs>
+      ) : null}
       <path d={d} fill={color} />
+      {under && shadow ? (
+        <g clipPath={`url(#${uid}c)`}>
+          <path d={wavePath(seed, edge, Object.assign({ anchor: edge === "top" ? "bottom" : "top" }, geom))}
+            fill={shadow} filter={`url(#${uid}f)`} transform={`translate(0,${-sy})`} />
+        </g>
+      ) : null}
     </svg>
   );
 }
 
-/* ---------- TimelineEntry ----------
-   The period used to sit inline with the role and only wrapped onto its
-   own line when the role was long, so two entries in the same column
-   could align differently. It now always occupies its own mono meta
-   line: one rule, one rhythm, whatever the role is called. */
 function TimelineEntry({ role, org, period, location, points = [], last, accent }) {
   return (
     <div className="timeline-entry" style={{ display: "grid", gridTemplateColumns: "auto 1fr", columnGap: "clamp(16px,2.4vw,28px)" }}>
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
         <span className="timeline-dot" aria-hidden style={{ position: "relative", width: 13, height: 13, borderRadius: "50%", background: accent ? "var(--accent)" : "var(--ink)", marginTop: 5, flex: "none" }}>
-          {/* soft halo instead of a flat ring - the glow logic, at dot scale */}
-          <span style={{ position: "absolute", inset: -7, borderRadius: "50%", background: accent ? "var(--glow-sienna-dense)" : "transparent", opacity: accent ? 0.55 : 0, filter: "var(--blur-sm)", pointerEvents: "none" }} />
+          <span style={{ position: "absolute", inset: -7, borderRadius: "50%", background: accent ? "var(--glow-sage-dense)" : "transparent", opacity: accent ? 0.55 : 0, filter: "var(--blur-sm)", pointerEvents: "none" }} />
           <span style={{ position: "absolute", inset: -5, borderRadius: "50%", boxShadow: accent ? "none" : "0 0 0 5px var(--paper-2)", pointerEvents: "none" }} />
         </span>
         {!last && <span style={{ width: 2, flex: 1, background: "var(--border)", marginTop: 8 }} />}
@@ -617,4 +587,4 @@ function TimelineEntry({ role, org, period, location, points = [], last, accent 
   );
 }
 
-window.MJ = { asset, useReveal, useLang, useParallax, prefersReduced, Reveal, Parallax, Pressable, SectionSkipper, SplitFeature, Eyebrow, Badge, GlowShape, WaveBlend, TimelineEntry, AlignBlock, BlobPhoto, BlobCluster, FigurePlot, LanguageSwitcherMount, ContactChipMount };
+window.MJ = { asset, useReveal, useLang, useParallax, prefersReduced, Reveal, Parallax, Pressable, SectionSkipper, SplitFeature, Eyebrow, Badge, GlowShape, Scribble, WaveBlend, TimelineEntry, AlignBlock, BlobPhoto, BlobCluster, FigurePlot, LanguageSwitcherMount, ContactChipMount };

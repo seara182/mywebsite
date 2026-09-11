@@ -1,10 +1,5 @@
 // AUTO-GENERATED from sections-new.jsx by build.mjs — do not edit directly.
 (function () {
-/* ============================================================
-   Mika Jeske — personal narrative, "torn-paper" deep-dives
-   (ZMN cleanroom · EKM Konfi work) and the Abi-reunion mention.
-   Built on the design-system tokens + window.MJ primitives.
-   ============================================================ */
 const {
   useState,
   useRef,
@@ -23,15 +18,7 @@ const {
   useLang
 } = window.MJ;
 
-/* ---------- Bachelor-thesis measurement data ----------
-   From Jeske-Mika_Bachelorarbeit-Messdaten.xlsx. Two figures:
-   (1) SEEBECK_T — relative Seebeck coefficient (µV/K) vs temperature for three
-       sputtered films; Ni is negative while Ag/Al are positive (opposite
-       thermoelectric sign).  ("Seebeck" sheet, V/K → µV/K)
-   (2) SIGMA_TIME — electrical conductivity σ (MS/m) over one heat→cool cycle,
-       Ni vs Bi on two y-axes (their magnitudes differ ~100×). Nickel's σ falls
-       on heating (PTC), Bismuth's rises (NTC) — opposite responses.
-       ("Leitfähigkeit" sheet, time in s → min, S/m → MS/m) */
+/* bachelor-thesis data: µV/K vs °C */
 const SEEBECK_T = {
   series: [{
     label: "Ag · 100 nm",
@@ -48,6 +35,7 @@ const SEEBECK_T = {
     y: [-15.34, -15.42, -15.63, -15.75, -15.89, -15.93, -16.12, -16.17, -16.28, -16.13, -16.43, -16.20, -16.22, -15.83, -15.89, -15.78, -15.46, -15.43, -15.03]
   }]
 };
+/* MS/m vs min, two y-axes (Ni and Bi differ ~100x) */
 const SIGMA_TIME = {
   series: [{
     label: "Ni · 100 nm  (PTC)",
@@ -57,17 +45,14 @@ const SIGMA_TIME = {
     y: [6.64, 6.45, 6.28, 6.12, 5.99, 5.86, 5.75, 5.66, 5.59, 5.54, 5.51, 5.84, 6.08, 6.30, 6.52, 6.76, 6.99, 7.25, 7.50, 7.78, 8.05]
   }, {
     label: "Bi · 50 nm  (NTC)",
-    color: "var(--navy)",
+    color: "var(--plum)",
     axis: 2,
     x: [5, 50, 85, 119, 154, 189, 227, 261, 296, 330, 365, 402, 441, 480, 522, 574, 633, 702, 785, 886, 957],
     y: [0.0579, 0.0589, 0.0598, 0.0607, 0.0618, 0.0631, 0.0648, 0.0668, 0.0691, 0.0705, 0.0723, 0.0704, 0.0686, 0.0669, 0.0652, 0.0636, 0.0620, 0.0605, 0.0590, 0.0575, 0.0559]
   }]
 };
 
-/* ---------- torn-paper edge generator ----------
-   Deterministic jagged path so each tear looks hand-ripped
-   but stable between renders. Filled with the PAGE colour so
-   it reads as the surface tearing away to reveal what's below. */
+/* seeded, so the path is identical on server and client */
 function tornPath(seed, side) {
   const W = 1200,
     H = 26,
@@ -81,7 +66,6 @@ function tornPath(seed, side) {
   for (let i = 0; i <= teeth; i++) {
     const x = W / teeth * i;
     const j = rnd();
-    // small chance of a deeper "rip" for organic asymmetry
     const depth = j < 0.12 ? 0.9 : 0.25 + j * 0.55;
     pts.push([x, side === "top" ? H * depth : H * (1 - depth)]);
   }
@@ -120,13 +104,6 @@ function TornEdge({
     fill: color
   }));
 }
-
-/* ---------- the torn-open deep dive ----------
-   Closed: a faint perforated seam inviting a pull.
-   Open: the page tears edge-to-edge across the viewport and a
-   recessed "under-surface" pushes the content below it down
-   (inline, not overlay). The seam and the panel's text stay in
-   the reading column; only the rip itself runs full-bleed. */
 function TornSection({
   label,
   seed = 7,
@@ -205,7 +182,7 @@ function TornSection({
       transition: "transform .4s var(--ease-glide)",
       fontSize: 13,
       lineHeight: 1,
-      color: "var(--sienna)"
+      color: "var(--sage)"
     }
   }, "\u2193")) : /*#__PURE__*/React.createElement("button", {
     onClick: () => setOpen(o => !o),
@@ -261,7 +238,7 @@ function TornSection({
       transition: "transform .4s var(--ease-glide)",
       fontSize: 12,
       lineHeight: 1,
-      color: "var(--sienna)"
+      color: "var(--sage)"
     }
   }, "\u2193")), /*#__PURE__*/React.createElement("span", {
     "aria-hidden": true,
@@ -315,8 +292,6 @@ function TornSection({
     }
   }, children))))));
 }
-
-/* ---------- ZMN photos: a relaxed, slightly-rotated row ---------- */
 function LoosePhoto({
   src,
   caption,
@@ -350,6 +325,7 @@ function LoosePhoto({
       borderRadius: 5
     }
   })), /*#__PURE__*/React.createElement("figcaption", {
+    className: "photo-cap",
     style: {
       fontFamily: "var(--font-mono)",
       fontSize: "var(--fs-caption)",
@@ -359,8 +335,6 @@ function LoosePhoto({
     }
   }, caption));
 }
-
-/* ---------- Konfi photos: hand-glued polaroids ---------- */
 function Polaroid({
   src,
   caption,
@@ -384,8 +358,8 @@ function Polaroid({
       width: 78,
       height: 26,
       transform: "translateX(-50%) rotate(-3deg)",
-      background: "rgb(var(--amber-rgb) / 0.28)",
-      border: "1px solid rgb(var(--amber-rgb) / 0.18)",
+      background: "rgb(var(--honey-rgb) / 0.28)",
+      border: "1px solid rgb(var(--honey-rgb) / 0.18)",
       borderRadius: 2,
       boxShadow: "0 1px 3px rgba(20,20,26,0.10)"
     }
@@ -417,10 +391,6 @@ function Polaroid({
     }
   }, caption)));
 }
-
-/* ============================================================
-   STORY — how Mika ended up in the small scale
-   ============================================================ */
 function Story() {
   const [, t] = useLang();
   return /*#__PURE__*/React.createElement("section", {
@@ -506,11 +476,6 @@ function Story() {
     }
   }, t("story.p2"))))))));
 }
-
-/* ============================================================
-   CLEANROOM TEAR — sits directly under the CV; the dry line
-   in the résumé torn open to show what the work was really like
-   ============================================================ */
 function CleanroomTear() {
   const [, t] = useLang();
   const c = t("cleanroomTear");
@@ -535,7 +500,7 @@ function CleanroomTear() {
     label: c.label,
     seed: 11
   }, /*#__PURE__*/React.createElement(Eyebrow, {
-    color: "var(--sienna)"
+    color: "var(--sage)"
   }, c.eyebrow), /*#__PURE__*/React.createElement("h3", {
     style: {
       fontFamily: "var(--font-display)",
@@ -600,11 +565,6 @@ function CleanroomTear() {
     w: 205
   }))));
 }
-
-/* ============================================================
-   CONFI TEAR — sits directly under the Ehrenamt band; the
-   youth-work line opened up into the human side of it
-   ============================================================ */
 function ConfiTear() {
   const [, t] = useLang();
   const c = t("confiTear");
@@ -615,7 +575,7 @@ function ConfiTear() {
     }
   }, /*#__PURE__*/React.createElement(WaveBlend, {
     edge: "top",
-    color: "var(--sienna)",
+    color: "var(--sage)",
     seed: 71,
     shadow: "rgb(var(--accent-2-rgb) / 0.45)"
   }), /*#__PURE__*/React.createElement("div", {
@@ -641,8 +601,14 @@ function ConfiTear() {
       photo: asset("ci/assets/Bilder/Konfi/Konfi_Phe.jpeg"),
       text: c.teaser
     }
+  }, /*#__PURE__*/React.createElement(SplitFeature, {
+    flip: true,
+    src: asset("ci/assets/Bilder/Konfi/Konfi_speach.jpeg"),
+    alt: c.photos[0],
+    caption: c.photos[0],
+    focus: "50% 38%"
   }, /*#__PURE__*/React.createElement(Eyebrow, {
-    color: "var(--sienna)"
+    color: "var(--sage)"
   }, c.eyebrow), /*#__PURE__*/React.createElement("h3", {
     style: {
       fontFamily: "var(--font-display)",
@@ -652,16 +618,7 @@ function ConfiTear() {
       margin: "14px 0 18px",
       maxWidth: "24ch"
     }
-  }, c.heading), /*#__PURE__*/React.createElement(SplitFeature, {
-    flip: true,
-    src: asset("ci/assets/Bilder/Konfi/Konfi_speach.jpeg"),
-    alt: c.photos[0],
-    caption: c.photos[0],
-    focus: "50% 38%",
-    style: {
-      marginTop: "clamp(8px,1.5vw,20px)"
-    }
-  }, /*#__PURE__*/React.createElement("p", {
+  }, c.heading), /*#__PURE__*/React.createElement("p", {
     style: {
       fontSize: "var(--fs-body)",
       lineHeight: "var(--lh-relaxed)",
@@ -706,10 +663,6 @@ function ConfiTear() {
     rot: -3.5
   })))));
 }
-
-/* ============================================================
-   REUNION — ggi-abitur2022.de (lighter, "student" register)
-   ============================================================ */
 function Reunion() {
   const GGI = "https://ggi-abitur2022.de/";
   const [, t] = useLang();
@@ -815,8 +768,9 @@ function Reunion() {
     }
   }, /*#__PURE__*/React.createElement(GlowShape, {
     shape: "circle",
-    glow: "navy",
-    size: 120
+    glow: "plum",
+    size: 120,
+    seed: 64
   }), /*#__PURE__*/React.createElement("span", {
     "aria-hidden": true,
     style: {

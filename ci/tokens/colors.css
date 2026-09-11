@@ -1,7 +1,7 @@
 /* ============================================================
    COLORS — Mika Jeske personal brand
    Warm take on Apple's design language. Off-white surfaces,
-   near-black abstract shapes, navy + burnt-sienna accents,
+   near-black abstract shapes, plum + sage accents,
    colored gradient glows instead of hard drop shadows.
    ============================================================ */
 
@@ -11,7 +11,7 @@
      (#FAF7F1 and friends); at large areas the yellow read as staining rather
      than warmth. The whole ramp moves together — surfaces, ink and text — so
      nothing is left with a brown cast sitting on a grey ground. Warmth in the
-     brand now comes from where it belongs: the sienna and amber glows. */
+     brand now comes from where it belongs: the sage and honey glows. */
   --paper:        #F6F6F7;  /* primary surface — neutral off-white */
   --paper-2:      #EFEFF1;  /* recessed / alternating surface */
   --paper-3:      #E4E4E8;  /* hairline fills, track backgrounds */
@@ -34,35 +34,37 @@
      rgba() literal. These hold the same colours as raw channels, for the
      rgb(R G B / A) form, which does accept a var().
 
-     --accent-1 is the cool contrast surface (Intro band), --accent-2 the
-     warm one (Ehrenamt band). Changing the brand means changing these seven
-     lines and the six hexes below them. Nothing else in the codebase names
-     a brand colour. */
-  --accent-1-rgb:       28 44 76;    /* navy */
-  --accent-1-deep-rgb:  15 23 42;
-  --accent-1-glow-rgb:  91 124 192;  /* dusty blue halo */
-  --accent-2-rgb:       188 90 55;   /* burnt sienna */
-  --accent-2-deep-rgb:  120 52 28;
-  --accent-2-glow-rgb:  232 154 92;  /* warm amber halo */
-  --amber-rgb:          226 161 76;  /* third glow tone */
+     --accent-1 is Band 1 / Intro (plum), --accent-2 is Band 2 / Ehrenamt
+     (sage). Changing the brand means changing these seven lines and the
+     hexes below them. Nothing else in the codebase names a brand colour. */
+  --accent-1-rgb:       78 36 84;    /* plum */
+  --accent-1-deep-rgb:  53 24 57;
+  --accent-1-glow-rgb:  216 141 226; /* lilac halo */
+  --accent-2-rgb:       44 104 73;   /* sage */
+  --accent-2-deep-rgb:  30 74 51;
+  --accent-2-glow-rgb:  129 218 172; /* mint halo */
+  --honey-rgb:          236 199 123; /* third glow tone */
 
-  /* ---- Navy accent (contrast surface) ---- */
-  --navy:         #1C2C4C;  /* navy surface */
-  --navy-deep:    #14213B;  /* darker navy */
-  --navy-soft:    #2A3E66;  /* lifted navy for cards on navy */
-  --navy-glow:    #5B7CC0;  /* dusty blue used in glows */
+  /* ---- Plum accent (contrast surface, Band 1 / Intro) ---- */
+  --plum:         #4E2454;  /* plum surface */
+  --plum-deep:    #351839;  /* darker plum */
+  --plum-soft:    #783781;  /* lifted plum for cards on plum */
+  --plum-glow:    #D88DE2;  /* lilac used in glows */
 
-  /* ---- Burnt sienna accent (contrast surface) ---- */
-  --sienna:       #BC5A37;  /* burnt sienna surface */
-  --sienna-deep:  #9C4525;  /* darker sienna */
-  --sienna-soft:  #D07A50;  /* lifted sienna */
-  --sienna-glow:  #E89A5C;  /* warm amber used in glows */
-  --amber:        #E2A14C;  /* secondary warm glow tone */
+  /* ---- Sage accent (contrast surface, Band 2 / Ehrenamt) ---- */
+  --sage:         #2C6849;  /* sage surface */
+  --sage-deep:    #1E4A33;  /* darker sage */
+  --sage-soft:    #47895F;  /* lifted sage */
+  --sage-glow:    #81DAAC;  /* mint used in glows — halo/glow ONLY, never body text
+                                (3.94:1 as text on the sage band itself — see .on-sage) */
+  --honey:        #ECC77B;  /* secondary warm glow tone */
 
-  /* ---- Text on dark/accent surfaces ---- */
-  --on-dark-strong: #FBF8F2;
-  --on-dark-body:   #E6DFD2;
-  --on-dark-muted:  #B9B1A0;
+  /* ---- Text on dark/accent surfaces ----
+     Neutralised off the old warm cream ramp (#FBF8F2/#E6DFD2/#B9B1A0), which
+     read muddy on either new band. */
+  --on-dark-strong: #F7F7F9;
+  --on-dark-body:   #DFDFE4;
+  --on-dark-muted:  #B9B9C6;
   --on-dark-hairline: rgba(255,255,255,0.14);
 
   /* ============================================================
@@ -79,38 +81,45 @@
   --heading:         var(--text-strong);
   --label:           var(--text-muted);
 
-  --accent:          var(--sienna);      /* primary brand accent */
-  --accent-2:        var(--navy);        /* secondary accent */
+  /* --accent is hand-set to Plum rather than left to Band 2 (Sage): every
+     plain UI mark on paper — timeline dots, badges, link underlines, the
+     focus ring below — reads through this one token, and a green accent on
+     a form field or a hover state carries a "valid/success" connotation the
+     brand doesn't intend. --accent-2 is Sage, the secondary alias. */
+  --accent:          var(--plum);
+  --accent-2:        var(--sage);
   --accent-on:       var(--on-dark-strong);
 
   /* Interaction tints (Apple-style subtle press/hover) */
   --press-tint:      rgba(20,20,26,0.05);
   --hover-tint:      rgba(20,20,26,0.035);
-  --focus-ring:      rgb(var(--accent-2-rgb) / 0.45); /* sienna @ 45% */
+  --focus-ring:      rgb(var(--accent-1-rgb) / 0.45); /* plum @ 45%, matches --accent */
 }
 
 /* Dark/accent section scope — opt-in by adding class to a section.
    Flips text + the glow logic (shapes glow white on dark). */
-.on-navy {
-  --bg: var(--navy);
-  --surface-card: var(--navy-soft);
+.on-plum {
+  --bg: var(--plum);
+  --surface-card: var(--plum-soft);
   --border: var(--on-dark-hairline);
   --text: var(--on-dark-body);
   --heading: var(--on-dark-strong);
   --label: var(--on-dark-muted);
-  --accent: var(--sienna-glow);
+  --accent: var(--sage-glow);
   color: var(--on-dark-body);
-  background: var(--navy);
+  background: var(--plum);
 }
 
-.on-sienna {
-  --bg: var(--sienna);
-  --surface-card: var(--sienna-soft);
+.on-sage {
+  --bg: var(--sage);
+  --surface-card: var(--sage-soft);
   --border: var(--on-dark-hairline);
   --text: var(--on-dark-body);
   --heading: var(--on-dark-strong);
   --label: var(--on-dark-muted);
+  /* NOT --sage-glow here: 3.94:1 on its own band fails AA as text. Pinned to
+     on-dark-strong instead — see --sage-glow's comment above. */
   --accent: var(--on-dark-strong);
   color: var(--on-dark-body);
-  background: var(--sienna);
+  background: var(--sage);
 }

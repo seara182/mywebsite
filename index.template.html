@@ -63,16 +63,9 @@
   body { margin: 0; background: var(--paper); overflow-x: hidden; }
   @keyframes scrollHint { 0% { transform: translateY(-100%); } 60%,100% { transform: translateY(220%); } }
 
-  /* #root owns the stacking context for the page's depth planes. */
+  /* owns the stacking context for the depth planes */
   #root { position: relative; z-index: 0; }
 
-  /* ------------------------------------------------------------
-     Section skipper. Replaces the dot rail. The brief rules out a
-     classic navbar, so this is four text links and a hairline: no
-     pills, no dropdown, no box around each item. It is absent until
-     the hero has scrolled away, which is what keeps the promised
-     name-only first frame intact.
-     ------------------------------------------------------------ */
   .skipper {
     position: fixed; top: 0; left: 0; right: 0; z-index: 58;
     display: flex; justify-content: center;
@@ -86,8 +79,6 @@
   .skipper__track {
     display: flex; align-items: center;
     width: 100%; max-width: var(--content);
-    /* --gutter, not --gutter-sm, so the first link sits on the same optical
-       line as every section heading below it */
     padding: 0 var(--gutter);
     overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
     scroll-snap-type: x proximity; overscroll-behavior-x: contain;
@@ -101,7 +92,7 @@
     color: var(--text-muted);
     transition: color .2s var(--ease-out);
   }
-  /* the separator is a pseudo-element, so it never reaches the a11y tree */
+  /* pseudo-element, so it stays out of the a11y tree */
   .skipper__link + .skipper__link::before {
     content: "\00B7"; display: inline-block; margin: 0 14px;
     color: var(--hairline-strong); font-weight: 400; letter-spacing: 0;
@@ -110,9 +101,7 @@
   .skipper__link.is-active { color: var(--accent); }
   .skipper__link:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
 
-  /* The language globe is fixed at top-left and would otherwise be
-     half-swallowed by the bar. It drops below it instead, in step with the
-     bar's own entrance. The class is toggled by SectionSkipper. */
+  /* .has-skipper is toggled by SectionSkipper */
   .lang-switcher { transition: top .42s var(--ease-emphasized), opacity .6s var(--ease-emphasized); }
   .has-skipper .lang-switcher { top: 68px; }
 
@@ -129,11 +118,6 @@
     .skipper { background: var(--paper); }
   }
 
-  /* ------------------------------------------------------------
-     "Was ich suche" spec list. A recruiter skimming for thirty seconds
-     needs four facts, not a paragraph - so this is set as a data sheet:
-     mono keys, hairline rules, one fact per row.
-     ------------------------------------------------------------ */
   .seeking {
     display: grid;
     grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
@@ -160,37 +144,28 @@
   }
   @media (max-width: 860px) {
     .seeking { grid-template-columns: 1fr; }
-    /* stacked, the two-column rule pattern falls apart - each row becomes a
-       label sitting directly on its value, with the rule under the pair */
+    /* one rule under each pair instead of per column */
     .seeking__list { grid-template-columns: 1fr; gap: 0; }
     .seeking__k { border-bottom: none; padding: 14px 0 2px; }
     .seeking__list > .seeking__k:first-of-type + .seeking__v { padding-top: 0; }
     .seeking__v { padding-top: 0; }
   }
 
-  /* ------------------------------------------------------------
-     SplitFeature. Copy in one half, photograph filling the other out
-     to the true viewport edge. The image is MASKED INTO the section
-     rather than framed on it: the inner edge carries the organic
-     radius, the outer edge runs flush off the page.
-
-     .split escapes whatever centred .container it sits in via the
-     margin-left:50% / translateX(-50%) pair. A centred container's
-     content-box centre IS the viewport centre, so that lands the left
-     edge at 0 for any container width - which is what lets one
-     component work inside the torn panel and on the accent band alike.
-     ------------------------------------------------------------ */
+  /* margin-left:50% + translateX(-50%) escapes any centred .container: a
+     centred container's content-box centre IS the viewport centre */
   .split {
-    /* 100vw counts the scrollbar, so a raw 100vw bleed overshoots by the
-       scrollbar width and pushes half of that off each side. widgets.js
-       publishes the real difference as --sbw; without JS it is 0, which is
-       the old behaviour rather than a broken one. */
+    /* 100vw includes the scrollbar; widgets.js publishes the width as --sbw */
     width: calc(100vw - var(--sbw, 0px));
     margin-left: 50%; transform: translateX(-50%);
-    display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 0;
+    display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; gap: 0;
   }
+  /* the copy sets the row height, so a wider copy column means a shorter row
+     and the photo is scaled up less. Must stay between .split and the stacking
+     rule below: all three are single-class, so source order decides. */
+  .split--bleed { grid-template-columns: 60fr 40fr; }
   .split__copy {
     min-width: 0;
+    display: flex; flex-direction: column; justify-content: center;
     padding-block: clamp(28px, 4vw, 64px);
     padding-left: max(var(--gutter), calc(50vw - var(--content) / 2));
     padding-right: clamp(28px, 4vw, 72px);
@@ -202,53 +177,69 @@
   }
   .split__media {
     position: relative; margin: 0; min-width: 0; overflow: hidden;
-    height: clamp(360px, 40vw, 620px);
-    border-radius: 34% 0 0 34% / 24% 0 0 24%;
+    /* no fixed height: the copy sets it; this is just a floor */
+    min-height: clamp(380px, 44vw, 680px);
   }
-  .split--flip .split__media {
-    grid-column: 1; grid-row: 1;
-    border-radius: 0 34% 34% 0 / 0 24% 24% 0;
+  .split--flip .split__media { grid-column: 1; grid-row: 1; }
+  /* the section's block padding, handed back as a negative margin; the
+     WaveBlend seams are drawn over the result */
+  .split--bleed .split__media {
+    margin-top: calc(-1 * var(--split-bleed-top, 0px));
+    margin-bottom: calc(-1 * var(--split-bleed-bottom, 0px));
   }
-  .split__img { display: block; width: 100%; height: 100%; object-fit: cover; }
-  /* The caption hangs off the OUTER edge, which is the square one. On the
-     masked side the radius cuts a long way in at exactly the caption's line -
-     at 2560 it swallowed the first half of the string - so that side is
-     padded clear of the curve instead. */
+  .split--bleed .split__cap { padding-bottom: 60px; }
+  .split__img {
+    position: absolute; inset: 0;
+    display: block; width: 100%; height: 100%; object-fit: cover;
+  }
   .split__cap {
     position: absolute; left: 0; right: 0; bottom: 0;
-    padding: 56px clamp(20px, 2.4vw, 34px) 16px 36%;
+    padding: 56px clamp(20px, 2.4vw, 34px) 16px;
     text-align: right;
     font-family: var(--font-mono); font-size: var(--fs-caption); line-height: 1.45;
     color: rgba(255,255,255,0.92);
-    /* the scrim carries a dark photograph; the shadow carries a light one */
     text-shadow: 0 1px 3px rgba(0,0,0,0.75);
     background: linear-gradient(180deg, transparent, rgba(0,0,0,0.30) 38%, rgba(0,0,0,0.72));
   }
-  .split--flip .split__cap {
-    padding-left: clamp(20px, 2.4vw, 34px); padding-right: 36%;
-    text-align: left;
-  }
-  /* ultrawide: the photograph must not become a billboard, so the media
-     column stops growing and the copy column takes the extra width */
+  .split--flip .split__cap { text-align: left; }
+  /* ultrawide: cap the media column so the copy takes the extra width */
   @media (min-width: 1760px) {
-    .split { grid-template-columns: 1fr minmax(0, 38vw); }
-    .split--flip { grid-template-columns: minmax(0, 38vw) 1fr; }
+    .split { grid-template-columns: 1fr minmax(0, 40vw); }
+    .split--flip { grid-template-columns: minmax(0, 40vw) 1fr; }
+    .split--bleed { grid-template-columns: 1fr minmax(0, 30vw); }
   }
-  /* stacked: image first, then the copy - the photograph is the hook */
+  /* below this the bleeding media column is narrower than the photo's subject,
+     so no crop keeps a head whole; .split keeps its own 900px breakpoint */
+  @media (max-width: 1250px) {
+    .split--bleed { grid-template-columns: 1fr; }
+    .split--bleed .split__media {
+      grid-column: 1; grid-row: 1;
+      min-height: clamp(260px, 48vh, 420px);
+      margin-bottom: 0;
+    }
+    .split--bleed .split__copy {
+      grid-column: 1; grid-row: 2;
+      padding-inline: var(--gutter);
+      padding-block: clamp(24px, 6vw, 40px);
+    }
+    .split--bleed .split__cap {
+      padding: 52px var(--gutter) 14px; text-align: left; font-size: 11px;
+      background: linear-gradient(180deg, transparent, rgba(0,0,0,0.38) 34%, rgba(0,0,0,0.78));
+    }
+  }
   @media (max-width: 900px) {
     .split, .split--flip { grid-template-columns: 1fr; }
     .split__media, .split--flip .split__media {
       grid-column: 1; grid-row: 1;
-      height: clamp(230px, 42vh, 360px);
-      border-radius: 0 0 30% 30% / 0 0 9% 9%;
+      min-height: clamp(260px, 48vh, 420px);
     }
+    .split--bleed .split__media { margin-bottom: 0; }
+    .split--bleed .split__cap { padding-bottom: 14px; }
     .split__copy, .split--flip .split__copy {
       grid-column: 1; grid-row: 2;
       padding-inline: var(--gutter);
       padding-block: clamp(24px, 6vw, 40px);
     }
-    /* stacked, the mask is along the bottom, so the caption clears both
-       corners and centres instead of hanging off one edge */
     .split__cap, .split--flip .split__cap {
       padding: 52px var(--gutter) 14px; text-align: left;
       font-size: 11px;
@@ -256,29 +247,22 @@
     }
   }
 
-  /* ------------------------------------------------------------
-     Interaction surfaces. Pressable supplies the pointer-tracked
-     transform; these add the surface response that goes with it.
-     ------------------------------------------------------------ */
+  /* Pressable supplies the transform; these are the surface response */
   .cta-arrow { display: inline-block; transition: transform .24s var(--ease-out); }
   .pressable:hover .cta-arrow { transform: translateX(3px); }
   .cta-ink:hover { box-shadow: 0 14px 30px -16px rgba(20,20,26,0.55), 0 28px 60px -34px rgb(var(--accent-2-rgb) / 0.5); }
   .cta-outline { transition: border-color .24s var(--ease-out), background .24s var(--ease-out), color .24s var(--ease-out); }
-  .cta-outline:hover { border-color: rgb(var(--accent-2-rgb) / 0.55); color: var(--sienna-deep); background: rgb(var(--accent-2-rgb) / 0.06); }
+  .cta-outline:hover { border-color: rgb(var(--accent-2-rgb) / 0.55); color: var(--sage-deep); background: rgb(var(--accent-2-rgb) / 0.06); }
   .award-card:hover { box-shadow: var(--shadow-lg), 0 44px 80px -52px rgb(var(--accent-2-rgb) / 0.5); }
   .bay-preview:hover { box-shadow: var(--shadow-lg), 0 50px 90px -44px rgb(var(--accent-2-glow-rgb) / 0.42); }
   @media (prefers-reduced-motion: reduce) { .pressable:hover .cta-arrow { transform: none; } }
 
-  /* Resume columns. Bildungsweg is the shorter of the two timelines, so on
-     wide screens it takes the narrower column and both start at the top;
-     the pair stops ending in a ragged void. !important because the grid is
-     declared inline by the component. */
+  /* !important: the grid is declared inline by the component */
   @media (min-width: 980px) {
     .resume-grid { grid-template-columns: minmax(0, 1.18fr) minmax(0, 0.92fr) !important; }
   }
 
-  /* torn-paper deep-dives + photo treatments */
-  .tear-trigger:hover .tear-label { color: var(--sienna); }
+  .tear-trigger:hover .tear-label { color: var(--sage); }
   .tear-trigger:hover .tear-label > span:last-child { background: rgb(var(--accent-2-rgb) / 0.10); border-color: rgb(var(--accent-2-rgb) / 0.30); }
   .loose-photo:hover { transform: rotate(0deg) translateY(-4px) !important; }
   .polaroid:hover { transform: rotate(0deg) scale(1.02) !important; z-index: 2; }
@@ -288,10 +272,8 @@
     .loose-photo, .polaroid { transition: none !important; }
     .tear-panel { transition: none !important; }
 
-    /* The reveal and the hero sequence are rendered unconditionally (the page
-       is prerendered in Node, so the components cannot branch on a media
-       query without breaking hydration). Reduced motion is honoured here:
-       no travel, no defocus, no scale - content simply fades up in place. */
+    /* the components cannot branch on this media query without breaking
+       hydration, so reduced motion is honoured here instead */
     .js-reveal, .hero-line, .hero-photo {
       transform: none !important;
       filter: none !important;
@@ -300,46 +282,37 @@
     .hero-line, .hero-photo, .hero-hint { transition: opacity .3s linear !important; }
   }
 
-  /* hero: progressive-enhancement fallback for browsers without svh */
-  .hero { min-height: 100vh; min-height: 100svh; }
+  /* clips sideways only, so the ambient shapes bleed past the bottom edge and
+     the plum band hides them along its wave instead of a hard straight cut */
+  .hero { min-height: 100vh; min-height: 100svh; overflow-x: clip; }
+  @supports not (overflow-x: clip) { .hero { overflow: hidden; } }
 
-  /* Hero name track. The name is the ONLY text allowed out of the reading
-     column: at 21:9 a 1080px-capped, 120px-max name sits marooned in the
-     middle of the canvas, which is exactly the "lost in the width" failure
-     the brief rules out. The block widens in two steps and the display cut
-     (--fs-display-hero) carries it to 160px. Body measures are untouched. */
+  /* the name is the only text allowed out of the reading column */
   .hero-namewrap { max-width: var(--content); margin-inline: auto; width: 100%; }
   @media (min-width: 1760px) { .hero-namewrap { max-width: var(--content-wide); } }
   @media (min-width: 2000px) { .hero-namewrap { max-width: var(--content-full); } }
-  /* optical tightening grows with size, as large display type needs */
   @media (min-width: 1760px) { .hero-name { letter-spacing: -0.032em; } }
 
-  /* hero portrait — widescreen only; below 1440px there isn't clearance
-     between the name and the ambient blob, so it stays hidden and the
-     hero renders exactly as before on phone/tablet/laptop. */
+  /* widescreen only: below 1440px it has no clearance from the name */
   .hero-photo { display: none; }
   @media (min-width: 1440px) {
     .hero-photo { display: block; }
   }
 
-  /* per-section alignment (AlignBlock) is DESKTOP-ONLY. Below 768px it
-     collapses back to centred/full-width, so phones/tablets render as before. */
   @media (max-width: 768px) {
     .align-block { margin-inline: auto !important; max-width: 100% !important; }
   }
 
-  /* AlignBlock displacement track — any .container that holds AlignBlocks widens
-     on big screens so the left/right offset uses more of the viewport. The copy
-     itself stays at a readable measure (each AlignBlock caps its own max-width);
-     only the empty space the block is pushed across grows. Below 1280px it equals
-     a normal .container, so tablet/mobile are untouched. */
+  /* widens the track the AlignBlocks are pushed across; each block still caps
+     its own measure */
   @media (min-width: 1280px) { .container.align-track { max-width: var(--content-wide); } }
   @media (min-width: 1760px) { .container.align-track { max-width: var(--content-full); } }
 
-  /* Desktop-only fills for the empty half of aligned sections (Story thesis
-     figure, Intro/Engagement photo clusters). Hidden below 1440px so the larger
-     imagery always has clearance from the text column; phone/tablet/small-laptop
-     render identically to before. */
+  /* z-index lifts the caption over the Scribble in the same figure: a
+     positioned z-index:0 element otherwise paints over static text */
+  .photo-cap { position: relative; z-index: 2; text-shadow: 0 1px 2px rgba(0,0,0,0.40); }
+
+  /* fills the empty half of an aligned section; hidden below 1440px */
   .fill-slot { display: none; }
   @media (min-width: 1440px) {
     .fill-slot { display: block; position: absolute; top: 50%; transform: translateY(-50%); z-index: 1; }
@@ -351,67 +324,47 @@
     .fill-slot--right { right: clamp(48px, 7vw, 220px); }
   }
 
-  /* Story: two thesis figures share a desktop grid with the narrative (≥1440px).
-     Below 1440 the figures are hidden and the narrative renders exactly as
-     before (so phone/tablet/small-laptop are untouched). A grid — rather than
-     an absolute slot — lets the section grow to fit the two stacked charts. */
+  /* a grid, not an absolute slot, so the section grows to fit the charts */
   .story-figs { display: none; }
   @media (min-width: 1440px) {
     .story-grid { display: grid; grid-template-columns: minmax(0, 500px) 1fr; gap: clamp(40px, 5vw, 96px); align-items: center; }
     .story-figs { display: flex; flex-direction: column; gap: clamp(22px, 2.6vw, 40px); }
   }
 
-  /* mobile-only layout fixes — none of these apply at desktop widths */
   @media (max-width: 560px) {
-    /* section headers: stack the heading above the decorative glow on phones */
     .section-head { flex-direction: column; align-items: flex-start; gap: 20px; }
     .section-head__deco { align-self: flex-end; }
-    /* the mark and its halo scale together, so it stays an ornament instead of
-       taking over a 390px column */
+    /* mark and halo scale together */
     .section-head__glow { transform: scale(0.62); transform-origin: right center; }
 
-    /* hero: shrink the ambient shapes into the corners so the name owns the
-       frame. They keep their FULL ink value - the old opacity override
-       rendered them as a washed-out grey mass over a third of the screen,
-       which is the opposite of the near-black-shape-over-coloured-glow
-       motif. Smaller, not fainter. */
+    /* smaller, not fainter: the ink value stays */
     .hero-glow-blob { transform: scale(0.46); transform-origin: top right; }
     .lang-hint { display: none !important; }
     .hero-glow-arch { transform: scale(0.42); transform-origin: bottom left; }
 
-    /* the scroll hint sits clear of the home indicator */
     .hero-hint { bottom: max(30px, env(safe-area-inset-bottom, 0px)) !important; }
 
-    /* Intro (navy band): shrink + tuck the ambient circle into the corner so
-       it doesn't wash out the headline text wrapping beneath it on phones */
     .intro-glow { transform: scale(0.55); transform-origin: top right; opacity: 0.6 !important; }
 
-    /* Engagement (sienna band): shrink + tuck the ambient blob into the
-       corner so it clears the timeline entries above it */
-    .engagement-glow { transform: scale(0.55); transform-origin: bottom right; opacity: 0.7 !important; }
+    /* clears the timeline entries above it */
+    .engagement-glow { transform: scale(0.8); transform-origin: bottom right; opacity: 0.7 !important; }
 
-    /* Next-Game preview tile: let it grow to fit its content instead of clipping
-       the wrapped stat row inside a fixed 16/10 box */
+    /* grow to fit the wrapped stat row instead of clipping it */
     .bay-preview { aspect-ratio: auto !important; min-height: 0 !important; }
   }
 </style>
 <noscript>
-  <!-- Without JS the scroll-reveal animations never fire; force the prerendered
-       content visible so the page is fully readable without script execution. -->
+  <!-- without JS the reveal observers never fire, so force everything visible -->
   <style>.js-reveal, .hero-line, .hero-photo { opacity: 1 !important; transform: none !important; filter: none !important; }
          .parallax { transform: none !important; }
-         /* the skipper is revealed by an observer, so without JS it would
-            never appear at all: make it a plain static row at the top. */
+         /* revealed by an observer, so without JS it would never appear */
          .skipper { position: static; opacity: 1 !important; transform: none !important; pointer-events: auto !important; }</style>
 </noscript>
 </head>
 <body>
 <div id="root">{{ROOT_HTML}}</div>
-<!-- JSX is precompiled to plain JS via `npm run build` (sources are the .jsx files),
-     which ALSO prerenders this page's text per language into #root above. The .js
-     load as ordinary scripts and HYDRATE the prerendered markup, so the page works
-     on file:// (double-click) and on GitHub Pages alike, and serves full text to
-     crawlers/LLMs with no JS execution. -->
+<!-- generated by `npm run build` from the .jsx sources; these hydrate the
+     prerendered #root above -->
 <script src="{{BASE}}widgets.js"></script>
 <script src="{{BASE}}primitives.js"></script>
 <script src="{{BASE}}sections-a.js"></script>
