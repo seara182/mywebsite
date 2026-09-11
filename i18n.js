@@ -150,8 +150,8 @@
       education: [
         { role: "M.Sc. Metrologie und Messtechnik", org: "Technische Universität Braunschweig", period: "ab 10.2026", accent: true,
           points: ["Vertiefungsrichtung Sensorik und Messprinzipien; knüpft direkt an die Bachelorarbeit zu gesputterten Dünnschichten an", "Basisteil Metrologie: Messdatenauswertung und messtechnische Statistik", "Enge Anbindung an die Physikalisch-Technische Bundesanstalt als nationales Metrologieinstitut"] },
-        { role: "B.Sc. Werkstoffwissenschaft", org: "Technische Universität Ilmenau", period: "10.2022 – 09.2026",
-          points: ["Schwerpunkt metallische Werkstoffe, Dünnschichttechnik und Fertigungsverfahren", "Bachelorarbeit: Temperaturabhängige elektrische Eigenschaften gesputterter Dünnschichten", "Nominierung für die Studienstiftung des deutschen Volkes"] },
+        { role: "B.Sc. Werkstoffwissenschaft · 2,0", org: "Technische Universität Ilmenau", period: "10.2022 – 09.2026",
+          points: ["Schwerpunkt metallische Werkstoffe, Dünnschichttechnik und Fertigungsverfahren", "Bachelorarbeit: Temperaturabhängige elektrische Eigenschaften gesputterter Dünnschichten (Note 1,0)", "Nominierung für die Studienstiftung des deutschen Volkes"] },
         { role: "Allgemeine Hochschulreife · 1,8", org: "Gymnasium Groß Ilsede", period: "2013 – 2022", points: [] },
       ],
       engagementSection: {
@@ -322,8 +322,8 @@
       education: [
         { role: "M.Sc. Metrology and Measurement Technology", org: "Technische Universität Braunschweig", period: "from 10.2026", accent: true,
           points: ["Specialisation in sensor technology and measurement principles; a direct continuation of the bachelor's thesis on sputtered thin films", "Metrology core: measurement data evaluation and metrological statistics", "Closely tied to the Physikalisch-Technische Bundesanstalt, Germany's national metrology institute"] },
-        { role: "B.Sc. Materials Science", org: "Technische Universität Ilmenau", period: "10.2022 – 09.2026",
-          points: ["Focus on metallic materials, thin-film technology and manufacturing processes", "Bachelor's thesis: Temperature-dependent electrical properties of sputtered thin films", "Nominated for the German National Academic Foundation (Studienstiftung)"] },
+        { role: "B.Sc. Materials Science · 2.0", org: "Technische Universität Ilmenau", period: "10.2022 – 09.2026",
+          points: ["Focus on metallic materials, thin-film technology and manufacturing processes", "Bachelor's thesis: Temperature-dependent electrical properties of sputtered thin films (grade 1.0)", "Nominated for the German National Academic Foundation (Studienstiftung)"] },
         { role: "German university entrance qualification (Abitur) · 1.8", org: "Gymnasium Groß Ilsede", period: "2013 – 2022", points: [] },
       ],
       engagementSection: {
@@ -494,8 +494,8 @@
       education: [
         { role: "Master (M.Sc.) en métrologie et techniques de mesure", org: "Technische Universität Braunschweig", period: "à partir de 10.2026", accent: true,
           points: ["Spécialisation en capteurs et principes de mesure ; dans le prolongement direct du mémoire de licence sur les couches minces pulvérisées", "Tronc commun de métrologie : exploitation des données de mesure et statistiques métrologiques", "Lien étroit avec la Physikalisch-Technische Bundesanstalt, institut national allemand de métrologie"] },
-        { role: "Licence (B.Sc.) en science des matériaux", org: "Technische Universität Ilmenau", period: "10.2022 – 09.2026",
-          points: ["Spécialisation en matériaux métalliques, technologie des couches minces et procédés de fabrication", "Mémoire de licence : propriétés électriques en fonction de la température de couches minces pulvérisées", "Nommé pour la Fondation nationale allemande pour les études (Studienstiftung)"] },
+        { role: "Licence (B.Sc.) en science des matériaux · 2,0", org: "Technische Universität Ilmenau", period: "10.2022 – 09.2026",
+          points: ["Spécialisation en matériaux métalliques, technologie des couches minces et procédés de fabrication", "Mémoire de licence : propriétés électriques en fonction de la température de couches minces pulvérisées (note 1,0)", "Nommé pour la Fondation nationale allemande pour les études (Studienstiftung)"] },
         { role: "Baccalauréat allemand (Abitur) · 1,8", org: "Gymnasium Groß Ilsede", period: "2013 – 2022", points: [] },
       ],
       engagementSection: {
@@ -666,8 +666,8 @@
       education: [
         { role: "Máster (M.Sc.) en Metrología y Técnicas de Medición", org: "Technische Universität Braunschweig", period: "a partir de 10.2026", accent: true,
           points: ["Especialización en sensores y principios de medición: continuación directa del trabajo de fin de grado sobre capas finas pulverizadas", "Módulo base de metrología: evaluación de datos de medición y estadística metrológica", "Estrecha vinculación con la Physikalisch-Technische Bundesanstalt, el instituto metrológico nacional alemán"] },
-        { role: "Grado (B.Sc.) en Ciencia de Materiales", org: "Technische Universität Ilmenau", period: "10.2022 – 09.2026",
-          points: ["Especialización en materiales metálicos, tecnología de capas finas y procesos de fabricación", "Trabajo de fin de grado: propiedades eléctricas en función de la temperatura de capas finas pulverizadas", "Nominado para la Fundación Nacional Académica Alemana (Studienstiftung)"] },
+        { role: "Grado (B.Sc.) en Ciencia de Materiales · 2,0", org: "Technische Universität Ilmenau", period: "10.2022 – 09.2026",
+          points: ["Especialización en materiales metálicos, tecnología de capas finas y procesos de fabricación", "Trabajo de fin de grado: propiedades eléctricas en función de la temperatura de capas finas pulverizadas (nota 1,0)", "Nominado para la Fundación Nacional Académica Alemana (Studienstiftung)"] },
         { role: "Bachillerato alemán (Abitur) · 1,8", org: "Gymnasium Groß Ilsede", period: "2013 – 2022", points: [] },
       ],
       engagementSection: {
@@ -851,8 +851,8 @@
       education: [
         { role: "M.Sc. in Metrologia e tecniche di misura", org: "Technische Universität Braunschweig", period: "da 10.2026", accent: true,
           points: ["Indirizzo in sensoristica e principi di misura: prosecuzione diretta della tesi di laurea sui film sottili depositati per sputtering", "Modulo base di metrologia: analisi dei dati di misura e statistica metrologica", "Stretto legame con la Physikalisch-Technische Bundesanstalt, l'istituto metrologico nazionale tedesco"] },
-        { role: "B.Sc. in Scienza dei materiali", org: "Technische Universität Ilmenau", period: "10.2022 – 09.2026",
-          points: ["Indirizzo in materiali metallici, tecnologia dei film sottili e processi di fabbricazione", "Tesi di laurea: proprietà elettriche in funzione della temperatura di film sottili depositati per sputtering", "Candidatura alla Studienstiftung des deutschen Volkes (fondazione nazionale per il merito accademico)"] },
+        { role: "B.Sc. in Scienza dei materiali · 2,0", org: "Technische Universität Ilmenau", period: "10.2022 – 09.2026",
+          points: ["Indirizzo in materiali metallici, tecnologia dei film sottili e processi di fabbricazione", "Tesi di laurea: proprietà elettriche in funzione della temperatura di film sottili depositati per sputtering (voto 1,0)", "Candidatura alla Studienstiftung des deutschen Volkes (fondazione nazionale per il merito accademico)"] },
         { role: "Maturità tedesca (Abitur) · 1,8", org: "Gymnasium Groß Ilsede", period: "2013 – 2022", points: [] },
       ],
       engagementSection: {
