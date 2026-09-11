@@ -54,12 +54,12 @@ function Intro() {
   const [, t] = useLang();
   const ip = t("intro.photos") || [];
   return (
-    <section id="intro" data-section className="on-plum" style={{ position: "relative", zIndex: 1, overflow: "hidden", padding: `var(--section-y) 0 calc(var(--section-y) + ${LAP}px)`, marginBottom: -LAP }}>
+    <section id="intro" data-section className="on-plum" style={{ position: "relative", zIndex: 1, overflow: "hidden", padding: `12mm 0 calc(5mm + ${LAP}px)`, marginBottom: -LAP }}>
       <WaveBlend edge="top" color="var(--paper)" seed={5} shadow="rgb(var(--accent-1-deep-rgb) / 0.55)" z={2} />
       <WaveBlend edge="bottom" lap="under" color="var(--paper)" seed={63} shadow="rgb(var(--accent-1-rgb) / 0.45)" z={2} />
       <div className="container" style={{ position: "relative", zIndex: 1 }}>
         <SplitFeature bleed
-          bleedTop="var(--section-y)" bleedBottom={`calc(var(--section-y) + ${LAP}px)`}
+          bleedTop="12mm" bleedBottom={`calc(5mm + ${LAP}px)`}
           src={asset("ci/assets/Bilder/Weitere/i_zfp.jpeg")}
           alt={ip[0]} caption={ip[0]} focus="25% 40%">
           <Reveal><Eyebrow color="var(--sage-glow)">{t("intro.eyebrow")}</Eyebrow></Reveal>

@@ -245,7 +245,7 @@ function Intro() {
       position: "relative",
       zIndex: 1,
       overflow: "hidden",
-      padding: `var(--section-y) 0 calc(var(--section-y) + ${LAP}px)`,
+      padding: `12mm 0 calc(5mm + ${LAP}px)`,
       marginBottom: -LAP
     }
   }, /*#__PURE__*/React.createElement(WaveBlend, {
@@ -269,8 +269,8 @@ function Intro() {
     }
   }, /*#__PURE__*/React.createElement(SplitFeature, {
     bleed: true,
-    bleedTop: "var(--section-y)",
-    bleedBottom: `calc(var(--section-y) + ${LAP}px)`,
+    bleedTop: "12mm",
+    bleedBottom: `calc(5mm + ${LAP}px)`,
     src: asset("ci/assets/Bilder/Weitere/i_zfp.jpeg"),
     alt: ip[0],
     caption: ip[0],
