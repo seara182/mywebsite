@@ -6,6 +6,9 @@ Mika
 mika
 Jeske
 jeske
+CheapSeats
+Teamauswahl
+telemetría
 gehostet
 DSGVO
 DDG

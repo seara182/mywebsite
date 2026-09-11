@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="../../i18n.js"></script>
-  <title>Sports Window - Mika Jeske</title>
+  <title>CheapSeats - Mika Jeske</title>
   <link rel="canonical" href="https://mika-jeske.de/projects/sports-window/">
   <link rel="icon" href="../../ci/icons/Favicon32x.ico">
   <link rel="apple-touch-icon" href="../../ci/icons/Favicon128x.ico">
@@ -234,8 +234,8 @@
     <div class="hero-glow"></div>
     <div class="wrap">
       <span class="eyebrow" data-i18n="sports.eyebrow">Projekt</span>
-      <h1>Sports&nbsp;Window</h1>
-      <p class="hero-sub" data-i18n="sports.heroSub">Ein persönliches Sport-Dashboard als native Desktop-App - gebaut für den kurzen Blick beim Hochfahren. Der Cache zeigt sofort relevante Daten, während im Hintergrund frische Stände nachgeladen werden. Standardmäßig die San Francisco 49ers (NFL) und Giants (MLB) - jedes der 32 NFL- bzw. 30 MLB-Teams lässt sich als aktives Team wählen.</p>
+      <h1>CheapSeats</h1>
+      <p class="hero-sub" data-i18n="sports.heroSub">Ein persönliches Sport-Dashboard als native Desktop-App für Windows - gebaut für den kurzen Blick beim Hochfahren. Der Cache zeigt sofort relevante Daten, während im Hintergrund frische Stände nachgeladen werden. Jedes der 32 NFL- bzw. 30 MLB-Teams lässt sich frei wählen - einen festen Standard gibt es nicht.</p>
       <div class="stack">
         <span class="chip">Tauri 2 · Rust</span>
         <span class="chip">React 19 · TS</span>
@@ -245,7 +245,7 @@
       </div>
 
       <div class="showcase reveal">
-        <div class="frame"><img src="../../ci/assets/Bilder/BayWindow/Main_Baseball_Light.png" alt="Sports Window Dashboard im Light Mode - Hero-Karte zum nächsten Spiel, Player-Spotlight und Lineup-Diagramm" data-zoom></div>
+        <div class="frame"><img src="../../ci/assets/Bilder/BayWindow/Main_Baseball_Light.png" alt="CheapSeats Dashboard im Light Mode - Hero-Karte zum nächsten Spiel, Player-Spotlight und Lineup-Diagramm" data-zoom></div>
         <div class="tag">
           <div class="k" data-i18n="sports.dashboardK">Dashboard</div>
           <div class="v" data-i18n="sports.dashboardV">Nächstes Spiel, Player-Spotlight und Aufstellung - alles auf einen Blick, sobald die App startet.</div>
@@ -317,7 +317,7 @@
       <h2 class="reveal" data-i18n="sports.everywhereHeading">Läuft auf Handy, Mac und Windows</h2>
       <p class="lede reveal" data-i18n="sports.everywhereLede">Dieselbe defensive Architektur, dieselben Daten - responsiv vom Desktop bis aufs Telefon. Die Seitennavigation merkt sich die Scroll-Position, sodass sich Bereiche sofort anspringen lassen.</p>
       <div class="phone-row">
-        <div class="phone reveal"><img src="../../ci/assets/Bilder/BayWindow/phone_main_light.png" alt="Sports Window Dashboard auf dem Smartphone" data-zoom></div>
+        <div class="phone reveal"><img src="../../ci/assets/Bilder/BayWindow/phone_main_light.png" alt="CheapSeats Dashboard auf dem Smartphone" data-zoom></div>
         <div class="phone reveal"><img src="../../ci/assets/Bilder/BayWindow/phone_card_light.png" alt="Spieler-Karte auf dem Smartphone" data-zoom></div>
         <div class="phone reveal"><img src="../../ci/assets/Bilder/BayWindow/phone_standings_dark.png" alt="Standings im Dark Mode auf dem Smartphone" data-zoom></div>
         <div class="phone reveal"><img src="../../ci/assets/Bilder/BayWindow/phone_playoffs_light.png" alt="Playoff-Bracket auf dem Smartphone" data-zoom></div>
@@ -331,7 +331,7 @@
     <div class="wrap">
       <span class="section-label reveal" data-i18n="sports.techLabel">Unter der Haube</span>
       <h2 class="reveal" data-i18n="sports.techHeading">Technisches Fundament</h2>
-      <p class="lede reveal" data-i18n="sports.techLede">Cache-first und ausfallsicher: Daten sind beim ersten Start sichtbar, jeder API-Aufruf läuft isoliert, und Updates kommen signiert über GitHub.</p>
+      <p class="lede reveal" data-i18n="sports.techLede">Cache-first und ausfallsicher: Daten sind beim ersten Start sichtbar, jeder API-Aufruf läuft isoliert, und Updates kommen über den Microsoft Store.</p>
       <div class="spec">
         <dl class="reveal">
           <dt data-i18n="sports.spec.0.dt">Plattform</dt>
@@ -349,7 +349,7 @@
           <dt data-i18n="sports.spec.4.dt">Sprache</dt>
           <dd data-i18n-html="sports.spec.4.dd"><strong>i18next</strong> mit Deutsch/Englisch und sportartspezifischen Glossaren - Tooltips erklären jede Abkürzung.</dd>
           <dt data-i18n="sports.spec.5.dt">Updates</dt>
-          <dd data-i18n-html="sports.spec.5.dd">Automatische, <strong>signierte Auslieferung</strong> über GitHub - Installation mit einem Klick.</dd>
+          <dd data-i18n-html="sports.spec.5.dd">Automatische Auslieferung über den <strong>Microsoft Store</strong> - kein separater Installer, keine manuellen Updates.</dd>
         </dl>
       </div>
 
@@ -360,10 +360,11 @@
 
       <div class="coming reveal">
         <div>
-          <span class="badge" data-i18n="sports.comingBadge">Open Source</span>
-          <p data-i18n="sports.comingText">Der Quellcode ist öffentlich auf GitHub verfügbar.</p>
+          <span class="badge" data-i18n="sports.comingBadge">Microsoft Store</span>
+          <p data-i18n="sports.comingText">CheapSeats wird ausschließlich über den Microsoft Store vertrieben.</p>
         </div>
-        <a class="gh" href="https://github.com/seara182/sports-window" target="_blank" rel="noopener"><span data-i18n="sports.githubBtn">GitHub-Repo</span> <span aria-hidden>→</span></a>
+        <!-- TODO: swap "#" for the live Microsoft Store listing URL once published -->
+        <a class="gh" href="#"><span data-i18n="sports.githubBtn">Bald im Microsoft Store</span> <span aria-hidden>→</span></a>
       </div>
     </div>
   </section>
@@ -385,11 +386,12 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
           <span data-i18n="footer.phone">Anrufen</span>
         </a>
-        <span class="made" data-i18n="sports.madeByFooter">Sports Window · Made by Mika</span>
+        <span class="made" data-i18n="sports.madeByFooter">CheapSeats · Made by Mika</span>
       </div>
     </div>
     <div class="wrap">
       <p class="i18n-disclaimer" data-i18n="footer.disclaimer">Übersetzungen werden als Komfortfunktion bereitgestellt und wurden KI-unterstützt erstellt. Die deutsche Version ist die maßgebliche Quelle.</p>
+      <p class="i18n-disclaimer" data-i18n="sports.screenshotNote">Die Screenshots auf dieser Seite stammen aus der Entwicklung und können vom aktuellen Stand der App abweichen.</p>
     </div>
   </footer>
 
