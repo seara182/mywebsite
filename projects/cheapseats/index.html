@@ -11,6 +11,8 @@
   <link rel="stylesheet" href="../../ci/styles.css">
   <link rel="stylesheet" href="../../ci/i18n-ui.css">
   <style>
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
     body {
       background: var(--paper);
       color: var(--text);
@@ -77,13 +79,34 @@
       .skipper { background: var(--paper); }
     }
 
-    /* ---- update banner ---- */
+    /* ---- update banner (the "news ticker") ---- */
     .update-banner { background: var(--sage); }
-    .update-banner__inner { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding: 11px 0; }
+    .update-banner__inner { display: flex; align-items: center; gap: 14px; padding: 11px 0; }
     .update-banner__pill { display: inline-flex; flex: none; padding: 3px 10px; font-family: var(--font-text); font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; background: rgba(255,255,255,0.18); color: var(--on-dark-strong); border-radius: var(--radius-pill); }
-    .update-banner__text { margin: 0; flex: 1 1 260px; font-family: var(--font-text); font-size: var(--fs-small); font-weight: 500; color: var(--on-dark-body); }
+    /* Viewport onto the scrolling track. Mask fades text in/out at both
+       edges so it never hard-clips against the container or the links. */
+    .update-banner__ticker {
+      flex: 1 1 auto; min-width: 0; overflow: hidden;
+      -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+      mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+    }
+    /* Track holds two identical copies of the text back-to-back; animating
+       from 0 to -50% moves exactly one copy's width off-screen, so the
+       second copy lands exactly where the first started - no visible seam,
+       and it works at any text length since the shift is a percentage. */
+    .update-banner__track { display: flex; width: max-content; animation: update-banner-scroll 26s linear infinite; }
+    .update-banner__text { margin: 0; padding-right: 56px; flex: none; white-space: nowrap; font-family: var(--font-text); font-size: var(--fs-small); font-weight: 500; color: var(--on-dark-body); }
+    @keyframes update-banner-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .update-banner__links { display: flex; align-items: center; gap: 14px; flex: none; }
     .update-banner__link { flex: none; font-family: var(--font-text); font-size: var(--fs-small); font-weight: 700; color: var(--on-dark-strong); text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
     .update-banner__link:focus-visible { outline: 2px solid var(--on-dark-strong); outline-offset: 3px; border-radius: 4px; }
+    @media (prefers-reduced-motion: reduce) {
+      .update-banner__track { animation: none; }
+      .update-banner__text[aria-hidden] { display: none; }
+    }
+    @media (max-width: 700px) {
+      .update-banner__pill { display: none; }
+    }
 
     /* ---- top bar ---- */
     .topbar { display: flex; align-items: center; justify-content: space-between; padding: clamp(20px,3vw,32px) 0; }
@@ -243,8 +266,21 @@
   <div class="update-banner reveal">
     <div class="wrap update-banner__inner">
       <span class="update-banner__pill" data-i18n="sports.updateBanner.pill">Neu</span>
-      <p class="update-banner__text" data-i18n="sports.updateBanner.text">CheapSeats v1.1 ist da: Live-Tracking, Benachrichtigungen und der offizielle Microsoft-Store-Release.</p>
-      <a class="update-banner__link" href="#updates" data-i18n="sports.updateBanner.cta">Was ist neu →</a>
+      <!-- Scrolling news track: two identical copies back-to-back, animated
+           from translateX(0) to translateX(-50%) so the loop is seamless
+           regardless of how long the translated string runs. Mask fades
+           the edges instead of hard-clipping against the container. -->
+      <div class="update-banner__ticker">
+        <div class="update-banner__track">
+          <p class="update-banner__text" data-i18n="sports.updateBanner.ticker">CheapSeats v1.1 ist da: Live-Tracking, Benachrichtigungen und der offizielle Microsoft-Store-Release +++ App Store und Play Store folgen in Kürze +++ Versprochen: CheapSeats bleibt zu 100 % kostenlos +++</p>
+          <p class="update-banner__text" aria-hidden="true" data-i18n="sports.updateBanner.ticker">CheapSeats v1.1 ist da: Live-Tracking, Benachrichtigungen und der offizielle Microsoft-Store-Release +++ App Store und Play Store folgen in Kürze +++ Versprochen: CheapSeats bleibt zu 100 % kostenlos +++</p>
+        </div>
+      </div>
+      <!-- Stationary right edge: never scrolls, never gets covered. -->
+      <div class="update-banner__links">
+        <a class="update-banner__link" href="#updates" data-i18n="sports.updateBanner.cta">Was ist neu →</a>
+        <a class="update-banner__link" href="#download" data-i18n="sports.nav.download">Jetzt herunterladen</a>
+      </div>
     </div>
   </div>
 

@@ -237,7 +237,7 @@
         screenshotNote: "Die Screenshots auf dieser Seite stammen aus der Entwicklung und können vom aktuellen Stand der App abweichen.",
         updateBanner: {
           pill: "Neu",
-          text: "CheapSeats v1.1 ist da: Live-Tracking, Benachrichtigungen und der offizielle Microsoft-Store-Release.",
+          ticker: "CheapSeats v1.1 ist da: Live-Tracking, Benachrichtigungen und der offizielle Microsoft-Store-Release +++ App Store und Play Store folgen in Kürze +++ Versprochen: CheapSeats bleibt zu 100 % kostenlos +++",
           cta: "Was ist neu →",
         },
         changelogLabel: "Versionsverlauf", changelogHeading: "Was sich getan hat",
@@ -444,7 +444,7 @@
         screenshotNote: "Screenshots on this page are from development builds and may differ from the current version of the app.",
         updateBanner: {
           pill: "New",
-          text: "CheapSeats v1.1 is here: live tracking, notifications and the official Microsoft Store release.",
+          ticker: "CheapSeats v1.1 is here: live tracking, notifications and the official Microsoft Store release +++ App Store and Play Store releases in the works +++ Promise made: CheapSeats will stay 100% free +++",
           cta: "See what's new →",
         },
         changelogLabel: "Version History", changelogHeading: "What's changed",
@@ -651,7 +651,7 @@
         screenshotNote: "Les captures d'écran de cette page proviennent de versions de développement et peuvent différer de la version actuelle de l'application.",
         updateBanner: {
           pill: "Nouveau",
-          text: "CheapSeats v1.1 est arrivé : suivi en direct, notifications et la sortie officielle sur le Microsoft Store.",
+          ticker: "CheapSeats v1.1 est arrivé : suivi en direct, notifications et la sortie officielle sur le Microsoft Store +++ Les versions App Store et Play Store arrivent bientôt +++ Promis : CheapSeats restera gratuite à 100 % +++",
           cta: "Voir les nouveautés →",
         },
         changelogLabel: "Historique des versions", changelogHeading: "Ce qui a changé",
@@ -858,7 +858,7 @@
         screenshotNote: "Las capturas de pantalla de esta página son de versiones en desarrollo y pueden diferir de la versión actual de la aplicación.",
         updateBanner: {
           pill: "Nuevo",
-          text: "Ya está aquí CheapSeats v1.1: seguimiento en vivo, notificaciones y el lanzamiento oficial en la Microsoft Store.",
+          ticker: "Ya está aquí CheapSeats v1.1: seguimiento en vivo, notificaciones y el lanzamiento oficial en la Microsoft Store +++ Las versiones para App Store y Play Store están en camino +++ Promesa hecha: CheapSeats será 100 % gratis +++",
           cta: "Ver novedades →",
         },
         changelogLabel: "Historial de versiones", changelogHeading: "Qué ha cambiado",
@@ -1078,7 +1078,7 @@
         screenshotNote: "Gli screenshot in questa pagina provengono da versioni di sviluppo e potrebbero differire dalla versione attuale dell'app.",
         updateBanner: {
           pill: "Novità",
-          text: "CheapSeats v1.1 è arrivata: tracking live, notifiche e il rilascio ufficiale sul Microsoft Store.",
+          ticker: "CheapSeats v1.1 è arrivata: tracking live, notifiche e il rilascio ufficiale sul Microsoft Store +++ Le versioni per App Store e Play Store sono in arrivo +++ Promesso: CheapSeats resterà gratuita al 100% +++",
           cta: "Scopri le novità →",
         },
         changelogLabel: "Cronologia versioni", changelogHeading: "Cosa è cambiato",
