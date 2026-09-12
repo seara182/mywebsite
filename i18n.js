@@ -82,7 +82,7 @@
         eyebrow: "Was ich suche",
         heading: "Werkstudent neben dem Master",
         rows: [
-          { k: "Stelle", v: "Werkstudent, ab Oktober 2026" },
+          { k: "Stelle", v: "Werkstudent, ab November 2026" },
           { k: "Ort", v: "Braunschweig und Umgebung" },
           { k: "Umfang", v: "Bis 20 Stunden pro Woche neben dem Studium" },
           { k: "Themen", v: "Messtechnik, Sensorik, Dünnschichttechnik, ZfP" },
@@ -195,12 +195,12 @@
       contact: { chip: "Kontakt aufnehmen" },
       langSwitcher: { selectLabel: "Sprache wählen", globeAria: "Sprache auswählen", optionAria: "{lang} auswählen" },
       sports: {
-        nav: { features: "Funktionen", deepDive: "Einblicke", mobile: "Mobil", tech: "Technik", updates: "Updates", download: "Jetzt herunterladen" },
+        nav: { features: "Funktionen", deepDive: "Einblicke", mobile: "Mobil", tech: "Technik", updates: "Updates", download: "Jetzt herunterladen", menu: "Abschnitte" },
         backLink: "Startseite", madeBy: "Made by Mika", eyebrow: "Projekt", title: "CheapSeats",
         heroSub: "Ein persönliches Sport-Dashboard als native Desktop-App für Windows; gebaut für den kurzen Blick beim Hochfahren. Der Cache zeigt sofort relevante Daten, während im Hintergrund frische Stände nachgeladen werden. Jedes der 32 NFL- bzw. 30 MLB-Teams lässt sich frei wählen; einen festen Standard gibt es nicht.",
         dashboardK: "Dashboard", dashboardV: "Nächstes Spiel, Player-Spotlight und Aufstellung; alles auf einen Blick, sobald die App startet.",
         featuresLabel: "Funktionen", featuresHeading: "Was die App kann",
-        featuresLede: "Jeder Endpunkt wird unabhängig abgerufen; fällt einer aus, bleiben die übrigen Bereiche funktionsfähig. Fehlende oder fehlerhafte Daten werden zu „—“ statt zu einem Absturz.",
+        featuresLede: "Wenig visuelles Rauschen, die wichtigen Zahlen zuerst und eine Erklärung für jeden Fachbegriff: Zwischen Hinsehen und Verstehen soll so wenig Zeit wie möglich liegen.",
         features: [
           { title: "Live-Dashboard", desc: "Hero-Karte zum nächsten Spiel mit Gegner, Anstoßzeit, Spielort und TV-Sender; inklusive Countdown bis zum Kickoff." },
           { title: "Live-Tracking", desc: "Echtzeit-Play-by-Play bei laufenden Spielen: aktuelles Inning bzw. Viertel, Spielstand, Down-Distance bzw. Ball-Strike-Zähler und eine Timeline der Scoring-Plays." },
@@ -289,7 +289,7 @@
         eyebrow: "What I am looking for",
         heading: "A working-student role alongside the Master",
         rows: [
-          { k: "Role", v: "Working student, from October 2026" },
+          { k: "Role", v: "Working student, from November 2026" },
           { k: "Where", v: "Braunschweig and the surrounding area" },
           { k: "Hours", v: "Up to 20 hours a week alongside the degree" },
           { k: "Fields", v: "Measurement, sensors, thin films, NDT" },
@@ -402,12 +402,12 @@
       contact: { chip: "Contact me now" },
       langSwitcher: { selectLabel: "Select Language", globeAria: "Select language", optionAria: "Select {lang}" },
       sports: {
-        nav: { features: "Features", deepDive: "Close-ups", mobile: "Mobile", tech: "Tech", updates: "Updates", download: "Download now" },
+        nav: { features: "Features", deepDive: "Close-ups", mobile: "Mobile", tech: "Tech", updates: "Updates", download: "Download now", menu: "Sections" },
         backLink: "Home", madeBy: "Made by Mika", eyebrow: "Project", title: "CheapSeats",
         heroSub: "A personal sports dashboard as a native desktop app for Windows; built for the quick glance at startup. The cache shows relevant data instantly while fresh scores load in the background. Any of the 32 NFL or 30 MLB teams can be chosen freely; there is no fixed default.",
         dashboardK: "Dashboard", dashboardV: "Next game, player spotlight and lineup; all at a glance the moment the app starts.",
         featuresLabel: "Features", featuresHeading: "What the app can do",
-        featuresLede: "Every endpoint is fetched independently; if one fails, the rest of the app keeps working. Missing or malformed data becomes a “—” instead of a crash.",
+        featuresLede: "Low visual clutter, the numbers that matter up front, and an explanation for every piece of jargon: as little time as possible between looking and understanding.",
         features: [
           { title: "Live Dashboard", desc: "A hero card for the next game with opponent, kickoff time, venue and broadcaster; including a countdown to kickoff." },
           { title: "Live Tracking", desc: "Real-time play-by-play while a game is in progress: current inning or quarter, score, down-distance or balls-strikes, and a timeline of scoring plays." },
@@ -496,7 +496,7 @@
         eyebrow: "Ce que je cherche",
         heading: "Un poste d’étudiant salarié en parallèle du master",
         rows: [
-          { k: "Poste", v: "Étudiant salarié, à partir d’octobre 2026" },
+          { k: "Poste", v: "Étudiant salarié, à partir de novembre 2026" },
           { k: "Lieu", v: "Brunswick et ses environs" },
           { k: "Volume", v: "Jusqu’à 20 heures par semaine en parallèle des études" },
           { k: "Domaines", v: "Métrologie, capteurs, couches minces, CND" },
@@ -609,12 +609,12 @@
       contact: { chip: "Me contacter" },
       langSwitcher: { selectLabel: "Choisir la langue", globeAria: "Sélectionner la langue", optionAria: "Sélectionner le {lang}" },
       sports: {
-        nav: { features: "Fonctions", deepDive: "Aperçus", mobile: "Mobile", tech: "Technique", updates: "Mises à jour", download: "Télécharger" },
+        nav: { features: "Fonctions", deepDive: "Aperçus", mobile: "Mobile", tech: "Technique", updates: "Mises à jour", download: "Télécharger", menu: "Sections" },
         backLink: "Accueil", madeBy: "Made by Mika", eyebrow: "Projet", title: "CheapSeats",
         heroSub: "Un tableau de bord sportif personnel sous forme d'application de bureau native pour Windows ; conçu pour le coup d'œil rapide au démarrage. Le cache affiche instantanément les données pertinentes pendant que les scores les plus récents se chargent en arrière-plan. Chacune des 32 équipes NFL ou 30 équipes MLB peut être choisie librement ; il n'y a pas d'équipe par défaut fixe.",
         dashboardK: "Dashboard", dashboardV: "Prochain match, joueur à l'honneur et composition ; tout en un coup d'œil dès le lancement de l'application.",
         featuresLabel: "Fonctionnalités", featuresHeading: "Ce que l'application permet de faire",
-        featuresLede: "Chaque point d'accès est interrogé indépendamment ; si l'un échoue, le reste de l'application continue de fonctionner. Les données manquantes ou erronées deviennent un « — » plutôt qu'un plantage.",
+        featuresLede: "Peu de bruit visuel, les chiffres importants d'abord et une explication pour chaque terme technique : le moins de temps possible entre regarder et comprendre.",
         features: [
           { title: "Tableau de bord en direct", desc: "Une carte principale pour le prochain match avec adversaire, heure du coup d'envoi, lieu et diffuseur ; avec un compte à rebours jusqu'au coup d'envoi." },
           { title: "Suivi en direct", desc: "Play-by-play en temps réel pendant un match : quart-temps ou manche en cours, score, down-distance ou balles-strikes, et une chronologie des actions marquantes." },
@@ -703,7 +703,7 @@
         eyebrow: "Lo que busco",
         heading: "Un puesto de estudiante en prácticas junto al máster",
         rows: [
-          { k: "Puesto", v: "Estudiante en prácticas, desde octubre de 2026" },
+          { k: "Puesto", v: "Estudiante en prácticas, desde noviembre de 2026" },
           { k: "Lugar", v: "Brunswick y alrededores" },
           { k: "Jornada", v: "Hasta 20 horas por semana junto a los estudios" },
           { k: "Áreas", v: "Metrología, sensores, capas finas, END" },
@@ -816,12 +816,12 @@
       contact: { chip: "Contáctame" },
       langSwitcher: { selectLabel: "Elegir idioma", globeAria: "Seleccionar idioma", optionAria: "Seleccionar {lang}" },
       sports: {
-        nav: { features: "Funciones", deepDive: "Detalles", mobile: "Móvil", tech: "Técnica", updates: "Actualizaciones", download: "Descargar ahora" },
+        nav: { features: "Funciones", deepDive: "Detalles", mobile: "Móvil", tech: "Técnica", updates: "Actualizaciones", download: "Descargar ahora", menu: "Secciones" },
         backLink: "Inicio", madeBy: "Made by Mika", eyebrow: "Proyecto", title: "CheapSeats",
         heroSub: "Un panel deportivo personal en forma de aplicación de escritorio nativa para Windows; diseñado para una consulta rápida al arrancar. La caché muestra los datos relevantes al instante mientras los resultados más recientes se cargan en segundo plano. Cualquiera de los 32 equipos de la NFL o los 30 de la MLB puede elegirse libremente; no hay un equipo predeterminado fijo.",
         dashboardK: "Dashboard", dashboardV: "Próximo partido, jugador destacado y alineación; todo de un vistazo en cuanto se abre la aplicación.",
         featuresLabel: "Funciones", featuresHeading: "Lo que la aplicación puede hacer",
-        featuresLede: "Cada endpoint se consulta de forma independiente; si uno falla, el resto de la aplicación sigue funcionando. Los datos ausentes o incorrectos se convierten en un «—» en lugar de un fallo.",
+        featuresLede: "Poco ruido visual, las cifras importantes primero y una explicación para cada término técnico: el menor tiempo posible entre mirar y entender.",
         features: [
           { title: "Panel en vivo", desc: "Una tarjeta principal del próximo partido con rival, hora de inicio, sede y cadena televisiva; incluyendo una cuenta atrás hasta el inicio." },
           { title: "Seguimiento en vivo", desc: "Jugada a jugada en tiempo real durante un partido en curso: inning o cuarto actual, marcador, down-distancia o cuenta de bolas-strikes, y una línea de tiempo de las jugadas de anotación." },
@@ -923,7 +923,7 @@
         eyebrow: "Che cosa cerco",
         heading: "Un impiego da studente lavoratore accanto al master",
         rows: [
-          { k: "Posizione", v: "Studente lavoratore, da ottobre 2026" },
+          { k: "Posizione", v: "Studente lavoratore, da novembre 2026" },
           { k: "Luogo", v: "Braunschweig e dintorni" },
           { k: "Impegno", v: "Fino a 20 ore a settimana accanto agli studi" },
           { k: "Ambiti", v: "Metrologia, sensoristica, film sottili, CND" },
@@ -1036,12 +1036,12 @@
       contact: { chip: "Contattami" },
       langSwitcher: { selectLabel: "Scegli la lingua", globeAria: "Seleziona la lingua", optionAria: "Seleziona {lang}" },
       sports: {
-        nav: { features: "Funzioni", deepDive: "Dettagli", mobile: "Mobile", tech: "Tecnica", updates: "Aggiornamenti", download: "Scarica ora" },
+        nav: { features: "Funzioni", deepDive: "Dettagli", mobile: "Mobile", tech: "Tecnica", updates: "Aggiornamenti", download: "Scarica ora", menu: "Sezioni" },
         backLink: "Home", madeBy: "Made by Mika", eyebrow: "Progetto", title: "CheapSeats",
         heroSub: "Una dashboard sportiva personale come app desktop nativa per Windows; pensata per il rapido sguardo all'avvio. La cache mostra subito i dati rilevanti mentre i punteggi più recenti vengono caricati in background. Ciascuna delle 32 squadre NFL o delle 30 squadre MLB può essere scelta liberamente; non esiste una squadra predefinita fissa.",
         dashboardK: "Dashboard", dashboardV: "Prossima partita, giocatore in evidenza e formazione; tutto a colpo d'occhio non appena l'app si avvia.",
         featuresLabel: "Funzioni", featuresHeading: "Cosa sa fare l'app",
-        featuresLede: "Ogni endpoint viene interrogato in modo indipendente; se uno si guasta, il resto dell'app continua a funzionare. I dati mancanti o errati diventano un «—» invece di un crash.",
+        featuresLede: "Poco rumore visivo, i numeri che contano in primo piano e una spiegazione per ogni termine tecnico: il minor tempo possibile tra guardare e capire.",
         features: [
           { title: "Dashboard live", desc: "Una scheda principale per la prossima partita con avversario, orario d'inizio, sede ed emittente; incluso un conto alla rovescia fino al fischio d'inizio." },
           { title: "Tracking live", desc: "Play-by-play in tempo reale durante una partita in corso: inning o quarto attuale, punteggio, down-distance o conteggio ball-strike, e una timeline delle azioni realizzative." },

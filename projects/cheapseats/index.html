@@ -36,10 +36,19 @@
       background: var(--material-chrome);
       -webkit-backdrop-filter: var(--blur-chrome); backdrop-filter: var(--blur-chrome);
       border-bottom: 1px solid var(--chrome-hairline);
-      opacity: 0; transform: translateY(-100%); pointer-events: none;
-      transition: opacity .3s var(--ease-out), transform .42s var(--ease-emphasized);
+      opacity: 0; transform: translateY(-10px); pointer-events: none;
+      /* Exit (back above the hero): fade out at once, so the ticker can
+         settle back into the slot without the two overlapping. */
+      transition: opacity .16s linear, transform .16s var(--ease-out);
     }
-    .skipper.is-visible { opacity: 1; transform: none; pointer-events: auto; }
+    /* Enter: waits for the ticker to clear the slot, then fades in where it
+       sits, with a short drop. The ticker is a solid strip, so it
+       moves like an object; the skipper is glass, so it arrives like one.
+       Each leaves the way it came, so scrolling back up is the exact reverse. */
+    .skipper.is-visible {
+      opacity: 1; transform: none; pointer-events: auto;
+      transition: opacity .3s var(--ease-out) .18s, transform .42s var(--ease-emphasized) .18s;
+    }
     .skipper__track {
       display: flex; align-items: center;
       width: 100%; max-width: var(--content-wide);
@@ -62,19 +71,13 @@
     .skipper__link:hover { color: var(--ink); }
     .skipper__link.is-active { color: var(--accent); }
     .skipper__link:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
-    /* Base top pushed past the static update banner above it (has-skipper's
-       68px already clears it once the banner has scrolled out of flow). */
-    .lang-switcher { top: 62px; transition: top .42s var(--ease-emphasized), opacity .6s var(--ease-emphasized); }
-    .has-skipper .lang-switcher { top: 68px; }
-    @media (max-width: 560px) {
-      .skipper__link { font-size: 11px; padding: 13px 0; }
-      .skipper__link + .skipper__link::before { margin: 0 10px; }
-      .has-skipper .lang-switcher { top: 62px; }
-    }
+    /* One fixed offset that clears both the ticker (~45px) and the skipper
+       (~46px), so the globe stays put through the handoff instead of nudging
+       6px - one fewer thing moving at the seam. */
+    .lang-switcher { top: 62px; }
     @media (prefers-reduced-motion: reduce) {
-      .skipper { transform: none; transition: opacity .2s linear; }
+      .skipper, .skipper.is-visible { transform: none; transition: opacity .2s linear; }
       .lang-switcher { transition: opacity .2s linear; }
-      .update-banner { transition: opacity .2s linear; }
     }
     @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
       .skipper { background: var(--paper); }
@@ -86,12 +89,18 @@
     .update-banner {
       position: sticky; top: 0; z-index: 57;
       background: var(--sage);
-      transition: opacity .3s var(--ease-out), transform .42s var(--ease-emphasized);
+      /* Enter (back above the hero): waits for the skipper to fade out,
+         then settles back down, decelerating as if set in place. */
+      transition: transform .42s var(--ease-emphasized) .14s;
     }
-    /* Handoff: past the hero the skipper takes over. The banner slides out
-       rather than sitting under the skipper's translucent blur, which would
-       tint the whole nav bar sage. */
-    .has-skipper .update-banner { opacity: 0; transform: translateY(-100%); pointer-events: none; }
+    /* Handoff: past the hero the skipper takes over. The ticker slides up and
+       out first - accelerating away, no fade, since a solid strip leaving the
+       screen needs none - and only then does the skipper fade in.
+       Sitting under the skipper instead would tint its glass sage. */
+    .has-skipper .update-banner {
+      transform: translateY(-100%); pointer-events: none;
+      transition: transform .22s cubic-bezier(.4, 0, 1, 1);
+    }
     .update-banner__inner { display: flex; align-items: center; gap: 14px; padding: 11px 0; }
     .update-banner__pill { display: inline-flex; flex: none; padding: 3px 10px; font-family: var(--font-text); font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; background: rgba(255,255,255,0.18); color: var(--on-dark-strong); border-radius: var(--radius-pill); }
     /* Viewport onto the scrolling track. Mask fades text in/out at both
@@ -116,9 +125,65 @@
     @media (prefers-reduced-motion: reduce) {
       .update-banner__track { animation: none; }
       .update-banner__text[aria-hidden] { display: none; }
+      /* Cross-fade instead of slide. Lives here, after the base banner rules,
+         so it actually wins the cascade. */
+      .update-banner, .has-skipper .update-banner { transition: opacity .2s linear; }
+      .has-skipper .update-banner { transform: none; opacity: 0; }
     }
+
+    /* ---- mobile: full-width ticker, skipper folds into a menu button ----
+       A phone is too narrow for ticker + two links, or for a six-item bar
+       squeezed under it. The ticker gets the whole width and stays put
+       (nothing hands off from it any more); the sections move into a
+       dropdown behind a button beside the language globe. */
+    .skipper-toggle { display: none; }
     @media (max-width: 700px) {
-      .update-banner__pill { display: none; }
+      .update-banner__pill, .update-banner__links { display: none; }
+      .has-skipper .update-banner { transform: none; opacity: 1; pointer-events: auto; }
+
+      /* Same material, size and blob shape as the globe (mirrored), so the
+         pair reads as one set of controls. Appears once the hero has
+         scrolled away, like the desktop skipper. */
+      .skipper-toggle {
+        display: grid; place-items: center;
+        position: fixed; top: 62px; left: 76px; z-index: 59;
+        width: 48px; height: 48px; padding: 0;
+        background: var(--material-chrome); color: var(--ink);
+        -webkit-backdrop-filter: var(--blur-chrome); backdrop-filter: var(--blur-chrome);
+        border: 1px solid var(--chrome-hairline); border-radius: 40% 60% 45% 55% / 50% 55% 45% 50%;
+        box-shadow: var(--shadow-md); cursor: pointer;
+        opacity: 0; transform: scale(.85); pointer-events: none;
+        transition: opacity .2s var(--ease-out), transform .3s var(--ease-spring), background-color .2s var(--ease-out), color .2s var(--ease-out);
+      }
+      .skipper-toggle svg { width: 20px; height: 20px; }
+      .has-skipper .skipper-toggle { opacity: 1; transform: none; pointer-events: auto; }
+      .skipper-toggle:active { transform: scale(.94); }
+      .skipper-toggle[aria-expanded="true"] { background: var(--ink); color: var(--paper); }
+      .skipper-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+      /* The skipper itself becomes the dropdown, growing out of the button
+         (transform-origin = the button's centre) rather than a full-width bar. */
+      .skipper, .skipper.is-visible {
+        top: 118px; left: 18px; right: auto; min-width: 220px;
+        border: 1px solid var(--chrome-hairline); border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-lg);
+        transform-origin: 82px -32px;
+        opacity: 0; transform: scale(.9); pointer-events: none; visibility: hidden;
+        /* visibility flips only after the fade, so closed links leave the
+           tab order without cutting the exit animation short */
+        transition: opacity .16s linear, transform .2s var(--ease-out), visibility 0s linear .2s;
+      }
+      .skipper.is-open {
+        opacity: 1; transform: none; pointer-events: auto; visibility: visible;
+        transition: opacity .2s var(--ease-out), transform .36s var(--ease-spring), visibility 0s;
+      }
+      .skipper__track { flex-direction: column; align-items: stretch; padding: 6px; overflow: visible; }
+      .skipper__link { padding: 13px 14px; font-size: 13px; border-radius: var(--radius-sm); }
+      .skipper__link + .skipper__link::before { content: none; }
+      .skipper__link.is-active { background: rgba(20,20,26,0.05); }
+    }
+    @media (max-width: 700px) and (prefers-reduced-motion: reduce) {
+      .skipper, .skipper.is-visible, .skipper.is-open, .has-skipper .skipper-toggle, .skipper-toggle:active { transform: none; }
     }
 
     /* ---- top bar ---- */
@@ -131,6 +196,9 @@
       text-decoration: none; transition: all .24s var(--ease-out);
     }
     .back-link:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); transform: translateX(-3px); }
+    /* Keep the Home pill clear of the fixed language globe (left 18px, 48px
+       wide): nudge it right only by as much as the page margin falls short. */
+    .topbar .back-link { margin-left: max(0px, calc(78px - max(0px, (100vw - var(--content-wide)) / 2) - var(--gutter))); }
     .made { font-family: var(--font-mono); font-size: var(--fs-caption); color: var(--text-faint); }
 
     /* ---- hero ---- */
@@ -274,9 +342,9 @@
   <div id="lang-switcher-root"></div>
   <div id="contact-chip-root"></div>
 
-  <!-- Static announcement strip, not tied to scroll - just says a new
-       version shipped and links down to the changelog. No date in the
-       copy on purpose, so it doesn't read as stale later on. -->
+  <!-- News ticker, pinned to the top of the screen until the skipper takes
+       over past the hero (see "update banner" CSS). No dates in the copy
+       on purpose, so it doesn't read as stale later on. -->
   <div class="update-banner">
     <div class="wrap update-banner__inner">
       <span class="update-banner__pill" data-i18n="sports.updateBanner.pill">Neu</span>
@@ -304,6 +372,10 @@
   <!-- Same skipper as the landing page: text links, no pills, absent until
        the hero has scrolled away. Written in vanilla because this page is
        static HTML with data-i18n bindings rather than React. -->
+  <!-- Mobile only (see .skipper-toggle CSS): opens the skipper as a menu. -->
+  <button class="skipper-toggle" id="skipper-toggle" type="button" aria-expanded="false" aria-controls="skipper" data-i18n-attr="aria-label:sports.nav.menu" aria-label="Abschnitte">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+  </button>
   <nav class="skipper" id="skipper" aria-label="Zum Abschnitt springen">
     <div class="skipper__track">
       <a class="skipper__link" href="#download" data-i18n="sports.nav.download">Jetzt herunterladen</a>
@@ -369,7 +441,7 @@
     <div class="wrap">
       <span class="section-label reveal" data-i18n="sports.featuresLabel">Funktionen</span>
       <h2 class="reveal" data-i18n="sports.featuresHeading">Was die App kann</h2>
-      <p class="lede reveal" data-i18n="sports.featuresLede">Jeder Endpunkt wird unabhängig abgerufen - fällt einer aus, bleiben die übrigen Bereiche funktionsfähig. Fehlende oder fehlerhafte Daten werden zu „-" statt zu einem Absturz.</p>
+      <p class="lede reveal" data-i18n="sports.featuresLede">Wenig visuelles Rauschen, die wichtigen Zahlen zuerst und eine Erklärung für jeden Fachbegriff: Zwischen Hinsehen und Verstehen soll so wenig Zeit wie möglich liegen.</p>
       <div class="feature-grid" id="feature-grid">
         <div class="feature-card reveal"><div class="dot"></div><h4 data-i18n="sports.features.0.title">Live-Dashboard</h4><p data-i18n="sports.features.0.desc">Hero-Karte zum nächsten Spiel mit Gegner, Anstoßzeit, Spielort und TV-Sender - inklusive Countdown bis zum Start.</p></div>
         <div class="feature-card reveal"><div class="dot"></div><h4 data-i18n="sports.features.1.title">Live-Tracking</h4><p data-i18n="sports.features.1.desc">Echtzeit-Play-by-Play bei laufenden Spielen: aktuelles Inning bzw. Viertel, Spielstand, Down-Distance bzw. Ball-Strike-Zähler und eine Timeline der Scoring-Plays.</p></div>
@@ -581,9 +653,27 @@
       }, { rootMargin: '-45% 0px -45% 0px' });
       sections.forEach(function (s) { if (s) spy.observe(s); });
 
+      // Mobile menu: the button opens the skipper as a dropdown. Any scroll
+      // closes it again - by then the reader has picked a section or moved
+      // on - while the button itself stays on screen.
+      var toggle = document.getElementById('skipper-toggle');
+      function setOpen(open) {
+        bar.classList.toggle('is-open', open);
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      }
+      toggle.addEventListener('click', function () { setOpen(!bar.classList.contains('is-open')); });
+      window.addEventListener('scroll', function () { if (bar.classList.contains('is-open')) setOpen(false); }, { passive: true });
+      document.addEventListener('click', function (e) {
+        if (bar.classList.contains('is-open') && !bar.contains(e.target) && !toggle.contains(e.target)) setOpen(false);
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && bar.classList.contains('is-open')) { setOpen(false); toggle.focus(); }
+      });
+
       var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       links.forEach(function (a) {
         a.addEventListener('click', function (e) {
+          setOpen(false);
           var el = document.querySelector(a.getAttribute('href'));
           if (!el) return;              // no target: let the anchor do its job
           e.preventDefault();
