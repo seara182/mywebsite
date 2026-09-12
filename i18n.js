@@ -195,7 +195,7 @@
       contact: { chip: "Kontakt aufnehmen" },
       langSwitcher: { selectLabel: "Sprache wählen", globeAria: "Sprache auswählen", optionAria: "{lang} auswählen" },
       sports: {
-        nav: { features: "Funktionen", deepDive: "Einblicke", mobile: "Mobil", tech: "Technik", updates: "Updates" },
+        nav: { features: "Funktionen", deepDive: "Einblicke", mobile: "Mobil", tech: "Technik", updates: "Updates", download: "Jetzt herunterladen" },
         backLink: "Startseite", madeBy: "Made by Mika", eyebrow: "Projekt", title: "CheapSeats",
         heroSub: "Ein persönliches Sport-Dashboard als native Desktop-App für Windows; gebaut für den kurzen Blick beim Hochfahren. Der Cache zeigt sofort relevante Daten, während im Hintergrund frische Stände nachgeladen werden. Jedes der 32 NFL- bzw. 30 MLB-Teams lässt sich frei wählen; einen festen Standard gibt es nicht.",
         dashboardK: "Dashboard", dashboardV: "Nächstes Spiel, Player-Spotlight und Aufstellung; alles auf einen Blick, sobald die App startet.",
@@ -402,7 +402,7 @@
       contact: { chip: "Contact me now" },
       langSwitcher: { selectLabel: "Select Language", globeAria: "Select language", optionAria: "Select {lang}" },
       sports: {
-        nav: { features: "Features", deepDive: "Close-ups", mobile: "Mobile", tech: "Tech", updates: "Updates" },
+        nav: { features: "Features", deepDive: "Close-ups", mobile: "Mobile", tech: "Tech", updates: "Updates", download: "Download now" },
         backLink: "Home", madeBy: "Made by Mika", eyebrow: "Project", title: "CheapSeats",
         heroSub: "A personal sports dashboard as a native desktop app for Windows; built for the quick glance at startup. The cache shows relevant data instantly while fresh scores load in the background. Any of the 32 NFL or 30 MLB teams can be chosen freely; there is no fixed default.",
         dashboardK: "Dashboard", dashboardV: "Next game, player spotlight and lineup; all at a glance the moment the app starts.",
@@ -609,7 +609,7 @@
       contact: { chip: "Me contacter" },
       langSwitcher: { selectLabel: "Choisir la langue", globeAria: "Sélectionner la langue", optionAria: "Sélectionner le {lang}" },
       sports: {
-        nav: { features: "Fonctions", deepDive: "Aperçus", mobile: "Mobile", tech: "Technique", updates: "Mises à jour" },
+        nav: { features: "Fonctions", deepDive: "Aperçus", mobile: "Mobile", tech: "Technique", updates: "Mises à jour", download: "Télécharger" },
         backLink: "Accueil", madeBy: "Made by Mika", eyebrow: "Projet", title: "CheapSeats",
         heroSub: "Un tableau de bord sportif personnel sous forme d'application de bureau native pour Windows ; conçu pour le coup d'œil rapide au démarrage. Le cache affiche instantanément les données pertinentes pendant que les scores les plus récents se chargent en arrière-plan. Chacune des 32 équipes NFL ou 30 équipes MLB peut être choisie librement ; il n'y a pas d'équipe par défaut fixe.",
         dashboardK: "Dashboard", dashboardV: "Prochain match, joueur à l'honneur et composition ; tout en un coup d'œil dès le lancement de l'application.",
@@ -816,7 +816,7 @@
       contact: { chip: "Contáctame" },
       langSwitcher: { selectLabel: "Elegir idioma", globeAria: "Seleccionar idioma", optionAria: "Seleccionar {lang}" },
       sports: {
-        nav: { features: "Funciones", deepDive: "Detalles", mobile: "Móvil", tech: "Técnica", updates: "Actualizaciones" },
+        nav: { features: "Funciones", deepDive: "Detalles", mobile: "Móvil", tech: "Técnica", updates: "Actualizaciones", download: "Descargar ahora" },
         backLink: "Inicio", madeBy: "Made by Mika", eyebrow: "Proyecto", title: "CheapSeats",
         heroSub: "Un panel deportivo personal en forma de aplicación de escritorio nativa para Windows; diseñado para una consulta rápida al arrancar. La caché muestra los datos relevantes al instante mientras los resultados más recientes se cargan en segundo plano. Cualquiera de los 32 equipos de la NFL o los 30 de la MLB puede elegirse libremente; no hay un equipo predeterminado fijo.",
         dashboardK: "Dashboard", dashboardV: "Próximo partido, jugador destacado y alineación; todo de un vistazo en cuanto se abre la aplicación.",
@@ -1036,7 +1036,7 @@
       contact: { chip: "Contattami" },
       langSwitcher: { selectLabel: "Scegli la lingua", globeAria: "Seleziona la lingua", optionAria: "Seleziona {lang}" },
       sports: {
-        nav: { features: "Funzioni", deepDive: "Dettagli", mobile: "Mobile", tech: "Tecnica", updates: "Aggiornamenti" },
+        nav: { features: "Funzioni", deepDive: "Dettagli", mobile: "Mobile", tech: "Tecnica", updates: "Aggiornamenti", download: "Scarica ora" },
         backLink: "Home", madeBy: "Made by Mika", eyebrow: "Progetto", title: "CheapSeats",
         heroSub: "Una dashboard sportiva personale come app desktop nativa per Windows; pensata per il rapido sguardo all'avvio. La cache mostra subito i dati rilevanti mentre i punteggi più recenti vengono caricati in background. Ciascuna delle 32 squadre NFL o delle 30 squadre MLB può essere scelta liberamente; non esiste una squadra predefinita fissa.",
         dashboardK: "Dashboard", dashboardV: "Prossima partita, giocatore in evidenza e formazione; tutto a colpo d'occhio non appena l'app si avvia.",

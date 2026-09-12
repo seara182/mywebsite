@@ -60,7 +60,9 @@
     .skipper__link:hover { color: var(--ink); }
     .skipper__link.is-active { color: var(--accent); }
     .skipper__link:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
-    .lang-switcher { transition: top .42s var(--ease-emphasized), opacity .6s var(--ease-emphasized); }
+    /* Base top pushed past the static update banner above it (has-skipper's
+       68px already clears it once the banner has scrolled out of flow). */
+    .lang-switcher { top: 62px; transition: top .42s var(--ease-emphasized), opacity .6s var(--ease-emphasized); }
     .has-skipper .lang-switcher { top: 68px; }
     @media (max-width: 560px) {
       .skipper__link { font-size: 11px; padding: 13px 0; }
@@ -76,7 +78,7 @@
     }
 
     /* ---- update banner ---- */
-    .update-banner { background: var(--plum); }
+    .update-banner { background: var(--sage); }
     .update-banner__inner { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding: 11px 0; }
     .update-banner__pill { display: inline-flex; flex: none; padding: 3px 10px; font-family: var(--font-text); font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; background: rgba(255,255,255,0.18); color: var(--on-dark-strong); border-radius: var(--radius-pill); }
     .update-banner__text { margin: 0; flex: 1 1 260px; font-family: var(--font-text); font-size: var(--fs-small); font-weight: 500; color: var(--on-dark-body); }
@@ -256,6 +258,7 @@
       <a class="skipper__link" href="#mobil" data-i18n="sports.nav.mobile">Mobil</a>
       <a class="skipper__link" href="#technik" data-i18n="sports.nav.tech">Technik</a>
       <a class="skipper__link" href="#updates" data-i18n="sports.nav.updates">Updates</a>
+      <a class="skipper__link" href="#download" data-i18n="sports.nav.download">Jetzt herunterladen</a>
     </div>
   </nav>
 
@@ -390,7 +393,7 @@
         <p class="lede" style="margin-top:14px" data-i18n-html="sports.designText">Die App ist auf <strong style="color:var(--heading);font-weight:600">geringe kognitive Last</strong> und schnelles Scannen ausgelegt. Der Cache-first-Ansatz macht Daten beim Start sofort sichtbar; die Seitennavigation mit Scroll-Tracking lässt zwischen Bereichen springen. Tooltips erklären durchgehend die Fachbegriffe - auch für alle, die mit US-Sport (noch) nicht vertraut sind.</p>
       </div>
 
-      <div class="coming reveal">
+      <div class="coming reveal" id="download">
         <div>
           <span class="badge" data-i18n="sports.comingBadge">Microsoft Store</span>
           <p data-i18n="sports.comingText">CheapSeats wird ausschließlich über den Microsoft Store vertrieben.</p>
