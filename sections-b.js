@@ -416,7 +416,7 @@ function Projects() {
   }), f))), /*#__PURE__*/React.createElement(Pressable, {
     as: "a",
     className: "cta-outline",
-    href: asset("projects/sports-window/"),
+    href: asset("projects/cheapseats/"),
     lift: -3,
     style: {
       display: "inline-flex",

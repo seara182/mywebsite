@@ -6,7 +6,7 @@
   "scripts": {
     "build": "node build.mjs",
     "watch": "node build.mjs --watch",
-    "spellcheck": "cspell \"i18n.js\" \"index.template.html\" \"impressum/index.html\" \"projects/sports-window/index.html\" --no-progress",
+    "spellcheck": "cspell \"i18n.js\" \"index.template.html\" \"impressum/index.html\" \"projects/cheapseats/index.html\" --no-progress",
     "verify": "node ci/verify-prerender.mjs"
   },
   "devDependencies": {

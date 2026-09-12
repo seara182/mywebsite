@@ -1,7 +1,7 @@
 .claude/
 projects/*
 !projects/sports_app/
-!projects/sports-window/
+!projects/cheapseats/
 _notes/
 private/master/CLAUDE.md
 PWChange.bat

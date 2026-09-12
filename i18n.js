@@ -981,7 +981,7 @@
 
   /* Is the current document one of the prerendered homepage variants
      (/ or /<lang>/)? Only those have per-language URLs to navigate between.
-     Sub-pages (e.g. /projects/sports-window/, /impressum/) are single-URL and
+     Sub-pages (e.g. /projects/cheapseats/, /impressum/) are single-URL and
      swap their text in place via the data-i18n binder. */
   function onPrerenderedHome() {
     if (!HAS_WINDOW || !window.location) return false;

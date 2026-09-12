@@ -138,7 +138,7 @@ function Projects() {
                   </div>
                 ))}
               </div>
-              <Pressable as="a" className="cta-outline" href={asset("projects/sports-window/")} lift={-3} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, padding: "13px 24px", border: "1px solid var(--border-strong)", borderRadius: "var(--radius-md)", fontFamily: "var(--font-text)", fontSize: "var(--fs-body)", fontWeight: 600, color: "var(--heading)" }}>
+              <Pressable as="a" className="cta-outline" href={asset("projects/cheapseats/")} lift={-3} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, padding: "13px 24px", border: "1px solid var(--border-strong)", borderRadius: "var(--radius-md)", fontFamily: "var(--font-text)", fontSize: "var(--fs-body)", fontWeight: 600, color: "var(--heading)" }}>
                 {p.cta} <span aria-hidden className="cta-arrow">→</span>
               </Pressable>
             </div>
