@@ -74,13 +74,24 @@
     @media (prefers-reduced-motion: reduce) {
       .skipper { transform: none; transition: opacity .2s linear; }
       .lang-switcher { transition: opacity .2s linear; }
+      .update-banner { transition: opacity .2s linear; }
     }
     @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
       .skipper { background: var(--paper); }
     }
 
     /* ---- update banner (the "news ticker") ---- */
-    .update-banner { background: var(--sage); }
+    /* Pinned to the viewport, not the document, so the news stays readable
+       while scrolling. Sits just under the skipper's z-index (58). */
+    .update-banner {
+      position: sticky; top: 0; z-index: 57;
+      background: var(--sage);
+      transition: opacity .3s var(--ease-out), transform .42s var(--ease-emphasized);
+    }
+    /* Handoff: past the hero the skipper takes over. The banner slides out
+       rather than sitting under the skipper's translucent blur, which would
+       tint the whole nav bar sage. */
+    .has-skipper .update-banner { opacity: 0; transform: translateY(-100%); pointer-events: none; }
     .update-banner__inner { display: flex; align-items: center; gap: 14px; padding: 11px 0; }
     .update-banner__pill { display: inline-flex; flex: none; padding: 3px 10px; font-family: var(--font-text); font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; background: rgba(255,255,255,0.18); color: var(--on-dark-strong); border-radius: var(--radius-pill); }
     /* Viewport onto the scrolling track. Mask fades text in/out at both
@@ -100,6 +111,8 @@
     .update-banner__links { display: flex; align-items: center; gap: 14px; flex: none; }
     .update-banner__link { flex: none; font-family: var(--font-text); font-size: var(--fs-small); font-weight: 700; color: var(--on-dark-strong); text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
     .update-banner__link:focus-visible { outline: 2px solid var(--on-dark-strong); outline-offset: 3px; border-radius: 4px; }
+    /* Pending store link: reads as "not live yet", not as a dead link. */
+    .update-banner__link--soon { opacity: .75; text-decoration-style: dashed; cursor: default; }
     @media (prefers-reduced-motion: reduce) {
       .update-banner__track { animation: none; }
       .update-banner__text[aria-hidden] { display: none; }
@@ -209,7 +222,7 @@
     .spec dd strong { color: var(--heading); font-weight: 600; }
 
     /* ---- coming soon ---- */
-    .coming { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; padding: clamp(28px,3.5vw,40px); background: var(--ink); color: var(--on-dark-strong); border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); margin-top: clamp(40px,5vw,64px); }
+    .coming { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; padding: clamp(28px,3.5vw,40px); background: var(--ink); color: var(--on-dark-strong); border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); }
     .coming .badge { display: inline-flex; padding: 5px 14px; font-family: var(--font-text); font-size: var(--fs-caption); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; border-radius: var(--radius-pill); background: rgba(255,255,255,0.12); color: var(--on-dark-strong); margin-bottom: 12px; }
     .coming p { margin: 0; font-size: var(--fs-body); color: var(--on-dark-body); max-width: 46ch; }
     .gh { display: inline-flex; align-items: center; gap: 8px; padding: 13px 24px; background: var(--paper); color: var(--ink); border-radius: var(--radius-md); font-family: var(--font-text); font-size: var(--fs-body); font-weight: 600; text-decoration: none; flex: none; transition: transform .2s var(--ease-out), box-shadow .2s var(--ease-out); }
@@ -218,16 +231,17 @@
     /* ---- store badges (not linked yet) ----
        Apple + Google brand guidelines forbid recoloring or changing the
        opacity of their badge artwork, so the "coming soon" / disabled read
-       comes from the muted card around each badge, not from the badge
-       itself. Padding = 10px, at or above one-quarter of each badge's own
-       displayed height, satisfying both platforms' clear-space minimum.
+       comes from the COMING SOON note next to them and from the badges
+       being <div>s rather than <a>s - never from the artwork itself.
+       Clear space comes from the flex gap (>= 20px, at or above one-quarter
+       of each badge's displayed height, satisfying both platforms).
        The two source files aren't cropped the same: Apple's SVG fills its
        full 40px canvas, Google's PNG has ~16% built-in transparent margin -
        so the <img> heights differ (40 vs 60) to make the two marks read as
        the same size; sizing is a uniform scale of the whole asset, not a
        crop or a redraw, which both guidelines allow. */
-    .store-badges { display: flex; flex-wrap: wrap; align-items: center; gap: clamp(14px,2vw,20px); margin-top: clamp(24px,3vw,32px); }
-    .store-badge { display: inline-flex; align-items: center; padding: 10px; background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius-md); cursor: default; }
+    .store-badges { display: flex; flex-wrap: wrap; align-items: center; gap: clamp(20px,2.5vw,28px); margin-top: clamp(24px,3vw,32px); }
+    .store-badge { display: inline-flex; align-items: center; cursor: default; }
     .store-badge img { display: block; }
     .store-badges__note { font-family: var(--font-text); font-size: var(--fs-caption); font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--text-faint); }
 
@@ -263,7 +277,7 @@
   <!-- Static announcement strip, not tied to scroll - just says a new
        version shipped and links down to the changelog. No date in the
        copy on purpose, so it doesn't read as stale later on. -->
-  <div class="update-banner reveal">
+  <div class="update-banner">
     <div class="wrap update-banner__inner">
       <span class="update-banner__pill" data-i18n="sports.updateBanner.pill">Neu</span>
       <!-- Scrolling news track: two identical copies back-to-back, animated
@@ -279,7 +293,10 @@
       <!-- Stationary right edge: never scrolls, never gets covered. -->
       <div class="update-banner__links">
         <a class="update-banner__link" href="#updates" data-i18n="sports.updateBanner.cta">Was ist neu →</a>
-        <a class="update-banner__link" href="#download" data-i18n="sports.nav.download">Jetzt herunterladen</a>
+        <!-- TODO: swap for <a href="..." target="_blank" rel="noopener"> once the
+             Microsoft Store listing URL exists. Deliberately not an <a href="#">:
+             that would scroll the page to the top. -->
+        <span class="update-banner__link update-banner__link--soon" data-i18n="sports.nav.download">Jetzt herunterladen</span>
       </div>
     </div>
   </div>
@@ -289,12 +306,12 @@
        static HTML with data-i18n bindings rather than React. -->
   <nav class="skipper" id="skipper" aria-label="Zum Abschnitt springen">
     <div class="skipper__track">
+      <a class="skipper__link" href="#download" data-i18n="sports.nav.download">Jetzt herunterladen</a>
       <a class="skipper__link" href="#features" data-i18n="sports.nav.features">Funktionen</a>
       <a class="skipper__link" href="#einblicke" data-i18n="sports.nav.deepDive">Einblicke</a>
       <a class="skipper__link" href="#mobil" data-i18n="sports.nav.mobile">Mobil</a>
       <a class="skipper__link" href="#technik" data-i18n="sports.nav.tech">Technik</a>
       <a class="skipper__link" href="#updates" data-i18n="sports.nav.updates">Updates</a>
-      <a class="skipper__link" href="#download" data-i18n="sports.nav.download">Jetzt herunterladen</a>
     </div>
   </nav>
 
@@ -322,6 +339,30 @@
       </div>
     </div>
   </header>
+
+  <!-- DOWNLOAD - directly under the hero shot: the release is the point of
+       the page, so it shouldn't sit at the bottom behind the spec copy. -->
+  <section id="download">
+    <div class="wrap">
+      <div class="coming reveal">
+        <div>
+          <span class="badge" data-i18n="sports.comingBadge">Microsoft Store</span>
+          <p data-i18n="sports.comingText">CheapSeats wird ausschließlich über den Microsoft Store vertrieben.</p>
+        </div>
+        <!-- TODO: swap "#" for the live Microsoft Store listing URL -->
+        <a class="gh" href="#"><span data-i18n="sports.githubBtn">Jetzt im Microsoft Store</span> <span aria-hidden>→</span></a>
+      </div>
+
+      <!-- Not links yet: <div>, not <a> - keeps them out of tab order and
+           off click. Badge artwork is the unmodified official asset per
+           Apple/Google brand guidelines (self-hosted in ci/assets/badges/). -->
+      <div class="store-badges reveal">
+        <div class="store-badge"><img src="../../ci/assets/badges/app-store-badge.svg" alt="Download on the App Store" width="120" height="40" loading="lazy"></div>
+        <div class="store-badge"><img src="../../ci/assets/badges/google-play-badge.png" alt="Get it on Google Play" width="155" height="60" loading="lazy"></div>
+        <span class="store-badges__note" data-i18n="sports.comingSoon">Bald verfügbar</span>
+      </div>
+    </div>
+  </section>
 
   <!-- OVERVIEW FEATURES -->
   <section id="features">
@@ -429,23 +470,6 @@
         <p class="lede" style="margin-top:14px" data-i18n-html="sports.designText">Die App ist auf <strong style="color:var(--heading);font-weight:600">geringe kognitive Last</strong> und schnelles Scannen ausgelegt. Der Cache-first-Ansatz macht Daten beim Start sofort sichtbar; die Seitennavigation mit Scroll-Tracking lässt zwischen Bereichen springen. Tooltips erklären durchgehend die Fachbegriffe - auch für alle, die mit US-Sport (noch) nicht vertraut sind.</p>
       </div>
 
-      <div class="coming reveal" id="download">
-        <div>
-          <span class="badge" data-i18n="sports.comingBadge">Microsoft Store</span>
-          <p data-i18n="sports.comingText">CheapSeats wird ausschließlich über den Microsoft Store vertrieben.</p>
-        </div>
-        <!-- TODO: swap "#" for the live Microsoft Store listing URL -->
-        <a class="gh" href="#"><span data-i18n="sports.githubBtn">Jetzt im Microsoft Store</span> <span aria-hidden>→</span></a>
-      </div>
-
-      <!-- Not links yet: <div>, not <a> - keeps them out of tab order and
-           off click. Badge artwork is the unmodified official asset per
-           Apple/Google brand guidelines (self-hosted in ci/assets/badges/). -->
-      <div class="store-badges reveal">
-        <div class="store-badge"><img src="../../ci/assets/badges/app-store-badge.svg" alt="Download on the App Store" width="120" height="40" loading="lazy"></div>
-        <div class="store-badge"><img src="../../ci/assets/badges/google-play-badge.png" alt="Get it on Google Play" width="155" height="60" loading="lazy"></div>
-        <span class="store-badges__note" data-i18n="sports.comingSoon">Bald verfügbar</span>
-      </div>
     </div>
   </section>
 
