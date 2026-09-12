@@ -188,6 +188,17 @@
     .gh { display: inline-flex; align-items: center; gap: 8px; padding: 13px 24px; background: var(--paper); color: var(--ink); border-radius: var(--radius-md); font-family: var(--font-text); font-size: var(--fs-body); font-weight: 600; text-decoration: none; flex: none; transition: transform .2s var(--ease-out), box-shadow .2s var(--ease-out); }
     .gh:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
 
+    /* ---- store badges (not linked yet) ----
+       Apple + Google brand guidelines forbid recoloring or changing the
+       opacity of their badge artwork, so the "coming soon" / disabled read
+       comes from the muted card around each badge, not from the badge
+       itself. Padding = 10px = one-quarter of the 40px badge height, which
+       satisfies both platforms' minimum clear-space rule. */
+    .store-badges { display: flex; flex-wrap: wrap; align-items: center; gap: clamp(14px,2vw,20px); margin-top: clamp(24px,3vw,32px); }
+    .store-badge { display: inline-flex; padding: 10px; background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius-md); cursor: default; }
+    .store-badge img { display: block; height: 40px; width: auto; }
+    .store-badges__note { font-family: var(--font-text); font-size: var(--fs-caption); font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--text-faint); }
+
     footer { padding: clamp(48px,6vw,80px) 0; border-top: 1px solid var(--border); }
     .footrow { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: center; }
 
@@ -367,6 +378,15 @@
         </div>
         <!-- TODO: swap "#" for the live Microsoft Store listing URL -->
         <a class="gh" href="#"><span data-i18n="sports.githubBtn">Jetzt im Microsoft Store</span> <span aria-hidden>→</span></a>
+      </div>
+
+      <!-- Not links yet: <div>, not <a> - keeps them out of tab order and
+           off click. Badge artwork is the unmodified official asset per
+           Apple/Google brand guidelines (self-hosted in ci/assets/badges/). -->
+      <div class="store-badges reveal">
+        <div class="store-badge"><img src="../../ci/assets/badges/app-store-badge.svg" alt="Download on the App Store" width="120" height="40" loading="lazy"></div>
+        <div class="store-badge"><img src="../../ci/assets/badges/google-play-badge.png" alt="Get it on Google Play" width="103" height="40" loading="lazy"></div>
+        <span class="store-badges__note" data-i18n="sports.comingSoon">Bald verfügbar - noch nicht verlinkt</span>
       </div>
     </div>
   </section>
