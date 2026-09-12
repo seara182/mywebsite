@@ -75,6 +75,14 @@
       .skipper { background: var(--paper); }
     }
 
+    /* ---- update banner ---- */
+    .update-banner { background: var(--plum); }
+    .update-banner__inner { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding: 11px 0; }
+    .update-banner__pill { display: inline-flex; flex: none; padding: 3px 10px; font-family: var(--font-text); font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; background: rgba(255,255,255,0.18); color: var(--on-dark-strong); border-radius: var(--radius-pill); }
+    .update-banner__text { margin: 0; flex: 1 1 260px; font-family: var(--font-text); font-size: var(--fs-small); font-weight: 500; color: var(--on-dark-body); }
+    .update-banner__link { flex: none; font-family: var(--font-text); font-size: var(--fs-small); font-weight: 700; color: var(--on-dark-strong); text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
+    .update-banner__link:focus-visible { outline: 2px solid var(--on-dark-strong); outline-offset: 3px; border-radius: 4px; }
+
     /* ---- top bar ---- */
     .topbar { display: flex; align-items: center; justify-content: space-between; padding: clamp(20px,3vw,32px) 0; }
     .back-link {
@@ -106,12 +114,6 @@
     .hero-sub {
       font-size: var(--fs-lead); line-height: var(--lh-relaxed); color: var(--text-body);
       max-width: 60ch; margin: 22px 0 0; position: relative; z-index: 1;
-    }
-    .stack { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; position: relative; z-index: 1; }
-    .chip {
-      display: inline-flex; align-items: center; padding: 6px 13px; font-family: var(--font-text);
-      font-size: var(--fs-caption); font-weight: 600; border-radius: var(--radius-pill); white-space: nowrap;
-      background: rgb(var(--accent-1-rgb) / 0.10); color: var(--plum); border: 1px solid rgb(var(--accent-1-rgb) / 0.20);
     }
 
     /* ---- hero showcase (off-centre big screenshot) ---- */
@@ -192,12 +194,24 @@
        Apple + Google brand guidelines forbid recoloring or changing the
        opacity of their badge artwork, so the "coming soon" / disabled read
        comes from the muted card around each badge, not from the badge
-       itself. Padding = 10px = one-quarter of the 40px badge height, which
-       satisfies both platforms' minimum clear-space rule. */
+       itself. Padding = 10px, at or above one-quarter of each badge's own
+       displayed height, satisfying both platforms' clear-space minimum.
+       The two source files aren't cropped the same: Apple's SVG fills its
+       full 40px canvas, Google's PNG has ~16% built-in transparent margin -
+       so the <img> heights differ (40 vs 60) to make the two marks read as
+       the same size; sizing is a uniform scale of the whole asset, not a
+       crop or a redraw, which both guidelines allow. */
     .store-badges { display: flex; flex-wrap: wrap; align-items: center; gap: clamp(14px,2vw,20px); margin-top: clamp(24px,3vw,32px); }
-    .store-badge { display: inline-flex; padding: 10px; background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius-md); cursor: default; }
-    .store-badge img { display: block; height: 40px; width: auto; }
+    .store-badge { display: inline-flex; align-items: center; padding: 10px; background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius-md); cursor: default; }
+    .store-badge img { display: block; }
     .store-badges__note { font-family: var(--font-text); font-size: var(--fs-caption); font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--text-faint); }
+
+    /* ---- changelog / version history (reuses .ticks for bullets) ---- */
+    .changelog { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px,100%),1fr)); gap: clamp(20px,3vw,28px); margin-top: clamp(40px,5vw,64px); }
+    .version-card { padding: clamp(24px,3vw,32px); background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); }
+    .version-card__tag { display: inline-flex; margin-bottom: 12px; padding: 4px 12px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; border-radius: var(--radius-pill); background: var(--border); color: var(--text-body); }
+    .version-card__tag--current { background: var(--sage); color: #fff; }
+    .version-card h3 { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); color: var(--heading); margin: 0 0 16px; letter-spacing: var(--ls-heading); }
 
     footer { padding: clamp(48px,6vw,80px) 0; border-top: 1px solid var(--border); }
     .footrow { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: center; }
@@ -221,6 +235,17 @@
   <div id="lang-switcher-root"></div>
   <div id="contact-chip-root"></div>
 
+  <!-- Static announcement strip, not tied to scroll - just says a new
+       version shipped and links down to the changelog. No date in the
+       copy on purpose, so it doesn't read as stale later on. -->
+  <div class="update-banner reveal">
+    <div class="wrap update-banner__inner">
+      <span class="update-banner__pill" data-i18n="sports.updateBanner.pill">Neu</span>
+      <p class="update-banner__text" data-i18n="sports.updateBanner.text">CheapSeats v1.1 ist da: Live-Tracking, Benachrichtigungen und der offizielle Microsoft-Store-Release.</p>
+      <a class="update-banner__link" href="#updates" data-i18n="sports.updateBanner.cta">Was ist neu →</a>
+    </div>
+  </div>
+
   <!-- Same skipper as the landing page: text links, no pills, absent until
        the hero has scrolled away. Written in vanilla because this page is
        static HTML with data-i18n bindings rather than React. -->
@@ -230,6 +255,7 @@
       <a class="skipper__link" href="#einblicke" data-i18n="sports.nav.deepDive">Einblicke</a>
       <a class="skipper__link" href="#mobil" data-i18n="sports.nav.mobile">Mobil</a>
       <a class="skipper__link" href="#technik" data-i18n="sports.nav.tech">Technik</a>
+      <a class="skipper__link" href="#updates" data-i18n="sports.nav.updates">Updates</a>
     </div>
   </nav>
 
@@ -247,13 +273,6 @@
       <span class="eyebrow" data-i18n="sports.eyebrow">Projekt</span>
       <h1>CheapSeats</h1>
       <p class="hero-sub" data-i18n="sports.heroSub">Ein persönliches Sport-Dashboard als native Desktop-App für Windows - gebaut für den kurzen Blick beim Hochfahren. Der Cache zeigt sofort relevante Daten, während im Hintergrund frische Stände nachgeladen werden. Jedes der 32 NFL- bzw. 30 MLB-Teams lässt sich frei wählen - einen festen Standard gibt es nicht.</p>
-      <div class="stack">
-        <span class="chip">Tauri 2 · Rust</span>
-        <span class="chip">React 19 · TS</span>
-        <span class="chip">Vite 7</span>
-        <span class="chip">ESPN JSON-API</span>
-        <span class="chip">i18next EN/DE</span>
-      </div>
 
       <div class="showcase reveal">
         <div class="frame"><img src="../../ci/assets/Bilder/BayWindow/Main_Football_Dark.png" alt="CheapSeats Dashboard im Dark Mode - Hero-Karte zum nächsten Spiel, Player-Spotlight und Lineup-Diagramm" data-zoom></div>
@@ -385,8 +404,44 @@
            Apple/Google brand guidelines (self-hosted in ci/assets/badges/). -->
       <div class="store-badges reveal">
         <div class="store-badge"><img src="../../ci/assets/badges/app-store-badge.svg" alt="Download on the App Store" width="120" height="40" loading="lazy"></div>
-        <div class="store-badge"><img src="../../ci/assets/badges/google-play-badge.png" alt="Get it on Google Play" width="103" height="40" loading="lazy"></div>
-        <span class="store-badges__note" data-i18n="sports.comingSoon">Bald verfügbar - noch nicht verlinkt</span>
+        <div class="store-badge"><img src="../../ci/assets/badges/google-play-badge.png" alt="Get it on Google Play" width="155" height="60" loading="lazy"></div>
+        <span class="store-badges__note" data-i18n="sports.comingSoon">Bald verfügbar</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- VERSION HISTORY -->
+  <section id="updates">
+    <div class="wrap">
+      <span class="section-label reveal" data-i18n="sports.changelogLabel">Versionsverlauf</span>
+      <h2 class="reveal" data-i18n="sports.changelogHeading">Was sich getan hat</h2>
+      <p class="lede reveal" data-i18n="sports.changelogLede">Ein kurzer Rückblick auf die bisherigen Releases - ohne Datumsangabe, damit er nicht veraltet wirkt.</p>
+
+      <div class="changelog">
+        <article class="version-card reveal">
+          <span class="version-card__tag version-card__tag--current" data-i18n="sports.changelog.v11.tag">v1.1 · Aktuell</span>
+          <h3 data-i18n="sports.changelog.v11.title">Live-Tracking, Benachrichtigungen &amp; Microsoft Store</h3>
+          <ul class="ticks">
+            <li data-i18n="sports.changelog.v11.items.0">Live-Tracking: Echtzeit-Play-by-Play, aktuelles Inning/Viertel, Down-Distance bzw. Ball-Strike-Zähler und eine Scoring-Play-Timeline</li>
+            <li data-i18n="sports.changelog.v11.items.1">Benachrichtigungen: Taskleisten-Blinken, Toast beim Minimieren, Kickoff-Erinnerung und optionale Spielstand-Alerts</li>
+            <li data-i18n="sports.changelog.v11.items.2">Offizieller Release im Microsoft Store: signierte Auto-Updates, kein Installer, kein UAC-Prompt</li>
+            <li data-i18n="sports.changelog.v11.items.3">Team-Auswahl bleibt über Neustarts hinweg erhalten, Autostart mit Windows</li>
+            <li data-i18n="sports.changelog.v11.items.4">Rund 40 % schnellerer Start bei kaltem Cache</li>
+          </ul>
+        </article>
+        <article class="version-card reveal">
+          <span class="version-card__tag" data-i18n="sports.changelog.v10.tag">v1.0 · Erstveröffentlichung</span>
+          <h3 data-i18n="sports.changelog.v10.title">Der Grundstein</h3>
+          <ul class="ticks">
+            <li data-i18n="sports.changelog.v10.items.0">Dashboard mit nächstem/letztem Spiel, Countdown und Head-to-Head-Vorschau</li>
+            <li data-i18n="sports.changelog.v10.items.1">Player-Spotlight mit Saisonwerten und Trend gegenüber der Karrierebilanz</li>
+            <li data-i18n="sports.changelog.v10.items.2">Formations-Diagramm für NFL und MLB</li>
+            <li data-i18n="sports.changelog.v10.items.3">Vollständige Standings mit Glossar-Tooltips für jede Abkürzung</li>
+            <li data-i18n="sports.changelog.v10.items.4">Venue- und History-Ansicht mit Meistertiteln und All-Time-Rekorden</li>
+            <li data-i18n="sports.changelog.v10.items.5">Durchsuchbares Roster und automatische Playoff-Brackets</li>
+            <li data-i18n="sports.changelog.v10.items.6">Zweisprachig EN/DE, Light-/Dark-Theme, Demo-Modus</li>
+          </ul>
+        </article>
       </div>
     </div>
   </section>
