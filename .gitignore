@@ -41,3 +41,7 @@ desktop.ini
 *.tmp
 *.log
 .cache/
+
+# internal briefs, not for the repo
+DESIGN_GUIDE_anti-vibecode.md
+RELEASE_BRIEF_v1.1.md
