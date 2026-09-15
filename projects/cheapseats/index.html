@@ -227,16 +227,51 @@
       max-width: 60ch; margin: 22px 0 0; position: relative; z-index: 1;
     }
 
-    /* ---- hero showcase (off-centre big screenshot) ---- */
+    /* ---- hero showcase: dark + light overview, one overlapping the other ----
+       Hover (mouse), keyboard focus or a tap brings a card to the front, and it
+       stays there until the other one is picked. Depth is real 3D (translateZ
+       inside one preserve-3d stage), so the draw order flips mid-flight instead
+       of popping. Easing is a critically damped spring (damping 1, response
+       .45s) sampled into linear(): no overshoot, and a CSS transition always
+       restarts from the on-screen value, so sweeping back and forth mid-swap
+       stays continuous. */
     .showcase { position: relative; margin-top: clamp(40px,6vw,72px); z-index: 1; }
-    .showcase .frame {
-      width: min(100%, 1040px); margin-left: auto; border-radius: var(--radius-xl); overflow: hidden;
-      box-shadow: var(--shadow-lg); border: 1px solid var(--border); background: var(--ink);
-      transform: rotate(-0.6deg);
+    .duo {
+      --ease-spring-crit: linear(0, 0.155 7.1%, 0.407 14.3%, 0.619 21.4%, 0.768 28.6%, 0.863 35.7%, 0.921 42.9%, 0.956 50%, 0.975 57.1%, 0.986 64.3%, 0.993 71.4%, 0.996 78.6%, 0.998 85.7%, 0.999 92.9%, 1);
+      /* card = 66% wide at 16:9; stage leaves a 30% vertical offset between the two */
+      position: relative; width: min(100%, 1120px); margin-left: auto; aspect-ratio: 100 / 48;
+      perspective: 2400px; transform-style: preserve-3d;
+      /* the back card shares the stage's z=0 plane - without this the stage
+         can swallow its hover */
+      pointer-events: none;
     }
-    .showcase .frame img { display: block; width: 100%; height: auto; }
+    .duo__card {
+      position: absolute; width: 66%; padding: 0; margin: 0;
+      border: 1px solid var(--border); border-radius: var(--radius-xl); overflow: hidden;
+      background: var(--ink); box-shadow: var(--shadow-md); cursor: pointer; pointer-events: auto;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform .7s var(--ease-spring-crit), box-shadow .7s var(--ease-spring-crit);
+    }
+    .duo__card img { display: block; width: 100%; height: auto; }
+    /* dimming scrim on whichever card sits behind */
+    .duo__card::after { content: ""; position: absolute; inset: 0; background: rgba(12,12,16,.34); pointer-events: none; transition: opacity .45s var(--ease-out); }
+    /* The front card lifts to +160px; the shared scale cancels the perspective
+       growth (2400 / 2240), so it still renders at 1:1. */
+    .duo__card--dark  { top: 0; left: 0;     transform: translate3d(-2%, -3%, 0) scale(.9375); }
+    .duo__card--light { bottom: 0; right: 0; transform: translate3d(2%, 3%, 0) scale(.9375); }
+    .duo[data-front="dark"] .duo__card--dark,
+    .duo[data-front="light"] .duo__card--light { transform: translate3d(0, 0, 160px) scale(.9375); box-shadow: var(--shadow-lg); cursor: zoom-in; }
+    .duo[data-front="dark"] .duo__card--dark::after,
+    .duo[data-front="light"] .duo__card--light::after { opacity: 0; }
+    .duo__card:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+    /* Reduced motion: no depth travel - order via z-index, only the scrim cross-fades */
+    @media (prefers-reduced-motion: reduce) {
+      .duo__card, .duo[data-front] .duo__card { transform: none; transition: box-shadow .2s linear; }
+      .duo__card::after { transition: opacity .2s linear; }
+      .duo[data-front="dark"] .duo__card--dark, .duo[data-front="light"] .duo__card--light { z-index: 1; }
+    }
     .showcase .tag {
-      position: absolute; left: 0; bottom: -18px; max-width: 320px;
+      position: absolute; left: 0; bottom: -18px; max-width: 320px; z-index: 2;
       background: var(--paper); border: 1px solid var(--border); border-radius: var(--radius-md);
       box-shadow: var(--shadow-md); padding: 16px 20px;
     }
@@ -266,6 +301,28 @@
     .media.tilt-l .shot:hover, .media.tilt-r .shot:hover { transform: rotate(0) translateY(-4px); }
     .media.offset-r { padding-left: clamp(0px,4vw,56px); }
     .media.offset-l { padding-right: clamp(0px,4vw,56px); }
+    .row.wide-media { grid-template-columns: 1fr 1.35fr; }
+    .h3 { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); color: var(--heading); margin: 14px 0 0; letter-spacing: var(--ls-heading); }
+
+    /* ---- ease-of-use collage: rule book as the base, onboarding + tooltip pinned on top ---- */
+    .collage { position: relative; padding: 12% 5% 14% 7%; }
+    .collage .float { position: absolute; }
+    .collage .c-onboard { top: 0; right: 0; width: 48%; }
+    .collage .c-tip { bottom: 0; left: 0; width: 46%; }
+    .collage .c-onboard .shot { transform: rotate(1.6deg); }
+    .collage .c-tip .shot { transform: rotate(-1.6deg); }
+    .collage .float .shot:hover { transform: rotate(0) translateY(-4px); }
+
+    /* ---- "three kinds of fans" bento ---- */
+    .fans { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px,100%),1fr)); gap: clamp(20px,2.5vw,32px); margin-top: clamp(32px,4vw,48px); }
+    .fan .shot { aspect-ratio: 5 / 4; }
+    .fan .shot img { height: 100%; object-fit: cover; object-position: top; }
+    .fan .section-label { display: block; margin-top: 20px; }
+    .fan h4 { font-family: var(--font-display); font-size: var(--fs-title); font-weight: 600; color: var(--heading); margin: 8px 0 6px; }
+    .fan p { font-size: var(--fs-small); line-height: 1.5; color: var(--text-body); margin: 0; max-width: 42ch; }
+
+    /* ---- make it yours: full-width strip of sidebar themes ---- */
+    .theme-strip { margin-top: clamp(40px,5vw,72px); }
 
     /* ---- feature grid (overview) ---- */
     .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(248px,100%),1fr)); gap: clamp(16px,2vw,22px); margin-top: clamp(40px,5vw,64px); }
@@ -383,8 +440,18 @@
       .row, .row.flip { grid-template-columns: 1fr; }
       .row.flip .copy, .row.flip .media { order: initial; }
       .media.offset-r, .media.offset-l { padding: 0; }
-      .showcase .frame { transform: none; }
+      /* bigger cards, same 30% vertical offset */
+      .duo { aspect-ratio: 100 / 57; }
+      .duo__card { width: 78%; }
       .showcase .tag { position: static; max-width: none; margin-top: 16px; }
+      .row.wide-media { grid-template-columns: 1fr; }
+      .collage { display: grid; gap: 16px; padding: 0; }
+      .collage .float { position: static; width: auto; }
+      .collage .float .shot, .collage .float .shot:hover { transform: none; }
+      /* the ten sidebars stay legible: the strip scrolls sideways in its own box */
+      .theme-strip { overflow-x: auto; overscroll-behavior-x: contain; padding-bottom: 12px; }
+      .theme-strip .shot { width: 900px; }
+      .theme-strip .shot:hover { transform: none; }
       .phone:nth-child(odd), .phone:nth-child(even) { transform: none; }
       /* 4:3 reads as cramped once the dialog is this close to viewport width -
          fill the screen like a normal mobile sheet instead. */
@@ -402,21 +469,21 @@
        on purpose, so it doesn't read as stale later on. -->
   <div class="update-banner">
     <div class="wrap update-banner__inner">
-      <span class="update-banner__pill" data-i18n="sports.updateBanner.pill">Neu</span>
+      <span class="update-banner__pill" data-i18n="cheapseats.updateBanner.pill">Neu</span>
       <!-- Scrolling news track: two identical copies back-to-back, animated
            from translateX(0) to translateX(-50%) so the loop is seamless
            regardless of how long the translated string runs. Mask fades
            the edges instead of hard-clipping against the container. -->
       <div class="update-banner__ticker">
         <div class="update-banner__track">
-          <p class="update-banner__text" data-i18n="sports.updateBanner.ticker">+++ CheapSeats v1.1 ist da: Live-Tracking, Benachrichtigungen und der offizielle Microsoft-Store-Release +++ App Store und Play Store folgen in Kürze +++ Versprochen: CheapSeats bleibt zu 100 % kostenlos +++</p>
-          <p class="update-banner__text" aria-hidden="true" data-i18n="sports.updateBanner.ticker">+++ CheapSeats v1.1 ist da: Live-Tracking, Benachrichtigungen und der offizielle Microsoft-Store-Release +++ App Store und Play Store folgen in Kürze +++ Versprochen: CheapSeats bleibt zu 100 % kostenlos +++</p>
+          <p class="update-banner__text" data-i18n="cheapseats.updateBanner.ticker">+++ CheapSeats v1.1 ist da: Live-Tracking, Benachrichtigungen und der offizielle Microsoft-Store-Release +++ App Store und Play Store folgen in Kürze +++ Versprochen: CheapSeats bleibt zu 100 % kostenlos +++</p>
+          <p class="update-banner__text" aria-hidden="true" data-i18n="cheapseats.updateBanner.ticker">+++ CheapSeats v1.1 ist da: Live-Tracking, Benachrichtigungen und der offizielle Microsoft-Store-Release +++ App Store und Play Store folgen in Kürze +++ Versprochen: CheapSeats bleibt zu 100 % kostenlos +++</p>
         </div>
       </div>
       <!-- Stationary right edge: never scrolls, never gets covered. -->
       <div class="update-banner__links">
-        <a class="update-banner__link" href="#updates" data-i18n="sports.updateBanner.cta">Was ist neu →</a>
-        <a class="update-banner__link" href="https://apps.microsoft.com/detail/9N6JHBV7G033?hl=de-DE&amp;cid=mika-jeske-website" target="_blank" rel="noopener" data-store-link data-i18n="sports.nav.download">Jetzt herunterladen</a>
+        <a class="update-banner__link" href="#updates" data-i18n="cheapseats.updateBanner.cta">Was ist neu →</a>
+        <a class="update-banner__link" href="https://apps.microsoft.com/detail/9N6JHBV7G033?hl=de-DE&amp;cid=mika-jeske-website" target="_blank" rel="noopener" data-store-link data-i18n="cheapseats.nav.download">Jetzt herunterladen</a>
       </div>
     </div>
   </div>
@@ -425,24 +492,25 @@
        the hero has scrolled away. Written in vanilla because this page is
        static HTML with data-i18n bindings rather than React. -->
   <!-- Mobile only (see .skipper-toggle CSS): opens the skipper as a menu. -->
-  <button class="skipper-toggle" id="skipper-toggle" type="button" aria-expanded="false" aria-controls="skipper" data-i18n-attr="aria-label:sports.nav.menu" aria-label="Abschnitte">
+  <button class="skipper-toggle" id="skipper-toggle" type="button" aria-expanded="false" aria-controls="skipper" data-i18n-attr="aria-label:cheapseats.nav.menu" aria-label="Abschnitte">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
   </button>
   <nav class="skipper" id="skipper" aria-label="Zum Abschnitt springen">
     <div class="skipper__track">
-      <a class="skipper__link" href="#download" data-i18n="sports.nav.download">Jetzt herunterladen</a>
-      <a class="skipper__link" href="#features" data-i18n="sports.nav.features">Funktionen</a>
-      <a class="skipper__link" href="#einblicke" data-i18n="sports.nav.deepDive">Einblicke</a>
-      <a class="skipper__link" href="#mobil" data-i18n="sports.nav.mobile">Mobil</a>
-      <a class="skipper__link" href="#technik" data-i18n="sports.nav.tech">Technik</a>
-      <a class="skipper__link" href="#updates" data-i18n="sports.nav.updates">Updates</a>
+      <a class="skipper__link" href="#download" data-i18n="cheapseats.nav.download">Jetzt herunterladen</a>
+      <a class="skipper__link" href="#features" data-i18n="cheapseats.nav.features">Funktionen</a>
+      <a class="skipper__link" href="#einblicke" data-i18n="cheapseats.nav.deepDive">Einblicke</a>
+      <a class="skipper__link" href="#anpassen" data-i18n="cheapseats.nav.customize">Anpassen</a>
+      <a class="skipper__link" href="#mobil" data-i18n="cheapseats.nav.mobile">Mobil</a>
+      <a class="skipper__link" href="#technik" data-i18n="cheapseats.nav.tech">Technik</a>
+      <a class="skipper__link" href="#updates" data-i18n="cheapseats.nav.updates">Updates</a>
     </div>
   </nav>
 
   <div class="wrap">
     <div class="topbar">
-      <a class="back-link" href="../../"><span aria-hidden>←</span> <span data-i18n="sports.backLink">Startseite</span></a>
-      <span class="made" data-i18n="sports.madeBy">Made by Mika</span>
+      <a class="back-link" href="../../"><span aria-hidden>←</span> <span data-i18n="cheapseats.backLink">Startseite</span></a>
+      <span class="made" data-i18n="cheapseats.madeBy">Made by Mika</span>
     </div>
   </div>
 
@@ -450,15 +518,18 @@
   <header class="hero">
     <div class="hero-glow"></div>
     <div class="wrap">
-      <span class="eyebrow" data-i18n="sports.eyebrow">Projekt</span>
+      <span class="eyebrow" data-i18n="cheapseats.eyebrow">Projekt</span>
       <h1>CheapSeats</h1>
-      <p class="hero-sub" data-i18n="sports.heroSub">Ein persönliches Sport-Dashboard als native Desktop-App für Windows - gebaut für den kurzen Blick beim Hochfahren. Der Cache zeigt sofort relevante Daten, während im Hintergrund frische Stände nachgeladen werden. Jedes der 32 NFL- bzw. 30 MLB-Teams lässt sich frei wählen - einen festen Standard gibt es nicht.</p>
+      <p class="hero-sub" data-i18n="cheapseats.heroSub">Ein persönliches Sport-Dashboard als native Desktop-App für Windows - gebaut für den kurzen Blick beim Hochfahren. Der Cache zeigt sofort relevante Daten, während im Hintergrund frische Stände nachgeladen werden. Jedes der 32 NFL- bzw. 30 MLB-Teams lässt sich frei wählen - einen festen Standard gibt es nicht.</p>
 
       <div class="showcase reveal">
-        <div class="frame"><img src="../../ci/assets/Bilder/BayWindow/Main_Football_Dark.png" alt="CheapSeats Dashboard im Dark Mode - Hero-Karte zum nächsten Spiel, Player-Spotlight und Lineup-Diagramm" data-zoom></div>
+        <div class="duo" id="duo" data-front="light">
+          <button type="button" class="duo__card duo__card--dark" data-side="dark"><img src="../../ci/assets/Bilder/CheapSeats/overview-dark.png" width="1920" height="1080" alt="CheapSeats-Übersicht im Dark Mode: nächstes Spiel der 49ers, letztes Ergebnis und Player-Spotlight"></button>
+          <button type="button" class="duo__card duo__card--light" data-side="light"><img src="../../ci/assets/Bilder/CheapSeats/overview-light.png" width="1920" height="1080" alt="CheapSeats-Übersicht im Light Mode: nächstes Spiel der Giants, letztes Ergebnis und Player-Spotlight"></button>
+        </div>
         <div class="tag">
-          <div class="k" data-i18n="sports.dashboardK">Dashboard</div>
-          <div class="v" data-i18n="sports.dashboardV">Nächstes Spiel, Player-Spotlight und Aufstellung - alles auf einen Blick, sobald die App startet.</div>
+          <div class="k" data-i18n="cheapseats.dashboardK">Dark &amp; Light</div>
+          <div class="v" data-i18n="cheapseats.dashboardV">Dieselbe Übersicht in beiden Themes: nächstes Spiel, letztes Ergebnis und Player-Spotlight auf einen Blick.</div>
         </div>
       </div>
     </div>
@@ -470,10 +541,10 @@
     <div class="wrap">
       <div class="coming reveal">
         <div>
-          <span class="badge" data-i18n="sports.comingBadge">Microsoft Store</span>
-          <p data-i18n="sports.comingText">CheapSeats wird ausschließlich über den Microsoft Store vertrieben.</p>
+          <span class="badge" data-i18n="cheapseats.comingBadge">Microsoft Store</span>
+          <p data-i18n="cheapseats.comingText">CheapSeats wird ausschließlich über den Microsoft Store vertrieben.</p>
         </div>
-        <a class="gh" href="https://apps.microsoft.com/detail/9N6JHBV7G033?hl=de-DE&amp;cid=mika-jeske-website" target="_blank" rel="noopener" data-store-link><span data-i18n="sports.githubBtn">Jetzt im Microsoft Store</span> <span aria-hidden>→</span></a>
+        <a class="gh" href="https://apps.microsoft.com/detail/9N6JHBV7G033?hl=de-DE&amp;cid=mika-jeske-website" target="_blank" rel="noopener" data-store-link><span data-i18n="cheapseats.githubBtn">Jetzt im Microsoft Store</span> <span aria-hidden>→</span></a>
       </div>
 
       <!-- Not links yet: <div>, not <a> - keeps them out of tab order and
@@ -482,7 +553,7 @@
       <div class="store-badges reveal">
         <div class="store-badge"><img src="../../ci/assets/badges/app-store-badge.svg" alt="Download on the App Store" width="120" height="40" loading="lazy"></div>
         <div class="store-badge"><img src="../../ci/assets/badges/google-play-badge.png" alt="Get it on Google Play" width="155" height="60" loading="lazy"></div>
-        <span class="store-badges__note" data-i18n="sports.comingSoon">Bald verfügbar</span>
+        <span class="store-badges__note" data-i18n="cheapseats.comingSoon">Bald verfügbar</span>
       </div>
     </div>
   </section>
@@ -490,56 +561,90 @@
   <!-- OVERVIEW FEATURES -->
   <section id="features">
     <div class="wrap">
-      <span class="section-label reveal" data-i18n="sports.featuresLabel">Funktionen</span>
-      <h2 class="reveal" data-i18n="sports.featuresHeading">Was die App kann</h2>
-      <p class="lede reveal" data-i18n="sports.featuresLede">Wenig visuelles Rauschen, die wichtigen Zahlen zuerst und eine Erklärung für jeden Fachbegriff: Zwischen Hinsehen und Verstehen soll so wenig Zeit wie möglich liegen.</p>
+      <span class="section-label reveal" data-i18n="cheapseats.featuresLabel">Funktionen</span>
+      <h2 class="reveal" data-i18n="cheapseats.featuresHeading">Was die App kann</h2>
+      <p class="lede reveal" data-i18n="cheapseats.featuresLede">Wenig visuelles Rauschen, die wichtigen Zahlen zuerst und eine Erklärung für jeden Fachbegriff: Zwischen Hinsehen und Verstehen soll so wenig Zeit wie möglich liegen.</p>
       <div class="feature-grid" id="feature-grid">
-        <div class="feature-card reveal"><div class="dot"></div><h4 data-i18n="sports.features.0.title">Live-Dashboard</h4><p data-i18n="sports.features.0.desc">Hero-Karte zum nächsten Spiel mit Gegner, Anstoßzeit, Spielort und TV-Sender - inklusive Countdown bis zum Start.</p></div>
-        <div class="feature-card reveal"><div class="dot"></div><h4 data-i18n="sports.features.1.title">Live-Tracking</h4><p data-i18n="sports.features.1.desc">Echtzeit-Play-by-Play bei laufenden Spielen: aktuelles Inning bzw. Viertel, Spielstand, Down-Distance bzw. Ball-Strike-Zähler und eine Timeline der Scoring-Plays.</p></div>
-        <div class="feature-card reveal"><div class="dot"></div><h4 data-i18n="sports.features.2.title">Benachrichtigungen</h4><p data-i18n="sports.features.2.desc">Taskleisten-Blinken im Fokus, Toast beim Minimieren; einmalige Erinnerung zu Anstoß oder erstem Wurf, optionale Spielstand-Alerts, gedrosselt auf ein Update alle 5 Sekunden.</p></div>
-        <div class="feature-card reveal"><div class="dot"></div><h4 data-i18n="sports.features.3.title">Player-Spotlight</h4><p data-i18n="sports.features.3.desc">Automatisch gewählte Schlüsselspieler-Karte (QB bzw. Starting Pitcher) mit Saisonwerten und Trend gegenüber dem Karrieremittel.</p></div>
-        <div class="feature-card reveal"><div class="dot"></div><h4 data-i18n="sports.features.4.title">Formations-Diagramm</h4><p data-i18n="sports.features.4.desc">Visuelle Aufstellung auf Feld oder Diamond, angepasst an die Sportart - Offense-Gruppen im Football, Feldpositionen im Baseball.</p></div>
-        <div class="feature-card reveal"><div class="dot"></div><h4 data-i18n="sports.features.5.title">Division-Tabelle</h4><p data-i18n="sports.features.5.desc">Vollständige Standings mit W/L, Heim/Auswärts, Run-Differential und Streak - plus Glossar-Tooltips für jede Abkürzung.</p></div>
-        <div class="feature-card reveal"><div class="dot"></div><h4 data-i18n="sports.features.6.title">Venue &amp; History</h4><p data-i18n="sports.features.6.desc">Stadiondaten (Baujahr, Kapazität, Maße, Belag) neben kuratierter Saisonhistorie: Trendkurven, Meistertitel, All-Time-Rekorde.</p></div>
-        <div class="feature-card reveal"><div class="dot"></div><h4 data-i18n="sports.features.7.title">Roster &amp; Playoffs</h4><p data-i18n="sports.features.7.desc">Filterbare Kaderliste nach Positionsgruppe, suchbar nach Name und Nummer - plus automatische Playoff-Brackets in der Postseason.</p></div>
+        <div class="feature-card reveal"><div class="dot"></div><h4 data-i18n="cheapseats.features.0.title">Live-Dashboard</h4><p data-i18n="cheapseats.features.0.desc">Hero-Karte zum nächsten Spiel mit Gegner, Anstoßzeit, Spielort und TV-Sender - inklusive Countdown bis zum Start.</p></div>
+        <div class="feature-card reveal"><div class="dot"></div><h4 data-i18n="cheapseats.features.1.title">Live-Tracking</h4><p data-i18n="cheapseats.features.1.desc">Echtzeit-Play-by-Play bei laufenden Spielen: aktuelles Inning bzw. Viertel, Spielstand, Down-Distance bzw. Ball-Strike-Zähler und eine Timeline der Scoring-Plays.</p></div>
+        <div class="feature-card reveal"><div class="dot"></div><h4 data-i18n="cheapseats.features.2.title">Benachrichtigungen</h4><p data-i18n="cheapseats.features.2.desc">Taskleisten-Blinken im Fokus, Toast beim Minimieren; einmalige Erinnerung zu Anstoß oder erstem Wurf, optionale Spielstand-Alerts, gedrosselt auf ein Update alle 5 Sekunden.</p></div>
+        <div class="feature-card reveal"><div class="dot"></div><h4 data-i18n="cheapseats.features.3.title">Player-Spotlight</h4><p data-i18n="cheapseats.features.3.desc">Automatisch gewählte Schlüsselspieler-Karte (QB bzw. Starting Pitcher) mit Saisonwerten und Trend gegenüber dem Karrieremittel.</p></div>
+        <div class="feature-card reveal"><div class="dot"></div><h4 data-i18n="cheapseats.features.4.title">Formations-Diagramm</h4><p data-i18n="cheapseats.features.4.desc">Visuelle Aufstellung auf Feld oder Diamond, angepasst an die Sportart - Offense-Gruppen im Football, Feldpositionen im Baseball.</p></div>
+        <div class="feature-card reveal"><div class="dot"></div><h4 data-i18n="cheapseats.features.5.title">Division-Tabelle</h4><p data-i18n="cheapseats.features.5.desc">Vollständige Standings mit W/L, Heim/Auswärts, Run-Differential und Streak - plus Glossar-Tooltips für jede Abkürzung.</p></div>
+        <div class="feature-card reveal"><div class="dot"></div><h4 data-i18n="cheapseats.features.6.title">Venue &amp; History</h4><p data-i18n="cheapseats.features.6.desc">Stadiondaten (Baujahr, Kapazität, Maße, Belag) neben kuratierter Saisonhistorie: Trendkurven, Meistertitel, All-Time-Rekorde.</p></div>
+        <div class="feature-card reveal"><div class="dot"></div><h4 data-i18n="cheapseats.features.7.title">Roster &amp; Playoffs</h4><p data-i18n="cheapseats.features.7.desc">Filterbare Kaderliste nach Positionsgruppe, suchbar nach Name und Nummer - plus automatische Playoff-Brackets in der Postseason.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- DEEP DIVE: HISTORY (dark shot, off-centre) -->
+  <!-- DEEP DIVE: ease of use, then three kinds of fans -->
   <section id="einblicke">
     <div class="wrap">
-      <div class="row">
+      <div class="row wide-media">
         <div class="copy reveal">
-          <span class="section-label" data-i18n="sports.historyLabel">Tiefe statt Oberfläche</span>
-          <h3 style="margin-top:14px" data-i18n="sports.historyHeading">History, die Geschichten erzählt</h3>
-          <p data-i18n="sports.historyDesc">Die History-Ansicht verdichtet Jahrzehnte in wenige Blicke: eine Win/Loss-Trendkurve über die letzten Saisons, die Meistertitel als Banner-Reihe und die Team-ERA der jüngsten Jahre als Balken.</p>
+          <span class="section-label" data-i18n="cheapseats.easeLabel">Ohne Vorwissen</span>
+          <h3 style="margin-top:14px" data-i18n="cheapseats.easeHeading">Vom ersten Start an verständlich</h3>
+          <p data-i18n="cheapseats.easeDesc">Noch nie ein Football- oder Baseballspiel gesehen? Kein Problem. Eine kurze Tour zeigt beim ersten Start, wo was ist, jeder Fachbegriff erklärt sich per Tooltip, und das Regelbuch beantwortet den Rest.</p>
           <ul class="ticks">
-            <li data-i18n="sports.historyTicks.0">Trendkurve mit markierten Playoff- und Championship-Saisons</li>
-            <li data-i18n="sports.historyTicks.1">All-Time-Wins, beste Modern-Season, längste Siegesserie</li>
-            <li data-i18n="sports.historyTicks.2">Dunkles, team-gefärbtes Thema - bewusst abgesetzt vom hellen Dashboard</li>
+            <li data-i18n="cheapseats.easeTicks.0">Onboarding-Tour in wenigen Schritten, jederzeit überspringbar</li>
+            <li data-i18n="cheapseats.easeTicks.1">Tooltips für jede Abkürzung und jede Position</li>
+            <li data-i18n="cheapseats.easeTicks.2">Durchsuchbares Regelbuch mit NFL- und MLB-Grundlagen</li>
           </ul>
         </div>
-        <div class="media tilt-r offset-r reveal">
-          <div class="shot"><img src="../../ci/assets/Bilder/BayWindow/History_Dark.png" alt="History-Ansicht im Dark Mode mit Win/Loss-Trend, Championship-Bannern und Team-ERA-Balken" data-zoom></div>
+        <div class="media collage reveal">
+          <div class="shot"><img src="../../ci/assets/Bilder/CheapSeats/rulebook.png" width="1912" height="1075" loading="lazy" alt="Regelbuch mit Suche und Kapiteln zu NFL- und MLB-Grundlagen" data-zoom></div>
+          <div class="float c-onboard"><div class="shot"><img src="../../ci/assets/Bilder/CheapSeats/onboarding.png" width="849" height="464" loading="lazy" alt="Onboarding-Tour erklärt den Wechsel zwischen NFL- und MLB-Team" data-zoom></div></div>
+          <div class="float c-tip"><div class="shot"><img src="../../ci/assets/Bilder/CheapSeats/tooltip.png" width="535" height="212" loading="lazy" alt="Tooltip erklärt die Position Quarterback (QB)" data-zoom></div></div>
         </div>
       </div>
 
-      <!-- team selector + settings (flipped) -->
+      <div style="margin-top:clamp(64px,8vw,112px)" class="reveal">
+        <span class="section-label" data-i18n="cheapseats.fansLabel">Für jeden Fan</span>
+        <h3 class="h3" data-i18n="cheapseats.fansHeading">Eine App, drei Arten Fan</h3>
+      </div>
+      <div class="fans">
+        <article class="fan reveal">
+          <div class="shot"><img src="../../ci/assets/Bilder/CheapSeats/team-selector.png" width="880" height="739" loading="lazy" alt="Team-Selektor mit allen NFL- und MLB-Teams" data-zoom></div>
+          <span class="section-label" data-i18n="cheapseats.fans.0.label">Vielfalt</span>
+          <h4 data-i18n="cheapseats.fans.0.title">Jedes Team, deine Wahl</h4>
+          <p data-i18n="cheapseats.fans.0.desc">Alle 32 NFL- und 30 MLB-Teams, eins pro Sportart; oder keins, wenn dich eine Liga nicht interessiert.</p>
+        </article>
+        <article class="fan reveal">
+          <div class="shot"><img src="../../ci/assets/Bilder/CheapSeats/trend.png" width="853" height="699" loading="lazy" alt="Win/Loss-Trend, Meistertitel und Scoring-Trend der letzten acht Saisons" data-zoom></div>
+          <span class="section-label" data-i18n="cheapseats.fans.1.label">Für Zahlenmenschen</span>
+          <h4 data-i18n="cheapseats.fans.1.title">Trends statt nur Tabellen</h4>
+          <p data-i18n="cheapseats.fans.1.desc">Win/Loss-Kurven, Meistertitel und Scoring-Trends der letzten acht Saisons.</p>
+        </article>
+        <article class="fan reveal">
+          <div class="shot"><img src="../../ci/assets/Bilder/CheapSeats/countdown.png" width="719" height="904" loading="lazy" alt="Countdown bis zum Kickoff mit Head-to-Head, Spielinfos und Saisonkontext" data-zoom></div>
+          <span class="section-label" data-i18n="cheapseats.fans.2.label">Für Ungeduldige</span>
+          <h4 data-i18n="cheapseats.fans.2.title">Countdown bis zum Kickoff</h4>
+          <p data-i18n="cheapseats.fans.2.desc">Tage, Stunden, Minuten, Sekunden; dazu Head-to-Head, Spielinfos und Saisonkontext.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAKE IT YOURS: customisation -->
+  <section id="anpassen">
+    <div class="wrap">
       <div class="row flip">
         <div class="media tilt-l offset-l reveal">
-          <div class="shot"><img src="../../ci/assets/Bilder/BayWindow/Settings_Light.png" alt="Einstellungen im Light Mode" data-zoom></div>
+          <div class="shot"><img src="../../ci/assets/Bilder/CheapSeats/customize-settings.png" width="797" height="644" loading="lazy" alt="Einstellungen mit Team-Farben und 15 Farbverläufen" data-zoom></div>
         </div>
         <div class="copy reveal">
-          <span class="section-label" data-i18n="sports.teamLabel">Dein Team, deine Sprache</span>
-          <h3 style="margin-top:14px" data-i18n="sports.teamHeading">Für beide Ligen gebaut</h3>
-          <p data-i18n="sports.teamDesc">NFL und MLB teilen sich dieselbe Oberfläche - der Team-Selektor wechselt zwischen allen 62 Teams, die Glossare und Diagramme passen sich der Sportart an. Einstellungen für Sprache (DE/EN), Theme und Standardteam sind ein Klick entfernt.</p>
+          <span class="section-label" data-i18n="cheapseats.customLabel">Mach sie zu deiner</span>
+          <h3 style="margin-top:14px" data-i18n="cheapseats.customHeading">Dein Dashboard, deine Farben</h3>
+          <p data-i18n="cheapseats.customDesc">Team-Farben oder einer von 15 Farbverläufen, Hell- oder Dunkelmodus und auf Wunsch das Sport-Icon: CheapSeats passt sich deinem Geschmack an.</p>
           <ul class="ticks">
-            <li data-i18n="sports.teamTicks.0">Zweisprachig über i18next, mit sportartspezifischen Glossaren</li>
-            <li data-i18n="sports.teamTicks.1">Light- und Dark-Theme, team-gefärbte Akzente</li>
-            <li data-i18n="sports.teamTicks.2">Demo-Modus zum Testen ohne Netzwerk</li>
+            <li data-i18n="cheapseats.customTicks.0">Team-Farben oder 15 Farbverläufe zur Auswahl</li>
+            <li data-i18n="cheapseats.customTicks.1">Sidebar-Hintergründe von dezent bis illustriert</li>
+            <li data-i18n="cheapseats.customTicks.2">Hell- und Dunkelmodus, Schriftgröße und Standard-Tab</li>
           </ul>
         </div>
+      </div>
+      <div class="theme-strip reveal">
+        <div class="shot"><img src="../../ci/assets/Bilder/CheapSeats/customize-themes.png" width="2600" height="811" loading="lazy" alt="Zehn Varianten der Seitenleiste, von hellen Verläufen bis zu illustrierten Hintergründen" data-zoom></div>
       </div>
     </div>
   </section>
@@ -548,15 +653,13 @@
   <section class="phones" id="mobil">
     <div class="phones-glow"></div>
     <div class="wrap" style="position:relative;z-index:1">
-      <span class="section-label reveal" data-i18n="sports.everywhereLabel">Überall zu Hause</span>
-      <h2 class="reveal" data-i18n="sports.everywhereHeading">Läuft auf Handy, Mac und Windows</h2>
-      <p class="lede reveal" data-i18n="sports.everywhereLede">Dieselbe defensive Architektur, dieselben Daten - responsiv vom Desktop bis aufs Telefon. Die Seitennavigation merkt sich die Scroll-Position, sodass sich Bereiche sofort anspringen lassen.</p>
+      <span class="section-label reveal" data-i18n="cheapseats.everywhereLabel">Überall zu Hause</span>
+      <h2 class="reveal" data-i18n="cheapseats.everywhereHeading">Läuft auf Handy, Mac und Windows</h2>
+      <p class="lede reveal" data-i18n="cheapseats.everywhereLede">Dieselbe defensive Architektur, dieselben Daten - responsiv vom Desktop bis aufs Telefon. Die Seitennavigation merkt sich die Scroll-Position, sodass sich Bereiche sofort anspringen lassen.</p>
       <div class="phone-row">
-        <div class="phone reveal"><img src="../../ci/assets/Bilder/BayWindow/phone_main_light.png" alt="CheapSeats Dashboard auf dem Smartphone" data-zoom></div>
-        <div class="phone reveal"><img src="../../ci/assets/Bilder/BayWindow/phone_card_light.png" alt="Spieler-Karte auf dem Smartphone" data-zoom></div>
-        <div class="phone reveal"><img src="../../ci/assets/Bilder/BayWindow/phone_standings_dark.png" alt="Standings im Dark Mode auf dem Smartphone" data-zoom></div>
-        <div class="phone reveal"><img src="../../ci/assets/Bilder/BayWindow/phone_playoffs_light.png" alt="Playoff-Bracket auf dem Smartphone" data-zoom></div>
-        <div class="phone reveal"><img src="../../ci/assets/Bilder/BayWindow/phone_side_dark.png" alt="Seitennavigation im Dark Mode auf dem Smartphone" data-zoom></div>
+        <div class="phone reveal"><img src="../../ci/assets/Bilder/CheapSeats/phone_main_light.png" width="1530" height="3036" loading="lazy" alt="CheapSeats Dashboard auf dem Smartphone" data-zoom></div>
+        <div class="phone reveal"><img src="../../ci/assets/Bilder/CheapSeats/phone_card_light.png" width="1530" height="3036" loading="lazy" alt="Spieler-Karte auf dem Smartphone" data-zoom></div>
+        <div class="phone reveal"><img src="../../ci/assets/Bilder/CheapSeats/phone_playoffs_light.png" width="1530" height="3036" loading="lazy" alt="Playoff-Bracket auf dem Smartphone" data-zoom></div>
       </div>
     </div>
   </section>
@@ -564,33 +667,33 @@
   <!-- TECH + PHILOSOPHY -->
   <section id="technik">
     <div class="wrap">
-      <span class="section-label reveal" data-i18n="sports.techLabel">Unter der Haube</span>
-      <h2 class="reveal" data-i18n="sports.techHeading">Technisches Fundament</h2>
-      <p class="lede reveal" data-i18n="sports.techLede">Cache-first und ausfallsicher: Daten sind beim ersten Start sichtbar, jeder API-Aufruf läuft isoliert, und Updates kommen über den Microsoft Store.</p>
+      <span class="section-label reveal" data-i18n="cheapseats.techLabel">Unter der Haube</span>
+      <h2 class="reveal" data-i18n="cheapseats.techHeading">Technisches Fundament</h2>
+      <p class="lede reveal" data-i18n="cheapseats.techLede">Cache-first und ausfallsicher: Daten sind beim ersten Start sichtbar, jeder API-Aufruf läuft isoliert, und Updates kommen über den Microsoft Store.</p>
       <div class="spec">
         <dl class="reveal">
-          <dt data-i18n="sports.spec.0.dt">Plattform</dt>
-          <dd data-i18n-html="sports.spec.0.dd"><strong>Tauri 2</strong> auf Rust-Basis für native, plattformübergreifende Performance - ein Binary für Windows, macOS und mobile Layouts.</dd>
-          <dt data-i18n="sports.spec.1.dt">Frontend</dt>
-          <dd data-i18n-html="sports.spec.1.dd"><strong>React 19 + TypeScript</strong>, kompiliert mit <strong>Vite 7</strong>. Komponentenbasiert, typsicher, schnell im Build.</dd>
+          <dt data-i18n="cheapseats.spec.0.dt">Plattform</dt>
+          <dd data-i18n-html="cheapseats.spec.0.dd"><strong>Tauri 2</strong> auf Rust-Basis für native, plattformübergreifende Performance - ein Binary für Windows, macOS und mobile Layouts.</dd>
+          <dt data-i18n="cheapseats.spec.1.dt">Frontend</dt>
+          <dd data-i18n-html="cheapseats.spec.1.dd"><strong>React 19 + TypeScript</strong>, kompiliert mit <strong>Vite 7</strong>. Komponentenbasiert, typsicher, schnell im Build.</dd>
         </dl>
         <dl class="reveal">
-          <dt data-i18n="sports.spec.2.dt">Architektur</dt>
-          <dd data-i18n-html="sports.spec.2.dd">Defensiv gedacht: jeder Endpunkt wird unabhängig gefetcht, ein Ausfall kaskadiert nicht. Fehlende Daten werden zu <strong>„-"</strong> statt zum Crash.</dd>
-          <dt data-i18n="sports.spec.3.dt">Daten &amp; Offline</dt>
-          <dd data-i18n-html="sports.spec.3.dd">Live-Daten aus der öffentlichen <strong>ESPN-JSON-API</strong>, persistent gecacht. Offline nutzbar, mit Demo-Modus für Tests ohne Netz.</dd>
+          <dt data-i18n="cheapseats.spec.2.dt">Architektur</dt>
+          <dd data-i18n-html="cheapseats.spec.2.dd">Defensiv gedacht: jeder Endpunkt wird unabhängig gefetcht, ein Ausfall kaskadiert nicht. Fehlende Daten werden zu <strong>„-"</strong> statt zum Crash.</dd>
+          <dt data-i18n="cheapseats.spec.3.dt">Daten &amp; Offline</dt>
+          <dd data-i18n-html="cheapseats.spec.3.dd">Live-Daten aus der öffentlichen <strong>ESPN-JSON-API</strong>, persistent gecacht. Offline nutzbar, mit Demo-Modus für Tests ohne Netz.</dd>
         </dl>
         <dl class="reveal">
-          <dt data-i18n="sports.spec.4.dt">Sprache</dt>
-          <dd data-i18n-html="sports.spec.4.dd"><strong>i18next</strong> mit Deutsch/Englisch und sportartspezifischen Glossaren - Tooltips erklären jede Abkürzung.</dd>
-          <dt data-i18n="sports.spec.5.dt">Updates</dt>
-          <dd data-i18n-html="sports.spec.5.dd">Automatische Auslieferung über den <strong>Microsoft Store</strong> - kein separater Installer, keine manuellen Updates.</dd>
+          <dt data-i18n="cheapseats.spec.4.dt">Sprache</dt>
+          <dd data-i18n-html="cheapseats.spec.4.dd"><strong>i18next</strong> mit Deutsch/Englisch und sportartspezifischen Glossaren - Tooltips erklären jede Abkürzung.</dd>
+          <dt data-i18n="cheapseats.spec.5.dt">Updates</dt>
+          <dd data-i18n-html="cheapseats.spec.5.dd">Automatische Auslieferung über den <strong>Microsoft Store</strong> - kein separater Installer, keine manuellen Updates.</dd>
         </dl>
       </div>
 
       <div style="margin-top:clamp(48px,6vw,80px); max-width:62ch" class="reveal">
-        <span class="section-label" data-i18n="sports.designLabel">Designphilosophie</span>
-        <p class="lede" style="margin-top:14px" data-i18n-html="sports.designText">Die App ist auf <strong style="color:var(--heading);font-weight:600">geringe kognitive Last</strong> und schnelles Scannen ausgelegt. Der Cache-first-Ansatz macht Daten beim Start sofort sichtbar; die Seitennavigation mit Scroll-Tracking lässt zwischen Bereichen springen. Tooltips erklären durchgehend die Fachbegriffe - auch für alle, die mit US-Sport (noch) nicht vertraut sind.</p>
+        <span class="section-label" data-i18n="cheapseats.designLabel">Designphilosophie</span>
+        <p class="lede" style="margin-top:14px" data-i18n-html="cheapseats.designText">Die App ist auf <strong style="color:var(--heading);font-weight:600">geringe kognitive Last</strong> und schnelles Scannen ausgelegt. Der Cache-first-Ansatz macht Daten beim Start sofort sichtbar; die Seitennavigation mit Scroll-Tracking lässt zwischen Bereichen springen. Tooltips erklären durchgehend die Fachbegriffe - auch für alle, die mit US-Sport (noch) nicht vertraut sind.</p>
       </div>
 
     </div>
@@ -599,9 +702,9 @@
   <!-- VERSION HISTORY -->
   <section id="updates">
     <div class="wrap">
-      <span class="section-label reveal" data-i18n="sports.changelogLabel">Versionsverlauf</span>
-      <h2 class="reveal" data-i18n="sports.changelogHeading">Was sich getan hat</h2>
-      <p class="lede reveal" data-i18n="sports.changelogLede">Ein kurzer Rückblick auf die bisherigen Releases - ohne Datumsangabe, damit er nicht veraltet wirkt.</p>
+      <span class="section-label reveal" data-i18n="cheapseats.changelogLabel">Versionsverlauf</span>
+      <h2 class="reveal" data-i18n="cheapseats.changelogHeading">Was sich getan hat</h2>
+      <p class="lede reveal" data-i18n="cheapseats.changelogLede">Ein kurzer Rückblick auf die bisherigen Releases - ohne Datumsangabe, damit er nicht veraltet wirkt.</p>
 
       <div class="changelog" id="changelogScroller">
         <article class="version-card reveal" tabindex="0" role="button" aria-haspopup="dialog" data-changelog-anchor="v1-2">
@@ -612,24 +715,24 @@
           <span class="version-card__tag version-card__tag--current">Update 2</span>
           <h3>Yours, Live and in Color</h3>
           <ul class="ticks">
-            <li data-i18n="sports.changelog.v11.items.0">Live-Tracking: Echtzeit-Play-by-Play, aktuelles Inning/Viertel, Down-Distance bzw. Ball-Strike-Zähler und eine Scoring-Play-Timeline</li>
-            <li data-i18n="sports.changelog.v11.items.1">Benachrichtigungen: Taskleisten-Blinken, Toast beim Minimieren, Kickoff-Erinnerung und optionale Spielstand-Alerts</li>
-            <li data-i18n="sports.changelog.v11.items.2">Offizieller Release im Microsoft Store: signierte Auto-Updates, kein Installer, kein UAC-Prompt</li>
-            <li data-i18n="sports.changelog.v11.items.3">Team-Auswahl bleibt über Neustarts hinweg erhalten, Autostart mit Windows</li>
-            <li data-i18n="sports.changelog.v11.items.4">Rund 40 % schnellerer Start bei kaltem Cache</li>
+            <li data-i18n="cheapseats.changelog.v11.items.0">Live-Tracking: Echtzeit-Play-by-Play, aktuelles Inning/Viertel, Down-Distance bzw. Ball-Strike-Zähler und eine Scoring-Play-Timeline</li>
+            <li data-i18n="cheapseats.changelog.v11.items.1">Benachrichtigungen: Taskleisten-Blinken, Toast beim Minimieren, Kickoff-Erinnerung und optionale Spielstand-Alerts</li>
+            <li data-i18n="cheapseats.changelog.v11.items.2">Offizieller Release im Microsoft Store: signierte Auto-Updates, kein Installer, kein UAC-Prompt</li>
+            <li data-i18n="cheapseats.changelog.v11.items.3">Team-Auswahl bleibt über Neustarts hinweg erhalten, Autostart mit Windows</li>
+            <li data-i18n="cheapseats.changelog.v11.items.4">Rund 40 % schnellerer Start bei kaltem Cache</li>
           </ul>
         </article>
         <article class="version-card reveal" tabindex="0" role="button" aria-haspopup="dialog" data-changelog-anchor="v1-0">
           <span class="version-card__tag">Update 1</span>
           <h3>First Kickoff</h3>
           <ul class="ticks">
-            <li data-i18n="sports.changelog.v10.items.0">Dashboard mit nächstem/letztem Spiel, Countdown und Head-to-Head-Vorschau</li>
-            <li data-i18n="sports.changelog.v10.items.1">Player-Spotlight mit Saisonwerten und Trend gegenüber der Karrierebilanz</li>
-            <li data-i18n="sports.changelog.v10.items.2">Formations-Diagramm für NFL und MLB</li>
-            <li data-i18n="sports.changelog.v10.items.3">Vollständige Standings mit Glossar-Tooltips für jede Abkürzung</li>
-            <li data-i18n="sports.changelog.v10.items.4">Venue- und History-Ansicht mit Meistertiteln und All-Time-Rekorden</li>
-            <li data-i18n="sports.changelog.v10.items.5">Durchsuchbares Roster und automatische Playoff-Brackets</li>
-            <li data-i18n="sports.changelog.v10.items.6">Zweisprachig EN/DE, Light-/Dark-Theme, Demo-Modus</li>
+            <li data-i18n="cheapseats.changelog.v10.items.0">Dashboard mit nächstem/letztem Spiel, Countdown und Head-to-Head-Vorschau</li>
+            <li data-i18n="cheapseats.changelog.v10.items.1">Player-Spotlight mit Saisonwerten und Trend gegenüber der Karrierebilanz</li>
+            <li data-i18n="cheapseats.changelog.v10.items.2">Formations-Diagramm für NFL und MLB</li>
+            <li data-i18n="cheapseats.changelog.v10.items.3">Vollständige Standings mit Glossar-Tooltips für jede Abkürzung</li>
+            <li data-i18n="cheapseats.changelog.v10.items.4">Venue- und History-Ansicht mit Meistertiteln und All-Time-Rekorden</li>
+            <li data-i18n="cheapseats.changelog.v10.items.5">Durchsuchbares Roster und automatische Playoff-Brackets</li>
+            <li data-i18n="cheapseats.changelog.v10.items.6">Zweisprachig EN/DE, Light-/Dark-Theme, Demo-Modus</li>
           </ul>
         </article>
       </div>
@@ -653,7 +756,7 @@
 
   <footer>
     <div class="wrap footrow">
-      <a class="back-link" href="../../"><span aria-hidden>←</span> <span data-i18n="sports.backFooter">Zurück zur Startseite</span></a>
+      <a class="back-link" href="../../"><span aria-hidden>←</span> <span data-i18n="cheapseats.backFooter">Zurück zur Startseite</span></a>
       <div style="display:flex; align-items:center; gap:20px; flex-wrap:wrap">
         <a href="mailto:mikajeske@gmail.com" data-i18n-attr="aria-label:footer.emailAria" aria-label="E-Mail an Mika Jeske schreiben" style="display:inline-flex; align-items:center; gap:7px; font-family:var(--font-text); font-size:var(--fs-caption); font-weight:600; color:var(--text-body)">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m4 7 8 6 8-6" /></svg>
@@ -663,12 +766,12 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
           <span data-i18n="footer.phone">Anrufen</span>
         </a>
-        <span class="made" data-i18n="sports.madeByFooter">CheapSeats · Made by Mika</span>
+        <span class="made" data-i18n="cheapseats.madeByFooter">CheapSeats · Made by Mika</span>
       </div>
     </div>
     <div class="wrap">
       <p class="i18n-disclaimer" data-i18n="footer.disclaimer">Übersetzungen werden als Komfortfunktion bereitgestellt und wurden KI-unterstützt erstellt. Die deutsche Version ist die maßgebliche Quelle.</p>
-      <p class="i18n-disclaimer" data-i18n="sports.screenshotNote">Die Screenshots auf dieser Seite stammen aus der Entwicklung und können vom aktuellen Stand der App abweichen.</p>
+      <p class="i18n-disclaimer" data-i18n="cheapseats.screenshotNote">Die Screenshots auf dieser Seite stammen aus der Entwicklung und können vom aktuellen Stand der App abweichen.</p>
     </div>
   </footer>
 
@@ -759,8 +862,25 @@
     // lightbox
     (function () {
       var lb = document.getElementById('lb'), img = document.getElementById('lbImg');
+      function zoom(el) { img.src = el.src; img.alt = el.alt; lb.classList.add('on'); }
       document.querySelectorAll('[data-zoom]').forEach(function (el) {
-        el.addEventListener('click', function () { img.src = el.src; img.alt = el.alt; lb.classList.add('on'); });
+        el.addEventListener('click', function () { zoom(el); });
+      });
+
+      // hero pair: mouse hover or keyboard focus brings a card forward (and it
+      // stays forward); a tap on the back card does the same. Clicking the card
+      // already in front opens it in the lightbox.
+      var duo = document.getElementById('duo');
+      duo.querySelectorAll('.duo__card').forEach(function (card) {
+        var side = card.dataset.side;
+        function front() { duo.dataset.front = side; }
+        card.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') front(); });
+        // only keyboard focus - a tap also focuses the button, and must not skip the "bring forward" step
+        card.addEventListener('focus', function () { if (card.matches(':focus-visible')) front(); });
+        card.addEventListener('click', function () {
+          if (duo.dataset.front !== side) front();
+          else zoom(card.querySelector('img'));
+        });
       });
       lb.addEventListener('click', function () { lb.classList.remove('on'); img.src = ''; });
       document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { lb.classList.remove('on'); img.src = ''; } });

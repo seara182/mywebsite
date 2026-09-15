@@ -1,6 +1,5 @@
 .claude/
 projects/*
-!projects/sports_app/
 !projects/cheapseats/
 _notes/
 private/master/CLAUDE.md

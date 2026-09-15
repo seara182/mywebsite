@@ -260,3 +260,5 @@ metrológico
 # --- navigation / layout identifiers ---
 projekt
 ultrawide
+Spielinfos
+saltabile
