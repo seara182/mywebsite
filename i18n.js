@@ -241,6 +241,8 @@
         comingSoon: "Bald verfügbar",
         githubBtn: "Jetzt im Microsoft Store", backFooter: "Zurück zur Startseite", madeByFooter: "CheapSeats · Made by Mika",
         screenshotNote: "Die Screenshots auf dieser Seite stammen aus der Entwicklung und können vom aktuellen Stand der App abweichen.",
+        licenceQ: "„Wo sind die Logos, die Spielerfotos?“",
+        licenceA: "Ich bin ein kleiner Indie-Entwickler aus dem Schlafzimmer; die Millionen für Logo- und Bildlizenzen habe ich schlicht nicht. Falls mir jemand einen Lizenzdeal schenken möchte: Ich rede sehr gern darüber ;)",
         updateBanner: {
           pill: "Neu",
           ticker: "+++ CheapSeats v1.1 ist da: Live-Tracking, Benachrichtigungen und der offizielle Microsoft-Store-Release +++ App Store und Play Store folgen in Kürze +++ Versprochen: CheapSeats bleibt zu 100 % kostenlos +++",
@@ -454,6 +456,8 @@
         comingSoon: "Coming soon",
         githubBtn: "Now on Microsoft Store", backFooter: "Back to home", madeByFooter: "CheapSeats · Made by Mika",
         screenshotNote: "Screenshots on this page are from development builds and may differ from the current version of the app.",
+        licenceQ: "“Where are the logos, the player photos?”",
+        licenceA: "I am a small bedroom indie developer, and the millions it costs to license logos and photos are simply out of reach. If anyone wants to gift me a licensing deal, I would love to talk ;)",
         updateBanner: {
           pill: "New",
           ticker: "+++ CheapSeats v1.1 is here: live tracking, notifications and the official Microsoft Store release +++ App Store and Play Store releases in the works +++ Promise made: CheapSeats will stay 100% free +++",
@@ -667,6 +671,8 @@
         comingSoon: "Bientôt disponible",
         githubBtn: "Désormais sur le Microsoft Store", backFooter: "Retour à l'accueil", madeByFooter: "CheapSeats · Made by Mika",
         screenshotNote: "Les captures d'écran de cette page proviennent de versions de développement et peuvent différer de la version actuelle de l'application.",
+        licenceQ: "« Où sont les logos, les photos des joueurs ? »",
+        licenceA: "Je suis un petit développeur indépendant qui travaille depuis sa chambre ; les millions que coûtent les licences de logos et de photos sont hors de ma portée. Si quelqu'un veut m'offrir un accord de licence, j'en discute avec grand plaisir ;)",
         updateBanner: {
           pill: "Nouveau",
           ticker: "+++ CheapSeats v1.1 est arrivé : suivi en direct, notifications et la sortie officielle sur le Microsoft Store +++ Les versions App Store et Play Store arrivent bientôt +++ Promis : CheapSeats restera gratuite à 100 % +++",
@@ -880,6 +886,8 @@
         comingSoon: "Próximamente",
         githubBtn: "Ya en Microsoft Store", backFooter: "Volver al inicio", madeByFooter: "CheapSeats · Made by Mika",
         screenshotNote: "Las capturas de pantalla de esta página son de versiones en desarrollo y pueden diferir de la versión actual de la aplicación.",
+        licenceQ: "«¿Dónde están los logos, las fotos de los jugadores?»",
+        licenceA: "Soy un pequeño desarrollador indie que trabaja desde su habitación; los millones que cuestan las licencias de logos y fotos están fuera de mi alcance. Si alguien quiere regalarme un acuerdo de licencia, encantado de hablarlo ;)",
         updateBanner: {
           pill: "Nuevo",
           ticker: "+++ Ya está aquí CheapSeats v1.1: seguimiento en vivo, notificaciones y el lanzamiento oficial en la Microsoft Store +++ Las versiones para App Store y Play Store están en camino +++ Promesa hecha: CheapSeats será 100 % gratis +++",
@@ -1106,6 +1114,8 @@
         comingSoon: "In arrivo",
         githubBtn: "Ora su Microsoft Store", backFooter: "Torna alla home", madeByFooter: "CheapSeats · Made by Mika",
         screenshotNote: "Gli screenshot in questa pagina provengono da versioni di sviluppo e potrebbero differire dalla versione attuale dell'app.",
+        licenceQ: "«Dove sono i loghi, le foto dei giocatori?»",
+        licenceA: "Sono un piccolo sviluppatore indie che lavora dalla sua cameretta; i milioni che costano le licenze di loghi e foto sono fuori dalla mia portata. Se qualcuno vuole regalarmi un accordo di licenza, ne parlo molto volentieri ;)",
         updateBanner: {
           pill: "Novità",
           ticker: "+++ CheapSeats v1.1 è arrivata: tracking live, notifiche e il rilascio ufficiale sul Microsoft Store +++ Le versioni per App Store e Play Store sono in arrivo +++ Promesso: CheapSeats resterà gratuita al 100% +++",

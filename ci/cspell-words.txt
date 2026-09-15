@@ -262,3 +262,5 @@ projekt
 ultrawide
 Spielinfos
 saltabile
+Spielerfotos
+hablarlo

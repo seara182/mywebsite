@@ -221,7 +221,10 @@
     h1 {
       font-family: var(--font-display); font-weight: 700; letter-spacing: -0.025em; line-height: 1.0;
       font-size: var(--fs-display); color: var(--ink); margin: 18px 0 0; position: relative; z-index: 1;
+      display: flex; align-items: center; flex-wrap: wrap; gap: clamp(12px,1.6vw,22px);
     }
+    /* sized in em so it tracks the display type at every breakpoint */
+    .app-icon { height: .78em; width: auto; flex: none; }
     .hero-sub {
       font-size: var(--fs-lead); line-height: var(--lh-relaxed); color: var(--text-body);
       max-width: 60ch; margin: 22px 0 0; position: relative; z-index: 1;
@@ -239,7 +242,7 @@
     .duo {
       --ease-spring-crit: linear(0, 0.155 7.1%, 0.407 14.3%, 0.619 21.4%, 0.768 28.6%, 0.863 35.7%, 0.921 42.9%, 0.956 50%, 0.975 57.1%, 0.986 64.3%, 0.993 71.4%, 0.996 78.6%, 0.998 85.7%, 0.999 92.9%, 1);
       /* card = 66% wide at 16:9; stage leaves a 30% vertical offset between the two */
-      position: relative; width: min(100%, 1120px); margin-left: auto; aspect-ratio: 100 / 48;
+      position: relative; margin-inline: calc(-1 * clamp(0px, 4.5vw, 72px)); aspect-ratio: 100 / 48;
       perspective: 2400px; transform-style: preserve-3d;
       /* the back card shares the stage's z=0 plane - without this the stage
          can swallow its hover */
@@ -257,16 +260,16 @@
     .duo__card::after { content: ""; position: absolute; inset: 0; background: rgba(12,12,16,.34); pointer-events: none; transition: opacity .45s var(--ease-out); }
     /* The front card lifts to +160px; the shared scale cancels the perspective
        growth (2400 / 2240), so it still renders at 1:1. */
-    .duo__card--dark  { top: 0; left: 0;     transform: translate3d(-2%, -3%, 0) scale(.9375); }
-    .duo__card--light { bottom: 0; right: 0; transform: translate3d(2%, 3%, 0) scale(.9375); }
+    .duo__card--dark  { --rot: -2.6deg; top: 0; left: 0;     transform: translate3d(-2%, -3%, 0) scale(.9375) rotate(var(--rot)); }
+    .duo__card--light { --rot: 1.6deg;  bottom: 0; right: 0; transform: translate3d(2%, 3%, 0) scale(.9375) rotate(var(--rot)); }
     .duo[data-front="dark"] .duo__card--dark,
-    .duo[data-front="light"] .duo__card--light { transform: translate3d(0, 0, 160px) scale(.9375); box-shadow: var(--shadow-lg); cursor: zoom-in; }
+    .duo[data-front="light"] .duo__card--light { transform: translate3d(0, 0, 160px) scale(.9375) rotate(var(--rot)); box-shadow: var(--shadow-lg); cursor: zoom-in; }
     .duo[data-front="dark"] .duo__card--dark::after,
     .duo[data-front="light"] .duo__card--light::after { opacity: 0; }
     .duo__card:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
     /* Reduced motion: no depth travel - order via z-index, only the scrim cross-fades */
     @media (prefers-reduced-motion: reduce) {
-      .duo__card, .duo[data-front] .duo__card { transform: none; transition: box-shadow .2s linear; }
+      .duo__card, .duo[data-front] .duo__card { transform: rotate(var(--rot)); transition: box-shadow .2s linear; }
       .duo__card::after { transition: opacity .2s linear; }
       .duo[data-front="dark"] .duo__card--dark, .duo[data-front="light"] .duo__card--light { z-index: 1; }
     }
@@ -277,6 +280,17 @@
     }
     .showcase .tag .k { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--sage); font-weight: 600; }
     .showcase .tag .v { font-size: var(--fs-small); color: var(--text-body); margin-top: 6px; line-height: 1.5; }
+
+    /* ---- licensing note ---- */
+    .licence-note {
+      position: relative; z-index: 1; max-width: 52ch;
+      margin: clamp(52px,6vw,84px) 0 0 auto; padding: 16px 22px 18px;
+      background: var(--surface-card); border: 1px solid var(--border);
+      border-radius: var(--radius-md); box-shadow: var(--shadow-sm);
+    }
+    .licence-note p { margin: 0; }
+    .licence-note__q { font-family: var(--font-text); font-size: var(--fs-small); font-weight: 700; color: var(--heading); }
+    .licence-note__a { margin-top: 7px !important; font-size: var(--fs-small); line-height: 1.55; color: var(--text-body); }
 
     /* ---- section scaffolding ---- */
     section { padding: clamp(56px,8vw,112px) 0; }
@@ -441,7 +455,8 @@
       .row.flip .copy, .row.flip .media { order: initial; }
       .media.offset-r, .media.offset-l { padding: 0; }
       /* bigger cards, same 30% vertical offset */
-      .duo { aspect-ratio: 100 / 57; }
+      .duo { aspect-ratio: 100 / 57; margin-inline: 0; }
+      .licence-note { max-width: none; margin-left: 0; }
       .duo__card { width: 78%; }
       .showcase .tag { position: static; max-width: none; margin-top: 16px; }
       .row.wide-media { grid-template-columns: 1fr; }
@@ -519,7 +534,7 @@
     <div class="hero-glow"></div>
     <div class="wrap">
       <span class="eyebrow" data-i18n="cheapseats.eyebrow">Projekt</span>
-      <h1>CheapSeats</h1>
+      <h1>CheapSeats <img class="app-icon" src="app-icon.png" width="256" height="256" alt="" aria-hidden="true"></h1>
       <p class="hero-sub" data-i18n="cheapseats.heroSub">Ein persönliches Sport-Dashboard als native Desktop-App für Windows - gebaut für den kurzen Blick beim Hochfahren. Der Cache zeigt sofort relevante Daten, während im Hintergrund frische Stände nachgeladen werden. Jedes der 32 NFL- bzw. 30 MLB-Teams lässt sich frei wählen - einen festen Standard gibt es nicht.</p>
 
       <div class="showcase reveal">
@@ -532,6 +547,10 @@
           <div class="v" data-i18n="cheapseats.dashboardV">Dieselbe Übersicht in beiden Themes: nächstes Spiel, letztes Ergebnis und Player-Spotlight auf einen Blick.</div>
         </div>
       </div>
+      <aside class="licence-note reveal">
+        <p class="licence-note__q" data-i18n="cheapseats.licenceQ">„Wo sind die Logos, die Spielerfotos?“</p>
+        <p class="licence-note__a" data-i18n="cheapseats.licenceA">Ich bin ein kleiner Indie-Entwickler aus dem Schlafzimmer; die Millionen für Logo- und Bildlizenzen habe ich schlicht nicht. Falls mir jemand einen Lizenzdeal schenken möchte: Ich rede sehr gern darüber ;)</p>
+      </aside>
     </div>
   </header>
 
