@@ -416,7 +416,7 @@
       <!-- Stationary right edge: never scrolls, never gets covered. -->
       <div class="update-banner__links">
         <a class="update-banner__link" href="#updates" data-i18n="sports.updateBanner.cta">Was ist neu →</a>
-        <a class="update-banner__link" href="https://apps.microsoft.com/detail/9n6jhbv7g033?hl=de-DE&amp;gl=DE&amp;ocid=pdpshare" target="_blank" rel="noopener" data-store-link data-i18n="sports.nav.download">Jetzt herunterladen</a>
+        <a class="update-banner__link" href="https://apps.microsoft.com/detail/9N6JHBV7G033?hl=de-DE&amp;cid=mika-jeske-website" target="_blank" rel="noopener" data-store-link data-i18n="sports.nav.download">Jetzt herunterladen</a>
       </div>
     </div>
   </div>
@@ -473,7 +473,7 @@
           <span class="badge" data-i18n="sports.comingBadge">Microsoft Store</span>
           <p data-i18n="sports.comingText">CheapSeats wird ausschließlich über den Microsoft Store vertrieben.</p>
         </div>
-        <a class="gh" href="https://apps.microsoft.com/detail/9n6jhbv7g033?hl=de-DE&amp;gl=DE&amp;ocid=pdpshare" target="_blank" rel="noopener" data-store-link><span data-i18n="sports.githubBtn">Jetzt im Microsoft Store</span> <span aria-hidden>→</span></a>
+        <a class="gh" href="https://apps.microsoft.com/detail/9N6JHBV7G033?hl=de-DE&amp;cid=mika-jeske-website" target="_blank" rel="noopener" data-store-link><span data-i18n="sports.githubBtn">Jetzt im Microsoft Store</span> <span aria-hidden>→</span></a>
       </div>
 
       <!-- Not links yet: <div>, not <a> - keeps them out of tab order and
@@ -679,9 +679,10 @@
   <script>
     // i18n: apply translations, mount switcher + chip, re-apply on language change
     (function () {
-      // Microsoft Store listing: German storefront for de, English (US) for every other language
-      var STORE_DE = "https://apps.microsoft.com/detail/9n6jhbv7g033?hl=de-DE&gl=DE&ocid=pdpshare";
-      var STORE_EN = "https://apps.microsoft.com/detail/9N6JHBV7G033?hl=en-us&gl=DE&ocid=pdpshare";
+      // Microsoft Store listing: German storefront for de, English (US) for every other language.
+      // cid = custom campaign ID, so Partner Center's Acquisitions report credits visits/installs to this site.
+      var STORE_DE = "https://apps.microsoft.com/detail/9N6JHBV7G033?hl=de-DE&cid=mika-jeske-website";
+      var STORE_EN = "https://apps.microsoft.com/detail/9N6JHBV7G033?hl=en-us&cid=mika-jeske-website";
       function applyStoreLinks() {
         var url = I18N.getLang() === "de" ? STORE_DE : STORE_EN;
         document.querySelectorAll("[data-store-link]").forEach(function (a) { a.href = url; });
