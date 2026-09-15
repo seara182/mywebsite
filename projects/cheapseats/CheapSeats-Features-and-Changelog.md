@@ -1,7 +1,54 @@
 # Changelog
 
+## v.2.0.0 The American Quartet
+Coming in 2027
+
+## v1.3.0: TBA
+Coming somewhat soon
+
 ## v1.2.0: Watercooler Conversations
-Coming soon
+Coming really soon
+
+### New
+- Added the Watercooler, a panel with the talking points for your team's next game and last result
+- Added the stakes of the next game to the Watercooler: elimination games, postseason games, division matchups and win or losing streaks of three games or more
+- Added a stakes label to the next game card
+- Added a plain-language playoff race summary to the Watercooler, based on ESPN's clinch and seeding data, with a short explanation
+- Added ESPN's recap headline of the last game to the Watercooler
+- Added the standout player of the last game to the Watercooler
+- Added a bye week note for NFL teams to the Watercooler
+- Added a highlight on the Watercooler icon when there is something new to talk about
+- Added a welcome screen on first launch to pick your NFL and MLB team, in English or German
+- Added a short tour that shows where to switch sports and change teams
+- Added a None option for each sport, so you can follow only the NFL, only MLB or neither (albeit the last option doesn't make much sense, does it now?)
+- Added empty screens with a Choose a team button when no team is selected
+- Added city, state and founding year to every team in the team selector
+- Added two-tone team color markers for opponents, standings, results and the team selector
+- Found a way to show player photos: more than 1,200 players now have a freely licensed photo
+- Added a badge with the jersey number in team colors for players without a photo
+- Added License information to Settings, with a credit for every player photo
+- Added a maximize button to the title bar
+- Added a Search highlights on YouTube link when no clip has been found 6 hours after the game
+
+### Improved
+- Highlight clips are now found for longer, because the app checks the league's weekly NFL or seasonal MLB highlight playlist first
+- The app now looks for a missing highlight clip again every 30 minutes while it is open
+- The Watercooler and the Player Spotlight now keep talking about the last NFL game for up to 21 days, so a game from last week is still covered
+- Game details are now only saved once a game is final, and a recap posted later is picked up automatically
+- The default team setting and the tab switcher now show the name of the team you follow
+- The Team colors sidebar background now falls back to Slate when no team is selected for that sport
+- Teams in the team selector are now sorted by team name
+- Demo Mode now shows the current win or losing streak
+- New installs on a German system now start in German
+- Existing users keep their teams and skip the welcome screen after updating
+- Updated the list of services in the privacy statement
+
+### Accessibility
+- Screen readers now announce when the Watercooler has new talking points
+
+### Fixed
+- Fixed data of a previously selected team sometimes replacing the current team's data after a slow refresh
+- Fixed data of a team you stopped following still showing from saved data
 
 ## v1.1.0: Yours, Live and in Color
 2026-09-15
