@@ -198,7 +198,7 @@
         nav: { features: "Funktionen", deepDive: "Einblicke", mobile: "Mobil", tech: "Technik", updates: "Updates", download: "Jetzt herunterladen", menu: "Abschnitte", customize: "Anpassen" },
         backLink: "Startseite", madeBy: "Made by Mika", eyebrow: "Projekt", title: "CheapSeats",
         heroSub: "Ein persönliches Sport-Dashboard als native Desktop-App für Windows; gebaut für den kurzen Blick beim Hochfahren. Der Cache zeigt sofort relevante Daten, während im Hintergrund frische Stände nachgeladen werden. Jedes der 32 NFL- bzw. 30 MLB-Teams lässt sich frei wählen; einen festen Standard gibt es nicht.",
-        dashboardK: "Dark & Light", dashboardV: "Dieselbe Übersicht in beiden Themes: nächstes Spiel, letztes Ergebnis und Player-Spotlight auf einen Blick.",
+        dashboardK: "Dark & Light", dashboardV: "Dieselbe Übersicht in Hell und Dunkel: nächstes Spiel, letztes Ergebnis und Player-Spotlight auf einen Blick.",
         featuresLabel: "Funktionen", featuresHeading: "Was die App kann",
         featuresLede: "Wenig visuelles Rauschen, die wichtigen Zahlen zuerst und eine Erklärung für jeden Fachbegriff: Zwischen Hinsehen und Verstehen soll so wenig Zeit wie möglich liegen.",
         features: [
@@ -212,8 +212,8 @@
           { title: "Roster & Playoffs", desc: "Filterbare Kaderliste nach Positionsgruppe, suchbar nach Name und Nummer; plus automatische Playoff-Brackets in der Postseason." },
         ],
         easeLabel: "Ohne Vorwissen", easeHeading: "Vom ersten Start an verständlich",
-        easeDesc: "Noch nie ein Football- oder Baseballspiel gesehen? Kein Problem. Eine kurze Tour zeigt beim ersten Start, wo was ist, jeder Fachbegriff erklärt sich per Tooltip, und das Regelbuch beantwortet den Rest.",
-        easeTicks: ["Onboarding-Tour in wenigen Schritten, jederzeit überspringbar", "Tooltips für jede Abkürzung und jede Position", "Durchsuchbares Regelbuch mit NFL- und MLB-Grundlagen"],
+        easeDesc: "Noch nie ein Football- oder Baseballspiel gesehen? Kein Problem. Eine kurze Tour zeigt beim ersten Start, wo was ist, jeder Fachbegriff erklärt sich per Tooltip, und das Regelwerk beantwortet den Rest.",
+        easeTicks: ["Einführungstour in wenigen Schritten, jederzeit überspringbar", "Tooltips für jede Abkürzung und jede Position", "Durchsuchbares Regelwerk mit NFL- und MLB-Grundlagen"],
         fansLabel: "Für jeden Fan", fansHeading: "Eine App, drei Arten Fan",
         fans: [
           { label: "Vielfalt", title: "Jedes Team, deine Wahl", desc: "Alle 32 NFL- und 30 MLB-Teams, eins pro Sportart; oder keins, wenn dich eine Liga nicht interessiert." },
@@ -242,7 +242,7 @@
         githubBtn: "Jetzt im Microsoft Store", backFooter: "Zurück zur Startseite", madeByFooter: "CheapSeats · Made by Mika",
         screenshotNote: "Die Screenshots auf dieser Seite stammen aus der Entwicklung und können vom aktuellen Stand der App abweichen.",
         licenceQ: "„Wo sind die Logos, die Spielerfotos?“",
-        licenceA: "Ich bin ein kleiner Indie-Entwickler aus dem Schlafzimmer; die Millionen für Logo- und Bildlizenzen habe ich schlicht nicht. Falls mir jemand einen Lizenzdeal schenken möchte: Ich rede sehr gern darüber ;)",
+        licenceA: "Ich bin ein kleiner Indie-Entwickler und baue das hier allein in meiner Freizeit; die Millionen für Logo- und Bildlizenzen sind für mich schlicht nicht drin. Falls mir jemand einen Lizenzdeal schenken möchte: Ich rede sehr gern darüber ;)",
         updateBanner: {
           pill: "Neu",
           ticker: "+++ CheapSeats v1.1 ist da: Live-Tracking, Benachrichtigungen und der offizielle Microsoft-Store-Release +++ App Store und Play Store folgen in Kürze +++ Versprochen: CheapSeats bleibt zu 100 % kostenlos +++",
@@ -642,8 +642,8 @@
           { title: "Effectif et playoffs", desc: "Un effectif filtrable par groupe de poste, consultable par nom et numéro ; avec des tableaux de playoffs automatiques en phase finale." },
         ],
         easeLabel: "Aucune connaissance requise", easeHeading: "Compréhensible dès le premier lancement",
-        easeDesc: "Jamais vu un match de football américain ou de baseball ? Aucun problème. Une courte visite guidée au premier lancement montre où se trouve chaque chose, chaque terme s'explique dans une info-bulle, et le livre des règles répond au reste.",
-        easeTicks: ["Une visite guidée en quelques étapes, que l'on peut passer à tout moment", "Des info-bulles pour chaque abréviation et chaque poste", "Un livre des règles consultable avec les bases de la NFL et de la MLB"],
+        easeDesc: "Jamais vu un match de football américain ou de baseball ? Aucun problème. Une courte visite guidée au premier lancement montre où se trouve chaque chose, chaque terme s'explique dans une info-bulle, et le guide des règles répond au reste.",
+        easeTicks: ["Une visite guidée en quelques étapes, que l'on peut passer à tout moment", "Des info-bulles pour chaque abréviation et chaque poste", "Un guide des règles consultable avec les bases de la NFL et de la MLB"],
         fansLabel: "Pour chaque fan", fansHeading: "Une application, trois types de fans",
         fans: [
           { label: "Variété", title: "Chaque équipe, votre choix", desc: "Les 32 équipes NFL et les 30 équipes MLB, une par sport ; ou aucune si une ligue ne vous intéresse pas." },
@@ -672,7 +672,7 @@
         githubBtn: "Désormais sur le Microsoft Store", backFooter: "Retour à l'accueil", madeByFooter: "CheapSeats · Made by Mika",
         screenshotNote: "Les captures d'écran de cette page proviennent de versions de développement et peuvent différer de la version actuelle de l'application.",
         licenceQ: "« Où sont les logos, les photos des joueurs ? »",
-        licenceA: "Je suis un petit développeur indépendant qui travaille depuis sa chambre ; les millions que coûtent les licences de logos et de photos sont hors de ma portée. Si quelqu'un veut m'offrir un accord de licence, j'en discute avec grand plaisir ;)",
+        licenceA: "Je suis un petit développeur indépendant et je fais tout ça seul, sur mon temps libre ; les millions que coûtent les licences de logos et de photos sont hors de ma portée. Si quelqu'un veut m'offrir un accord de licence, j'en discute avec grand plaisir ;)",
         updateBanner: {
           pill: "Nouveau",
           ticker: "+++ CheapSeats v1.1 est arrivé : suivi en direct, notifications et la sortie officielle sur le Microsoft Store +++ Les versions App Store et Play Store arrivent bientôt +++ Promis : CheapSeats restera gratuite à 100 % +++",
@@ -887,7 +887,7 @@
         githubBtn: "Ya en Microsoft Store", backFooter: "Volver al inicio", madeByFooter: "CheapSeats · Made by Mika",
         screenshotNote: "Las capturas de pantalla de esta página son de versiones en desarrollo y pueden diferir de la versión actual de la aplicación.",
         licenceQ: "«¿Dónde están los logos, las fotos de los jugadores?»",
-        licenceA: "Soy un pequeño desarrollador indie que trabaja desde su habitación; los millones que cuestan las licencias de logos y fotos están fuera de mi alcance. Si alguien quiere regalarme un acuerdo de licencia, encantado de hablarlo ;)",
+        licenceA: "Soy un pequeño desarrollador indie y hago todo esto yo solo, en mi tiempo libre; los millones que cuestan las licencias de logos y fotos están fuera de mi alcance. Si alguien quiere regalarme un acuerdo de licencia, encantado de hablarlo ;)",
         updateBanner: {
           pill: "Nuevo",
           ticker: "+++ Ya está aquí CheapSeats v1.1: seguimiento en vivo, notificaciones y el lanzamiento oficial en la Microsoft Store +++ Las versiones para App Store y Play Store están en camino +++ Promesa hecha: CheapSeats será 100 % gratis +++",
@@ -1115,7 +1115,7 @@
         githubBtn: "Ora su Microsoft Store", backFooter: "Torna alla home", madeByFooter: "CheapSeats · Made by Mika",
         screenshotNote: "Gli screenshot in questa pagina provengono da versioni di sviluppo e potrebbero differire dalla versione attuale dell'app.",
         licenceQ: "«Dove sono i loghi, le foto dei giocatori?»",
-        licenceA: "Sono un piccolo sviluppatore indie che lavora dalla sua cameretta; i milioni che costano le licenze di loghi e foto sono fuori dalla mia portata. Se qualcuno vuole regalarmi un accordo di licenza, ne parlo molto volentieri ;)",
+        licenceA: "Sono un piccolo sviluppatore indie e porto avanti tutto da solo, nel tempo libero; i milioni che costano le licenze di loghi e foto sono fuori dalla mia portata. Se qualcuno vuole regalarmi un accordo di licenza, ne parlo molto volentieri ;)",
         updateBanner: {
           pill: "Novità",
           ticker: "+++ CheapSeats v1.1 è arrivata: tracking live, notifiche e il rilascio ufficiale sul Microsoft Store +++ Le versioni per App Store e Play Store sono in arrivo +++ Promesso: CheapSeats resterà gratuita al 100% +++",
