@@ -249,7 +249,7 @@
           cta: "Was ist neu →",
         },
         changelogLabel: "Versionsverlauf", changelogHeading: "Was sich getan hat",
-        changelogLede: "Ein kurzer Rückblick auf die bisherigen Releases - ohne Datumsangabe, damit er nicht veraltet wirkt.",
+        changelogLede: "Ein kurzer Rückblick auf die bisherigen Releases.",
         changelog: {
           v11: {
             tag: "v1.1 · Aktuell", title: "Live-Tracking, Benachrichtigungen & Microsoft Store",
@@ -464,7 +464,7 @@
           cta: "See what's new →",
         },
         changelogLabel: "Version History", changelogHeading: "What's changed",
-        changelogLede: "A quick look back at past releases - no dates, so it never reads as stale.",
+        changelogLede: "A quick look back at past releases.",
         changelog: {
           v11: {
             tag: "v1.1 · Current", title: "Live tracking, notifications & the Microsoft Store",
@@ -679,7 +679,7 @@
           cta: "Voir les nouveautés →",
         },
         changelogLabel: "Historique des versions", changelogHeading: "Ce qui a changé",
-        changelogLede: "Un rapide coup d'œil sur les versions précédentes - sans date, pour que ça ne paraisse jamais dépassé.",
+        changelogLede: "Un rapide coup d'œil sur les versions précédentes.",
         changelog: {
           v11: {
             tag: "v1.1 · Actuelle", title: "Suivi en direct, notifications et Microsoft Store",
@@ -894,7 +894,7 @@
           cta: "Ver novedades →",
         },
         changelogLabel: "Historial de versiones", changelogHeading: "Qué ha cambiado",
-        changelogLede: "Un vistazo rápido a las versiones anteriores - sin fechas, para que nunca se vea desactualizado.",
+        changelogLede: "Un vistazo rápido a las versiones anteriores.",
         changelog: {
           v11: {
             tag: "v1.1 · Actual", title: "Seguimiento en vivo, notificaciones y Microsoft Store",
@@ -1122,7 +1122,7 @@
           cta: "Scopri le novità →",
         },
         changelogLabel: "Cronologia versioni", changelogHeading: "Cosa è cambiato",
-        changelogLede: "Uno sguardo rapido alle versioni precedenti - senza date, così non sembra mai superato.",
+        changelogLede: "Uno sguardo rapido alle versioni precedenti.",
         changelog: {
           v11: {
             tag: "v1.1 · Attuale", title: "Tracking live, notifiche e Microsoft Store",
