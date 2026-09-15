@@ -120,8 +120,6 @@
     .update-banner__links { display: flex; align-items: center; gap: 14px; flex: none; }
     .update-banner__link { flex: none; font-family: var(--font-text); font-size: var(--fs-small); font-weight: 700; color: var(--on-dark-strong); text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
     .update-banner__link:focus-visible { outline: 2px solid var(--on-dark-strong); outline-offset: 3px; border-radius: 4px; }
-    /* Pending store link: reads as "not live yet", not as a dead link. */
-    .update-banner__link--soon { opacity: .75; text-decoration-style: dashed; cursor: default; }
     @media (prefers-reduced-motion: reduce) {
       .update-banner__track { animation: none; }
       .update-banner__text[aria-hidden] { display: none; }
@@ -187,7 +185,10 @@
     }
 
     /* ---- top bar ---- */
-    .topbar { display: flex; align-items: center; justify-content: space-between; padding: clamp(20px,3vw,32px) 0; }
+    .topbar { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; padding: clamp(20px,3vw,32px) 0; }
+    /* The shared hint sits beside the globe, which on this page is the Home
+       pill's row - so drop it underneath instead, into the hero's top padding. */
+    .lang-hint { top: calc(100% + 10px); left: 0; transform: none; }
     .back-link {
       display: inline-flex; align-items: center; gap: 8px; padding: 9px 18px;
       border: 1px solid var(--border-strong); border-radius: var(--radius-pill);
@@ -202,7 +203,11 @@
     .made { font-family: var(--font-mono); font-size: var(--fs-caption); color: var(--text-faint); }
 
     /* ---- hero ---- */
-    .hero { position: relative; padding: clamp(40px,7vw,96px) 0 clamp(48px,8vw,104px); overflow: hidden; }
+    /* Not overflow:hidden - that cut the blurred glow off in a hard line at
+       the hero's top edge. overflow-x:clip keeps the glow from widening the
+       page; clip-path trims the bottom as before but lets the top fade up
+       behind the topbar. */
+    .hero { position: relative; padding: clamp(40px,7vw,96px) 0 clamp(48px,8vw,104px); overflow-x: clip; clip-path: inset(-100vh 0 0 0); }
     .hero-glow {
       position: absolute; width: 620px; height: 620px; top: -20px; right: -160px; z-index: 0; pointer-events: none;
       background: var(--glow-plum); filter: blur(70px); opacity: 0.5; border-radius: 50%;
@@ -313,12 +318,58 @@
     .store-badge img { display: block; }
     .store-badges__note { font-family: var(--font-text); font-size: var(--fs-caption); font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--text-faint); }
 
-    /* ---- changelog / version history (reuses .ticks for bullets) ---- */
-    .changelog { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px,100%),1fr)); gap: clamp(20px,3vw,28px); margin-top: clamp(40px,5vw,64px); }
-    .version-card { padding: clamp(24px,3vw,32px); background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); }
+    /* ---- changelog / version history (reuses .ticks for bullets) ----
+       Horizontal snap-scroller so adding v1.3, v1.4 etc. later is just
+       another card - zero layout changes. */
+    /* Padding gives the lift, focus outline and shadow room inside the
+       scroller (overflow-y:hidden would clip them); the negative margins
+       cancel it so the cards still line up with the heading. */
+    .changelog { display: flex; align-items: flex-start; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scroll-padding-inline: 16px; gap: clamp(20px,3vw,28px); margin: calc(clamp(40px,5vw,64px) - 12px) -16px -32px; padding: 12px 16px 32px; scrollbar-width: thin; }
+    .changelog::-webkit-scrollbar { height: 6px; }
+    .changelog::-webkit-scrollbar-thumb { background: var(--border); border-radius: var(--radius-pill); }
+    .version-card { position: relative; flex: 0 0 clamp(300px,80vw,360px); scroll-snap-align: start; padding: clamp(24px,3vw,32px); background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); cursor: pointer; transition: transform .24s var(--ease-out), box-shadow .24s var(--ease-out); }
+    /* Lift only where hover is real - on touch it sticks after a tap. */
+    @media (hover: hover) { .version-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); } }
+    .version-card:focus-visible { box-shadow: var(--shadow-md); outline: 2px solid var(--sage); outline-offset: 2px; }
+
+    /* ---- "scroll for more" cue: the hero's scroll hint turned sideways.
+       Drawn on whichever card is first, so a new release needs no markup
+       change; only shown when the row overflows (.is-scrollable, set in JS). */
+    .changelog.is-scrollable .version-card:first-child { margin-bottom: 44px; }
+    .changelog.is-scrollable .version-card:first-child::before,
+    .changelog.is-scrollable .version-card:first-child::after { position: absolute; top: calc(100% + 16px); left: 50%; pointer-events: none; }
+    .changelog.is-scrollable .version-card:first-child::before { transform: translateX(calc(-100% - 7px)); content: "Scroll"; content: "Scroll" / ""; font-family: var(--font-text); font-size: 13px; font-weight: 600; line-height: 16px; letter-spacing: .22em; text-transform: uppercase; color: var(--text-faint); }
+    .changelog.is-scrollable .version-card:first-child::after { content: ""; left: calc(50% + 7px); margin-top: 7px; width: 64px; height: 3px; border-radius: 3px; background: var(--hairline-strong); }
+    @media (prefers-reduced-motion: no-preference) {
+      .changelog.is-scrollable .version-card:first-child::after { background: linear-gradient(var(--sage), var(--sage)) no-repeat -22px 0 / 22px 100%, var(--hairline-strong); animation: changelogHint 1.8s var(--ease-in-out) infinite; }
+      @keyframes changelogHint { 0% { background-position: -22px 0, 0 0; } 60%, 100% { background-position: calc(100% + 22px) 0, 0 0; } }
+    }
     .version-card__tag { display: inline-flex; margin-bottom: 12px; padding: 4px 12px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; border-radius: var(--radius-pill); background: var(--border); color: var(--text-body); }
     .version-card__tag--current { background: var(--sage); color: #fff; }
     .version-card h3 { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); color: var(--heading); margin: 0 0 16px; letter-spacing: var(--ls-heading); }
+    .version-card__soon { display: inline-flex; margin-left: 8px; padding: 4px 12px; font-family: var(--font-text); font-size: var(--fs-caption); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; border-radius: var(--radius-pill); background: var(--honey); color: var(--ink); }
+
+    /* ---- changelog popup (same fixed-overlay idiom as .lb) ---- */
+    .changelog-modal { position: fixed; inset: 0; background: rgba(20,18,14,0.72); backdrop-filter: blur(6px); display: none; align-items: center; justify-content: center; z-index: 110; padding: 4vw; }
+    .changelog-modal.on { display: flex; }
+    .changelog-modal__dialog { width: min(90vw, 700px); aspect-ratio: 4 / 3; max-height: 90vh; background: var(--surface-card); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); display: flex; flex-direction: column; overflow: hidden; }
+    @media (prefers-reduced-motion: no-preference) {
+      .changelog-modal__dialog { opacity: 0; transform: scale(.96); transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-slow) var(--ease-emphasized); }
+      .changelog-modal.on .changelog-modal__dialog { opacity: 1; transform: none; }
+    }
+    .changelog-modal__header { flex: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 20px; border-bottom: 1px solid var(--border); }
+    .changelog-modal__header h2 { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-title); color: var(--heading); margin: 0; }
+    .changelog-modal__close { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border: none; border-radius: var(--radius-pill); background: var(--border); color: var(--text-body); font-size: 18px; line-height: 1; cursor: pointer; transition: background .2s var(--ease-out); }
+    .changelog-modal__close:hover, .changelog-modal__close:focus-visible { background: var(--sage); color: #fff; }
+    .changelog-modal__body { flex: 1 1 auto; overflow-y: auto; padding: 20px 24px; user-select: text; }
+    .changelog-modal__body h1 { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); color: var(--heading); margin: 0 0 12px; }
+    .changelog-modal__body h2 { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-title); color: var(--heading); margin: 28px 0 6px; }
+    .changelog-modal__body h2:first-child { margin-top: 0; }
+    .changelog-modal__body h3 { font-family: var(--font-text); font-weight: 700; font-size: var(--fs-small); text-transform: uppercase; letter-spacing: .06em; color: var(--sage); margin: 18px 0 8px; }
+    .changelog-modal__body p { font-size: var(--fs-small); color: var(--text-body); margin: 0 0 8px; }
+    .changelog-modal__body ul { list-style: none; margin: 0 0 8px; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+    .changelog-modal__body ul li { display: flex; gap: 10px; font-size: var(--fs-small); color: var(--text-body); line-height: 1.5; }
+    .changelog-modal__body ul li::before { content: '•'; color: var(--sage); font-weight: 700; flex: none; }
 
     footer { padding: clamp(48px,6vw,80px) 0; border-top: 1px solid var(--border); }
     .footrow { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: center; }
@@ -335,6 +386,10 @@
       .showcase .frame { transform: none; }
       .showcase .tag { position: static; max-width: none; margin-top: 16px; }
       .phone:nth-child(odd), .phone:nth-child(even) { transform: none; }
+      /* 4:3 reads as cramped once the dialog is this close to viewport width -
+         fill the screen like a normal mobile sheet instead. */
+      .changelog-modal { padding: 0; }
+      .changelog-modal__dialog { width: 100vw; height: 100vh; max-height: 100vh; aspect-ratio: auto; border-radius: 0; }
     }
   </style>
 </head>
@@ -354,17 +409,14 @@
            the edges instead of hard-clipping against the container. -->
       <div class="update-banner__ticker">
         <div class="update-banner__track">
-          <p class="update-banner__text" data-i18n="sports.updateBanner.ticker">CheapSeats v1.1 ist da: Live-Tracking, Benachrichtigungen und der offizielle Microsoft-Store-Release +++ App Store und Play Store folgen in Kürze +++ Versprochen: CheapSeats bleibt zu 100 % kostenlos +++</p>
-          <p class="update-banner__text" aria-hidden="true" data-i18n="sports.updateBanner.ticker">CheapSeats v1.1 ist da: Live-Tracking, Benachrichtigungen und der offizielle Microsoft-Store-Release +++ App Store und Play Store folgen in Kürze +++ Versprochen: CheapSeats bleibt zu 100 % kostenlos +++</p>
+          <p class="update-banner__text" data-i18n="sports.updateBanner.ticker">+++ CheapSeats v1.1 ist da: Live-Tracking, Benachrichtigungen und der offizielle Microsoft-Store-Release +++ App Store und Play Store folgen in Kürze +++ Versprochen: CheapSeats bleibt zu 100 % kostenlos +++</p>
+          <p class="update-banner__text" aria-hidden="true" data-i18n="sports.updateBanner.ticker">+++ CheapSeats v1.1 ist da: Live-Tracking, Benachrichtigungen und der offizielle Microsoft-Store-Release +++ App Store und Play Store folgen in Kürze +++ Versprochen: CheapSeats bleibt zu 100 % kostenlos +++</p>
         </div>
       </div>
       <!-- Stationary right edge: never scrolls, never gets covered. -->
       <div class="update-banner__links">
         <a class="update-banner__link" href="#updates" data-i18n="sports.updateBanner.cta">Was ist neu →</a>
-        <!-- TODO: swap for <a href="..." target="_blank" rel="noopener"> once the
-             Microsoft Store listing URL exists. Deliberately not an <a href="#">:
-             that would scroll the page to the top. -->
-        <span class="update-banner__link update-banner__link--soon" data-i18n="sports.nav.download">Jetzt herunterladen</span>
+        <a class="update-banner__link" href="https://apps.microsoft.com/detail/9n6jhbv7g033?hl=de-DE&amp;gl=DE&amp;ocid=pdpshare" target="_blank" rel="noopener" data-store-link data-i18n="sports.nav.download">Jetzt herunterladen</a>
       </div>
     </div>
   </div>
@@ -421,8 +473,7 @@
           <span class="badge" data-i18n="sports.comingBadge">Microsoft Store</span>
           <p data-i18n="sports.comingText">CheapSeats wird ausschließlich über den Microsoft Store vertrieben.</p>
         </div>
-        <!-- TODO: swap "#" for the live Microsoft Store listing URL -->
-        <a class="gh" href="#"><span data-i18n="sports.githubBtn">Jetzt im Microsoft Store</span> <span aria-hidden>→</span></a>
+        <a class="gh" href="https://apps.microsoft.com/detail/9n6jhbv7g033?hl=de-DE&amp;gl=DE&amp;ocid=pdpshare" target="_blank" rel="noopener" data-store-link><span data-i18n="sports.githubBtn">Jetzt im Microsoft Store</span> <span aria-hidden>→</span></a>
       </div>
 
       <!-- Not links yet: <div>, not <a> - keeps them out of tab order and
@@ -552,10 +603,14 @@
       <h2 class="reveal" data-i18n="sports.changelogHeading">Was sich getan hat</h2>
       <p class="lede reveal" data-i18n="sports.changelogLede">Ein kurzer Rückblick auf die bisherigen Releases - ohne Datumsangabe, damit er nicht veraltet wirkt.</p>
 
-      <div class="changelog">
-        <article class="version-card reveal">
-          <span class="version-card__tag version-card__tag--current" data-i18n="sports.changelog.v11.tag">v1.1 · Aktuell</span>
-          <h3 data-i18n="sports.changelog.v11.title">Live-Tracking, Benachrichtigungen &amp; Microsoft Store</h3>
+      <div class="changelog" id="changelogScroller">
+        <article class="version-card reveal" tabindex="0" role="button" aria-haspopup="dialog" data-changelog-anchor="v1-2">
+          <span class="version-card__tag">Update 3</span><span class="version-card__soon">Coming soon</span>
+          <h3>Watercooler Conversations</h3>
+        </article>
+        <article class="version-card reveal" tabindex="0" role="button" aria-haspopup="dialog" data-changelog-anchor="v1-1">
+          <span class="version-card__tag version-card__tag--current">Update 2</span>
+          <h3>Yours, Live and in Color</h3>
           <ul class="ticks">
             <li data-i18n="sports.changelog.v11.items.0">Live-Tracking: Echtzeit-Play-by-Play, aktuelles Inning/Viertel, Down-Distance bzw. Ball-Strike-Zähler und eine Scoring-Play-Timeline</li>
             <li data-i18n="sports.changelog.v11.items.1">Benachrichtigungen: Taskleisten-Blinken, Toast beim Minimieren, Kickoff-Erinnerung und optionale Spielstand-Alerts</li>
@@ -564,9 +619,9 @@
             <li data-i18n="sports.changelog.v11.items.4">Rund 40 % schnellerer Start bei kaltem Cache</li>
           </ul>
         </article>
-        <article class="version-card reveal">
-          <span class="version-card__tag" data-i18n="sports.changelog.v10.tag">v1.0 · Erstveröffentlichung</span>
-          <h3 data-i18n="sports.changelog.v10.title">Der Grundstein</h3>
+        <article class="version-card reveal" tabindex="0" role="button" aria-haspopup="dialog" data-changelog-anchor="v1-0">
+          <span class="version-card__tag">Update 1</span>
+          <h3>First Kickoff</h3>
           <ul class="ticks">
             <li data-i18n="sports.changelog.v10.items.0">Dashboard mit nächstem/letztem Spiel, Countdown und Head-to-Head-Vorschau</li>
             <li data-i18n="sports.changelog.v10.items.1">Player-Spotlight mit Saisonwerten und Trend gegenüber der Karrierebilanz</li>
@@ -580,6 +635,16 @@
       </div>
     </div>
   </section>
+
+  <div class="changelog-modal" id="changelogModal" role="dialog" aria-modal="true" aria-labelledby="changelogModalTitle">
+    <div class="changelog-modal__dialog">
+      <div class="changelog-modal__header">
+        <h2 id="changelogModalTitle">Change Log (english only)</h2>
+        <button type="button" class="changelog-modal__close" aria-label="Close">×</button>
+      </div>
+      <div class="changelog-modal__body" id="changelogModalBody"></div>
+    </div>
+  </div>
 
   <div class="wrap reveal" style="display:flex; justify-content:center; padding-bottom:clamp(24px,4vw,48px)">
     <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.14/dist/dotlottie-wc.js" type="module"></script>
@@ -609,14 +674,23 @@
 
   <div class="lb" id="lb"><img id="lbImg" src="" alt=""></div>
 
+  <script src="changelog-content.js"></script>
   <script src="../../widgets.js"></script>
   <script>
     // i18n: apply translations, mount switcher + chip, re-apply on language change
     (function () {
+      // Microsoft Store listing: German storefront for de, English (US) for every other language
+      var STORE_DE = "https://apps.microsoft.com/detail/9n6jhbv7g033?hl=de-DE&gl=DE&ocid=pdpshare";
+      var STORE_EN = "https://apps.microsoft.com/detail/9N6JHBV7G033?hl=en-us&gl=DE&ocid=pdpshare";
+      function applyStoreLinks() {
+        var url = I18N.getLang() === "de" ? STORE_DE : STORE_EN;
+        document.querySelectorAll("[data-store-link]").forEach(function (a) { a.href = url; });
+      }
       Widgets.applyStaticTranslations(document);
+      applyStoreLinks();
       Widgets.mountLanguageSwitcher(document.getElementById("lang-switcher-root"));
       Widgets.mountContactChip(document.getElementById("contact-chip-root"));
-      window.addEventListener("langchange", function () { Widgets.applyStaticTranslations(document); });
+      window.addEventListener("langchange", function () { Widgets.applyStaticTranslations(document); applyStoreLinks(); });
     })();
     // scroll reveals
     (function () {
@@ -689,6 +763,82 @@
       });
       lb.addEventListener('click', function () { lb.classList.remove('on'); img.src = ''; });
       document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { lb.classList.remove('on'); img.src = ''; } });
+    })();
+    // changelog popup: every card opens the same full changelog, pre-scrolled
+    // to its own version heading (id set by build-changelog.mjs), the rest
+    // stays reachable by scrolling further.
+    (function () {
+      var modal = document.getElementById('changelogModal');
+      var dialog = modal.querySelector('.changelog-modal__dialog');
+      var body = document.getElementById('changelogModalBody');
+      var closeBtn = modal.querySelector('.changelog-modal__close');
+      var cards = document.querySelectorAll('.version-card');
+      var lastFocused = null;
+      var bodyFilled = false;
+
+      function focusableEls() {
+        return [].slice.call(modal.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])'));
+      }
+
+      function scrollToAnchor(anchorId) {
+        var target = anchorId && body.querySelector('#' + CSS.escape(anchorId));
+        if (!target) { body.scrollTop = 0; return; }
+        // Plain element.scrollIntoView() also drags the (hidden, but still
+        // scrollable) page behind this fixed-position overlay - so scroll
+        // only the modal body's own box instead.
+        body.scrollTop += target.getBoundingClientRect().top - body.getBoundingClientRect().top;
+      }
+
+      function open(anchorId, triggerEl) {
+        if (!bodyFilled) { body.innerHTML = window.CHANGELOG_HTML || ''; bodyFilled = true; }
+        lastFocused = triggerEl || document.activeElement;
+        modal.classList.add('on');
+        closeBtn.focus();
+
+        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduce) { scrollToAnchor(anchorId); return; }
+        var done = false;
+        function onEnd(e) {
+          if (e.target !== dialog || e.propertyName !== 'transform') return;
+          done = true;
+          dialog.removeEventListener('transitionend', onEnd);
+          scrollToAnchor(anchorId);
+        }
+        dialog.addEventListener('transitionend', onEnd);
+        // fallback in case the transition never fires
+        setTimeout(function () { if (!done) { dialog.removeEventListener('transitionend', onEnd); scrollToAnchor(anchorId); } }, 600);
+      }
+
+      function close() {
+        modal.classList.remove('on');
+        if (lastFocused) lastFocused.focus();
+      }
+
+      cards.forEach(function (card) {
+        card.addEventListener('click', function () { open(card.dataset.changelogAnchor, card); });
+        card.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(card.dataset.changelogAnchor, card); }
+        });
+      });
+      closeBtn.addEventListener('click', close);
+      modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
+      document.addEventListener('keydown', function (e) {
+        if (!modal.classList.contains('on')) return;
+        if (e.key === 'Escape') { close(); return; }
+        if (e.key !== 'Tab') return;
+        var els = focusableEls();
+        if (!els.length) return;
+        var first = els[0], last = els[els.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      });
+    })();
+    // "Scroll" cue on the version row: only when there is something to scroll
+    (function () {
+      var row = document.getElementById('changelogScroller');
+      function check() { row.classList.toggle('is-scrollable', row.scrollWidth > row.clientWidth + 1); }
+      check();
+      window.addEventListener('resize', check, { passive: true });
     })();
   </script>
 </body>
