@@ -251,8 +251,18 @@
         changelogLabel: "Versionsverlauf", changelogHeading: "Was sich getan hat",
         changelogLede: "Ein kurzer Rückblick auf die bisherigen Releases.",
         changelog: {
+          v12: {
+            tag: "v1.2 · Aktuell", title: "Watercooler Conversations",
+            items: [
+              "Der Watercooler: Brisanz und Playoff-Rennen zum nächsten Spiel, dazu Recap-Schlagzeile und herausragender Spieler des letzten Spiels",
+              "Willkommensbildschirm beim ersten Start und kurze Tour zur Auswahl deiner NFL- und MLB-Teams",
+              "Über 1.200 frei lizenzierte Spielerfotos, dazu zweifarbige Team-Farbmarker überall in der App",
+              "Klügere Highlight-Suche: prüft zuerst die eigene Playlist der Liga und versucht es danach automatisch weiter",
+              "Screenreader kündigen jetzt neue Watercooler-Themen an",
+            ],
+          },
           v11: {
-            tag: "v1.1 · Aktuell", title: "Live-Tracking, Benachrichtigungen & Microsoft Store",
+            tag: "v1.1", title: "Live-Tracking, Benachrichtigungen & Microsoft Store",
             items: [
               "Live-Tracking: Echtzeit-Play-by-Play, aktuelles Inning/Viertel, Down-Distance bzw. Ball-Strike-Zähler und eine Scoring-Play-Timeline",
               "Benachrichtigungen: Taskleisten-Blinken, Toast beim Minimieren, Kickoff-Erinnerung und optionale Spielstand-Alerts",
@@ -466,8 +476,18 @@
         changelogLabel: "Version History", changelogHeading: "What's changed",
         changelogLede: "A quick look back at past releases.",
         changelog: {
+          v12: {
+            tag: "v1.2 · Current", title: "Watercooler Conversations",
+            items: [
+              "The Watercooler: next-game stakes and playoff race, plus the last game's recap headline and standout player",
+              "A first-launch welcome screen and short tour to pick your NFL and MLB teams",
+              "Over 1,200 freely licensed player photos, plus two-tone team color markers throughout",
+              "Smarter highlight-clip discovery: checks the league's own playlist first and keeps retrying automatically",
+              "Screen readers now announce new Watercooler talking points",
+            ],
+          },
           v11: {
-            tag: "v1.1 · Current", title: "Live tracking, notifications & the Microsoft Store",
+            tag: "v1.1", title: "Live tracking, notifications & the Microsoft Store",
             items: [
               "Live tracking: real-time play-by-play, current inning/quarter, down-distance or balls-strikes, and a scoring-play timeline",
               "Notifications: taskbar blink, toast when minimized, a kickoff reminder and optional score-change alerts",
@@ -681,8 +701,18 @@
         changelogLabel: "Historique des versions", changelogHeading: "Ce qui a changé",
         changelogLede: "Un rapide coup d'œil sur les versions précédentes.",
         changelog: {
+          v12: {
+            tag: "v1.2 · Actuelle", title: "Watercooler Conversations",
+            items: [
+              "Le Watercooler : enjeux et course aux playoffs du prochain match, plus la manchette du récap et le joueur en vue du dernier match",
+              "Un écran de bienvenue au premier lancement et une courte visite pour choisir vos équipes NFL et MLB",
+              "Plus de 1 200 photos de joueurs sous licence libre, plus des marqueurs de couleur d'équipe à deux tons dans toute l'application",
+              "Recherche de highlights plus maligne : consulte d'abord la playlist officielle de la ligue, puis réessaie automatiquement",
+              "Les lecteurs d'écran annoncent désormais les nouveaux sujets du Watercooler",
+            ],
+          },
           v11: {
-            tag: "v1.1 · Actuelle", title: "Suivi en direct, notifications et Microsoft Store",
+            tag: "v1.1", title: "Suivi en direct, notifications et Microsoft Store",
             items: [
               "Suivi en direct : play-by-play en temps réel, quart-temps ou manche en cours, down-distance ou balles-strikes, et une chronologie des actions marquantes",
               "Notifications : icône clignotante dans la barre des tâches, notification à la réduction, rappel au coup d'envoi et alertes de score optionnelles",
@@ -896,8 +926,18 @@
         changelogLabel: "Historial de versiones", changelogHeading: "Qué ha cambiado",
         changelogLede: "Un vistazo rápido a las versiones anteriores.",
         changelog: {
+          v12: {
+            tag: "v1.2 · Actual", title: "Watercooler Conversations",
+            items: [
+              "El Watercooler: qué está en juego y la carrera por los playoffs del próximo partido, además del titular del recap y el jugador destacado del último partido",
+              "Una pantalla de bienvenida en el primer inicio y un breve recorrido para elegir tus equipos de NFL y MLB",
+              "Más de 1.200 fotos de jugadores con licencia libre, además de marcadores de color de equipo de dos tonos en toda la app",
+              "Búsqueda de highlights más inteligente: revisa primero la lista de reproducción propia de la liga y luego lo vuelve a intentar automáticamente",
+              "Los lectores de pantalla ahora anuncian los nuevos temas del Watercooler",
+            ],
+          },
           v11: {
-            tag: "v1.1 · Actual", title: "Seguimiento en vivo, notificaciones y Microsoft Store",
+            tag: "v1.1", title: "Seguimiento en vivo, notificaciones y Microsoft Store",
             items: [
               "Seguimiento en vivo: jugada a jugada en tiempo real, inning o cuarto actual, down-distancia o cuenta de bolas-strikes, y una línea de tiempo de las jugadas de anotación",
               "Notificaciones: parpadeo en la barra de tareas, aviso emergente al minimizar, recordatorio de inicio y alertas de cambio de marcador opcionales",
@@ -1124,8 +1164,18 @@
         changelogLabel: "Cronologia versioni", changelogHeading: "Cosa è cambiato",
         changelogLede: "Uno sguardo rapido alle versioni precedenti.",
         changelog: {
+          v12: {
+            tag: "v1.2 · Attuale", title: "Watercooler Conversations",
+            items: [
+              "Il Watercooler: posta in gioco e corsa ai playoff della prossima partita, più il titolo del recap e il giocatore migliore dell'ultima partita",
+              "Una schermata di benvenuto al primo avvio e un breve tour per scegliere le tue squadre NFL e MLB",
+              "Oltre 1.200 foto di giocatori con licenza libera, più indicatori dei colori di squadra a due toni in tutta l'app",
+              "Ricerca degli highlight più intelligente: controlla prima la playlist ufficiale della lega, poi riprova automaticamente",
+              "Gli screen reader ora annunciano i nuovi argomenti del Watercooler",
+            ],
+          },
           v11: {
-            tag: "v1.1 · Attuale", title: "Tracking live, notifiche e Microsoft Store",
+            tag: "v1.1", title: "Tracking live, notifiche e Microsoft Store",
             items: [
               "Tracking live: play-by-play in tempo reale, inning o quarto attuale, down-distance o conteggio ball-strike, e una timeline delle azioni realizzative",
               "Notifiche: icona lampeggiante nella barra delle applicazioni, notifica toast alla riduzione a icona, promemoria al fischio d'inizio e avvisi opzionali sui cambi di punteggio",

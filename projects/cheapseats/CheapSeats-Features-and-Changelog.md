@@ -3,11 +3,10 @@
 ## v.2.0.0 The American Quartet
 Coming in 2027
 
-## v1.3.0: TBA
+## v1.3.0: Sandlot to Sunday
 Coming somewhat soon
 
 ## v1.2.0: Watercooler Conversations
-Coming really soon
 
 ### New
 - Added the Watercooler, a panel with the talking points for your team's next game and last result
@@ -51,7 +50,6 @@ Coming really soon
 - Fixed data of a team you stopped following still showing from saved data
 
 ## v1.1.0: Yours, Live and in Color
-2026-09-15
 
 ### New
 - Added live score tracking for your followed NFL and MLB teams
@@ -99,7 +97,6 @@ Coming really soon
 - Fixed live scores appearing frozen between updates
 
 ## v1.0.0: First Kickoff
-2026-09-12
 
 ### New
 - Released CheapSeats on the Microsoft Store
