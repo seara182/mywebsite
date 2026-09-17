@@ -243,7 +243,11 @@
       --ease-spring-crit: linear(0, 0.155 7.1%, 0.407 14.3%, 0.619 21.4%, 0.768 28.6%, 0.863 35.7%, 0.921 42.9%, 0.956 50%, 0.975 57.1%, 0.986 64.3%, 0.993 71.4%, 0.996 78.6%, 0.998 85.7%, 0.999 92.9%, 1);
       /* card = 66% wide at 16:9; stage leaves a 30% vertical offset between the two */
       position: relative; margin-inline: calc(-1 * clamp(0px, 4.5vw, 72px)); aspect-ratio: 100 / 48;
-      perspective: 2400px; transform-style: preserve-3d;
+      /* a shallow perspective this close to translateZ(160px) pushes Chrome
+         into a blurrier perspective-corrected raster path for the card
+         images - keep the value large so the foreshortening (and the blur)
+         stays negligible while the z-order flip on swap still works */
+      perspective: 12000px; transform-style: preserve-3d;
       /* the back card shares the stage's z=0 plane - without this the stage
          can swallow its hover */
       pointer-events: none;
@@ -258,12 +262,11 @@
     .duo__card img { display: block; width: 100%; height: auto; }
     /* dimming scrim on whichever card sits behind */
     .duo__card::after { content: ""; position: absolute; inset: 0; background: rgba(12,12,16,.34); pointer-events: none; transition: opacity .45s var(--ease-out); }
-    /* The front card lifts to +160px; the shared scale cancels the perspective
-       growth (2400 / 2240), so it still renders at 1:1. */
+    /* front card at +160px: scale .98667 = 11840/12000 cancels the perspective growth, so it renders 1:1 */
     .duo__card--dark  { --rot: -2.6deg; top: 0; left: 0;     transform: translate3d(-2%, -3%, 0) scale(.9375) rotate(var(--rot)); }
     .duo__card--light { --rot: 1.6deg;  bottom: 0; right: 0; transform: translate3d(2%, 3%, 0) scale(.9375) rotate(var(--rot)); }
     .duo[data-front="dark"] .duo__card--dark,
-    .duo[data-front="light"] .duo__card--light { transform: translate3d(0, 0, 160px) scale(.9375) rotate(var(--rot)); box-shadow: var(--shadow-lg); cursor: zoom-in; }
+    .duo[data-front="light"] .duo__card--light { transform: translate3d(0, 0, 160px) scale(.98667) rotate(var(--rot)); box-shadow: var(--shadow-lg); cursor: zoom-in; }
     .duo[data-front="dark"] .duo__card--dark::after,
     .duo[data-front="light"] .duo__card--light::after { opacity: 0; }
     .duo__card:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
@@ -280,17 +283,6 @@
     }
     .showcase .tag .k { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--sage); font-weight: 600; }
     .showcase .tag .v { font-size: var(--fs-small); color: var(--text-body); margin-top: 6px; line-height: 1.5; }
-
-    /* ---- licensing note ---- */
-    .licence-note {
-      position: relative; z-index: 1; max-width: 52ch;
-      margin: clamp(52px,6vw,84px) 0 0 auto; padding: 16px 22px 18px;
-      background: var(--surface-card); border: 1px solid var(--border);
-      border-radius: var(--radius-md); box-shadow: var(--shadow-sm);
-    }
-    .licence-note p { margin: 0; }
-    .licence-note__q { font-family: var(--font-text); font-size: var(--fs-small); font-weight: 700; color: var(--heading); }
-    .licence-note__a { margin-top: 7px !important; font-size: var(--fs-small); line-height: 1.55; color: var(--text-body); }
 
     /* ---- section scaffolding ---- */
     section { padding: clamp(56px,8vw,112px) 0; }
@@ -475,7 +467,6 @@
       .media.offset-r, .media.offset-l { padding: 0; }
       /* bigger cards, same 30% vertical offset */
       .duo { aspect-ratio: 100 / 57; margin-inline: 0; }
-      .licence-note { max-width: none; margin-left: 0; }
       .duo__card { width: 78%; }
       .showcase .tag { position: static; max-width: none; margin-top: 16px; }
       .row.wide-media { grid-template-columns: 1fr; }
@@ -510,8 +501,8 @@
            the edges instead of hard-clipping against the container. -->
       <div class="update-banner__ticker">
         <div class="update-banner__track">
-          <p class="update-banner__text" data-i18n="cheapseats.updateBanner.ticker">+++ CheapSeats v1.1 ist da: Live-Tracking, Benachrichtigungen und der offizielle Microsoft-Store-Release +++ App Store und Play Store folgen in Kürze +++ Versprochen: CheapSeats bleibt zu 100 % kostenlos +++</p>
-          <p class="update-banner__text" aria-hidden="true" data-i18n="cheapseats.updateBanner.ticker">+++ CheapSeats v1.1 ist da: Live-Tracking, Benachrichtigungen und der offizielle Microsoft-Store-Release +++ App Store und Play Store folgen in Kürze +++ Versprochen: CheapSeats bleibt zu 100 % kostenlos +++</p>
+          <p class="update-banner__text" data-i18n="cheapseats.updateBanner.ticker">+++ CheapSeats v1.2 ist da: der Watercooler mit Spieltag-Storys, eine Willkommenstour und über 1.200 lizenzierte Spielerfotos +++ Jetzt mit Trailer +++ Versprochen: CheapSeats bleibt zu 100 % kostenlos +++</p>
+          <p class="update-banner__text" aria-hidden="true" data-i18n="cheapseats.updateBanner.ticker">+++ CheapSeats v1.2 ist da: der Watercooler mit Spieltag-Storys, eine Willkommenstour und über 1.200 lizenzierte Spielerfotos +++ Jetzt mit Trailer +++ Versprochen: CheapSeats bleibt zu 100 % kostenlos +++</p>
         </div>
       </div>
       <!-- Stationary right edge: never scrolls, never gets covered. -->
@@ -559,18 +550,14 @@
 
       <div class="showcase reveal">
         <div class="duo" id="duo" data-front="light">
-          <button type="button" class="duo__card duo__card--dark" data-side="dark"><img src="../../ci/assets/Bilder/CheapSeats/overview-dark.png" width="1920" height="1080" alt="CheapSeats-Übersicht im Dark Mode: nächstes Spiel der 49ers, letztes Ergebnis und Player-Spotlight"></button>
-          <button type="button" class="duo__card duo__card--light" data-side="light"><img src="../../ci/assets/Bilder/CheapSeats/overview-light.png" width="1920" height="1080" alt="CheapSeats-Übersicht im Light Mode: nächstes Spiel der Giants, letztes Ergebnis und Player-Spotlight"></button>
+          <button type="button" class="duo__card duo__card--dark" data-side="dark"><img src="../../ci/assets/Bilder/CheapSeats/overview-dark.png" srcset="../../ci/assets/Bilder/CheapSeats/overview-dark-960.png 960w, ../../ci/assets/Bilder/CheapSeats/overview-dark-1280.png 1280w, ../../ci/assets/Bilder/CheapSeats/overview-dark.png 1920w" sizes="(max-width: 760px) 78vw, min(62vw, 880px)" width="1920" height="1080" alt="CheapSeats-Übersicht im Dark Mode: nächstes Spiel der 49ers, letztes Ergebnis und Player-Spotlight"></button>
+          <button type="button" class="duo__card duo__card--light" data-side="light"><img src="../../ci/assets/Bilder/CheapSeats/overview-light.png" srcset="../../ci/assets/Bilder/CheapSeats/overview-light-960.png 960w, ../../ci/assets/Bilder/CheapSeats/overview-light-1280.png 1280w, ../../ci/assets/Bilder/CheapSeats/overview-light.png 1920w" sizes="(max-width: 760px) 78vw, min(62vw, 880px)" width="1920" height="1080" alt="CheapSeats-Übersicht im Light Mode: nächstes Spiel der Giants, letztes Ergebnis und Player-Spotlight"></button>
         </div>
         <div class="tag">
           <div class="k" data-i18n="cheapseats.dashboardK">Dark &amp; Light</div>
           <div class="v" data-i18n="cheapseats.dashboardV">Dieselbe Übersicht in Hell und Dunkel: nächstes Spiel, letztes Ergebnis und Player-Spotlight auf einen Blick.</div>
         </div>
       </div>
-      <aside class="licence-note reveal">
-        <p class="licence-note__q" data-i18n="cheapseats.licenceQ">„Wo sind die Logos, die Spielerfotos?“</p>
-        <p class="licence-note__a" data-i18n="cheapseats.licenceA">Ich bin ein kleiner Indie-Entwickler und baue das hier allein in meiner Freizeit; die Millionen für Logo- und Bildlizenzen sind für mich schlicht nicht drin. Falls mir jemand einen Lizenzdeal schenken möchte: Ich rede sehr gern darüber ;)</p>
-      </aside>
     </div>
   </header>
 
@@ -749,6 +736,8 @@
           <dd data-i18n-html="cheapseats.spec.4.dd"><strong>i18next</strong> mit Deutsch/Englisch und sportartspezifischen Glossaren - Tooltips erklären jede Abkürzung.</dd>
           <dt data-i18n="cheapseats.spec.5.dt">Updates</dt>
           <dd data-i18n-html="cheapseats.spec.5.dd">Automatische Auslieferung über den <strong>Microsoft Store</strong> - kein separater Installer, keine manuellen Updates.</dd>
+          <dt data-i18n="cheapseats.spec.6.dt">Lizenzen</dt>
+          <dd data-i18n-html="cheapseats.spec.6.dd">Keine Liga-Logos oder Spielerfotos - die Millionen dafür sind als Ein-Personen-Projekt schlicht nicht drin. Falls mir jemand einen Lizenzdeal schenken möchte: sehr gern ;)</dd>
         </dl>
       </div>
 
