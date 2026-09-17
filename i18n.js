@@ -246,7 +246,7 @@
         designText: "Die App ist auf <strong style=\"color:var(--heading);font-weight:600\">geringe kognitive Last</strong> und schnelles Scannen ausgelegt. Der Cache-first-Ansatz macht Daten beim Start sofort sichtbar; die Seitennavigation mit Scroll-Tracking lässt zwischen Bereichen springen. Tooltips erklären durchgehend die Fachbegriffe; auch für alle, die mit US-Sport (noch) nicht vertraut sind.",
         comingBadge: "Microsoft Store", comingText: "CheapSeats wird ausschließlich über den Microsoft Store vertrieben.",
         comingSoon: "Bald verfügbar",
-        githubBtn: "Jetzt im Microsoft Store", backFooter: "Zurück zur Startseite", madeByFooter: "CheapSeats · Made by Mika",
+        githubBtn: "Jetzt im Microsoft Store", backFooter: "Zurück zur Startseite",
         screenshotNote: "Die Screenshots auf dieser Seite stammen aus der Entwicklung und können vom aktuellen Stand der App abweichen.",
         updateBanner: {
           pill: "Neu",
@@ -476,7 +476,7 @@
         designText: "The app is designed for <strong style=\"color:var(--heading);font-weight:600\">low cognitive load</strong> and fast scanning. The cache-first approach makes data visible instantly on launch; side navigation with scroll-tracking lets you jump between sections. Tooltips consistently explain the terminology; including for anyone not (yet) familiar with US sports.",
         comingBadge: "Microsoft Store", comingText: "CheapSeats is distributed exclusively through the Microsoft Store.",
         comingSoon: "Coming soon",
-        githubBtn: "Now on Microsoft Store", backFooter: "Back to home", madeByFooter: "CheapSeats · Made by Mika",
+        githubBtn: "Now on Microsoft Store", backFooter: "Back to home",
         screenshotNote: "Screenshots on this page are from development builds and may differ from the current version of the app.",
         updateBanner: {
           pill: "New",
@@ -706,7 +706,7 @@
         designText: "L'application est conçue pour une <strong style=\"color:var(--heading);font-weight:600\">faible charge cognitive</strong> et une lecture rapide. L'approche cache-first rend les données visibles instantanément au lancement ; la navigation latérale avec suivi du défilement permet de passer d'une section à l'autre. Des info-bulles expliquent systématiquement les termes techniques ; y compris pour celles et ceux qui ne connaissent pas (encore) le sport américain.",
         comingBadge: "Microsoft Store", comingText: "CheapSeats est distribué exclusivement via le Microsoft Store.",
         comingSoon: "Bientôt disponible",
-        githubBtn: "Désormais sur le Microsoft Store", backFooter: "Retour à l'accueil", madeByFooter: "CheapSeats · Made by Mika",
+        githubBtn: "Désormais sur le Microsoft Store", backFooter: "Retour à l'accueil",
         screenshotNote: "Les captures d'écran de cette page proviennent de versions de développement et peuvent différer de la version actuelle de l'application.",
         updateBanner: {
           pill: "Nouveau",
@@ -936,7 +936,7 @@
         designText: "La aplicación está diseñada para una <strong style=\"color:var(--heading);font-weight:600\">baja carga cognitiva</strong> y una lectura rápida. El enfoque cache-first hace que los datos sean visibles al instante al iniciar; la navegación lateral con seguimiento de desplazamiento permite saltar entre secciones. Los tooltips explican sistemáticamente la terminología; incluso para quienes (todavía) no están familiarizados con el deporte estadounidense.",
         comingBadge: "Microsoft Store", comingText: "CheapSeats se distribuye exclusivamente a través de la Microsoft Store.",
         comingSoon: "Próximamente",
-        githubBtn: "Ya en Microsoft Store", backFooter: "Volver al inicio", madeByFooter: "CheapSeats · Made by Mika",
+        githubBtn: "Ya en Microsoft Store", backFooter: "Volver al inicio",
         screenshotNote: "Las capturas de pantalla de esta página son de versiones en desarrollo y pueden diferir de la versión actual de la aplicación.",
         updateBanner: {
           pill: "Nuevo",
@@ -1179,7 +1179,7 @@
         designText: "L'app è progettata per un <strong style=\"color:var(--heading);font-weight:600\">basso carico cognitivo</strong> e una lettura rapida. L'approccio cache-first rende i dati visibili all'istante all'avvio; la navigazione laterale con tracciamento dello scorrimento permette di saltare tra le sezioni. I tooltip spiegano sistematicamente la terminologia; anche per chi (ancora) non conosce lo sport statunitense.",
         comingBadge: "Microsoft Store", comingText: "CheapSeats è distribuita esclusivamente tramite il Microsoft Store.",
         comingSoon: "In arrivo",
-        githubBtn: "Ora su Microsoft Store", backFooter: "Torna alla home", madeByFooter: "CheapSeats · Made by Mika",
+        githubBtn: "Ora su Microsoft Store", backFooter: "Torna alla home",
         screenshotNote: "Gli screenshot in questa pagina provengono da versioni di sviluppo e potrebbero differire dalla versione attuale dell'app.",
         updateBanner: {
           pill: "Novità",
