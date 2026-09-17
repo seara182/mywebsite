@@ -195,10 +195,16 @@
       contact: { chip: "Kontakt aufnehmen" },
       langSwitcher: { selectLabel: "Sprache wählen", globeAria: "Sprache auswählen", optionAria: "{lang} auswählen" },
       cheapseats: {
-        nav: { features: "Funktionen", deepDive: "Einblicke", mobile: "Mobil", tech: "Technik", updates: "Updates", download: "Jetzt herunterladen", menu: "Abschnitte", customize: "Anpassen" },
+        nav: { features: "Funktionen", deepDive: "Einblicke", mobile: "Mobil", tech: "Technik", updates: "Updates", download: "Jetzt herunterladen", menu: "Abschnitte", customize: "Anpassen", trailer: "Trailer" },
         backLink: "Startseite", madeBy: "Made by Mika", eyebrow: "Projekt", title: "CheapSeats",
         heroSub: "Ein persönliches Sport-Dashboard als native Desktop-App für Windows; gebaut für den kurzen Blick beim Hochfahren. Der Cache zeigt sofort relevante Daten, während im Hintergrund frische Stände nachgeladen werden. Jedes der 32 NFL- bzw. 30 MLB-Teams lässt sich frei wählen; einen festen Standard gibt es nicht.",
         dashboardK: "Dark & Light", dashboardV: "Dieselbe Übersicht in Hell und Dunkel: nächstes Spiel, letztes Ergebnis und Player-Spotlight auf einen Blick.",
+        trailerLabel: "Trailer", trailerHeading: "CheapSeats in Bewegung",
+        trailerLede: "Eine kurze Tour durchs Dashboard, bevor du sie selbst installierst.",
+        trailerConsent: {
+          button: "Video laden",
+          notice: "Dieses Video wird von YouTube geladen. Beim Klick werden Daten an YouTube/Google (USA) übertragen. Mehr dazu im <a href=\"../../impressum/\">Impressum</a>.",
+        },
         featuresLabel: "Funktionen", featuresHeading: "Was die App kann",
         featuresLede: "Wenig visuelles Rauschen, die wichtigen Zahlen zuerst und eine Erklärung für jeden Fachbegriff: Zwischen Hinsehen und Verstehen soll so wenig Zeit wie möglich liegen.",
         features: [
@@ -420,10 +426,16 @@
       contact: { chip: "Contact me now" },
       langSwitcher: { selectLabel: "Select Language", globeAria: "Select language", optionAria: "Select {lang}" },
       cheapseats: {
-        nav: { features: "Features", deepDive: "Close-ups", mobile: "Mobile", tech: "Tech", updates: "Updates", download: "Download now", menu: "Sections", customize: "Customise" },
+        nav: { features: "Features", deepDive: "Close-ups", mobile: "Mobile", tech: "Tech", updates: "Updates", download: "Download now", menu: "Sections", customize: "Customise", trailer: "Trailer" },
         backLink: "Home", madeBy: "Made by Mika", eyebrow: "Project", title: "CheapSeats",
         heroSub: "A personal sports dashboard as a native desktop app for Windows; built for the quick glance at startup. The cache shows relevant data instantly while fresh scores load in the background. Any of the 32 NFL or 30 MLB teams can be chosen freely; there is no fixed default.",
         dashboardK: "Dark & Light", dashboardV: "The same overview in both themes: next game, last result and player spotlight at a glance.",
+        trailerLabel: "Trailer", trailerHeading: "CheapSeats in motion",
+        trailerLede: "A short tour of the dashboard before you install it yourself.",
+        trailerConsent: {
+          button: "Load video",
+          notice: "This video is loaded from YouTube. Clicking sends data to YouTube/Google (USA). See the <a href=\"../../impressum/\">privacy notice</a> for details.",
+        },
         featuresLabel: "Features", featuresHeading: "What the app can do",
         featuresLede: "Low visual clutter, the numbers that matter up front, and an explanation for every piece of jargon: as little time as possible between looking and understanding.",
         features: [
@@ -645,10 +657,16 @@
       contact: { chip: "Me contacter" },
       langSwitcher: { selectLabel: "Choisir la langue", globeAria: "Sélectionner la langue", optionAria: "Sélectionner le {lang}" },
       cheapseats: {
-        nav: { features: "Fonctions", deepDive: "Aperçus", mobile: "Mobile", tech: "Technique", updates: "Mises à jour", download: "Télécharger", menu: "Sections", customize: "Personnaliser" },
+        nav: { features: "Fonctions", deepDive: "Aperçus", mobile: "Mobile", tech: "Technique", updates: "Mises à jour", download: "Télécharger", menu: "Sections", customize: "Personnaliser", trailer: "Bande-annonce" },
         backLink: "Accueil", madeBy: "Made by Mika", eyebrow: "Projet", title: "CheapSeats",
         heroSub: "Un tableau de bord sportif personnel sous forme d'application de bureau native pour Windows ; conçu pour le coup d'œil rapide au démarrage. Le cache affiche instantanément les données pertinentes pendant que les scores les plus récents se chargent en arrière-plan. Chacune des 32 équipes NFL ou 30 équipes MLB peut être choisie librement ; il n'y a pas d'équipe par défaut fixe.",
         dashboardK: "Dark & Light", dashboardV: "La même vue d'ensemble dans les deux thèmes : prochain match, dernier résultat et joueur à l'honneur en un coup d'œil.",
+        trailerLabel: "Bande-annonce", trailerHeading: "CheapSeats en mouvement",
+        trailerLede: "Un court tour du tableau de bord avant de l'installer toi-même.",
+        trailerConsent: {
+          button: "Charger la vidéo",
+          notice: "Cette vidéo est chargée depuis YouTube. En cliquant, des données sont transmises à YouTube/Google (États-Unis). Voir la <a href=\"../../impressum/\">politique de confidentialité</a> pour en savoir plus.",
+        },
         featuresLabel: "Fonctionnalités", featuresHeading: "Ce que l'application permet de faire",
         featuresLede: "Peu de bruit visuel, les chiffres importants d'abord et une explication pour chaque terme technique : le moins de temps possible entre regarder et comprendre.",
         features: [
@@ -870,10 +888,16 @@
       contact: { chip: "Contáctame" },
       langSwitcher: { selectLabel: "Elegir idioma", globeAria: "Seleccionar idioma", optionAria: "Seleccionar {lang}" },
       cheapseats: {
-        nav: { features: "Funciones", deepDive: "Detalles", mobile: "Móvil", tech: "Técnica", updates: "Actualizaciones", download: "Descargar ahora", menu: "Secciones", customize: "Personalizar" },
+        nav: { features: "Funciones", deepDive: "Detalles", mobile: "Móvil", tech: "Técnica", updates: "Actualizaciones", download: "Descargar ahora", menu: "Secciones", customize: "Personalizar", trailer: "Tráiler" },
         backLink: "Inicio", madeBy: "Made by Mika", eyebrow: "Proyecto", title: "CheapSeats",
         heroSub: "Un panel deportivo personal en forma de aplicación de escritorio nativa para Windows; diseñado para una consulta rápida al arrancar. La caché muestra los datos relevantes al instante mientras los resultados más recientes se cargan en segundo plano. Cualquiera de los 32 equipos de la NFL o los 30 de la MLB puede elegirse libremente; no hay un equipo predeterminado fijo.",
         dashboardK: "Dark & Light", dashboardV: "La misma vista general en ambos temas: próximo partido, último resultado y jugador destacado de un vistazo.",
+        trailerLabel: "Tráiler", trailerHeading: "CheapSeats en movimiento",
+        trailerLede: "Un breve recorrido por el panel antes de instalarlo tú mismo.",
+        trailerConsent: {
+          button: "Cargar vídeo",
+          notice: "Este vídeo se carga desde YouTube. Al hacer clic, se envían datos a YouTube/Google (EE. UU.). Más información en el <a href=\"../../impressum/\">aviso de privacidad</a>.",
+        },
         featuresLabel: "Funciones", featuresHeading: "Lo que la aplicación puede hacer",
         featuresLede: "Poco ruido visual, las cifras importantes primero y una explicación para cada término técnico: el menor tiempo posible entre mirar y entender.",
         features: [
@@ -1108,10 +1132,16 @@
       contact: { chip: "Contattami" },
       langSwitcher: { selectLabel: "Scegli la lingua", globeAria: "Seleziona la lingua", optionAria: "Seleziona {lang}" },
       cheapseats: {
-        nav: { features: "Funzioni", deepDive: "Dettagli", mobile: "Mobile", tech: "Tecnica", updates: "Aggiornamenti", download: "Scarica ora", menu: "Sezioni", customize: "Personalizza" },
+        nav: { features: "Funzioni", deepDive: "Dettagli", mobile: "Mobile", tech: "Tecnica", updates: "Aggiornamenti", download: "Scarica ora", menu: "Sezioni", customize: "Personalizza", trailer: "Trailer" },
         backLink: "Home", madeBy: "Made by Mika", eyebrow: "Progetto", title: "CheapSeats",
         heroSub: "Una dashboard sportiva personale come app desktop nativa per Windows; pensata per il rapido sguardo all'avvio. La cache mostra subito i dati rilevanti mentre i punteggi più recenti vengono caricati in background. Ciascuna delle 32 squadre NFL o delle 30 squadre MLB può essere scelta liberamente; non esiste una squadra predefinita fissa.",
         dashboardK: "Dark & Light", dashboardV: "La stessa panoramica in entrambi i temi: prossima partita, ultimo risultato e giocatore in evidenza a colpo d'occhio.",
+        trailerLabel: "Trailer", trailerHeading: "CheapSeats in movimento",
+        trailerLede: "Un breve tour della dashboard prima di installarla tu stesso.",
+        trailerConsent: {
+          button: "Carica video",
+          notice: "Questo video viene caricato da YouTube. Cliccando, i dati vengono trasmessi a YouTube/Google (USA). Maggiori informazioni nell'<a href=\"../../impressum/\">informativa sulla privacy</a>.",
+        },
         featuresLabel: "Funzioni", featuresHeading: "Cosa sa fare l'app",
         featuresLede: "Poco rumore visivo, i numeri che contano in primo piano e una spiegazione per ogni termine tecnico: il minor tempo possibile tra guardare e capire.",
         features: [

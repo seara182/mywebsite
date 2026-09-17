@@ -346,6 +346,25 @@
     .feature-card h4 { font-family: var(--font-display); font-size: var(--fs-title); font-weight: 600; color: var(--heading); margin: 0 0 8px; }
     .feature-card p { font-size: var(--fs-small); line-height: 1.5; color: var(--text-body); margin: 0; }
 
+    /* ---- trailer video ---- */
+    .video-frame { position: relative; margin-top: clamp(32px,4vw,48px); aspect-ratio: 16/9; border-radius: var(--radius-xl); overflow: hidden; background: var(--ink); box-shadow: var(--shadow-lg); }
+    .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .video-frame__gate {
+      position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
+      padding: clamp(20px,4vw,40px); text-align: center;
+      background: radial-gradient(circle at 50% 40%, rgba(255,255,255,0.08), transparent 60%), linear-gradient(135deg, var(--plum), var(--ink));
+    }
+    .video-frame__play {
+      display: inline-flex; align-items: center; gap: 10px; padding: 14px 26px;
+      background: var(--paper); color: var(--ink); border: 0; border-radius: var(--radius-pill);
+      font-family: var(--font-text); font-size: var(--fs-body); font-weight: 600; cursor: pointer;
+      transition: transform .2s var(--ease-out), box-shadow .2s var(--ease-out);
+    }
+    .video-frame__play:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .video-frame__play svg { width: 20px; height: 20px; }
+    .video-frame__note { max-width: 46ch; font-size: var(--fs-caption); line-height: 1.5; color: var(--on-dark-body); margin: 0; }
+    .video-frame__note a { color: inherit; text-decoration: underline; }
+
     /* ---- phones band (plum) ---- */
     .phones { background: var(--plum); color: var(--on-dark-body); position: relative; overflow: hidden; }
     .phones .section-label { color: var(--sage-glow); }
@@ -513,6 +532,7 @@
   <nav class="skipper" id="skipper" aria-label="Zum Abschnitt springen">
     <div class="skipper__track">
       <a class="skipper__link" href="#download" data-i18n="cheapseats.nav.download">Jetzt herunterladen</a>
+      <a class="skipper__link" href="#trailer" data-i18n="cheapseats.nav.trailer">Trailer</a>
       <a class="skipper__link" href="#features" data-i18n="cheapseats.nav.features">Funktionen</a>
       <a class="skipper__link" href="#einblicke" data-i18n="cheapseats.nav.deepDive">Einblicke</a>
       <a class="skipper__link" href="#anpassen" data-i18n="cheapseats.nav.customize">Anpassen</a>
@@ -573,6 +593,28 @@
         <div class="store-badge"><img src="../../ci/assets/badges/app-store-badge.svg" alt="Download on the App Store" width="120" height="40" loading="lazy"></div>
         <div class="store-badge"><img src="../../ci/assets/badges/google-play-badge.png" alt="Get it on Google Play" width="155" height="60" loading="lazy"></div>
         <span class="store-badges__note" data-i18n="cheapseats.comingSoon">Bald verfügbar</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRAILER - click-to-load YouTube embed. Nothing is fetched from
+       YouTube/Google until the visitor clicks "Video laden": no iframe, no
+       thumbnail request, no cookies, per the GDPR consent note in the
+       Impressum. The IDs below are placeholders; fill in TRAILER_DE /
+       TRAILER_EN in the script block near the bottom once the links exist. -->
+  <section id="trailer">
+    <div class="wrap">
+      <span class="section-label reveal" data-i18n="cheapseats.trailerLabel">Trailer</span>
+      <h2 class="reveal" data-i18n="cheapseats.trailerHeading">CheapSeats in Bewegung</h2>
+      <p class="lede reveal" data-i18n="cheapseats.trailerLede">Eine kurze Tour durchs Dashboard, bevor du sie selbst installierst.</p>
+      <div class="video-frame reveal" id="video-frame">
+        <div class="video-frame__gate" id="video-gate">
+          <button type="button" class="video-frame__play" id="video-gate-btn" aria-describedby="video-gate-note">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
+            <span data-i18n="cheapseats.trailerConsent.button">Video laden</span>
+          </button>
+          <p class="video-frame__note" id="video-gate-note" data-i18n-html="cheapseats.trailerConsent.notice">Dieses Video wird von YouTube geladen. Beim Klick werden Daten an YouTube/Google (USA) übertragen. Mehr dazu im <a href="../../impressum/">Impressum</a>.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -825,6 +867,25 @@
       Widgets.mountLanguageSwitcher(document.getElementById("lang-switcher-root"));
       Widgets.mountContactChip(document.getElementById("contact-chip-root"));
       window.addEventListener("langchange", function () { Widgets.applyStaticTranslations(document); applyStoreLinks(); });
+    })();
+    // trailer: click-to-load YouTube embed (youtube-nocookie.com), gated
+    // behind explicit consent - nothing is requested from Google until the
+    // visitor clicks. Fill in real video IDs here once they're available.
+    (function () {
+      var TRAILER_DE = "GXmdEJRIiW4";
+      var TRAILER_EN = "OFMLX86O3rs"; // used for en/fr/es/it
+      function trailerId() { return I18N.getLang() === "de" ? TRAILER_DE : TRAILER_EN; }
+      var btn = document.getElementById("video-gate-btn");
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        var frame = document.getElementById("video-frame");
+        var iframe = document.createElement("iframe");
+        iframe.src = "https://www.youtube-nocookie.com/embed/" + trailerId() + "?autoplay=1&rel=0&cc_load_policy=0&modestbranding=1&playsinline=1";
+        iframe.title = "CheapSeats trailer";
+        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+        iframe.allowFullscreen = true;
+        frame.replaceChildren(iframe);
+      }, { once: true });
     })();
     // scroll reveals
     (function () {
