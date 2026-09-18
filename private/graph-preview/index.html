@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Konzept-Mockup — Bubble-Graph-Navigation</title>
+<style>
+  :root {
+    --paper:        #F6F6F7;
+    --paper-2:      #EFEFF1;
+    --paper-3:      #E4E4E8;
+    --ink:          #15151A;
+    --text-strong:  #15151A;
+    --text-body:    #3C3C45;
+    --text-muted:   #71717C;
+    --text-faint:   #A2A2AC;
+    --hairline:     #E2E2E7;
+    --hairline-strong: #CECED5;
+
+    --plum:         #4E2454;
+    --plum-deep:    #351839;
+    --plum-glow:    #D88DE2;
+    --sage:         #2C6849;
+    --sage-deep:    #1E4A33;
+    --sage-glow:    #81DAAC;
+    --honey:        #ECC77B;
+
+    --font-text: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+    --ease-out:    cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-glide:  cubic-bezier(0.16, 1, 0.30, 1);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --dur-fast:   140ms;
+    --dur-base:   240ms;
+    --dur-reveal: 760ms;
+
+    --content: min(1500px, 94vw);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--text-body);
+    font-family: var(--font-text);
+  }
+
+  .meta-note {
+    max-width: var(--content);
+    margin: 0 auto;
+    padding: 22px clamp(20px,5vw,40px) 0;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--text-muted);
+  }
+  .meta-note b { color: var(--text-strong); }
+
+  #graph-desktop { padding-bottom: 12px; }
+
+  .graph-wrap {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    padding: 6px clamp(8px,2vw,20px) 0;
+  }
+  #graph-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 90vh;
+    overflow: visible;
+  }
+
+  .node { cursor: pointer; transform-box: fill-box; transform-origin: 50% 50%;
+    opacity: 0; transform: scale(0.6);
+    transition: opacity var(--dur-reveal) var(--ease-glide), transform var(--dur-reveal) var(--ease-glide); }
+  .node.is-in { opacity: 1; transform: scale(1); }
+  .node-bob { transform-box: fill-box; transform-origin: 50% 50%;
+    animation-name: nodeBob; animation-timing-function: var(--ease-spring); animation-iteration-count: infinite; }
+  @keyframes nodeBob {
+    0%   { transform: translateY(0) scale(1); }
+    50%  { transform: translateY(-4px) scale(1.012); }
+    100% { transform: translateY(0) scale(1); }
+  }
+  .node:hover .node-core, .node:focus-visible .node-core { filter: brightness(1.18); }
+  .node:focus-visible { outline: none; }
+  .node-core { filter: drop-shadow(0 6px 14px rgba(20,20,26,0.35)); }
+  .node-label { font-family: var(--font-mono); font-size: 11px; fill: var(--text-muted); pointer-events: none; user-select: none; }
+  .node-label-hub { font-family: var(--font-text); font-size: 15px; font-weight: 600; fill: var(--text-strong); pointer-events: none; user-select: none; }
+  .edge { pointer-events: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .node-bob { animation: none !important; }
+    .node { transition: none !important; opacity: 1; transform: none !important; }
+  }
+
+  #mobile-nav { display: none; }
+  @media (max-width: 768px) {
+    #graph-desktop { display: none; }
+    #mobile-nav { display: block; }
+  }
+
+  #mobile-nav { max-width: var(--content); margin: 0 auto; padding: 8px clamp(16px,5vw,32px) 40px; }
+  .m-root-link {
+    display: block; width: 100%; text-align: left; background: none; border: none;
+    font-family: var(--font-mono); font-size: 12px; color: var(--text-muted);
+    padding: 10px 0; cursor: pointer;
+  }
+  .m-cta {
+    display: flex; align-items: center; gap: 12px; width: 100%; text-align: left;
+    padding: 14px 16px; margin: 8px 0; border-radius: 14px; cursor: pointer;
+    background: var(--paper-2); border: 1px solid var(--hairline-strong);
+    font-family: var(--font-text); font-size: 15px; font-weight: 600; color: var(--text-strong);
+  }
+  .cluster-row { margin: 10px 0; border: 1px solid var(--hairline-strong); border-radius: 14px; overflow: hidden; background: var(--paper-2); }
+  .cluster-row summary {
+    display: flex; align-items: center; gap: 12px; padding: 14px 16px; cursor: pointer;
+    font-family: var(--font-text); font-size: 15px; font-weight: 600; color: var(--text-strong);
+    list-style: none;
+  }
+  .cluster-row summary::-webkit-details-marker { display: none; }
+  .cluster-row summary::after { content: "↓"; margin-left: auto; color: var(--text-muted); transition: transform var(--dur-base) var(--ease-glide); }
+  .cluster-row[open] summary::after { transform: rotate(180deg); }
+  .dot { width: 12px; height: 12px; border-radius: 50%; flex: none; }
+  .chip-row { display: flex; flex-wrap: wrap; gap: 8px; padding: 4px 16px 16px; }
+  .chip {
+    font-family: var(--font-mono); font-size: 12.5px; color: var(--text-body);
+    background: var(--paper); border: 1px solid var(--hairline-strong); border-radius: 999px;
+    padding: 7px 13px; cursor: pointer;
+  }
+  .chip:active { background: var(--paper-3); }
+
+  main#destinations section {
+    max-width: var(--content); margin: 0 auto; padding: 56px clamp(20px,5vw,56px);
+    border-top: 1px solid var(--hairline);
+  }
+  .sec-row { display: flex; align-items: center; justify-content: space-between; gap: clamp(24px,5vw,80px); }
+  .sec-text { flex: 1 1 480px; max-width: 680px; }
+  .sec-icon { flex: 0 0 auto; width: clamp(120px,14vw,200px); height: clamp(120px,14vw,200px); opacity: 0.14; }
+  @media (max-width: 760px) { .sec-icon { display: none; } }
+  main#destinations h2 { font-size: clamp(22px,3vw,30px); margin: 0 0 12px; color: var(--text-strong); }
+  main#destinations p { line-height: 1.6; max-width: 62ch; }
+  .back-link {
+    display: inline-block; margin-top: 22px; font-family: var(--font-mono); font-size: 12.5px;
+    color: var(--text-muted); text-decoration: none; border-bottom: 1px dashed var(--hairline-strong);
+  }
+  #hero { padding-top: 40px; border-top: none; }
+  #hero h1 { font-size: clamp(28px,4vw,40px); margin: 0 0 6px; }
+</style>
+</head>
+<body>
+
+<p class="meta-note"><b>Konzept-Mockup</b> — Bubble-Graph-Navigation, nicht Teil der Live-Site. Jede Bubble ist ein echter Inhalt (Lebenslauf, Ehrenamt, Mein Weg, Projekte). Klicken lässt sie „zerplatzen" und springt zum passenden Abschnitt weiter unten. Unter 768px wird der Graph durch eine aufklappbare Liste ersetzt.</p>
+
+<div id="graph-desktop">
+  <div class="graph-wrap" id="graph-top">
+    <svg id="graph-svg" viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Interessen- und Werdegangs-Graph">
+      <g id="edges-layer"></g>
+      <g id="nodes-layer"></g>
+    </svg>
+  </div>
+</div>
+
+<nav id="mobile-nav" aria-label="Graph-Übersicht (mobil)"></nav>
+
+<main id="destinations">
+  <section id="hero"><div class="sec-row"><div class="sec-text">
+    <h1>Mika Jeske</h1>
+    <p>Werkstoffwissenschaftler, ab Oktober 2026 im Metrologie-Master. Dieser Abschnitt steht stellvertretend für die echte Hero-Sektion der Seite.</p>
+    <a class="back-link" href="#graph-top">↑ Zurück zum Graph</a>
+  </div><div class="sec-icon" data-icon="person"></div></div></section>
+  <section id="werkstudent"><div class="sec-row"><div class="sec-text">
+    <h2>Was ich suche</h2>
+    <p>Werkstudent im Bereich Messtechnik, Sensorik oder Dünnschichttechnik — bringt Themen aus dem Studium und Erfahrung aus dem Ehrenamt zusammen.</p>
+    <a class="back-link" href="#graph-top">↑ Zurück zum Graph</a>
+  </div><div class="sec-icon" data-icon="target"></div></div></section>
+  <section id="lebenslauf"><div class="sec-row"><div class="sec-text">
+    <h2>Lebenslauf</h2>
+    <p>Praktikant Industrial Engineering bei ifm prover, wissenschaftlicher Assistent am ZMN der TU Ilmenau, B.Sc. Werkstoffwissenschaft, ab Herbst 2026 M.Sc. Metrologie und Messtechnik in Braunschweig. Dazu Skills in Materialanalyse, Methoden, Software und Sprachen, sowie der DGZfP Science Student Award 2025.</p>
+    <a class="back-link" href="#graph-top">↑ Zurück zum Graph</a>
+  </div><div class="sec-icon" data-icon="document"></div></div></section>
+  <section id="ehrenamt"><div class="sec-row"><div class="sec-text">
+    <h2>Ehrenamt</h2>
+    <p>THW Ortsverband Friedrichshafen, Telefonberatung bei "Nummer gegen Kummer", ehrenamtliche Gruppenleitung/Konfi- und Jugendarbeit, Mitwirkung im Studienausschuss der TU Ilmenau.</p>
+    <a class="back-link" href="#graph-top">↑ Zurück zum Graph</a>
+  </div><div class="sec-icon" data-icon="heart"></div></div></section>
+  <section id="story"><div class="sec-row"><div class="sec-text">
+    <h2>Mein Weg</h2>
+    <p>Wie ich in der Werkstoffwissenschaft gelandet bin — inklusive der Reinraumarbeit am ZMN und den Messdaten aus der Bachelorarbeit (Seebeck-Koeffizient und Leitfähigkeit gesputterter Dünnschichten).</p>
+    <a class="back-link" href="#graph-top">↑ Zurück zum Graph</a>
+  </div><div class="sec-icon" data-icon="microscope"></div></div></section>
+  <section id="projekt"><div class="sec-row"><div class="sec-text">
+    <h2>CheapSeats</h2>
+    <p>Mein Hauptprojekt zum Zeigen: eine Tauri/Rust-Desktop-Anwendung für Scoreboards, mit eigener Unterseite (Features, Deep-Dive, Mobile, Tech-Stack, Changelog).</p>
+    <a class="back-link" href="#graph-top">↑ Zurück zum Graph</a>
+  </div><div class="sec-icon" data-icon="monitor"></div></div></section>
+  <section id="nebenbei"><div class="sec-row"><div class="sec-text">
+    <h2>ggi-abitur2022.de</h2>
+    <p>Die Wiedersehens-Seite für meinen Abiturjahrgang, die ich seit dem Abschluss pflege.</p>
+    <a class="back-link" href="#graph-top">↑ Zurück zum Graph</a>
+  </div><div class="sec-icon" data-icon="link"></div></div></section>
+  <section id="mitwirkung"><div class="sec-row"><div class="sec-text">
+    <h2>Mitwirkung</h2>
+    <p>Kurzfilm "Der Hochsitz" und der Podcast "Popcorngeraschel" — kreative Projekte neben Studium und Ehrenamt.</p>
+    <a class="back-link" href="#graph-top">↑ Zurück zum Graph</a>
+  </div><div class="sec-icon" data-icon="clapper"></div></div></section>
+</main>
+
+<script>
+(function () {
+  "use strict";
+  const NS = "http://www.w3.org/2000/svg";
+  const CENTER = { x: 650, y: 500 };
+
+  const SCRIBBLE_COLORS = {
+    sage:    ["#81DAAC", "#1E4A33"],
+    plum:    ["#D88DE2", "#351839"],
+    honey:   ["#ECC77B", "#1E4A33"],
+    duo:     ["#D88DE2", "#81DAAC"],
+    neutral: ["#15151A", "#A2A2AC"],
+  };
+
+  /* small hand-drawn-style line icons, one per content topic — drawn in a 24x24
+     box, stroke-only (a filled dot here and there), scaled/centered per node */
+  function gearTicks() {
+    const out = [];
+    for (let k = 0; k < 6; k++) {
+      const a = (k * 60) * Math.PI / 180;
+      out.push({ t: "line", x1: 12 + Math.cos(a) * 6.4, y1: 12 + Math.sin(a) * 6.4, x2: 12 + Math.cos(a) * 8.8, y2: 12 + Math.sin(a) * 8.8 });
+    }
+    return out;
+  }
+  const ICONS = {
+    person: [
+      { t: "circle", cx: 12, cy: 8.2, r: 3.1 },
+      { t: "path", d: "M6,20 C6,15.8 8.8,13.2 12,13.2 C15.2,13.2 18,15.8 18,20" },
+    ],
+    target: [
+      { t: "circle", cx: 12, cy: 12, r: 7.4 },
+      { t: "circle", cx: 12, cy: 12, r: 3.8 },
+      { t: "circle", cx: 12, cy: 12, r: 1, fill: true },
+    ],
+    document: [
+      { t: "rect", x: 6, y: 3, w: 12, h: 18, rx: 1.6 },
+      { t: "line", x1: 8.5, y1: 8, x2: 15.5, y2: 8 },
+      { t: "line", x1: 8.5, y1: 12, x2: 15.5, y2: 12 },
+      { t: "line", x1: 8.5, y1: 16, x2: 13, y2: 16 },
+    ],
+    briefcase: [
+      { t: "rect", x: 3.5, y: 8, w: 17, h: 11, rx: 1.6 },
+      { t: "path", d: "M8.5,8 V6.4 C8.5,5.2 9.5,4.3 10.6,4.3 H13.4 C14.5,4.3 15.5,5.2 15.5,6.4 V8" },
+      { t: "line", x1: 3.5, y1: 13.2, x2: 20.5, y2: 13.2 },
+    ],
+    cap: [
+      { t: "path", d: "M12,4 L22,9 L12,14 L2,9 Z" },
+      { t: "path", d: "M6,11 V15.6 C6,17.6 8.7,19.2 12,19.2 C15.3,19.2 18,17.6 18,15.6 V11" },
+      { t: "line", x1: 22, y1: 9, x2: 22, y2: 14.6 },
+    ],
+    gear: [ { t: "circle", cx: 12, cy: 12, r: 4.6 } ].concat(gearTicks()),
+    medal: [
+      { t: "circle", cx: 12, cy: 15, r: 4.4 },
+      { t: "path", d: "M9.4,12 L6.6,4.6" },
+      { t: "path", d: "M14.6,12 L17.4,4.6" },
+    ],
+    heart: [
+      { t: "path", d: "M12,20 C4,14.5 3,9.5 6.2,6.8 C8.3,5 11,5.6 12,8 C13,5.6 15.7,5 17.8,6.8 C21,9.5 20,14.5 12,20 Z" },
+    ],
+    shield: [
+      { t: "path", d: "M12,3.4 L18.6,6 V12 C18.6,16 15.8,18.8 12,20.4 C8.2,18.8 5.4,16 5.4,12 V6 Z" },
+    ],
+    headset: [
+      { t: "path", d: "M5,13.5 A7,7.6 0 0 1 19,13.5" },
+      { t: "circle", cx: 5, cy: 15, r: 1.8 },
+      { t: "circle", cx: 19, cy: 15, r: 1.8 },
+      { t: "path", d: "M19,15 L17,18.6 L14.4,18.6" },
+    ],
+    chapel: [
+      { t: "path", d: "M6,20 V13 L12,8.4 L18,13 V20 Z" },
+      { t: "line", x1: 12, y1: 8.4, x2: 12, y2: 3.2 },
+      { t: "line", x1: 10, y1: 5, x2: 14, y2: 5 },
+    ],
+    flag: [
+      { t: "line", x1: 6, y1: 3.5, x2: 6, y2: 20.5 },
+      { t: "path", d: "M6,4.5 L18,8.6 L6,12.7 Z" },
+    ],
+    path: [
+      { t: "path", d: "M4.5,17 C7.5,17 7,7 12,9 C16,10.6 15,17 19.5,15" },
+      { t: "circle", cx: 19.5, cy: 15, r: 1.3, fill: true },
+    ],
+    monitor: [
+      { t: "rect", x: 3.5, y: 5, w: 17, h: 12, rx: 1.4 },
+      { t: "line", x1: 9, y1: 20.5, x2: 15, y2: 20.5 },
+      { t: "line", x1: 12, y1: 17, x2: 12, y2: 20.5 },
+      { t: "line", x1: 7, y1: 14.5, x2: 7, y2: 11 },
+      { t: "line", x1: 11, y1: 14.5, x2: 11, y2: 8.5 },
+      { t: "line", x1: 15, y1: 14.5, x2: 15, y2: 10.5 },
+    ],
+    link: [
+      { t: "ellipse", cx: 9, cy: 12, rx: 5, ry: 3.3, rot: -28 },
+      { t: "ellipse", cx: 15, cy: 12, rx: 5, ry: 3.3, rot: 28 },
+    ],
+    clapper: [
+      { t: "rect", x: 4, y: 10, w: 16, h: 9.4, rx: 1 },
+      { t: "path", d: "M4,10 L6.5,4.6 H19 L16.5,10 Z" },
+      { t: "line", x1: 8.5, y1: 5, x2: 10, y2: 9.6 },
+      { t: "line", x1: 12.5, y1: 5, x2: 14, y2: 9.6 },
+    ],
+    chart: [
+      { t: "path", d: "M4,18 L9,10 L13.5,14 L20,5" },
+    ],
+    microscope: [
+      { t: "ellipse", cx: 12, cy: 20, rx: 6.5, ry: 1.3 },
+      { t: "path", d: "M12,20 V15 L9,9 L12.5,6.5" },
+      { t: "circle", cx: 13.5, cy: 5.4, r: 1.6 },
+      { t: "line", x1: 8, y1: 15, x2: 14, y2: 15 },
+    ],
+    mic: [
+      { t: "path", d: "M12,3.4 C13.7,3.4 15,4.7 15,6.4 V11.4 C15,13.1 13.7,14.4 12,14.4 C10.3,14.4 9,13.1 9,11.4 V6.4 C9,4.7 10.3,3.4 12,3.4 Z" },
+      { t: "path", d: "M6.5,11 C6.5,14.8 9,17.4 12,17.4 C15,17.4 17.5,14.8 17.5,11" },
+      { t: "line", x1: 12, y1: 17.4, x2: 12, y2: 20.6 },
+      { t: "line", x1: 8.6, y1: 20.6, x2: 15.4, y2: 20.6 },
+    ],
+  };
+
+  const CLUSTERS = [
+    {
+      key: "werkstudent", angle: -90, colorKey: "plum",
+      hub: { id: "werkstudent", label: "Werkstudent gesucht", target: "werkstudent", tier: "hub", icon: "target" },
+      members: [], fizz: [],
+      mobileLabel: "Werkstudent gesucht",
+    },
+    {
+      key: "lebenslauf", angle: -18, colorKey: "neutral",
+      hub: { id: "lebenslauf", label: "Lebenslauf", target: "lebenslauf", tier: "hub", icon: "document" },
+      members: [
+        { id: "ifm", label: "Praktikant · ifm prover", target: "lebenslauf", tier: "t2", icon: "briefcase" },
+        { id: "zmn-job", label: "Wiss. Assistent · ZMN", target: "lebenslauf", tier: "t2", icon: "briefcase" },
+        { id: "msc", label: "M.Sc. Metrologie", target: "lebenslauf", tier: "t2", icon: "cap" },
+        { id: "bsc", label: "B.Sc. Werkstoffwiss.", target: "lebenslauf", tier: "t2", icon: "cap" },
+        { id: "skills", label: "Skills", target: "lebenslauf", tier: "t2", icon: "gear" },
+        { id: "award", label: "DGZfP Award '25", target: "lebenslauf", tier: "t3", icon: "medal" },
+      ],
+      fizz: [ { id: "abitur", parent: "bsc", label: "Abitur" } ],
+      mobileLabel: "Lebenslauf",
+    },
+    {
+      key: "ehrenamt", angle: 54, colorKey: "sage",
+      hub: { id: "ehrenamt", label: "Ehrenamt", target: "ehrenamt", tier: "hub", icon: "heart" },
+      members: [
+        { id: "thw", label: "THW Friedrichshafen", target: "ehrenamt", tier: "t2", icon: "shield" },
+        { id: "krisenchat", label: "Nummer gegen Kummer", target: "ehrenamt", tier: "t2", icon: "headset" },
+        { id: "kirche", label: "Jugendarbeit", target: "ehrenamt", tier: "t2", icon: "chapel" },
+        { id: "asta", label: "Studienausschuss", target: "ehrenamt", tier: "t2", icon: "flag" },
+      ],
+      fizz: [],
+      mobileLabel: "Ehrenamt",
+    },
+    {
+      key: "meinweg", angle: 126, colorKey: "honey",
+      hub: { id: "meinweg", label: "Mein Weg", target: "story", tier: "hub", icon: "path" },
+      members: [
+        { id: "reinraum", label: "Reinraum · ZMN", target: "story", tier: "t2", icon: "microscope" },
+        { id: "thesis", label: "Thesis-Daten", target: "story", tier: "t2", icon: "chart" },
+      ],
+      fizz: [],
+      mobileLabel: "Mein Weg",
+    },
+    {
+      key: "projekte", angle: 198, colorKey: "duo", hubIsContent: true,
+      hub: { id: "cheapseats", label: "CheapSeats", target: "projekt", tier: "hub", icon: "monitor" },
+      members: [
+        { id: "ggi", label: "ggi-abitur2022.de", target: "nebenbei", tier: "t2", icon: "link" },
+        { id: "hochsitz", label: "Der Hochsitz", target: "mitwirkung", tier: "t3", icon: "clapper" },
+        { id: "popcorn", label: "Popcorngeraschel", target: "mitwirkung", tier: "t3", icon: "mic" },
+      ],
+      fizz: [],
+      mobileLabel: "Projekte & Mitwirkung",
+    },
+  ];
+
+  const ROOT = { id: "root", label: "Mika Jeske", target: "hero", tier: "root", colorKey: "neutral", icon: "person" };
+
+  const BRIDGE_EDGES = [
+    ["werkstudent", "skills", "plum"],
+    ["werkstudent", "ehrenamt", "plum"],
+    ["zmn-job", "reinraum", "honey"],
+    ["reinraum", "thesis", "honey"],
+    ["thesis", "bsc", "honey"],
+  ];
+
+  const SIZES = { root: 104, hub: 94, t2: 70, t3: 54, fizz: 20 };
+  const RING_RATIO = 1.22;
+
+  function hashStr(str) {
+    let h = 0;
+    for (let i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) >>> 0;
+    return (h % 99999) + 1;
+  }
+  function seededRand(seedStr) {
+    let s = hashStr(seedStr);
+    return function () { s = (s * 9301 + 49297) % 233280; return s / 233280; };
+  }
+  function polar(cx, cy, angleDeg, r) {
+    const a = angleDeg * Math.PI / 180;
+    return { x: cx + Math.cos(a) * r, y: cy + Math.sin(a) * r };
+  }
+
+  /* same technique as the site's scribbleLoop(): seeded sine-perturbed radius,
+     smoothed through quadratic Beziers via consecutive midpoints */
+  function scribbleLoopPath(seed, cx, cy, r, wobble, n) {
+    let s = (seed * 9301 + 49297) % 233280;
+    const rnd = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
+    const f1 = 2 + rnd() * 1.4, f2 = 5 + rnd() * 2.5;
+    const p1 = rnd() * Math.PI * 2, p2 = rnd() * Math.PI * 2;
+    const rot = rnd() * Math.PI * 2;
+    const pts = [];
+    for (let i = 0; i < n; i++) {
+      const a = rot + (Math.PI * 2 / n) * i;
+      const rr = r * (1 + wobble * Math.sin(a * f1 + p1) + wobble * 0.5 * Math.sin(a * f2 + p2));
+      pts.push([cx + Math.cos(a) * rr, cy + Math.sin(a) * rr]);
+    }
+    const mid0 = [(pts[n - 1][0] + pts[0][0]) / 2, (pts[n - 1][1] + pts[0][1]) / 2];
+    let d = "M" + mid0[0].toFixed(1) + "," + mid0[1].toFixed(1);
+    for (let k = 0; k < n; k++) {
+      const next = pts[(k + 1) % n];
+      const mid = [(pts[k][0] + next[0]) / 2, (pts[k][1] + next[1]) / 2];
+      d += " Q" + pts[k][0].toFixed(1) + "," + pts[k][1].toFixed(1) + " " + mid[0].toFixed(1) + "," + mid[1].toFixed(1);
+    }
+    return d + " Z";
+  }
+
+  /* same seeded sine-perturbation, unrolled to an open curve between two fixed
+     endpoints instead of wrapped into a closed loop */
+  function edgePath(seedNum, x1, y1, x2, y2) {
+    let s = (seedNum * 9301 + 49297) % 233280;
+    const rnd = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
+    const f1 = 1.4 + rnd() * 1.0, f2 = 3 + rnd() * 1.5;
+    const p1 = rnd() * Math.PI * 2, p2 = rnd() * Math.PI * 2;
+    const dx = x2 - x1, dy = y2 - y1;
+    const dist = Math.hypot(dx, dy) || 1;
+    const ux = dx / dist, uy = dy / dist;
+    const px = -uy, py = ux;
+    const amp = Math.min(22, Math.max(6, dist * 0.06));
+    const N = 10;
+    const pts = [];
+    for (let i = 0; i <= N; i++) {
+      const t = i / N;
+      const bx = x1 + dx * t, by = y1 + dy * t;
+      const off = amp * Math.sin(t * f1 * Math.PI + p1) + amp * 0.5 * Math.sin(t * f2 * Math.PI + p2);
+      pts.push([bx + px * off, by + py * off]);
+    }
+    pts[0] = [x1, y1];
+    pts[N] = [x2, y2];
+    let d = "M" + pts[0][0].toFixed(1) + "," + pts[0][1].toFixed(1);
+    for (let i = 0; i < N - 1; i++) {
+      const mid = [(pts[i][0] + pts[i + 1][0]) / 2, (pts[i][1] + pts[i + 1][1]) / 2];
+      d += " Q" + pts[i][0].toFixed(1) + "," + pts[i][1].toFixed(1) + " " + mid[0].toFixed(1) + "," + mid[1].toFixed(1);
+    }
+    d += " Q" + pts[N - 1][0].toFixed(1) + "," + pts[N - 1][1].toFixed(1) + " " + pts[N][0].toFixed(1) + "," + pts[N][1].toFixed(1);
+    return d;
+  }
+
+  /* ---------- node metadata (independent of layout) ---------- */
+  const nodeIndex = { root: ROOT };
+  CLUSTERS.forEach((cluster) => {
+    nodeIndex[cluster.hub.id] = { ...cluster.hub, colorKey: cluster.colorKey, parent: "root" };
+    cluster.members.forEach((m) => { nodeIndex[m.id] = { ...m, colorKey: cluster.colorKey, parent: cluster.hub.id }; });
+    cluster.fizz.forEach((f) => {
+      nodeIndex[f.id] = { id: f.id, label: f.label || "", target: cluster.hub.target, tier: "fizz", colorKey: cluster.colorKey, parent: f.parent };
+    });
+  });
+
+  /* ---------- layout: one-shot position-based relaxation ----------
+     Feels like Obsidian's graph view: nodes start scattered near a rough seed
+     point, then get pushed apart wherever they overlap and pulled back together
+     wherever a structural edge stretches too far, repeated until it settles.
+     No velocities/forces accumulating over time, so unlike a spring simulation
+     this can only ever converge — each correction removes exactly the violation
+     it found, nothing compounds. */
+  const geo = {};
+  const structEdges = [];
+
+  geo.root = { ...CENTER, size: SIZES.root };
+  CLUSTERS.forEach((cluster) => {
+    const r0 = seededRand(cluster.key + "-hub");
+    const angle = cluster.angle + (r0() - 0.5) * 50;
+    const radius = 250 + (r0() - 0.5) * 120;
+    const hubPos = polar(CENTER.x, CENTER.y, angle, radius);
+    geo[cluster.hub.id] = { ...hubPos, size: SIZES[cluster.hub.tier] };
+    structEdges.push({ a: "root", b: cluster.hub.id, maxLen: (SIZES.root + SIZES[cluster.hub.tier]) / 2 * 2.6 });
+
+    cluster.members.forEach((m) => {
+      const r2 = seededRand(cluster.key + "-init-" + m.id);
+      const p = polar(hubPos.x, hubPos.y, r2() * 360, 50 + r2() * 40);
+      geo[m.id] = { ...p, size: SIZES[m.tier] };
+      structEdges.push({ a: cluster.hub.id, b: m.id, maxLen: (SIZES[cluster.hub.tier] + SIZES[m.tier]) / 2 * 2.0 });
+    });
+
+    cluster.fizz.forEach((f) => {
+      const r3 = seededRand(cluster.key + "-fizzinit-" + f.id);
+      const parent = geo[f.parent];
+      const p = polar(parent.x, parent.y, r3() * 360, 25 + r3() * 20);
+      geo[f.id] = { ...p, size: SIZES.fizz };
+      structEdges.push({ a: f.parent, b: f.id, maxLen: (parent.size + SIZES.fizz) / 2 * 1.7 });
+    });
+  });
+
+  const geoIds = Object.keys(geo);
+  for (let iter = 0; iter < 260; iter++) {
+    structEdges.forEach((e) => {
+      const A = geo[e.a], B = geo[e.b];
+      let dx = B.x - A.x, dy = B.y - A.y;
+      let dist = Math.hypot(dx, dy) || 0.01;
+      if (dist > e.maxLen) {
+        const excess = (dist - e.maxLen) / 2;
+        const ux = dx / dist, uy = dy / dist;
+        A.x += ux * excess; A.y += uy * excess;
+        B.x -= ux * excess; B.y -= uy * excess;
+      }
+    });
+    for (let i = 0; i < geoIds.length; i++) {
+      for (let j = i + 1; j < geoIds.length; j++) {
+        const A = geo[geoIds[i]], B = geo[geoIds[j]];
+        let dx = B.x - A.x, dy = B.y - A.y;
+        let dist = Math.hypot(dx, dy);
+        const need = (A.size + B.size) / 2 * 1.22;
+        if (dist < 0.01) {
+          const rnd = seededRand(geoIds[i] + geoIds[j] + iter);
+          dx = (rnd() - 0.5) || 0.01; dy = (rnd() - 0.5) || 0.01;
+          dist = Math.hypot(dx, dy);
+        }
+        if (dist < need) {
+          const push = (need - dist) / 2;
+          const ux = dx / dist, uy = dy / dist;
+          A.x -= ux * push; A.y -= uy * push;
+          B.x += ux * push; B.y += uy * push;
+        }
+      }
+    }
+    geoIds.forEach((id) => {
+      const n = geo[id];
+      n.x += (CENTER.x - n.x) * 0.004;
+      n.y += (CENTER.y - n.y) * 0.004;
+    });
+  }
+
+  /* stretch horizontally so the graph reads as a wide panorama that uses the
+     available browser width, not a tall column — this only ever increases
+     inter-node distance, so it can't reintroduce overlaps */
+  const cx0 = geoIds.reduce((s, id) => s + geo[id].x, 0) / geoIds.length;
+  geoIds.forEach((id) => { geo[id].x = cx0 + (geo[id].x - cx0) * 1.55; });
+
+  const positions = {};
+  geoIds.forEach((id) => { positions[id] = { x: geo[id].x, y: geo[id].y }; });
+
+  /* ---------- render: desktop graph ---------- */
+  const svg = document.getElementById("graph-svg");
+  const edgesLayer = document.getElementById("edges-layer");
+  const nodesLayer = document.getElementById("nodes-layer");
+
+  /* fit the viewBox tightly to the settled layout + lock the SVG's aspect ratio
+     to match, so the graph always fills the full width of its container instead
+     of floating inside an oversized fixed canvas with dead margins */
+  const PAD = 110;
+  let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+  geoIds.forEach((id) => {
+    const n = geo[id]; const r = (n.size * RING_RATIO) / 2;
+    minX = Math.min(minX, n.x - r); maxX = Math.max(maxX, n.x + r);
+    minY = Math.min(minY, n.y - r); maxY = Math.max(maxY, n.y + r);
+  });
+  minX -= PAD; minY -= PAD; maxX += PAD; maxY += PAD;
+  const vbW = maxX - minX, vbH = maxY - minY;
+  svg.setAttribute("viewBox", `${minX.toFixed(0)} ${minY.toFixed(0)} ${vbW.toFixed(0)} ${vbH.toFixed(0)}`);
+  svg.style.aspectRatio = (vbW / vbH).toFixed(3);
+
+  function el(tag, attrs) {
+    const e = document.createElementNS(NS, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+
+  function buildIcon(key, cx, cy, targetSize, color) {
+    const spec = ICONS[key];
+    if (!spec) return null;
+    const g = el("g", {});
+    const scale = targetSize / 24;
+    g.setAttribute("transform", `translate(${cx.toFixed(1)},${cy.toFixed(1)}) scale(${scale.toFixed(3)}) translate(-12,-12)`);
+    spec.forEach((p) => {
+      let e;
+      if (p.t === "circle") e = el("circle", { cx: p.cx, cy: p.cy, r: p.r });
+      else if (p.t === "rect") e = el("rect", { x: p.x, y: p.y, width: p.w, height: p.h, rx: p.rx || 0 });
+      else if (p.t === "line") e = el("line", { x1: p.x1, y1: p.y1, x2: p.x2, y2: p.y2 });
+      else if (p.t === "path") e = el("path", { d: p.d });
+      else if (p.t === "ellipse") {
+        e = el("ellipse", { cx: p.cx, cy: p.cy, rx: p.rx, ry: p.ry });
+        if (p.rot) e.setAttribute("transform", `rotate(${p.rot} ${p.cx} ${p.cy})`);
+      }
+      if (p.fill) { e.setAttribute("fill", color); e.setAttribute("stroke", "none"); }
+      else { e.setAttribute("fill", "none"); e.setAttribute("stroke", color); e.setAttribute("stroke-width", 1.7); e.setAttribute("stroke-linecap", "round"); e.setAttribute("stroke-linejoin", "round"); }
+      g.appendChild(e);
+    });
+    return g;
+  }
+
+  function addEdge(idA, idB, opts) {
+    opts = opts || {};
+    const a = positions[idA], b = positions[idB];
+    if (!a || !b) return;
+    const seed = hashStr(idA + "-" + idB);
+    const d = edgePath(seed, a.x, a.y, b.x, b.y);
+    const path = el("path", { d: d, fill: "none" });
+    path.setAttribute("class", "edge" + (opts.cls ? " " + opts.cls : ""));
+    path.style.stroke = opts.stroke || "var(--hairline-strong)";
+    path.style.strokeWidth = opts.width || 1.5;
+    path.style.opacity = opts.opacity != null ? opts.opacity : 0.5;
+    edgesLayer.appendChild(path);
+  }
+
+  CLUSTERS.forEach((c) => addEdge("root", c.hub.id, { stroke: "var(--hairline-strong)", width: 1.4, opacity: 0.35 }));
+  CLUSTERS.forEach((c) => c.members.forEach((m) => addEdge(c.hub.id, m.id, { stroke: "var(--hairline-strong)", width: 1.3, opacity: 0.5 })));
+
+  const BRIDGE_STROKE = { plum: "#D88DE2", honey: "#ECC77B", sage: "#81DAAC", duo: "#D88DE2" };
+  BRIDGE_EDGES.forEach(([a, b, key]) => addEdge(a, b, { stroke: BRIDGE_STROKE[key] || "var(--text-muted)", width: 2.1, opacity: 0.6, cls: "bridge" }));
+
+  function buildNode(node) {
+    const pos = positions[node.id];
+    const size = SIZES[node.tier];
+    const colors = SCRIBBLE_COLORS[node.colorKey] || SCRIBBLE_COLORS.neutral;
+    const seed = hashStr(node.id);
+    const baseR = (size * RING_RATIO) / 2;
+    const j = size * 0.045;
+
+    const g = el("g", { class: "node", "data-id": node.id, tabindex: node.tier === "fizz" ? -1 : 0, role: node.tier === "fizz" ? "presentation" : "button" });
+    if (node.tier !== "fizz") g.setAttribute("aria-label", node.label + " — zu Abschnitt springen");
+
+    const bob = el("g", { class: "node-bob" });
+    const seedRnd = seededRand(node.id + "-bob");
+    const dur = 12 + seedRnd() * 8;
+    const delay = -seedRnd() * dur;
+    bob.style.animationDuration = dur.toFixed(2) + "s";
+    bob.style.animationDelay = delay.toFixed(2) + "s";
+
+    /* one quiet scribbled ring per node — the "scribble" identity now lives
+       mainly in the icon, this is just a faint hand-drawn edge, not the point */
+    const ring = el("path", { d: scribbleLoopPath(seed, pos.x + j * 0.2, pos.y - j * 0.15, baseR, node.tier === "fizz" ? 0.16 : 0.09, node.tier === "fizz" ? 9 : 12), fill: "none" });
+    ring.style.stroke = colors[0];
+    ring.style.strokeWidth = node.tier === "fizz" ? 1.1 : Math.max(1.2, size / 72);
+    ring.style.opacity = node.tier === "fizz" ? 0.5 : 0.55;
+    bob.appendChild(ring);
+
+    const core = el("circle", { class: "node-core", cx: pos.x, cy: pos.y, r: size / 2, fill: "#15151A" });
+    bob.appendChild(core);
+
+    if (node.icon && node.tier !== "fizz") {
+      const iconEl = buildIcon(node.icon, pos.x, pos.y, size * 0.56, "#F6F6F7");
+      if (iconEl) { iconEl.style.opacity = 0.94; iconEl.style.pointerEvents = "none"; bob.appendChild(iconEl); }
+    }
+
+    if (node.label && node.tier !== "fizz") {
+      const isHub = node.tier === "hub" || node.tier === "root";
+      const text = el("text", { x: pos.x, y: pos.y + size / 2 + (isHub ? 22 : 16), "text-anchor": "middle" });
+      text.setAttribute("class", isHub ? "node-label-hub" : "node-label");
+      text.textContent = node.label;
+      bob.appendChild(text);
+    }
+
+    g.appendChild(bob);
+    g.addEventListener("click", () => popAndScroll(g, node, colors[0]));
+    g.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); popAndScroll(g, node, colors[0]); }
+    });
+    return g;
+  }
+
+  const allNodes = [ROOT, ...Object.keys(nodeIndex).filter((id) => id !== "root").map((id) => nodeIndex[id])];
+  allNodes.forEach((node) => nodesLayer.appendChild(buildNode(node)));
+
+  requestAnimationFrame(() => {
+    Array.from(nodesLayer.querySelectorAll(".node")).forEach((g, i) => {
+      g.style.transitionDelay = Math.min(i * 30, 600) + "ms";
+      g.classList.add("is-in");
+    });
+  });
+
+  function spawnParticles(pos, color) {
+    const rnd = seededRand(pos.x + "-" + pos.y + "-" + Date.now());
+    for (let i = 0; i < 5; i++) {
+      const angle = rnd() * Math.PI * 2;
+      const dist = 24 + rnd() * 18;
+      const dot = el("circle", { cx: pos.x, cy: pos.y, r: 2.4, fill: color });
+      nodesLayer.appendChild(dot);
+      const dx = Math.cos(angle) * dist, dy = Math.sin(angle) * dist;
+      const anim = dot.animate(
+        [{ transform: "translate(0px,0px)", opacity: 0.9 }, { transform: `translate(${dx}px,${dy}px)`, opacity: 0 }],
+        { duration: 380 + rnd() * 140, easing: "cubic-bezier(0.22,1,0.36,1)" }
+      );
+      anim.onfinish = () => dot.remove();
+    }
+  }
+
+  function popAndScroll(group, node, color) {
+    if (group.dataset.popping) return;
+    group.dataset.popping = "1";
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const target = document.getElementById(node.target);
+    if (reduced) {
+      if (target) target.scrollIntoView({ behavior: "auto", block: "start" });
+      group.dataset.popping = "";
+      return;
+    }
+    const dur = 420;
+    group.animate(
+      [
+        { transform: "scale(1)", opacity: 1, offset: 0 },
+        { transform: "scale(1.16)", opacity: 1, offset: 0.35 },
+        { transform: "scale(1.4)", opacity: 0, offset: 1 },
+      ],
+      { duration: dur, easing: "cubic-bezier(0.22,1,0.36,1)", fill: "forwards" }
+    );
+    spawnParticles(positions[node.id], color);
+    setTimeout(() => { if (target) target.scrollIntoView({ behavior: "smooth", block: "start" }); }, 120);
+    setTimeout(() => {
+      group.getAnimations().forEach((a) => a.cancel());
+      group.dataset.popping = "";
+    }, dur + 60);
+  }
+
+  /* ---------- mobile accordion ---------- */
+  const mobileNav = document.getElementById("mobile-nav");
+
+  const rootLink = document.createElement("button");
+  rootLink.className = "m-root-link";
+  rootLink.textContent = "↑ " + ROOT.label;
+  rootLink.addEventListener("click", () => document.getElementById(ROOT.target).scrollIntoView({ behavior: "smooth" }));
+  mobileNav.appendChild(rootLink);
+
+  CLUSTERS.forEach((cluster) => {
+    const colors = SCRIBBLE_COLORS[cluster.colorKey];
+    if (cluster.members.length === 0 && !cluster.hubIsContent) {
+      const btn = document.createElement("button");
+      btn.className = "m-cta";
+      const dot = document.createElement("span");
+      dot.className = "dot"; dot.style.background = colors[0];
+      btn.appendChild(dot);
+      btn.appendChild(document.createTextNode(cluster.hub.label));
+      btn.addEventListener("click", () => document.getElementById(cluster.hub.target).scrollIntoView({ behavior: "smooth" }));
+      mobileNav.appendChild(btn);
+      return;
+    }
+    const details = document.createElement("details");
+    details.className = "cluster-row";
+    const summary = document.createElement("summary");
+    const dot = document.createElement("span");
+    dot.className = "dot"; dot.style.background = colors[0];
+    summary.appendChild(dot);
+    summary.appendChild(document.createTextNode(cluster.mobileLabel));
+    details.appendChild(summary);
+
+    const chipRow = document.createElement("div");
+    chipRow.className = "chip-row";
+    const chipItems = (cluster.hubIsContent ? [cluster.hub] : []).concat(cluster.members).concat(
+      cluster.fizz.map((f) => ({ id: f.id, label: nodeIndex[f.id].label || f.id, target: nodeIndex[f.id].target }))
+    );
+    chipItems.forEach((item) => {
+      const chip = document.createElement("button");
+      chip.className = "chip";
+      chip.textContent = item.label;
+      chip.addEventListener("click", (e) => {
+        e.stopPropagation();
+        document.getElementById(item.target).scrollIntoView({ behavior: "smooth" });
+      });
+      chipRow.appendChild(chip);
+    });
+    details.appendChild(chipRow);
+    mobileNav.appendChild(details);
+  });
+
+  /* ---------- large faint section icons (reuses the same icon set as the graph) ---------- */
+  document.querySelectorAll(".sec-icon[data-icon]").forEach((holder) => {
+    const key = holder.getAttribute("data-icon");
+    const bigSvg = el("svg", { viewBox: "0 0 24 24", width: "100%", height: "100%" });
+    const iconEl = buildIcon(key, 12, 12, 24, "var(--text-faint)");
+    if (iconEl) bigSvg.appendChild(iconEl);
+    holder.appendChild(bigSvg);
+  });
+})();
+</script>
+</body>
+</html>
