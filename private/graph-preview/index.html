@@ -49,15 +49,23 @@
   }
 
   .meta-note {
-    max-width: var(--content);
-    margin: 0 auto;
-    padding: 22px clamp(20px,5vw,40px) 0;
+    max-width: 480px;
+    margin: 16px clamp(16px,4vw,32px);
+    padding: 9px 14px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(14px) saturate(160%);
+    border: 1px solid rgba(255,255,255,0.5);
+    box-shadow: 0 1px 2px rgba(20,20,26,0.05);
     font-family: var(--font-mono);
-    font-size: 12.5px;
-    line-height: 1.6;
+    font-size: 11px;
+    line-height: 1.5;
     color: var(--text-muted);
   }
-  .meta-note b { color: var(--text-strong); }
+  .meta-note b { color: var(--text-strong); font-weight: 600; }
+  @media (prefers-reduced-transparency: reduce) {
+    .meta-note { background: var(--paper-2); backdrop-filter: none; }
+  }
 
   #graph-desktop { padding-bottom: 12px; }
 
@@ -77,24 +85,28 @@
 
   .node { cursor: pointer; transform-box: fill-box; transform-origin: 50% 50%;
     opacity: 0; transform: scale(0.6);
-    transition: opacity var(--dur-reveal) var(--ease-glide), transform var(--dur-reveal) var(--ease-glide); }
+    transition: opacity var(--dur-reveal) var(--ease-glide), transform 110ms var(--ease-out); }
   .node.is-in { opacity: 1; transform: scale(1); }
-  .node-bob { transform-box: fill-box; transform-origin: 50% 50%;
-    animation-name: nodeBob; animation-timing-function: var(--ease-spring); animation-iteration-count: infinite; }
+  .node.is-in:active { transform: scale(0.93); }
+  .node-bob { transform-box: fill-box; transform-origin: 50% 50%; }
+  .node-bob.breathing {
+    animation-name: nodeBob; animation-timing-function: var(--ease-spring); animation-iteration-count: infinite;
+  }
   @keyframes nodeBob {
     0%   { transform: translateY(0) scale(1); }
-    50%  { transform: translateY(-4px) scale(1.012); }
+    50%  { transform: translateY(-3px) scale(1.008); }
     100% { transform: translateY(0) scale(1); }
   }
   .node:hover .node-core, .node:focus-visible .node-core { filter: brightness(1.18); }
   .node:focus-visible { outline: none; }
-  .node-core { filter: drop-shadow(0 6px 14px rgba(20,20,26,0.35)); }
-  .node-label { font-family: var(--font-mono); font-size: 11px; fill: var(--text-muted); pointer-events: none; user-select: none; }
-  .node-label-hub { font-family: var(--font-text); font-size: 15px; font-weight: 600; fill: var(--text-strong); pointer-events: none; user-select: none; }
+  .node-core { filter: drop-shadow(0 5px 11px rgba(20,20,26,0.28)); }
+  .node-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.01em; fill: var(--text-muted); pointer-events: none; user-select: none; opacity: 0; transition: opacity var(--dur-base) var(--ease-out); }
+  .node-label-hub { font-family: var(--font-text); font-size: 14.5px; font-weight: 600; letter-spacing: -0.01em; fill: var(--text-strong); pointer-events: none; user-select: none; }
+  .node:hover .node-label, .node:focus-visible .node-label { opacity: 1; }
   .edge { pointer-events: none; }
 
   @media (prefers-reduced-motion: reduce) {
-    .node-bob { animation: none !important; }
+    .node-bob.breathing { animation: none !important; }
     .node { transition: none !important; opacity: 1; transform: none !important; }
   }
 
@@ -527,7 +539,7 @@
         const A = geo[geoIds[i]], B = geo[geoIds[j]];
         let dx = B.x - A.x, dy = B.y - A.y;
         let dist = Math.hypot(dx, dy);
-        const need = (A.size + B.size) / 2 * 1.22;
+        const need = (A.size + B.size) / 2 * 1.32;
         if (dist < 0.01) {
           const rnd = seededRand(geoIds[i] + geoIds[j] + iter);
           dx = (rnd() - 0.5) || 0.01; dy = (rnd() - 0.5) || 0.01;
@@ -620,11 +632,11 @@
     edgesLayer.appendChild(path);
   }
 
-  CLUSTERS.forEach((c) => addEdge("root", c.hub.id, { stroke: "var(--hairline-strong)", width: 1.4, opacity: 0.35 }));
-  CLUSTERS.forEach((c) => c.members.forEach((m) => addEdge(c.hub.id, m.id, { stroke: "var(--hairline-strong)", width: 1.3, opacity: 0.5 })));
+  CLUSTERS.forEach((c) => addEdge("root", c.hub.id, { stroke: "var(--hairline-strong)", width: 1.2, opacity: 0.22 }));
+  CLUSTERS.forEach((c) => c.members.forEach((m) => addEdge(c.hub.id, m.id, { stroke: "var(--hairline-strong)", width: 1.1, opacity: 0.3 })));
 
   const BRIDGE_STROKE = { plum: "#D88DE2", honey: "#ECC77B", sage: "#81DAAC", duo: "#D88DE2" };
-  BRIDGE_EDGES.forEach(([a, b, key]) => addEdge(a, b, { stroke: BRIDGE_STROKE[key] || "var(--text-muted)", width: 2.1, opacity: 0.6, cls: "bridge" }));
+  BRIDGE_EDGES.forEach(([a, b, key]) => addEdge(a, b, { stroke: BRIDGE_STROKE[key] || "var(--text-muted)", width: 1.6, opacity: 0.42, cls: "bridge" }));
 
   function buildNode(node) {
     const pos = positions[node.id];
@@ -637,19 +649,29 @@
     const g = el("g", { class: "node", "data-id": node.id, tabindex: node.tier === "fizz" ? -1 : 0, role: node.tier === "fizz" ? "presentation" : "button" });
     if (node.tier !== "fizz") g.setAttribute("aria-label", node.label + " — zu Abschnitt springen");
 
-    const bob = el("g", { class: "node-bob" });
-    const seedRnd = seededRand(node.id + "-bob");
-    const dur = 12 + seedRnd() * 8;
-    const delay = -seedRnd() * dur;
-    bob.style.animationDuration = dur.toFixed(2) + "s";
-    bob.style.animationDelay = delay.toFixed(2) + "s";
+    if (node.label) {
+      const title = el("title", {});
+      title.textContent = node.label;
+      g.appendChild(title);
+    }
+
+    const isAnchor = node.tier === "hub" || node.tier === "root";
+    const bobClass = isAnchor ? "node-bob breathing" : "node-bob";
+    const bob = el("g", { class: bobClass });
+    if (isAnchor) {
+      const seedRnd = seededRand(node.id + "-bob");
+      const dur = 14 + seedRnd() * 8;
+      const delay = -seedRnd() * dur;
+      bob.style.animationDuration = dur.toFixed(2) + "s";
+      bob.style.animationDelay = delay.toFixed(2) + "s";
+    }
 
     /* one quiet scribbled ring per node — the "scribble" identity now lives
        mainly in the icon, this is just a faint hand-drawn edge, not the point */
-    const ring = el("path", { d: scribbleLoopPath(seed, pos.x + j * 0.2, pos.y - j * 0.15, baseR, node.tier === "fizz" ? 0.16 : 0.09, node.tier === "fizz" ? 9 : 12), fill: "none" });
+    const ring = el("path", { d: scribbleLoopPath(seed, pos.x + j * 0.2, pos.y - j * 0.15, baseR, node.tier === "fizz" ? 0.16 : 0.08, node.tier === "fizz" ? 9 : 12), fill: "none" });
     ring.style.stroke = colors[0];
-    ring.style.strokeWidth = node.tier === "fizz" ? 1.1 : Math.max(1.2, size / 72);
-    ring.style.opacity = node.tier === "fizz" ? 0.5 : 0.55;
+    ring.style.strokeWidth = node.tier === "fizz" ? 1 : Math.max(1.1, size / 78);
+    ring.style.opacity = node.tier === "fizz" ? 0.42 : 0.4;
     bob.appendChild(ring);
 
     const core = el("circle", { class: "node-core", cx: pos.x, cy: pos.y, r: size / 2, fill: "#15151A" });
@@ -661,9 +683,8 @@
     }
 
     if (node.label && node.tier !== "fizz") {
-      const isHub = node.tier === "hub" || node.tier === "root";
-      const text = el("text", { x: pos.x, y: pos.y + size / 2 + (isHub ? 22 : 16), "text-anchor": "middle" });
-      text.setAttribute("class", isHub ? "node-label-hub" : "node-label");
+      const text = el("text", { x: pos.x, y: pos.y + size / 2 + (isAnchor ? 22 : 16), "text-anchor": "middle" });
+      text.setAttribute("class", isAnchor ? "node-label-hub" : "node-label");
       text.textContent = node.label;
       bob.appendChild(text);
     }
