@@ -1,6 +1,6 @@
 const { asset, Reveal, Parallax, Pressable, SectionSkipper, Eyebrow, Badge, GlowShape, WaveBlend, TimelineEntry, AlignBlock, BlobCluster, useLang, LanguageSwitcherMount, ContactChipMount } = window.MJ;
 const { Hero, Intro, Seeking } = window.SECTIONS_A;
-const { Story, CleanroomTear, ConfiTear, Reunion } = window.SECTIONS_NEW;
+const { Story, CleanroomTear, ConfiTear, Reunion, Collaborations } = window.SECTIONS_NEW;
 
 const LINKEDIN = "https://www.linkedin.com/in/mika-jeske-835092313/";
 const EMAIL = "mailto:mikajeske@gmail.com";
@@ -231,6 +231,7 @@ function App() {
       <Story />
       <CleanroomTear />
       <Reunion />
+      <Collaborations />
       <Projects />
       <Footer />
     </main>

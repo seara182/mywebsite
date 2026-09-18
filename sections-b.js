@@ -27,7 +27,8 @@ const {
   Story,
   CleanroomTear,
   ConfiTear,
-  Reunion
+  Reunion,
+  Collaborations
 } = window.SECTIONS_NEW;
 const LINKEDIN = "https://www.linkedin.com/in/mika-jeske-835092313/";
 const EMAIL = "mailto:mikajeske@gmail.com";
@@ -695,7 +696,7 @@ function App() {
   return /*#__PURE__*/React.createElement("main", null, /*#__PURE__*/React.createElement(LanguageSwitcherMount, null), /*#__PURE__*/React.createElement(ContactChipMount, null), /*#__PURE__*/React.createElement(SectionSkipper, {
     items: skipItems,
     label: t("nav").skipLabel
-  }), /*#__PURE__*/React.createElement(Hero, null), /*#__PURE__*/React.createElement(Intro, null), /*#__PURE__*/React.createElement(Seeking, null), /*#__PURE__*/React.createElement(Resume, null), /*#__PURE__*/React.createElement(Engagement, null), /*#__PURE__*/React.createElement(ConfiTear, null), /*#__PURE__*/React.createElement(Story, null), /*#__PURE__*/React.createElement(CleanroomTear, null), /*#__PURE__*/React.createElement(Reunion, null), /*#__PURE__*/React.createElement(Projects, null), /*#__PURE__*/React.createElement(Footer, null));
+  }), /*#__PURE__*/React.createElement(Hero, null), /*#__PURE__*/React.createElement(Intro, null), /*#__PURE__*/React.createElement(Seeking, null), /*#__PURE__*/React.createElement(Resume, null), /*#__PURE__*/React.createElement(Engagement, null), /*#__PURE__*/React.createElement(ConfiTear, null), /*#__PURE__*/React.createElement(Story, null), /*#__PURE__*/React.createElement(CleanroomTear, null), /*#__PURE__*/React.createElement(Reunion, null), /*#__PURE__*/React.createElement(Collaborations, null), /*#__PURE__*/React.createElement(Projects, null), /*#__PURE__*/React.createElement(Footer, null));
 }
 
 /* build.mjs renders this in Node to prerender each language */

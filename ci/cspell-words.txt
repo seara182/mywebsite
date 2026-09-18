@@ -264,3 +264,11 @@ Spielinfos
 saltabile
 Spielerfotos
 hablarlo
+
+# --- collaborations section: Der Hochsitz / Popcorngeraschel ---
+Hochsitz
+Popcorngeraschel
+Hollandmoritz
+filmverrückt
+auditeurs
+ascoltatori

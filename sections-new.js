@@ -663,6 +663,205 @@ function ConfiTear() {
     rot: -3.5
   })))));
 }
+const HENDRIK_SITE = "https://www.hendrik-e-peters.com/";
+const PHP_INSTAGRAM = "https://www.instagram.com/php_films/";
+function Collaborations() {
+  const [, t] = useLang();
+  const c = t("collaborations");
+  return /*#__PURE__*/React.createElement("section", {
+    id: "mitwirkung",
+    "data-section": true,
+    style: {
+      padding: "var(--section-y) 0"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "container align-track"
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(min(360px,100%),1fr))",
+      gap: "clamp(32px,5vw,56px)",
+      alignItems: "start"
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: "clamp(28px,4vw,48px)"
+    }
+  }, /*#__PURE__*/React.createElement(Reveal, null, /*#__PURE__*/React.createElement(Eyebrow, null, c.eyebrow)), /*#__PURE__*/React.createElement(Reveal, {
+    delay: 80
+  }, /*#__PURE__*/React.createElement("h2", {
+    style: {
+      fontFamily: "var(--font-display)",
+      fontWeight: 600,
+      fontSize: "var(--fs-h1)",
+      letterSpacing: "var(--ls-heading)",
+      color: "var(--heading)",
+      margin: "16px 0 0",
+      maxWidth: "16ch"
+    }
+  }, c.heading))), /*#__PURE__*/React.createElement(Reveal, {
+    delay: 40
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontSize: "var(--fs-lead)",
+      lineHeight: "var(--lh-relaxed)",
+      color: "var(--text)",
+      margin: "0 0 18px",
+      maxWidth: "62ch"
+    }
+  }, c.p1)), /*#__PURE__*/React.createElement(Reveal, {
+    delay: 80
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontSize: "var(--fs-lead)",
+      lineHeight: "var(--lh-relaxed)",
+      color: "var(--text)",
+      margin: 0,
+      maxWidth: "62ch"
+    }
+  }, c.p2))), /*#__PURE__*/React.createElement(Reveal, {
+    delay: 100
+  }, /*#__PURE__*/React.createElement("figure", {
+    style: {
+      margin: "0 auto",
+      maxWidth: 380,
+      transform: "rotate(-2deg)"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: 8,
+      background: "var(--paper)",
+      borderRadius: "var(--radius-lg)",
+      boxShadow: "0 10px 30px -12px rgba(20,20,26,0.28), 0 44px 76px -38px rgb(var(--accent-2-rgb) / 0.35)",
+      border: "1px solid var(--hairline)"
+    }
+  }, /*#__PURE__*/React.createElement("img", {
+    src: asset("ci/assets/Bilder/DerHochsitz/DerHochsitz_Poster.jpeg"),
+    alt: c.posterCaption,
+    loading: "lazy",
+    style: {
+      display: "block",
+      width: "100%",
+      height: "auto",
+      borderRadius: 8
+    }
+  })), /*#__PURE__*/React.createElement("figcaption", {
+    style: {
+      fontFamily: "var(--font-mono)",
+      fontSize: "var(--fs-caption)",
+      color: "var(--text-muted)",
+      marginTop: 12,
+      textAlign: "center"
+    }
+  }, c.posterCaption)))), /*#__PURE__*/React.createElement(Reveal, {
+    delay: 100
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(min(280px,100%),1fr))",
+      gap: "clamp(20px,3vw,32px)",
+      marginTop: "clamp(36px,5vw,56px)"
+    }
+  }, c.entries.map((e, i) => /*#__PURE__*/React.createElement("div", {
+    key: i,
+    style: {
+      padding: "clamp(22px,3vw,30px)",
+      borderRadius: "var(--radius-xl)",
+      background: "var(--paper-2)",
+      border: "1px dashed var(--hairline-strong)"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "var(--font-mono)",
+      fontSize: "var(--fs-caption)",
+      fontWeight: 600,
+      letterSpacing: "0.06em",
+      textTransform: "uppercase",
+      color: "var(--text-muted)"
+    }
+  }, e.kicker), /*#__PURE__*/React.createElement("h3", {
+    style: {
+      fontFamily: "var(--font-display)",
+      fontWeight: 600,
+      fontSize: "var(--fs-title)",
+      color: "var(--heading)",
+      margin: "10px 0 12px"
+    }
+  }, e.label, e.genre && /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontWeight: 400,
+      color: "var(--text-muted)"
+    }
+  }, " \xB7 ", e.genre)), /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontSize: "var(--fs-small)",
+      lineHeight: "var(--lh-relaxed)",
+      color: "var(--text)",
+      margin: 0
+    }
+  }, e.note), e.href && /*#__PURE__*/React.createElement("a", {
+    href: e.href,
+    target: "_blank",
+    rel: "noopener",
+    style: {
+      display: "inline-flex",
+      alignItems: "center",
+      gap: 6,
+      marginTop: 16,
+      fontFamily: "var(--font-text)",
+      fontSize: "var(--fs-small)",
+      fontWeight: 600,
+      color: "var(--accent)",
+      textDecoration: "none"
+    }
+  }, e.linkLabel, " ", /*#__PURE__*/React.createElement("span", {
+    "aria-hidden": true
+  }, "\u2197")), e.pins && /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexWrap: "wrap",
+      gap: 8,
+      marginTop: 16
+    }
+  }, e.pins.map((pin, j) => /*#__PURE__*/React.createElement("span", {
+    key: j,
+    style: {
+      fontFamily: "var(--font-mono)",
+      fontSize: "var(--fs-caption)",
+      fontWeight: 600,
+      padding: "8px 12px",
+      borderRadius: "var(--radius-sm)",
+      background: "var(--paper)",
+      border: "1px solid var(--hairline)",
+      color: "var(--text-muted)"
+    }
+  }, pin))))))), /*#__PURE__*/React.createElement(Reveal, {
+    delay: 140
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontSize: "var(--fs-small)",
+      color: "var(--text-muted)",
+      margin: "clamp(28px,4vw,40px) 0 0",
+      maxWidth: "62ch"
+    }
+  }, c.creditsBefore, /*#__PURE__*/React.createElement("a", {
+    href: HENDRIK_SITE,
+    target: "_blank",
+    rel: "noopener",
+    style: {
+      color: "var(--text-body)",
+      fontWeight: 600
+    }
+  }, c.creditsPortfolioLabel), c.creditsMiddle, /*#__PURE__*/React.createElement("a", {
+    href: PHP_INSTAGRAM,
+    target: "_blank",
+    rel: "noopener",
+    style: {
+      color: "var(--text-body)",
+      fontWeight: 600
+    }
+  }, c.creditsInstagramLabel), c.creditsAfter))));
+}
 function Reunion() {
   const GGI = "https://ggi-abitur2022.de/";
   const [, t] = useLang();
@@ -803,6 +1002,7 @@ window.SECTIONS_NEW = {
   Story,
   CleanroomTear,
   ConfiTear,
-  Reunion
+  Reunion,
+  Collaborations
 };
 })();
