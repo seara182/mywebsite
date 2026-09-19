@@ -304,6 +304,11 @@
      and the film rises. Keeping the class `hero` on the sticky stage means the
      SectionSkipper's past-the-hero gate fires only once the trailer is done. */
   .herostage-wrap { position: relative; height: 138vh; }
+  /* portrait / mobile: give more scrub distance so momentum scrolling doesn't
+     blow past the video before it has a chance to play. */
+  @media (max-aspect-ratio: 3/4) {
+    .herostage-wrap { height: 240vh; }
+  }
   .hero.herostage {
     position: sticky; top: 0;
     height: 100vh; height: 100svh;
@@ -339,6 +344,7 @@
   .herostage.is-playing .herostage__scrim { opacity: 1; }
 
   /* the name is the only text allowed out of the reading column */
+  .hero-namewrap { will-change: transform, opacity; }
   .hero-namewrap__col { max-width: var(--content); margin-inline: auto; width: 100%; }
   @media (min-width: 1760px) { .hero-namewrap__col { max-width: var(--content-wide); } }
   @media (min-width: 2000px) { .hero-namewrap__col { max-width: var(--content-full); } }
@@ -347,7 +353,7 @@
   /* widescreen only: below 1440px it has no clearance from the name */
   .hero-photo { display: none; }
   @media (min-width: 1440px) {
-    .hero-photo { display: block; }
+    .hero-photo { display: block; will-change: transform, opacity; }
   }
 
   /* caption centred beneath the film; shown once the film has played */

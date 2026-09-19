@@ -80,7 +80,7 @@ function Hero() {
     function onEnded() { finished = true; if (stage.classList.contains("is-playing")) stage.classList.add("is-revealed"); }
     /* replay: hide the ways in, rewind and play the film again; it re-reveals
        them when it ends. */
-    function onReplay() { stage.classList.remove("is-revealed"); try { video.currentTime = 0; } catch (e) {} const pr = video.play(); if (pr && typeof pr.catch === "function") pr.catch(onRefused); }
+    function onReplay() { stage.classList.remove("is-revealed"); try { video.currentTime = 0; } catch (e) {} video.playbackRate = 0.8125; const pr = video.play(); if (pr && typeof pr.catch === "function") pr.catch(onRefused); }
     video.addEventListener("ended", onEnded);
 
     /* Reduced motion: no scrub, no autoplay. Show the resolved composition —
@@ -96,7 +96,7 @@ function Hero() {
     const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
     const ease = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
 
-    function tryPlay() { if (!video.src) video.src = src; const pr = video.play(); if (pr && typeof pr.catch === "function") pr.catch(onRefused); }
+    function tryPlay() { if (!video.src) video.src = src; video.playbackRate = 0.8125; const pr = video.play(); if (pr && typeof pr.catch === "function") pr.catch(onRefused); }
     function setDocked(docked) {
       const was = stage.classList.contains("is-playing");
       if (docked === was) { if (docked && !finished && video.paused) tryPlay(); return; }
@@ -106,8 +106,12 @@ function Hero() {
       else if (!video.paused) video.pause();
     }
 
+    /* Cache viewport size so apply() never forces a layout reflow on every
+       scroll tick. Refreshed on resize (which already goes through rAF). */
+    let cachedVw = window.innerWidth, cachedVh = window.innerHeight;
+
     function apply(p) {
-      const vw = window.innerWidth, vh = window.innerHeight;
+      const vw = cachedVw, vh = cachedVh;
       const raw = p < DOCK_END ? p / DOCK_END : 1; // 0 hero → 1 docked
       const u = 1 - raw;
       const k = ease(raw);                          // 0 hero → 1 exit
@@ -131,7 +135,7 @@ function Hero() {
     }
 
     function progress() {
-      const range = wrap.offsetHeight - window.innerHeight;
+      const range = wrap.offsetHeight - cachedVh;
       return range > 0 ? clamp((window.pageYOffset - wrap.offsetTop) / range, 0, 1) : 0;
     }
     let ticking = false;
@@ -140,13 +144,18 @@ function Hero() {
       ticking = true;
       requestAnimationFrame(() => { apply(progress()); ticking = false; });
     }
+    function onResize() {
+      cachedVw = window.innerWidth;
+      cachedVh = window.innerHeight;
+      onScroll();
+    }
 
     apply(progress());
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
+    window.addEventListener("resize", onResize);
     return () => {
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
+      window.removeEventListener("resize", onResize);
       video.removeEventListener("ended", onEnded);
       if (replay) replay.removeEventListener("click", onReplay);
     };
