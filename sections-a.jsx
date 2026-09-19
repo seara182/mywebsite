@@ -194,6 +194,11 @@ function Hero() {
                 {t("hero.eyebrow")}
               </span>
             </div>
+            <div style={{ overflow: "hidden", marginBottom: 8 }}>
+              <span className="hero-line" style={{ display: "inline-block", fontFamily: "var(--font-text)", fontSize: "var(--fs-label)", fontWeight: 600, letterSpacing: "var(--ls-label)", textTransform: "uppercase", color: "var(--label)", transform: mounted ? "none" : "translateY(120%)", opacity: mounted ? 1 : 0, transition: "transform 0.7s var(--ease-emphasized) " + (HERO_T.eyebrow + 80) + "ms, opacity 0.7s ease " + (HERO_T.eyebrow + 80) + "ms" }}>
+                {t("hero.eyebrow2")}
+              </span>
+            </div>
             <h1 className="hero-name" style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "var(--fs-display-hero)", lineHeight: 0.98, letterSpacing: "var(--ls-display)", color: "var(--ink)", margin: 0 }}>
               {words.map((w, i) => (
                 <span key={i} style={{ display: "block", overflow: "hidden", paddingBottom: "0.14em", marginBottom: "-0.14em" }}>

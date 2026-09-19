@@ -67,7 +67,7 @@
         title: "Mika Jeske — Werkstoffwissenschaft & Messtechnik",
         description: "Mika Jeske, Werkstoffwissenschaftler (B.Sc.) mit Fokus auf Messtechnik, Sensorik und zerstörungsfreie Prüfung. Ab Oktober 2026 Master in Metrologie und Messtechnik in Braunschweig; auf der Suche nach einer Werkstudentenstelle und nach Ehrenämtern.",
       },
-      hero: { eyebrow: "Werkstoffwissenschaft · B.Sc.", scrollHint: "Scroll", aiImageLabel: "KI-bearbeitetes Bild" },
+      hero: { eyebrow: "Werkstoffwissenschaft · B.Sc.", eyebrow2: "Metrologie · M.Sc.", scrollHint: "Scroll", aiImageLabel: "KI-bearbeitetes Bild" },
       trailer: { cv: "Lebenslauf", story: "Der kleine Maßstab", cheapseats: "CheapSeats", volunteering: "Ehrenamt", caption: "Wähle einen Weg hinein — oder erkunde durch Scrollen", enterLabel: "Zur Seite", replay: "Erneut abspielen" },
       intro: {
         eyebrow: "Moin.",
@@ -323,7 +323,7 @@
         title: "Mika Jeske — Materials Science & Measurement",
         description: "Mika Jeske, materials scientist (B.Sc.) focused on measurement technology, sensor technology and non-destructive testing. Starting the Master in Metrology and Measurement Technology in Braunschweig in October 2026; looking for a working-student role and for volunteer work.",
       },
-      hero: { eyebrow: "Materials Science · B.Sc.", scrollHint: "Scroll", aiImageLabel: "AI-edited image" },
+      hero: { eyebrow: "Materials Science · B.Sc.", eyebrow2: "Metrology · M.Sc.", scrollHint: "Scroll", aiImageLabel: "AI-edited image" },
       trailer: { cv: "CV", story: "The small scale", cheapseats: "CheapSeats", volunteering: "Volunteering", caption: "Click a way in — or explore through scrolling", enterLabel: "Enter the site", replay: "Replay" },
       intro: {
         eyebrow: "Hey.",
@@ -579,7 +579,7 @@
         title: "Mika Jeske — Science des matériaux & métrologie",
         description: "Mika Jeske, scientifique des matériaux (B.Sc.) spécialisé en métrologie, capteurs et contrôle non destructif. Master en métrologie et techniques de mesure à Brunswick à partir d’octobre 2026 ; à la recherche d’un poste d’étudiant salarié et de missions bénévoles.",
       },
-      hero: { eyebrow: "Science des matériaux · B.Sc.", scrollHint: "Scroll", aiImageLabel: "Image retouchée par IA" },
+      hero: { eyebrow: "Science des matériaux · B.Sc.", eyebrow2: "Métrologie · M.Sc.", scrollHint: "Scroll", aiImageLabel: "Image retouchée par IA" },
       trailer: { cv: "Parcours", story: "La petite échelle", cheapseats: "CheapSeats", volunteering: "Bénévolat", caption: "Choisissez une entrée — ou explorez en faisant défiler", enterLabel: "Entrer sur le site", replay: "Revoir" },
       intro: {
         eyebrow: "Salut.",
@@ -835,7 +835,7 @@
         title: "Mika Jeske — Ciencia de materiales y metrología",
         description: "Mika Jeske, científico de materiales (B.Sc.) centrado en metrología, sensórica y ensayos no destructivos. Máster en Metrología y Técnicas de Medición en Brunswick desde octubre de 2026; en busca de un puesto de estudiante en prácticas y de voluntariado.",
       },
-      hero: { eyebrow: "Ciencia de materiales · B.Sc.", scrollHint: "Scroll", aiImageLabel: "Imagen editada con IA" },
+      hero: { eyebrow: "Ciencia de materiales · B.Sc.", eyebrow2: "Metrología · M.Sc.", scrollHint: "Scroll", aiImageLabel: "Imagen editada con IA" },
       trailer: { cv: "Trayectoria", story: "La pequeña escala", cheapseats: "CheapSeats", volunteering: "Voluntariado", caption: "Elige una entrada — o explora desplazándote", enterLabel: "Entrar en el sitio", replay: "Repetir" },
       intro: {
         eyebrow: "Hola.",
@@ -1104,7 +1104,7 @@
         title: "Mika Jeske — Scienza dei materiali e metrologia",
         description: "Mika Jeske, scienziato dei materiali (B.Sc.) specializzato in metrologia, sensoristica e controlli non distruttivi. Master in Metrologia e tecniche di misura a Braunschweig da ottobre 2026; in cerca di un impiego da studente lavoratore e di attività di volontariato.",
       },
-      hero: { eyebrow: "Scienza dei materiali · B.Sc.", scrollHint: "Scroll", aiImageLabel: "Immagine modificata con IA" },
+      hero: { eyebrow: "Scienza dei materiali · B.Sc.", eyebrow2: "Metrologia · M.Sc.", scrollHint: "Scroll", aiImageLabel: "Immagine modificata con IA" },
       trailer: { cv: "Percorso", story: "La piccola scala", cheapseats: "CheapSeats", volunteering: "Volontariato", caption: "Scegli un ingresso — o esplora scorrendo", enterLabel: "Entra nel sito", replay: "Riproduci di nuovo" },
       intro: {
         eyebrow: "Ciao.",

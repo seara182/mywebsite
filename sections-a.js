@@ -450,7 +450,26 @@ function Hero() {
       opacity: mounted ? 1 : 0,
       transition: "transform 0.7s var(--ease-emphasized) " + HERO_T.eyebrow + "ms, opacity 0.7s ease " + HERO_T.eyebrow + "ms"
     }
-  }, t("hero.eyebrow"))), /*#__PURE__*/React.createElement("h1", {
+  }, t("hero.eyebrow"))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      overflow: "hidden",
+      marginBottom: 8
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "hero-line",
+    style: {
+      display: "inline-block",
+      fontFamily: "var(--font-text)",
+      fontSize: "var(--fs-label)",
+      fontWeight: 600,
+      letterSpacing: "var(--ls-label)",
+      textTransform: "uppercase",
+      color: "var(--label)",
+      transform: mounted ? "none" : "translateY(120%)",
+      opacity: mounted ? 1 : 0,
+      transition: "transform 0.7s var(--ease-emphasized) " + (HERO_T.eyebrow + 80) + "ms, opacity 0.7s ease " + (HERO_T.eyebrow + 80) + "ms"
+    }
+  }, t("hero.eyebrow2"))), /*#__PURE__*/React.createElement("h1", {
     className: "hero-name",
     style: {
       fontFamily: "var(--font-display)",
