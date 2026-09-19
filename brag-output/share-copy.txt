@@ -1,0 +1,38 @@
+=== LinkedIn (primary) ===
+
+I gave my corner of the web a proper look — a 20-second tour of mika-jeske.de. 🎬
+
+Materials science, measurement, thin films and NDT — plus the side of the work that
+matters just as much: volunteering, collaborations, and the things I build for fun.
+
+One of those is CheapSeats: a desktop scoreboard for any NFL or MLB club, built with
+Tauri 2 (Rust), React 19 + TypeScript and Vite — no account, no telemetry, in English
+and German.
+
+I'm looking for a working-student role alongside my Master (from November 2026), around
+Braunschweig — measurement, sensors, thin films, NDT.
+
+Take the tour 👇  mika-jeske.de
+
+#MaterialsScience #Werkstoffwissenschaft #Werkstudent #NDT #ThinFilms #Rust #React
+
+
+=== Short (X / caption) ===
+
+A 20-second tour of mika-jeske.de — materials science, measurement, and the things
+I build (like CheapSeats, a Rust + React desktop scoreboard). 🎬 mika-jeske.de
+
+
+=== One-liner ===
+
+mika-jeske.de, in 20 seconds — plum, sage, and everything I'm working on.
+
+
+=== Alt text ===
+
+A ~14-second, light-mode motion piece for the personal site mika-jeske.de, cut like fast
+pages in a book: a plum title card ("Measurement, sensors, thin films & NDT"), a photo at
+the DGZfP fair, cleanroom and thin-film research shots with an animated Seebeck chart and
+the DGZfP Science Student Award 2025, a working-student role, several volunteering photos
+under "Engagement that matters to me", and the CheapSeats desktop app shown with real
+screenshots — closing on the "Mika Jeske" wordmark and "Let's build something measurable."

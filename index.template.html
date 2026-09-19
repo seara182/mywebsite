@@ -59,8 +59,12 @@
 <script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L"></script>
 <script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm"></script>
 <style>
-  html { scroll-behavior: smooth; overflow-x: hidden; }
-  body { margin: 0; background: var(--paper); overflow-x: hidden; }
+  /* clip, not hidden: `overflow-x: hidden` turns html/body into scroll
+     containers, which breaks the trailer hero's `position: sticky` pin. `clip`
+     still suppresses horizontal scroll without creating a scroll container. */
+  html { scroll-behavior: smooth; overflow-x: clip; }
+  body { margin: 0; background: var(--paper); overflow-x: clip; }
+  @supports not (overflow: clip) { html, body { overflow-x: hidden; } }
   @keyframes scrollHint { 0% { transform: translateY(-100%); } 60%,100% { transform: translateY(220%); } }
 
   /* owns the stacking context for the depth planes */
@@ -280,17 +284,64 @@
     }
     .js-reveal { transition: opacity var(--dur-reveal) linear !important; }
     .hero-line, .hero-photo, .hero-hint { transition: opacity .3s linear !important; }
+
+    /* trailer: no scrub, no pin, no autoplay. The effect adds is-playing +
+       is-revealed on mount; this collapses the pin and shows the resolved
+       composition — poster + ways in + caption, name/portrait faded out. */
+    .herostage-wrap { height: auto !important; }
+    .hero.herostage { position: static !important; height: 100vh !important; height: 100svh !important; }
+    .herostage__video, .herostage__scrim { opacity: 1 !important; transition: none !important; }
+    .herostage .hero-namewrap, .herostage .hero-photo, .herostage__ambient, .herostage .hero-hint { opacity: 0 !important; }
+    .herostage .tl { visibility: visible !important; opacity: 1 !important; transform: none !important; transition: none !important; pointer-events: auto !important; }
+    .herostage.is-revealed .tl__c, .herostage .tl__c { animation: none !important; }
+    .herostage__caption { opacity: .95 !important; transform: translateX(-50%) !important; transition: none !important; }
+    .herostage__replay { display: none !important; }
   }
 
-  /* clips sideways only, so the ambient shapes bleed past the bottom edge and
-     the plum band hides them along its wave instead of a hard straight cut */
-  .hero { min-height: 100vh; min-height: 100svh; overflow-x: clip; }
-  @supports not (overflow-x: clip) { .hero { overflow: hidden; } }
+  /* ===== scroll-trailer hero =====================================
+     .herostage-wrap is a tall scroll driver; .hero pins inside it. The extra
+     height is the scrub distance over which the name + portrait leave the frame
+     and the film rises. Keeping the class `hero` on the sticky stage means the
+     SectionSkipper's past-the-hero gate fires only once the trailer is done. */
+  .herostage-wrap { position: relative; height: 230vh; }
+  .hero.herostage {
+    position: sticky; top: 0;
+    height: 100vh; height: 100svh;
+    overflow: hidden; display: block;
+    background: var(--paper);
+  }
+
+  /* frameless film, always shown at FULL WIDTH (text must never be cropped).
+     The element box carries the source's own aspect, so it fills width and
+     letterboxes top/bottom when the window is taller than the film, or spills
+     past top/bottom (cropped by the stage) when the window is wider. */
+  .herostage__video {
+    position: absolute; left: 50%; top: 50%; z-index: 1;
+    transform: translate(-50%, -50%);
+    width: 100%; height: auto; aspect-ratio: 16 / 9;
+    opacity: 0; transition: opacity 0.6s var(--ease-emphasized);
+  }
+  .herostage.is-playing .herostage__video { opacity: 1; }
+  /* paper behind the film, so the letterbox bars blend into the page (and the
+     bottom bar meets the plum wave like every other paper→plum seam) */
+  .herostage.is-playing { background: var(--paper); }
+
+  /* edge scrims keep the ink name / caption legible once the film is behind them */
+  .herostage__scrim {
+    position: absolute; inset: 0; z-index: 2;
+    pointer-events: none; opacity: 0;
+    transition: opacity 0.6s var(--ease-emphasized);
+    background:
+      radial-gradient(120% 60% at 0% 0%, rgb(0 0 0 / 0.26), transparent 60%),
+      radial-gradient(120% 60% at 100% 0%, rgb(0 0 0 / 0.26), transparent 60%),
+      linear-gradient(to top, rgb(0 0 0 / 0.30), transparent 34%);
+  }
+  .herostage.is-playing .herostage__scrim { opacity: 1; }
 
   /* the name is the only text allowed out of the reading column */
-  .hero-namewrap { max-width: var(--content); margin-inline: auto; width: 100%; }
-  @media (min-width: 1760px) { .hero-namewrap { max-width: var(--content-wide); } }
-  @media (min-width: 2000px) { .hero-namewrap { max-width: var(--content-full); } }
+  .hero-namewrap__col { max-width: var(--content); margin-inline: auto; width: 100%; }
+  @media (min-width: 1760px) { .hero-namewrap__col { max-width: var(--content-wide); } }
+  @media (min-width: 2000px) { .hero-namewrap__col { max-width: var(--content-full); } }
   @media (min-width: 1760px) { .hero-name { letter-spacing: -0.032em; } }
 
   /* widescreen only: below 1440px it has no clearance from the name */
@@ -298,6 +349,98 @@
   @media (min-width: 1440px) {
     .hero-photo { display: block; }
   }
+
+  /* caption centred beneath the film; shown once the film has played */
+  .herostage__caption {
+    position: absolute; left: 50%; bottom: clamp(22px, 5vh, 52px); z-index: 6;
+    transform: translateX(-50%) translateY(8px); margin: 0; text-align: center;
+    font-family: var(--font-text); font-size: 13px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: #fff; text-shadow: 0 1px 14px rgb(0 0 0 / 0.55);
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.5s var(--ease-emphasized), transform 0.5s var(--ease-emphasized);
+  }
+  .herostage.is-revealed .herostage__caption { opacity: 0.95; transform: translateX(-50%) translateY(0); }
+
+  /* replay control — small blob, revealed with the ways in; click rewinds the
+     film. Sits centred above the caption. */
+  .herostage__replay {
+    position: absolute; left: 50%; top: clamp(20px, 4vh, 40px); z-index: 6;
+    transform: translateX(-50%) translateY(-8px) scale(0.6);
+    display: grid; place-items: center; padding: 0;
+    width: 40px; height: 40px; color: var(--ink); cursor: pointer;
+    background: var(--material-chrome);
+    -webkit-backdrop-filter: var(--blur-chrome); backdrop-filter: var(--blur-chrome);
+    border: 1px solid var(--chrome-hairline);
+    border-radius: 60% 40% 55% 45% / 55% 50% 50% 45%;
+    box-shadow: var(--shadow-md);
+    visibility: hidden; opacity: 0; pointer-events: none;
+    transition: opacity 0.3s var(--ease-spring), transform 0.3s var(--ease-spring), box-shadow 0.24s var(--ease-out);
+  }
+  .herostage__replay svg { width: 18px; height: 18px; }
+  .herostage__replay:hover { box-shadow: var(--shadow-lg); transform: translateX(-50%) scale(1.07); }
+  .herostage__replay:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+  .herostage.is-revealed .herostage__replay { visibility: visible; opacity: 1; transform: translateX(-50%) scale(1); pointer-events: auto; }
+
+  /* the four ways in — flank the film on the side edges, hidden until it ends.
+     Chrome + spring + letter-wave lifted from the language globe (i18n-ui.css). */
+  .trailer__rail {
+    position: absolute; inset: 0; z-index: 6;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 clamp(16px, 3vw, 56px); pointer-events: none;
+  }
+  .trailer__side { display: flex; flex-direction: column; justify-content: center; gap: clamp(20px, 5vh, 52px); }
+  .trailer__side[data-side="l"] { align-items: flex-start; }
+  .trailer__side[data-side="r"] { align-items: flex-end; }
+
+  .tl {
+    display: inline-flex; align-items: center; gap: 12px;
+    text-decoration: none; pointer-events: none;
+    /* visibility, not just opacity: an opacity-0 link is still focusable, so tab
+       would reach it before the film has played */
+    visibility: hidden; opacity: 0; transform: translateY(-10px) scale(0.5);
+    transition: opacity 0.3s var(--ease-spring), transform 0.3s var(--ease-spring);
+  }
+  .trailer__side[data-side="r"] .tl { flex-direction: row-reverse; }
+  .herostage.is-revealed .tl { visibility: visible; opacity: 1; transform: none; pointer-events: auto; }
+
+  .tl__ico {
+    flex: 0 0 auto; width: 48px; height: 48px;
+    display: grid; place-items: center; color: var(--ink);
+    background: var(--material-chrome);
+    -webkit-backdrop-filter: var(--blur-chrome); backdrop-filter: var(--blur-chrome);
+    border: 1px solid var(--chrome-hairline);
+    border-radius: 60% 40% 55% 45% / 55% 50% 50% 45%;
+    box-shadow: var(--shadow-md);
+    transition: transform 0.24s var(--ease-spring), box-shadow 0.24s var(--ease-out);
+  }
+  .tl:hover .tl__ico { transform: scale(1.06); box-shadow: var(--shadow-lg); }
+  .tl:focus-visible .tl__ico { outline: 2px solid var(--ink); outline-offset: 3px; }
+  .tl__ico svg { width: 22px; height: 22px; }
+
+  .tl__label {
+    display: inline-flex; white-space: nowrap;
+    font-family: var(--font-text); font-size: 13px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: #fff; text-shadow: 0 1px 12px rgb(0 0 0 / 0.6), 0 0 2px rgb(0 0 0 / 0.5);
+  }
+  .tl__c { display: inline-block; }
+  /* the letter wave only runs once the ways in are revealed */
+  .herostage.is-revealed .tl__c { animation: lang-wave 1.4s cubic-bezier(0.45, 0, 0.55, 1) infinite; }
+
+  /* portrait / narrow: no room for two flanking columns beside a 9:16 film — the
+     sides fold to a centred bottom cluster (2×2) above the caption */
+  @media (max-aspect-ratio: 3/4), (max-width: 1100px) {
+    .trailer__rail { flex-direction: column; justify-content: flex-end; align-items: center; gap: clamp(14px, 3.5vw, 26px); padding: 0 16px clamp(84px, 16vh, 130px); }
+    .trailer__side { flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: center; gap: clamp(16px, 6vw, 44px); }
+    .trailer__side[data-side="r"] .tl { flex-direction: row; }
+  }
+  /* portrait uses the 9:16 source (picked in JS at the same 3/4 threshold), so
+     the element box takes the portrait aspect; full width still holds */
+  @media (max-aspect-ratio: 3/4) {
+    .herostage__video { aspect-ratio: 9 / 16; }
+  }
+  @media (max-width: 480px) { .tl__label { font-size: 12px; letter-spacing: 0.06em; } }
 
   @media (max-width: 768px) {
     .align-block { margin-inline: auto !important; max-width: 100% !important; }
@@ -358,7 +501,17 @@
   <style>.js-reveal, .hero-line, .hero-photo { opacity: 1 !important; transform: none !important; filter: none !important; }
          .parallax { transform: none !important; }
          /* revealed by an observer, so without JS it would never appear */
-         .skipper { position: static; opacity: 1 !important; transform: none !important; pointer-events: auto !important; }</style>
+         .skipper { position: static; opacity: 1 !important; transform: none !important; pointer-events: auto !important; }
+         /* trailer: no scrub without JS. Keep the hero, drop the pin + film, and
+            let the four ways in flow below as reachable dark-on-light links. */
+         .herostage-wrap { height: auto !important; }
+         .hero.herostage { position: static !important; height: auto !important; min-height: 100vh; overflow: visible !important; }
+         .herostage__video, .herostage__scrim, .herostage__caption, .herostage__replay { display: none !important; }
+         .hero-namewrap, .hero-photo, .herostage__ambient { opacity: 1 !important; }
+         .trailer__rail { position: static !important; inset: auto; padding: 0 var(--gutter) 40px; }
+         .tl { visibility: visible !important; opacity: 1 !important; transform: none !important; pointer-events: auto !important; }
+         .tl__label { color: var(--text-body); text-shadow: none; }
+         .tl__c { animation: none !important; }</style>
 </noscript>
 </head>
 <body>

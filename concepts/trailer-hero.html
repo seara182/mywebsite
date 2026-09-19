@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Scroll trailer hero — concept (unlisted)</title>
+<meta name="description" content="Concept: the homepage hero docks its name and portrait into the corners, then plays the site trailer, then reveals the four ways in.">
+<meta name="author" content="Mika Jeske">
+<link rel="icon" href="../ci/icons/Favicon32x.ico">
+<link rel="apple-touch-icon" href="../ci/icons/Favicon128x.ico">
+<link rel="stylesheet" href="../ci/styles.css">
+<link rel="stylesheet" href="../ci/i18n-ui.css">
+<style id="trailer-hero">
+  /* ================================================================ base ==
+     A prototype of the eventual homepage hero. The hero (name + portrait) is
+     the first screen; scrolling docks both into the corners along a curved
+     path while the page appears to hold still, then the trailer plays, then
+     the four ways in appear. Reduced motion / no-JS collapse to the resolved
+     docked composition — nothing here depends on the scrub to be usable. */
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg, var(--paper));
+    color: var(--ink);
+    font-family: var(--font-text);
+    overflow-x: hidden;
+  }
+
+  /* --------------------------------------------------------------- stage --
+     .stage-wrap is a tall scroll driver; .stage pins inside it. The extra
+     height is the scrub distance for the dock plus a short hold. */
+  .stage-wrap { position: relative; height: 230vh; }
+  .stage {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+    background: var(--bg, var(--paper));
+  }
+
+  /* Frameless, full-bleed film. Covers any window aspect by cropping; a single
+     landscape source therefore fills 4:3 → 32:9 without letterboxing. Hidden
+     until the dock completes, then materialised. */
+  .stage-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.6s var(--ease-emphasized, ease);
+    z-index: 1;
+  }
+  .stage.is-playing .stage-video { opacity: 1; }
+
+  /* Edge scrims: keep the docked ink name (top-left), portrait (top-right) and
+     caption (bottom) legible once the bright film is behind them. Fade in with
+     the film. */
+  .stage-scrim {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.6s var(--ease-emphasized, ease);
+    z-index: 2;
+    background:
+      radial-gradient(120% 60% at 0% 0%, rgb(0 0 0 / 0.28), transparent 60%),
+      radial-gradient(120% 60% at 100% 0%, rgb(0 0 0 / 0.28), transparent 60%),
+      linear-gradient(to top, rgb(0 0 0 / 0.30), transparent 32%);
+  }
+  .stage.is-playing .stage-scrim { opacity: 1; }
+
+  /* ------------------------------------------------------- docked pieces --
+     Both live in their DOCKED (resting) position and size in CSS. JS applies a
+     transform that lifts them into the big hero pose at scroll 0 and eases it
+     back to identity (docked) as you scroll. So the no-transform state — the
+     one reduced motion / no-JS see — is the finished composition. */
+  .dock-name {
+    position: absolute;
+    top: clamp(16px, 2.4vh, 34px);
+    left: clamp(16px, 2.6vw, 44px);
+    z-index: 5;
+    transform-origin: top left;
+    will-change: transform;
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 0.96;
+    letter-spacing: var(--ls-display, -0.02em);
+    font-size: clamp(17px, 2.0vw, 26px);
+    color: var(--ink);
+    text-shadow: 0 1px 18px rgb(0 0 0 / 0), 0 1px 3px rgb(0 0 0 / 0);
+    transition: color 0.5s ease, text-shadow 0.5s ease;
+  }
+  .dock-name span { display: block; }
+  .stage.is-playing .dock-name {
+    color: #fff;
+    text-shadow: 0 1px 18px rgb(0 0 0 / 0.45), 0 1px 3px rgb(0 0 0 / 0.5);
+  }
+
+  .dock-eyebrow {
+    display: block;
+    font-family: var(--font-text);
+    font-size: clamp(9px, 0.8vw, 11px);
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--label, var(--text-body));
+    margin-bottom: 0.5em;
+    transition: color 0.5s ease, opacity 0.4s ease;
+  }
+  .stage.is-playing .dock-eyebrow { color: rgb(255 255 255 / 0.82); }
+
+  .dock-face {
+    position: absolute;
+    top: clamp(12px, 1.8vh, 28px);
+    right: clamp(14px, 2.4vw, 40px);
+    z-index: 4;
+    transform-origin: top right;
+    will-change: transform;
+    height: clamp(84px, 12vh, 148px);
+    pointer-events: none;
+  }
+  .dock-face img { display: block; height: 100%; width: auto; }
+
+  /* Scroll invitation on the first screen; fades out as the dock begins. */
+  .stage-hint {
+    position: absolute;
+    left: 50%;
+    bottom: clamp(20px, 4vh, 40px);
+    transform: translateX(-50%);
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    color: var(--ink);
+    transition: opacity 0.4s ease;
+  }
+  .stage-hint span:first-child {
+    font-family: var(--font-text);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px var(--bg, #fff), 0 0 18px var(--bg, #fff);
+  }
+  .stage-hint .scroll-dot {
+    width: 2px; height: 42px; border-radius: 2px;
+    background: var(--hairline-strong, rgb(0 0 0 / 0.3));
+    position: relative; overflow: hidden;
+  }
+  .stage-hint .scroll-dot > span {
+    position: absolute; top: 0; left: 0; width: 100%; height: 16px;
+    background: var(--ink);
+    animation: dot-run 1.8s var(--ease-in-out, ease-in-out) infinite;
+  }
+  @keyframes dot-run {
+    0%   { transform: translateY(-100%); }
+    100% { transform: translateY(280%); }
+  }
+
+  /* --------------------------------------------------------------- caption --
+     Centred beneath the film. Hidden until the trailer has played. */
+  .stage-caption {
+    position: absolute;
+    left: 50%;
+    bottom: clamp(22px, 5vh, 52px);
+    transform: translateX(-50%) translateY(8px);
+    z-index: 6;
+    text-align: center;
+    font-family: var(--font-text);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #fff;
+    text-shadow: 0 1px 14px rgb(0 0 0 / 0.55);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s var(--ease-emphasized, ease), transform 0.5s var(--ease-emphasized, ease);
+  }
+  .stage.is-revealed .stage-caption { opacity: 0.95; transform: translateX(-50%) translateY(0); }
+
+  /* ============================================================ the rail ==
+     The four ways in. Chrome + spring + letter-wave lifted from the language
+     globe (ci/i18n-ui.css) and the existing trailer facade — same piece of
+     chrome doing a different job. Positioned as overlays hugging the film's
+     side edges rather than flanking a bordered frame. */
+  .trailer__rail {
+    position: absolute;
+    inset: 0;
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 clamp(16px, 3vw, 56px);
+    pointer-events: none;
+  }
+  .trailer__side {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: clamp(20px, 5vh, 52px);
+  }
+  .trailer__side[data-side="l"] { align-items: flex-start; }
+  .trailer__side[data-side="r"] { align-items: flex-end; }
+
+  .tl {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    pointer-events: none;
+    /* visibility, not just opacity: an opacity-0 link is still focusable, so
+       tab would reach it before the trailer has played. */
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-10px) scale(0.5);
+    transition: opacity 0.3s var(--ease-spring, ease), transform 0.3s var(--ease-spring, ease);
+  }
+  .trailer__side[data-side="r"] .tl { flex-direction: row-reverse; }
+  .stage.is-revealed .tl { visibility: visible; opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+
+  .tl__ico {
+    flex: 0 0 auto;
+    width: 48px; height: 48px;
+    display: grid; place-items: center;
+    color: var(--ink);
+    background: var(--material-chrome, rgb(255 255 255 / 0.7));
+    -webkit-backdrop-filter: var(--blur-chrome, blur(14px));
+    backdrop-filter: var(--blur-chrome, blur(14px));
+    border: 1px solid var(--chrome-hairline, rgb(255 255 255 / 0.5));
+    border-radius: 60% 40% 55% 45% / 55% 50% 50% 45%;
+    box-shadow: var(--shadow-md, 0 6px 20px rgb(0 0 0 / 0.18));
+    transition: transform 0.24s var(--ease-spring, ease), box-shadow 0.24s var(--ease-out, ease);
+  }
+  .tl:hover .tl__ico { transform: scale(1.06); box-shadow: var(--shadow-lg, 0 12px 34px rgb(0 0 0 / 0.24)); }
+  .tl:focus-visible .tl__ico { outline: 2px solid var(--ink); outline-offset: 3px; }
+  .tl__ico svg { width: 22px; height: 22px; }
+
+  .tl__label {
+    display: inline-flex;
+    white-space: nowrap;
+    font-family: var(--font-text);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #fff;
+    text-shadow: 0 1px 12px rgb(0 0 0 / 0.6), 0 0 2px rgb(0 0 0 / 0.5);
+  }
+  .tl__c { display: inline-block; }
+  /* The letter wave only starts once the film has finished and the ways in are
+     revealed — not while they sit hidden. */
+  .stage.is-revealed .tl__c {
+    animation: lang-wave 1.4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  }
+
+  /* ================================================= after / rest of page ==
+     Stub content: proves the pin releases and "explore through scrolling"
+     keeps going into the real site. */
+  .after {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    padding: clamp(48px, 10vh, 120px) var(--gutter, 24px);
+    background: var(--paper);
+    border-top: 1px solid var(--hairline, rgb(0 0 0 / 0.1));
+  }
+  .after__inner { max-width: var(--content, 760px); margin-inline: auto; }
+  .after h2 { font-family: var(--font-display); font-size: clamp(28px, 4vw, 52px); margin: 0 0 0.4em; }
+  .after p { font-size: 1.05rem; line-height: 1.6; color: var(--text-body, #444); max-width: 60ch; }
+
+  /* ------------------------------------------------------------- portrait --
+     No room for two flanking columns beside a 9:16 film. The sides fold to a
+     centred cluster near the bottom, above the caption. The portrait dominates
+     no dock (it's hidden) — only the name docks. */
+  @media (max-aspect-ratio: 3/4), (max-width: 700px) {
+    .dock-face { display: none; }
+    /* Two rows of two, clustered together at the bottom above the caption —
+       not spread down the full height. */
+    .trailer__rail {
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      gap: clamp(14px, 3.5vw, 26px);
+      padding: 0 16px clamp(84px, 16vh, 130px);
+    }
+    .trailer__side {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: clamp(16px, 6vw, 44px);
+      width: auto;
+    }
+    .trailer__side[data-side="l"] { order: 1; }
+    .trailer__side[data-side="r"] { order: 2; }
+    .trailer__side[data-side="r"] .tl { flex-direction: row; }
+    .stage-caption { bottom: clamp(16px, 4vh, 30px); }
+  }
+
+  @media (max-width: 480px) {
+    .tl__label { font-size: 12px; letter-spacing: 0.06em; }
+  }
+
+  /* -------------------------------------------------------- reduced motion --
+     No scrub, no pin, no autoplay. Show the resolved docked composition on one
+     screen: name top-left, portrait top-right, poster behind, links + caption
+     already there. The JS below bails early; this decides the visible state. */
+  @media (prefers-reduced-motion: reduce) {
+    .stage-wrap { height: auto; }
+    .stage { position: static; height: 100vh; height: 100svh; }
+    .stage-video, .stage-scrim { opacity: 1 !important; transition: none !important; }
+    .dock-name { color: #fff; text-shadow: 0 1px 18px rgb(0 0 0 / 0.45), 0 1px 3px rgb(0 0 0 / 0.5); }
+    .dock-eyebrow { color: rgb(255 255 255 / 0.82); }
+    .stage-hint { display: none; }
+    .tl {
+      visibility: visible !important; opacity: 1 !important;
+      transform: none !important; transition: none !important; pointer-events: auto !important;
+    }
+    .tl__c { animation: none !important; }
+    .stage-caption { opacity: 0.95 !important; transform: translateX(-50%) !important; }
+  }
+</style>
+<noscript>
+  <style>
+    /* No JS means no film ever plays and no scrub runs. Fall back to the docked
+       composition with the ways in already usable; hide the empty film. */
+    .stage-wrap { height: auto; }
+    .stage { position: static; }
+    .stage-video, .stage-hint, .stage-scrim { display: none !important; }
+    .stage { background: var(--paper); }
+    .dock-name { color: var(--ink); text-shadow: none; }
+    .dock-eyebrow { color: var(--label, var(--text-body)); }
+    .tl { visibility: visible !important; opacity: 1 !important; transform: none !important; pointer-events: auto !important; }
+    .tl__label { color: var(--text-body); text-shadow: none; }
+    .tl__c { animation: none !important; }
+    .stage-caption { opacity: 0.95 !important; transform: translateX(-50%) !important; color: var(--ink); text-shadow: none; }
+  </style>
+</noscript>
+</head>
+<body>
+  <div class="stage-wrap" id="stage-wrap">
+    <div class="stage" id="stage">
+      <video id="stage-video" class="stage-video" muted playsinline preload="auto" disablepictureinpicture></video>
+      <div class="stage-scrim" aria-hidden="true"></div>
+
+      <h1 class="dock-name" id="dock-name">
+        <span class="dock-eyebrow">Materials Science &amp; Measurement</span>
+        <span>Mika</span>
+        <span>Jeske</span>
+      </h1>
+
+      <div class="dock-face" id="dock-face" aria-hidden="true">
+        <img src="../ci/assets/Bilder/Weitere/site_header.png" alt="Mika Jeske">
+      </div>
+
+      <div class="trailer__rail" id="trailer-rail">
+        <nav class="trailer__side" data-side="l" aria-label="Enter the site">
+          <a class="tl" href="/#lebenslauf" aria-label="CV" style="transition-delay:0ms"><span class="tl__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></span><span class="tl__label" aria-hidden="true"><span class="tl__c" style="animation-delay:0ms">C</span><span class="tl__c" style="animation-delay:80ms">V</span></span></a>
+          <a class="tl" href="/#story" aria-label="The small scale" style="transition-delay:70ms"><span class="tl__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M16.2 16.2 20.5 20.5"/><rect x="9.2" y="9.2" width="3.6" height="3.6" rx="0.6"/></svg></span><span class="tl__label" aria-hidden="true"><span class="tl__c" style="animation-delay:0ms">T</span><span class="tl__c" style="animation-delay:80ms">h</span><span class="tl__c" style="animation-delay:160ms">e</span><span class="tl__c" style="animation-delay:240ms">&nbsp;</span><span class="tl__c" style="animation-delay:320ms">s</span><span class="tl__c" style="animation-delay:400ms">m</span><span class="tl__c" style="animation-delay:480ms">a</span><span class="tl__c" style="animation-delay:560ms">l</span><span class="tl__c" style="animation-delay:640ms">l</span><span class="tl__c" style="animation-delay:720ms">&nbsp;</span><span class="tl__c" style="animation-delay:800ms">s</span><span class="tl__c" style="animation-delay:880ms">c</span><span class="tl__c" style="animation-delay:960ms">a</span><span class="tl__c" style="animation-delay:1040ms">l</span><span class="tl__c" style="animation-delay:1120ms">e</span></span></a>
+        </nav>
+        <nav class="trailer__side" data-side="r" aria-label="Enter the site">
+          <a class="tl" href="/projects/cheapseats/" aria-label="CheapSeats" style="transition-delay:140ms"><span class="tl__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M12 6v12"/><path d="M6 10.5h3M15 10.5h3"/></svg></span><span class="tl__label" aria-hidden="true"><span class="tl__c" style="animation-delay:0ms">C</span><span class="tl__c" style="animation-delay:80ms">h</span><span class="tl__c" style="animation-delay:160ms">e</span><span class="tl__c" style="animation-delay:240ms">a</span><span class="tl__c" style="animation-delay:320ms">p</span><span class="tl__c" style="animation-delay:400ms">S</span><span class="tl__c" style="animation-delay:480ms">e</span><span class="tl__c" style="animation-delay:560ms">a</span><span class="tl__c" style="animation-delay:640ms">t</span><span class="tl__c" style="animation-delay:720ms">s</span></span></a>
+          <a class="tl" href="/#ehrenamt" aria-label="Volunteering" style="transition-delay:210ms"><span class="tl__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><circle cx="17.2" cy="9.4" r="2.2"/><path d="M3.6 19a5.4 5.4 0 0 1 10.8 0"/><path d="M15.6 14.4a4.6 4.6 0 0 1 4.8 4.6"/></svg></span><span class="tl__label" aria-hidden="true"><span class="tl__c" style="animation-delay:0ms">V</span><span class="tl__c" style="animation-delay:80ms">o</span><span class="tl__c" style="animation-delay:160ms">l</span><span class="tl__c" style="animation-delay:240ms">u</span><span class="tl__c" style="animation-delay:320ms">n</span><span class="tl__c" style="animation-delay:400ms">t</span><span class="tl__c" style="animation-delay:480ms">e</span><span class="tl__c" style="animation-delay:560ms">e</span><span class="tl__c" style="animation-delay:640ms">r</span><span class="tl__c" style="animation-delay:720ms">i</span><span class="tl__c" style="animation-delay:800ms">n</span><span class="tl__c" style="animation-delay:880ms">g</span></span></a>
+        </nav>
+      </div>
+
+      <p class="stage-caption" id="stage-caption">Click a way in — or explore through scrolling</p>
+
+      <div class="stage-hint" id="stage-hint" aria-hidden="true">
+        <span>Scroll</span>
+        <span class="scroll-dot"><span></span></span>
+      </div>
+    </div>
+  </div>
+
+  <section class="after" id="after">
+    <div class="after__inner">
+      <h2>The rest of the site</h2>
+      <p>Scrolling past the trailer releases the pin and continues into the page — the same
+         content the four links jump to (CV, the small scale, CheapSeats, volunteering). This
+         stub only exists so the prototype can prove the hand-off is clean.</p>
+    </div>
+  </section>
+
+<script>
+/* Single script. Scrubbed dock (name → top-left, portrait → top-right along a
+   curved arc), film on completion, four ways in on the film ending. */
+(function () {
+  var wrap    = document.getElementById("stage-wrap");
+  var stage   = document.getElementById("stage");
+  var video   = document.getElementById("stage-video");
+  var name    = document.getElementById("dock-name");
+  var face    = document.getElementById("dock-face");
+  var hint    = document.getElementById("stage-hint");
+  if (!wrap || !stage || !video) return;
+
+  var mm = window.matchMedia;
+  var reduce = mm && mm("(prefers-reduced-motion: reduce)").matches;
+
+  /* -- source: one portrait, one landscape. cover-fit handles every other AR. */
+  var portrait = mm && mm("(max-aspect-ratio: 3/4)").matches;
+  var base = portrait ? "assets/brag-hero-9x16" : "assets/brag-hero-16x9";
+  video.poster = base + ".jpg";
+  video.src = base + ".mp4";
+
+  /* -- the film only counts as "played" once it has run to its end. That, plus
+        being docked, is what reveals the four ways in — and the reveal reverses
+        cleanly when you scroll back up. Autoplay refusal (iOS Low Power) counts
+        as finished so the ways in are never unreachable. */
+  var finished = false;
+  video.addEventListener("ended", function () {
+    finished = true;
+    if (stage.classList.contains("is-playing")) stage.classList.add("is-revealed");
+  }, { once: true });
+
+  /* -- reduced motion: CSS already shows the resolved composition (poster, name
+        top-left, portrait top-right, ways in + caption). No autoplay, no scrub. */
+  if (reduce) { return; }
+
+  /* ---- dock geometry, recomputed on resize ------------------------------- */
+  var DOCK_END = 0.62;   // scroll fraction at which the dock finishes
+  var PLAY_AT  = 0.9;    // dock fraction at which the film starts
+  var NAME_SCALE = 3.15; // how much bigger the name is in the hero pose
+  var geo = { name: null, face: null };
+
+  /* Enter/leave the docked "film" state. Reversible: scrolling back up hides the
+     film and the ways in and restores the clean hero pose; scrolling back down
+     resumes the film (or, if it already finished, shows the ways in again). */
+  function setDocked(docked) {
+    var wasDocked = stage.classList.contains("is-playing");
+    if (docked === wasDocked) {
+      if (docked && !finished && video.paused) video.play().catch(onRefused);
+      return;
+    }
+    stage.classList.toggle("is-playing", docked);
+    stage.classList.toggle("is-revealed", docked && finished);
+    if (docked) {
+      if (!finished && video.paused) video.play().catch(onRefused);
+    } else if (!video.paused) {
+      video.pause(); // scrubbed away from the film — hold, don't play behind the hero
+    }
+  }
+  function onRefused() { finished = true; if (stage.classList.contains("is-playing")) stage.classList.add("is-revealed"); }
+
+  function ease(t) { return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2; } // easeInOutCubic
+
+  function measure() {
+    var vh = window.innerHeight, vw = window.innerWidth;
+
+    // NAME: docked top-left → hero pose big + vertically centred, slight arc.
+    var nr = name.getBoundingClientRect();
+    // current rect is at whatever transform is applied; neutralise by reading
+    // its docked box from offsetTop/Left + unscaled size.
+    var nTop = name.offsetTop, nLeft = name.offsetLeft;
+    var nH = name.offsetHeight, nW = name.offsetWidth;
+    var nScaledH = nH * NAME_SCALE;
+    geo.name = {
+      dx: 0,                                       // stays anchored left
+      dy: vh * 0.5 - nTop - nScaledH * 0.5,        // drop to vertical centre
+      scale: NAME_SCALE,
+      bow: Math.min(vw * 0.06, 90)                 // rightward arc mid-travel
+    };
+
+    // FACE: docked top-right → hero pose tall, anchored bottom-right.
+    if (face && getComputedStyle(face).display !== "none") {
+      var fTop = face.offsetTop;
+      var fRightGap = vw - (face.offsetLeft + face.offsetWidth); // docked right inset
+      var fH = face.offsetHeight;
+      var targetH = Math.max(520, Math.min(vh * 0.66, 820));
+      var fScale = targetH / fH;
+      var fScaledH = fH * fScale;
+      var heroRight = Math.max(80, Math.min(vw * 0.15, 340));
+      geo.face = {
+        dx: -(heroRight - fRightGap),               // slide left into hero inset
+        dy: vh - fTop - fScaledH,                   // sit on the bottom edge
+        scale: fScale,
+        bow: Math.min(vh * 0.05, 70)                // downward arc mid-travel
+      };
+    } else {
+      geo.face = null;
+    }
+  }
+
+  function apply(p) {
+    var raw = p < DOCK_END ? p / DOCK_END : 1;      // 0 (hero) → 1 (docked)
+    var u = 1 - raw;                                 // 1 at scroll top, 0 docked
+    var eu = ease(u);
+    var arc = Math.sin(Math.PI * raw);               // 0 at both ends, 1 mid
+
+    if (geo.name) {
+      var g = geo.name;
+      var x = g.dx * eu + g.bow * arc;
+      var y = g.dy * eu;
+      var s = 1 + (g.scale - 1) * eu;
+      name.style.transform = "translate(" + x + "px," + y + "px) scale(" + s + ")";
+    }
+    if (geo.face) {
+      var f = geo.face;
+      var fx = f.dx * eu;
+      var fy = f.dy * eu + f.bow * arc;
+      var fs = 1 + (f.scale - 1) * eu;
+      face.style.transform = "translate(" + fx + "px," + fy + "px) scale(" + fs + ")";
+    }
+
+    // scroll hint fades out the moment the dock starts.
+    if (hint) hint.style.opacity = u > 0.92 ? String((u - 0.92) / 0.08) : "0";
+
+    // film + ways in: on once docked, off (cleanly) when scrubbed back up.
+    setDocked(raw >= PLAY_AT);
+  }
+
+  /* ---- scroll driver, rAF-throttled -------------------------------------- */
+  var ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () {
+      var wrapTop = wrap.offsetTop;
+      var range = wrap.offsetHeight - window.innerHeight;
+      var p = range > 0 ? (window.scrollY - wrapTop) / range : 0;
+      p = p < 0 ? 0 : p > 1 ? 1 : p;
+      apply(p);
+      ticking = false;
+    });
+  }
+
+  measure();
+  apply(0);
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", function () { measure(); onScroll(); });
+})();
+</script>
+</body>
+</html>

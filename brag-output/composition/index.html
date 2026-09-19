@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face { font-family:"SF Pro Display"; font-weight:400; src:url("assets/fonts/SF-Pro-Display-Regular.otf") format("opentype"); }
+      @font-face { font-family:"SF Pro Display"; font-weight:500; src:url("assets/fonts/SF-Pro-Display-Medium.otf") format("opentype"); }
+      @font-face { font-family:"SF Pro Display"; font-weight:600; src:url("assets/fonts/SF-Pro-Display-Semibold.otf") format("opentype"); }
+      @font-face { font-family:"SF Pro Display"; font-weight:700; src:url("assets/fonts/SF-Pro-Display-Bold.otf") format("opentype"); }
+
+      :root {
+        --paper:#F6F6F7; --paper-2:#EFEFF1; --paper-3:#E4E4E8;
+        --ink:#15151A; --text:#3C3C45; --muted:#565660; --hairline:#E2E2E7; --hairline-2:#CECED5;
+        --plum:#4E2454; --plum-deep:#351839; --lilac:#D88DE2;
+        --sage:#2C6849; --sage-deep:#1E4A33; --mint:#81DAAC; --honey:#ECC77B;
+        --on-dark:#F7F7F9; --on-dark-body:#DFDFE4;
+        --font:"SF Pro Display", -apple-system, system-ui, sans-serif;
+        --mono: ui-monospace, monospace;
+      }
+      * { margin:0; padding:0; box-sizing:border-box; }
+      html, body { margin:0; width:1920px; height:1080px; overflow:hidden; background:var(--paper); }
+      #root { width:100%; height:100%; font-family:var(--font); color:var(--text); background:var(--paper); }
+      .clip { position:absolute; inset:0; }
+      .scene { background:var(--paper); overflow:hidden; }
+      .mask { display:block; overflow:hidden; }
+      .eyebrow { display:inline-block; font-family:var(--font); font-weight:600; font-size:22px;
+        letter-spacing:.30em; text-transform:uppercase; color:var(--muted); }
+      .eyebrow.on-dark { color:var(--on-dark); } .eyebrow.mint { color:var(--mint); }
+      .head { font-family:var(--font); font-weight:600; letter-spacing:-.02em; color:var(--ink); }
+
+      /* full-bleed photo splash */
+      .splash { background:#000; }
+      .splash img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+      .cap { position:absolute; left:48px; bottom:46px; z-index:3; font-family:var(--mono);
+        font-size:23px; letter-spacing:.04em; color:#fff; padding:11px 17px; border-radius:11px;
+        background:rgba(12,12,16,.52); -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px); }
+      /* 2-up photo page */
+      .half { position:absolute; top:0; bottom:0; width:50%; overflow:hidden; background:#000; }
+      .half.l { left:0; } .half.r { left:50%; box-shadow:inset 5px 0 0 var(--paper); }
+      .half img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+
+      /* 1 · Opener (plum) */
+      #s-open { background:var(--plum); background-image:radial-gradient(60% 80% at 85% 12%, rgba(216,141,226,.20), transparent 55%); }
+      .op-copy { position:absolute; left:120px; top:50%; transform:translateY(-50%); z-index:2; width:1500px; }
+      .op-head { font-family:var(--font); font-weight:700; font-size:96px; line-height:1.03;
+        letter-spacing:-.03em; color:var(--on-dark); margin-top:26px; max-width:16ch; }
+
+      /* 6 · Research/chart */
+      .rs-copy { position:absolute; left:120px; top:50%; transform:translateY(-50%); z-index:3; width:560px; }
+      .rs-head { font-size:60px; line-height:1.06; max-width:12ch; margin-top:20px; }
+      .award-pill { display:inline-flex; align-items:center; gap:12px; margin-top:32px; padding:14px 20px;
+        border-radius:999px; background:rgba(236,199,123,.20); border:1px solid rgba(236,199,123,.55); }
+      .award-pill .star { width:34px; height:34px; border-radius:50%; flex:none; display:grid; place-items:center;
+        background:radial-gradient(circle at 34% 30%, #fff, var(--honey) 62%, #d9a94e); font-size:17px; }
+      .award-pill .t { font-family:var(--font); font-weight:600; font-size:20px; color:#7a5a16; letter-spacing:-.01em; }
+      .chartwrap { position:absolute; right:150px; top:50%; transform:translateY(-50%); z-index:2; width:660px; }
+      .chart-cap { font-family:var(--mono); font-size:19px; color:var(--muted); margin-top:8px; text-align:right; }
+      #seebeck-line { fill:none; stroke:var(--plum); stroke-width:5; stroke-linecap:round; stroke-linejoin:round; }
+      .axis { stroke:var(--hairline-2); stroke-width:1.5; } .axis-lbl { font-family:var(--mono); font-size:19px; fill:var(--muted); }
+      .dotpt { fill:var(--plum); }
+
+      /* 7 · Seeking */
+      .seek-copy { position:absolute; left:120px; right:120px; top:180px; z-index:3; }
+      .seek-head { font-size:70px; line-height:1.06; max-width:20ch; margin-top:22px; }
+      .rows { margin-top:44px; max-width:1240px; }
+      .row { display:flex; align-items:baseline; gap:48px; padding:24px 0; border-top:1px solid var(--hairline); }
+      .row .k { flex:0 0 290px; font-family:var(--mono); font-size:22px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
+      .row .v { font-family:var(--font); font-weight:500; font-size:34px; color:var(--ink); }
+
+      /* 11 · Volunteering title (sage) */
+      #s-voltitle { background:var(--sage); background-image:radial-gradient(55% 70% at 88% 90%, rgba(129,218,172,.20), transparent 55%); }
+      .vt-copy { position:absolute; left:120px; top:50%; transform:translateY(-50%); z-index:2; width:1400px; }
+      .vt-head { font-family:var(--font); font-weight:600; font-size:96px; line-height:1.04; letter-spacing:-.025em; color:var(--on-dark); max-width:15ch; margin-top:22px; }
+      .vt-sub { font-family:var(--mono); font-size:24px; letter-spacing:.06em; color:var(--on-dark-body); margin-top:28px; }
+
+      /* 12 · CheapSeats */
+      .cs-copy { position:absolute; left:120px; top:50%; transform:translateY(-50%); z-index:4; width:600px; }
+      .cs-title { font-family:var(--font); font-weight:700; font-size:104px; letter-spacing:-.03em; color:var(--ink); margin-top:14px; line-height:1; }
+      .cs-desc { font-family:var(--font); font-weight:400; font-size:29px; line-height:1.42; color:var(--text); margin-top:22px; max-width:15ch; }
+      .chips { display:flex; flex-wrap:wrap; gap:12px; margin-top:28px; max-width:520px; }
+      .chip { font-family:var(--mono); font-size:19px; font-weight:600; padding:11px 16px; border-radius:12px; background:var(--paper-2); border:1px solid var(--hairline); color:var(--muted); }
+      .cs-shot { position:absolute; right:150px; top:210px; width:1000px; z-index:2; border-radius:22px; overflow:hidden; border:1px solid var(--hairline); box-shadow:0 50px 110px -46px rgba(20,20,26,.6); }
+      .cs-shot img { display:block; width:1000px; height:auto; }
+      /* phone PNG already includes a device bezel — render raw, just a drop-shadow (no second frame) */
+      .cs-phone { position:absolute; right:196px; bottom:14px; width:250px; z-index:3;
+        filter:drop-shadow(0 40px 60px rgba(20,20,26,.55)); }
+      .cs-phone img { display:block; width:100%; height:auto; }
+      .cs-card-persp { position:absolute; left:760px; bottom:150px; z-index:4; perspective:1400px; }
+      .cs-card { width:400px; border-radius:22px; overflow:hidden; background:#14151D; border:1px solid rgba(255,255,255,.08); box-shadow:0 46px 90px -40px rgba(0,0,0,.75); transform-style:preserve-3d; padding:20px; }
+      .cs-card .banner { border-radius:16px; padding:20px 22px; color:#fff; background:linear-gradient(110deg, var(--sage-deep), var(--sage)); }
+      .cs-card .banner .k { font-size:13px; letter-spacing:.12em; text-transform:uppercase; opacity:.9; font-weight:600; }
+      .cs-card .banner .m { font-family:var(--font); font-weight:700; font-size:30px; margin-top:6px; }
+      .cs-card .banner .s { font-size:14px; opacity:.92; margin-top:8px; }
+      .cs-card .tiles { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:16px; }
+      .cs-card .tile { padding:12px 8px; border-radius:11px; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.09); }
+      .cs-card .tile .tk { font-size:11px; letter-spacing:.1em; color:rgba(255,255,255,.72); font-weight:600; }
+      .cs-card .tile .tv { font-family:var(--font); font-weight:700; font-size:22px; color:#fff; margin-top:4px; }
+
+      /* 13 · Outro */
+      #s-outro .center { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:3; text-align:center; }
+      .outro-glow { position:absolute; width:760px; height:760px; border-radius:50%; z-index:1; pointer-events:none; filter:blur(12px); top:50%; margin-top:-380px; }
+      #outro-glow-a { left:-120px; background:radial-gradient(circle at 50% 50%, rgba(120,55,129,.42), transparent 68%); }
+      #outro-glow-b { right:-120px; background:radial-gradient(circle at 50% 50%, rgba(44,104,73,.40), transparent 68%); }
+      .wordmark { font-family:var(--font); font-weight:700; font-size:128px; letter-spacing:-.035em; color:var(--ink); }
+      .tagline { font-family:var(--font); font-weight:500; font-size:34px; color:var(--muted); margin-top:26px; letter-spacing:-.01em; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="13.70" data-width="1920" data-height="1080">
+
+      <!-- 1 · OPENER -->
+      <div class="clip scene" id="s-open" data-start="0" data-duration="1.60" data-track-index="0">
+        <div class="op-copy">
+          <div class="mask"><span class="eyebrow mint" id="op-eyebrow">Materials Science · B.Sc.</span></div>
+          <h1 class="op-head" id="op-head">Measurement, sensors, thin films &amp; NDT.</h1>
+        </div>
+      </div>
+
+      <!-- 2 · SELFIE SPLASH -->
+      <div class="clip scene splash" id="s-selfie" data-start="1.60" data-duration="1.05" data-track-index="0">
+        <img id="selfie-img" src="assets/img/lab.jpg" alt="Mika at the DGZfP fair" style="object-position:32% 42%;" />
+        <div class="cap" id="selfie-cap">DGZfP · 2025</div>
+      </div>
+
+      <!-- 3 · SPUTTER SPLASH -->
+      <div class="clip scene splash" id="s-sputter" data-start="2.65" data-duration="0.53" data-track-index="0">
+        <img id="sputter-img" src="assets/img/zmn-sputter.jpg" alt="Sputter deposition" style="object-position:50% 50%;" />
+        <div class="cap">Sputter deposition</div>
+      </div>
+
+      <!-- 4 · PROFILO SPLASH -->
+      <div class="clip scene splash" id="s-profilo" data-start="3.18" data-duration="0.52" data-track-index="0">
+        <img id="profilo-img" src="assets/img/zmn-profilo.jpg" alt="Profilometry" style="object-position:50% 50%;" />
+        <div class="cap">Profilometry</div>
+      </div>
+
+      <!-- 5 · CLEANROOM 2-UP -->
+      <div class="clip scene" id="s-cr2" data-start="3.70" data-duration="0.53" data-track-index="0">
+        <div class="half l" id="cr2-l"><img src="assets/img/zmn-proben.jpg" alt="Samples" style="object-position:50% 45%;" /></div>
+        <div class="half r" id="cr2-r"><img src="assets/img/zmn-me.jpg" alt="In the cleanroom" style="object-position:50% 30%;" /></div>
+      </div>
+
+      <!-- 6 · RESEARCH / CHART -->
+      <div class="clip scene" id="s-research" data-start="4.23" data-duration="1.05" data-track-index="0">
+        <div class="rs-copy">
+          <div class="mask"><span class="eyebrow" id="rs-eyebrow">Thin-film research</span></div>
+          <h2 class="head rs-head" id="rs-head">Down at the small scale</h2>
+          <div class="award-pill" id="rs-award"><span class="star">★</span><span class="t">DGZfP Science Student Award 2025</span></div>
+        </div>
+        <div class="chartwrap">
+          <svg id="story-svg" viewBox="0 0 820 460" width="660" height="371" aria-hidden="true">
+            <line class="axis" x1="90" y1="40" x2="90" y2="400"></line>
+            <line class="axis" x1="90" y1="400" x2="800" y2="400"></line>
+            <text class="axis-lbl" x="90" y="30">µV/K</text>
+            <text class="axis-lbl" x="770" y="435">°C</text>
+            <path id="seebeck-line" d="M114.3 352.0 L181.3 300.6 L248.2 278.3 L314.5 240.6 L380.8 192.6 L447.0 189.1 L514.0 142.9 L580.9 166.9 L646.5 124.0 L712.8 118.9 L780.4 81.1"></path>
+            <circle class="dotpt" cx="114.3" cy="352.0" r="5"></circle>
+            <circle class="dotpt" cx="181.3" cy="300.6" r="5"></circle>
+            <circle class="dotpt" cx="248.2" cy="278.3" r="5"></circle>
+            <circle class="dotpt" cx="314.5" cy="240.6" r="5"></circle>
+            <circle class="dotpt" cx="380.8" cy="192.6" r="5"></circle>
+            <circle class="dotpt" cx="447.0" cy="189.1" r="5"></circle>
+            <circle class="dotpt" cx="514.0" cy="142.9" r="5"></circle>
+            <circle class="dotpt" cx="580.9" cy="166.9" r="5"></circle>
+            <circle class="dotpt" cx="646.5" cy="124.0" r="5"></circle>
+            <circle class="dotpt" cx="712.8" cy="118.9" r="5"></circle>
+            <circle class="dotpt" cx="780.4" cy="81.1" r="5"></circle>
+          </svg>
+          <div class="chart-cap">Seebeck coefficient · Ag · 100&nbsp;nm thin film</div>
+        </div>
+      </div>
+
+      <!-- 7 · SEEKING -->
+      <div class="clip scene" id="s-seek" data-start="5.28" data-duration="1.06" data-track-index="0">
+        <div class="seek-copy">
+          <div class="mask"><span class="eyebrow" id="seek-eyebrow">Open to</span></div>
+          <h2 class="head seek-head" id="seek-head">A working-student role alongside the Master</h2>
+          <div class="rows">
+            <div class="row" id="seek-r1"><div class="k">Role</div><div class="v">Working student, from November 2026</div></div>
+            <div class="row" id="seek-r2"><div class="k">Fields</div><div class="v">Measurement · sensors · thin films · NDT</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8 · VOL SPLASH (kids) -->
+      <div class="clip scene splash" id="s-volkids" data-start="6.34" data-duration="0.52" data-track-index="0">
+        <img id="volkids-img" src="assets/img/vol-kids.jpg" alt="Youth work" style="object-position:50% 45%;" />
+        <div class="cap">Youth work</div>
+      </div>
+
+      <!-- 9 · VOL SPLASH (konfi party) -->
+      <div class="clip scene splash" id="s-volparty" data-start="6.86" data-duration="0.52" data-track-index="0">
+        <img id="volparty-img" src="assets/img/konfi-party.jpg" alt="Confirmation group" style="object-position:50% 45%;" />
+        <div class="cap">Confirmation group</div>
+      </div>
+
+      <!-- 10 · VOL 2-UP -->
+      <div class="clip scene" id="s-vol2" data-start="7.38" data-duration="0.53" data-track-index="0">
+        <div class="half l" id="vol2-l"><img src="assets/img/vol-hfc.jpg" alt="Volunteering" style="object-position:50% 30%;" /></div>
+        <div class="half r" id="vol2-r"><img src="assets/img/konfi-phe.jpg" alt="Confirmation work" style="object-position:50% 35%;" /></div>
+      </div>
+
+      <!-- 11 · VOL TITLE (sage) -->
+      <div class="clip scene" id="s-voltitle" data-start="7.91" data-duration="1.05" data-track-index="0">
+        <div class="vt-copy">
+          <div class="mask"><span class="eyebrow on-dark" id="vt-eyebrow">Volunteering</span></div>
+          <h2 class="vt-head" id="vt-head">Engagement that matters to me</h2>
+          <div class="vt-sub" id="vt-sub">THW · helpline · youth work</div>
+        </div>
+      </div>
+
+      <!-- 12 · CHEAPSEATS -->
+      <div class="clip scene" id="s-cs" data-start="8.96" data-duration="2.64" data-track-index="0">
+        <div class="cs-shot" id="cs-shot"><img src="assets/img/cs-overview.png" alt="CheapSeats app" /></div>
+        <div class="cs-phone" id="cs-phone"><img src="assets/img/cs-phone.png" alt="CheapSeats on mobile" /></div>
+        <div class="cs-card-persp"><div class="cs-card" id="cs-card">
+          <div class="banner">
+            <div class="k">Next Game · Week 25</div>
+            <div class="m">@ Miami Marlins</div>
+            <div class="s">Sun, Jun 21 · 7:40 PM · loanDepot park</div>
+          </div>
+          <div class="tiles">
+            <div class="tile"><div class="tk">ERA</div><div class="tv">5.73</div></div>
+            <div class="tile"><div class="tk">K</div><div class="tv">48</div></div>
+            <div class="tile"><div class="tk">WHIP</div><div class="tv">1.58</div></div>
+            <div class="tile"><div class="tk">W-L</div><div class="tv">2-6</div></div>
+          </div>
+        </div></div>
+        <div class="cs-copy">
+          <div class="mask"><span class="eyebrow" id="cs-eyebrow">Project</span></div>
+          <div class="cs-title" id="cs-title">CheapSeats</div>
+          <div class="cs-desc" id="cs-desc">A desktop scoreboard for any NFL or MLB club.</div>
+          <div class="chips" id="cs-chips">
+            <span class="chip">Tauri 2 · Rust</span>
+            <span class="chip">React 19 · TS</span>
+            <span class="chip">Vite 7</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 13 · OUTRO -->
+      <div class="clip scene" id="s-outro" data-start="11.60" data-duration="2.10" data-track-index="0">
+        <div class="outro-glow" id="outro-glow-a"></div>
+        <div class="outro-glow" id="outro-glow-b"></div>
+        <div class="center">
+          <div class="wordmark" id="outro-wordmark">Mika Jeske</div>
+          <div class="tagline" id="outro-tagline">Let's build something measurable.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- audio -->
+    <audio id="bgm" src="assets/audio/bgm.mp3" data-start="0"></audio>
+    <audio id="flip1" src="assets/audio/flip.mp3" data-start="1.60"></audio>
+    <audio id="flip2" src="assets/audio/flip.mp3" data-start="2.65"></audio>
+    <audio id="flip3" src="assets/audio/flip.mp3" data-start="3.18"></audio>
+    <audio id="flip4" src="assets/audio/flip.mp3" data-start="3.70"></audio>
+    <audio id="flip5" src="assets/audio/flip.mp3" data-start="6.34"></audio>
+    <audio id="flip6" src="assets/audio/flip.mp3" data-start="6.86"></audio>
+    <audio id="flip7" src="assets/audio/flip.mp3" data-start="7.38"></audio>
+    <audio id="sfx-band" src="assets/audio/sfx-band.mp3" data-start="7.91"></audio>
+    <audio id="sfx-card" src="assets/audio/sfx-card.mp3" data-start="8.96"></audio>
+
+    <script>
+      // Seebeck research line — real Ag·100 nm ramp (sections-new.jsx SEEBECK_T), static d above.
+      var line = document.getElementById("seebeck-line");
+      var lineLen = line.getTotalLength();
+      line.style.strokeDasharray = lineLen;
+      line.style.strokeDashoffset = lineLen;
+
+      var EO = "power2.out", E = "power3.out";
+      var tl = gsap.timeline({ paused: true });
+
+      // fast pop for a full-bleed image (hard-cut + flip energy)
+      function splashIn(sel, at){ tl.fromTo(sel, { opacity:0, scale:1.05, x:44 }, { opacity:1, scale:1, x:0, duration:.2, ease:E }, at); }
+      function capIn(sel, at){ tl.fromTo(sel, { opacity:0, y:14 }, { opacity:1, y:0, duration:.18, ease:EO }, at); }
+
+      // 1 · OPENER (0)
+      tl.fromTo("#op-eyebrow", { yPercent:130, opacity:0 }, { yPercent:0, opacity:1, duration:.4, ease:E }, .12);
+      tl.fromTo("#op-head", { y:40, opacity:0 }, { y:0, opacity:1, duration:.55, ease:EO }, .26);
+
+      // 2 · SELFIE (1.60)
+      splashIn("#selfie-img", 1.60); capIn("#selfie-cap", 1.80);
+      // 3 · SPUTTER (2.65)
+      splashIn("#sputter-img", 2.65);
+      // 4 · PROFILO (3.18)
+      splashIn("#profilo-img", 3.18);
+      // 5 · CLEANROOM 2-UP (3.70)
+      tl.fromTo("#cr2-l img", { opacity:0, scale:1.06, x:-40 }, { opacity:1, scale:1, x:0, duration:.24, ease:E }, 3.70);
+      tl.fromTo("#cr2-r img", { opacity:0, scale:1.06, x:40 }, { opacity:1, scale:1, x:0, duration:.24, ease:E }, 3.74);
+
+      // 6 · RESEARCH / CHART (4.23)
+      tl.fromTo("#rs-eyebrow", { yPercent:130, opacity:0 }, { yPercent:0, opacity:1, duration:.32, ease:E }, 4.27);
+      tl.fromTo("#rs-head", { y:28, opacity:0 }, { y:0, opacity:1, duration:.4, ease:EO }, 4.33);
+      tl.fromTo("#story-svg", { opacity:0 }, { opacity:1, duration:.2 }, 4.30);
+      tl.fromTo(line, { strokeDashoffset: lineLen }, { strokeDashoffset: 0, duration:.62, ease:"power1.inOut" }, 4.40);
+      tl.fromTo(".dotpt", { opacity:0, scale:0, transformOrigin:"center" }, { opacity:1, scale:1, duration:.2, ease:"back.out(2)", stagger:.035 }, 4.6);
+      tl.fromTo("#rs-award", { y:18, opacity:0 }, { y:0, opacity:1, duration:.36, ease:EO }, 4.85);
+
+      // 7 · SEEKING (5.28)
+      tl.fromTo("#seek-eyebrow", { yPercent:130, opacity:0 }, { yPercent:0, opacity:1, duration:.32, ease:E }, 5.32);
+      tl.fromTo("#seek-head", { y:30, opacity:0 }, { y:0, opacity:1, duration:.42, ease:EO }, 5.38);
+      tl.fromTo("#seek-r1", { y:20, opacity:0 }, { y:0, opacity:1, duration:.32, ease:EO }, 5.62);
+      tl.fromTo("#seek-r2", { y:20, opacity:0 }, { y:0, opacity:1, duration:.32, ease:EO }, 5.74);
+
+      // 8 · VOL KIDS (6.34)
+      splashIn("#volkids-img", 6.34);
+      // 9 · VOL PARTY (6.86)
+      splashIn("#volparty-img", 6.86);
+      // 10 · VOL 2-UP (7.38)
+      tl.fromTo("#vol2-l img", { opacity:0, scale:1.06, x:-40 }, { opacity:1, scale:1, x:0, duration:.24, ease:E }, 7.38);
+      tl.fromTo("#vol2-r img", { opacity:0, scale:1.06, x:40 }, { opacity:1, scale:1, x:0, duration:.24, ease:E }, 7.42);
+
+      // 11 · VOL TITLE (7.91)
+      tl.fromTo("#vt-eyebrow", { yPercent:130, opacity:0 }, { yPercent:0, opacity:1, duration:.36, ease:E }, 7.96);
+      tl.fromTo("#vt-head", { y:36, opacity:0 }, { y:0, opacity:1, duration:.5, ease:EO }, 8.04);
+      tl.fromTo("#vt-sub", { y:22, opacity:0 }, { y:0, opacity:1, duration:.4, ease:EO }, 8.34);
+
+      // 12 · CHEAPSEATS (8.96)
+      tl.fromTo("#cs-shot", { y:36, scale:.92, opacity:0 }, { y:0, scale:1, opacity:1, duration:.5, ease:EO }, 8.98);
+      tl.fromTo("#cs-eyebrow", { yPercent:130, opacity:0 }, { yPercent:0, opacity:1, duration:.34, ease:E }, 9.10);
+      tl.fromTo("#cs-title", { y:36, opacity:0 }, { y:0, opacity:1, duration:.46, ease:EO }, 9.18);
+      tl.fromTo("#cs-desc", { y:24, opacity:0 }, { y:0, opacity:1, duration:.4, ease:EO }, 9.42);
+      tl.fromTo("#cs-card", { y:50, rotationY:-24, opacity:0, transformOrigin:"left center" }, { y:0, rotationY:0, opacity:1, duration:.6, ease:"power3.out" }, 9.24);
+      tl.fromTo("#cs-phone", { x:70, opacity:0 }, { x:0, opacity:1, duration:.5, ease:EO }, 9.5);
+      tl.fromTo("#cs-chips .chip", { y:18, opacity:0 }, { y:0, opacity:1, duration:.36, ease:EO, stagger:.08 }, 9.7);
+      tl.to("#cs-shot", { scale:1.03, duration:1.7, ease:"none" }, 10.0);
+
+      // 13 · OUTRO (11.60)
+      tl.fromTo("#outro-glow-a", { x:-220, opacity:0 }, { x:0, opacity:1, duration:.9, ease:EO }, 11.62);
+      tl.fromTo("#outro-glow-b", { x:220, opacity:0 }, { x:0, opacity:1, duration:.9, ease:EO }, 11.62);
+      tl.fromTo("#outro-wordmark", { y:40, opacity:0, filter:"blur(9px)" }, { y:0, opacity:1, filter:"blur(0px)", duration:.6, ease:EO }, 11.72);
+      tl.fromTo("#outro-tagline", { y:20, opacity:0 }, { y:0, opacity:1, duration:.5, ease:EO }, 12.05);
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
