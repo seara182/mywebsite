@@ -185,7 +185,7 @@ function Hero() {
       try {
         video.currentTime = 0;
       } catch (e) {}
-      video.playbackRate = 0.8125;
+      video.playbackRate = 0.74285;
       const pr = video.play();
       if (pr && typeof pr.catch === "function") pr.catch(onRefused);
     }
@@ -204,7 +204,7 @@ function Hero() {
     const ease = x => x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
     function tryPlay() {
       if (!video.src) video.src = src;
-      video.playbackRate = 0.8125;
+      video.playbackRate = 0.74285;
       const pr = video.play();
       if (pr && typeof pr.catch === "function") pr.catch(onRefused);
     }
