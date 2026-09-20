@@ -258,7 +258,7 @@ function Hero() {
                  over any pixel of the image and themes with the page. */
               background: "var(--material-chrome)",
               WebkitBackdropFilter: "var(--blur-chrome)", backdropFilter: "var(--blur-chrome)",
-              border: "1px solid var(--chrome-hairline)", borderRadius: "var(--radius-xs)",
+              borderRadius: "var(--radius-xs)",
               padding: "3px 9px" }}>
               {t("hero.aiImageLabel")}
             </span>
