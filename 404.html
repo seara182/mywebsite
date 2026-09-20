@@ -265,7 +265,9 @@
     };
     var lang = ((navigator.language || "de").slice(0, 2)).toLowerCase();
     var seg = location.pathname.split("/")[1];
-    if (L[seg]) lang = seg; // a broken URL under /en/… keeps its language
+    // language can be forced: /de/anything, /fr/anything … or ?lang=de. A broken URL under /en/… keeps its language.
+    var want = (new URLSearchParams(location.search).get("lang") || seg || "").toLowerCase();
+    if (want === "de" || L[want]) lang = want;
     // wall outlet by country: Germany + Spain use Schuko (type F), France type E, Italy type L, English = USA
     document.documentElement.setAttribute("data-outlet", { de: "de", es: "de", fr: "fr", it: "it", en: "us" }[lang] || "de");
     var s = L[lang];
