@@ -20,6 +20,7 @@ import { transformFileSync } from "@babel/core";
 import { writeFileSync, readFileSync, mkdirSync, watch } from "node:fs";
 import { createRequire } from "node:module";
 import vm from "node:vm";
+import { minify } from "terser";
 
 const require = createRequire(import.meta.url);
 const React = require("react");
@@ -29,12 +30,13 @@ const JSX_FILES = ["primitives", "sections-a", "sections-new", "sections-b"];
 const ORIGIN = "https://mika-jeske.de";
 
 /* ---------- 1. compile ---------- */
-function compile(name) {
+async function compile(name) {
   const { code } = transformFileSync(`${name}.jsx`, {
     presets: [["@babel/preset-react", { runtime: "classic" }]],
   });
   const wrapped = `// TRANSPILED from ${name}.jsx by build.mjs — do not edit directly.\n(function () {\n${code}\n})();\n`;
-  writeFileSync(`${name}.js`, wrapped);
+  const minified = await minify(wrapped);
+  writeFileSync(`${name}.js`, minified.code);
   console.log(`  ${name}.jsx -> ${name}.js`);
 }
 
@@ -110,14 +112,34 @@ function emitPages() {
   }
 }
 
-function buildAll() {
-  for (const name of JSX_FILES) compile(name);
+
+async function bundleCSS() {
+  const tokens = [
+    "ci/tokens/fonts.css",
+    "ci/tokens/colors.css",
+    "ci/tokens/typography.css",
+    "ci/tokens/spacing.css",
+    "ci/tokens/effects.css",
+    "ci/tokens/motion.css",
+    "ci/tokens/base.css"
+  ];
+  let bundle = "";
+  for (const f of tokens) {
+    bundle += readFileSync(f, "utf8") + "\n";
+  }
+  writeFileSync("ci/styles.bundle.css", bundle);
+  console.log("  Bundled CSS -> ci/styles.bundle.css");
+}
+
+async function buildAll() {
+  for (const name of JSX_FILES) await compile(name);
+  await bundleCSS();
   loadApp();
   emitPages();
   console.log("Build complete.");
 }
 
-buildAll();
+await buildAll();
 
 if (process.argv.includes("--watch")) {
   console.log("Watching .jsx files for changes (Ctrl+C to stop)...");

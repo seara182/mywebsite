@@ -71,8 +71,17 @@ function Hero() {
 
     const mm = window.matchMedia;
     const portrait = mm && mm("(max-aspect-ratio: 3/4)").matches;
-    const src = portrait ? video.dataset.src9 : video.dataset.src16;
-    video.poster = portrait ? video.dataset.poster9 : video.dataset.poster16;
+    /* The film is rendered per theme as well as per language and aspect, so a
+       light page never plays a dark film. In "auto" the attribute is absent,
+       so the OS query is the only source of truth. */
+    const schemeQ = mm && mm("(prefers-color-scheme: dark)");
+    const isDark = () => {
+      const t = window.I18N && window.I18N.getTheme ? window.I18N.getTheme() : "auto";
+      return t === "dark" || (t !== "light" && !!(schemeQ && schemeQ.matches));
+    };
+    const pick = (kind) => video.dataset[kind + (portrait ? "9" : "16") + (isDark() ? "Dark" : "Light")];
+    let src = pick("src");
+    video.poster = pick("poster");
 
     const replay = replayRef.current;
     let finished = false;
@@ -83,11 +92,51 @@ function Hero() {
     function onReplay() { stage.classList.remove("is-revealed"); try { video.currentTime = 0; } catch (e) {} video.playbackRate = 0.8125; const pr = video.play(); if (pr && typeof pr.catch === "function") pr.catch(onRefused); }
     video.addEventListener("ended", onEnded);
 
+    /* The theme can change mid-play. Swap to the matching film and restore the
+       position, so a toggle reads as a re-grade rather than a restart. Before
+       the film is lazily fetched there is nothing to swap — just retarget. */
+    function syncTheme() {
+      const next = pick("src");
+      video.poster = pick("poster");
+      if (next === src) return;
+      src = next;
+      if (!video.src) return;
+      const at = video.currentTime, wasPlaying = !video.paused && !video.ended;
+      video.addEventListener("loadedmetadata", function onMeta() {
+        video.removeEventListener("loadedmetadata", onMeta);
+        /* Resume only once the seek has landed. Calling play() while the seek
+           is still pending lets playback start at 0 and supersede it. The
+           timeout covers the case where the seek is a no-op and fires nothing. */
+        let resumed = false;
+        function resume() {
+          if (resumed) return;
+          resumed = true;
+          video.removeEventListener("seeked", resume);
+          if (!wasPlaying) return;
+          video.playbackRate = 0.8125;
+          const pr = video.play();
+          if (pr && typeof pr.catch === "function") pr.catch(onRefused);
+        }
+        video.addEventListener("seeked", resume);
+        setTimeout(resume, 400);
+        try { video.currentTime = at; } catch (e) { resume(); }
+      });
+      video.src = next;
+    }
+    /* themechange fires on an explicit toggle; the media query covers the OS
+       flipping underneath "auto", which fires no event of its own. */
+    window.addEventListener("themechange", syncTheme);
+    if (schemeQ && schemeQ.addEventListener) schemeQ.addEventListener("change", syncTheme);
+    function offTheme() {
+      window.removeEventListener("themechange", syncTheme);
+      if (schemeQ && schemeQ.removeEventListener) schemeQ.removeEventListener("change", syncTheme);
+    }
+
     /* Reduced motion: no scrub, no autoplay. Show the resolved composition —
        poster + ways in + caption, name/portrait faded out (decided in CSS). */
     if (prefersReduced()) {
       stage.classList.add("is-playing", "is-revealed");
-      return () => video.removeEventListener("ended", onEnded);
+      return () => { video.removeEventListener("ended", onEnded); offTheme(); };
     }
 
     if (replay) replay.addEventListener("click", onReplay);
@@ -158,6 +207,7 @@ function Hero() {
       window.removeEventListener("resize", onResize);
       video.removeEventListener("ended", onEnded);
       if (replay) replay.removeEventListener("click", onReplay);
+      offTheme();
     };
   }, []);
 
@@ -175,8 +225,10 @@ function Hero() {
     <section ref={wrapRef} id="top" data-section className="herostage-wrap">
       <div ref={stageRef} className="hero herostage">
         <video ref={videoRef} className="herostage__video" muted playsInline preload="auto" disablePictureInPicture aria-hidden="true"
-          data-src16={asset("ci/assets/video/brag_" + lang + "-16x9.mp4")} data-src9={asset("ci/assets/video/brag_" + lang + "-9x16.mp4")}
-          data-poster16={asset("ci/assets/video/brag_" + lang + "-16x9.jpg")} data-poster9={asset("ci/assets/video/brag_" + lang + "-9x16.jpg")} />
+          data-src16-light={asset("ci/assets/video/brag_" + lang + "-16x9_light.mp4")} data-src16-dark={asset("ci/assets/video/brag_" + lang + "-16x9_dark.mp4")}
+          data-src9-light={asset("ci/assets/video/brag_" + lang + "-9x16_light.mp4")} data-src9-dark={asset("ci/assets/video/brag_" + lang + "-9x16_dark.mp4")}
+          data-poster16-light={asset("ci/assets/video/brag_" + lang + "-16x9_light.jpg")} data-poster16-dark={asset("ci/assets/video/brag_" + lang + "-16x9_dark.jpg")}
+          data-poster9-light={asset("ci/assets/video/brag_" + lang + "-9x16_light.jpg")} data-poster9-dark={asset("ci/assets/video/brag_" + lang + "-9x16_dark.jpg")} />
         <div className="herostage__scrim" aria-hidden="true" />
 
         <div ref={ambientRef} className="herostage__ambient" aria-hidden="true" style={{ position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none" }}>
@@ -299,6 +351,7 @@ function Intro() {
             <div style={{ maxWidth: "46ch", marginTop: "clamp(24px,3vw,40px)" }}>
               <img src={asset("ci/assets/Bilder/Weitere/signatur-mika-jeske.webp")}
                 alt="Mika Andreas Jeske" loading="lazy"
+                alt="Mika Andreas Jeske" loading="lazy" width={760} height={274}
                 style={{ display: "block", marginInline: "auto", width: "min(300px, 66%)", height: "auto", filter: "invert(1)", opacity: 0.9 }} />
             </div>
           </Reveal>

@@ -120,6 +120,7 @@
 .i18n-disclaimer {
   font-size: 0.75rem;
   color: var(--text-faint);
+  color: var(--text-muted);
   margin-top: 12px;
 }
 

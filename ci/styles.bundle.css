@@ -1,0 +1,929 @@
+/* ============================================================
+   FONTS — Apple devices render SF Pro through the system stack
+   (-apple-system / BlinkMacSystemFont); no file is downloaded.
+   SF Pro's license doesn't allow web embedding, so it is NOT
+   shipped. Every other platform gets Inter (SIL OFL 1.1, see
+   assets/fonts/Inter-LICENSE.txt), self-hosted: no third-party
+   font requests (GDPR). Variable font, latin + latin-ext.
+   ============================================================ */
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("../assets/fonts/inter-latin-wght.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("../assets/fonts/inter-latin-ext-wght.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* ============================================================
+   COLORS — Mika Jeske personal brand
+   Warm take on Apple's design language. Off-white surfaces,
+   near-black abstract shapes, plum + sage accents,
+   colored gradient glows instead of hard drop shadows.
+   ============================================================ */
+
+:root {
+  /* ---- Base neutrals (never pure white/black) ----
+     A quiet, barely-cool grey off-white. The previous ramp was a warm cream
+     (#FAF7F1 and friends); at large areas the yellow read as staining rather
+     than warmth. The whole ramp moves together — surfaces, ink and text — so
+     nothing is left with a brown cast sitting on a grey ground. Warmth in the
+     brand now comes from where it belongs: the sage and honey glows. */
+  --paper:        #F6F6F7;  /* primary surface — neutral off-white */
+  --paper-2:      #EFEFF1;  /* recessed / alternating surface */
+  --paper-3:      #E4E4E8;  /* hairline fills, track backgrounds */
+  --ink:          #15151A;  /* near-black — the shape/icon color, headings */
+  --ink-soft:     #202027;  /* slightly lifted black for large fills */
+
+  /* ---- Text on light surfaces ---- */
+  --text-strong:  #15151A;  /* headings */
+  --text-body:    #3C3C45;  /* body copy */
+  /* Was #71717C, which measured 4.46:1 on --paper — AA by a rounding error.
+     This is the same grey two steps darker: 4.87:1 on --paper, 4.58:1 on
+     --paper-2. The change is below the perceptual threshold; the compliance
+     change is not. */
+  --text-muted:   #6B6B76;  /* captions, meta, labels */
+  /* Decorative/disabled ONLY (2.34:1). Never put meaningful text in this —
+     see .hero-ailabel, which used to and no longer does. */
+  --text-faint:   #A2A2AC;  /* disabled, watermark */
+  --hairline:     #E2E2E7;  /* borders, dividers */
+  --hairline-strong: #CECED5;
+
+  /* ============================================================
+     CHANNEL TOKENS — the palette lives here and nowhere else
+     ============================================================
+     A custom property holding a hex cannot be given an alpha, which is why
+     every glow, tint, ring and shadow used to spell its hue out again as an
+     rgba() literal. These hold the same colours as raw channels, for the
+     rgb(R G B / A) form, which does accept a var().
+
+     --accent-1 is Band 1 / Intro (plum), --accent-2 is Band 2 / Ehrenamt
+     (sage). Changing the brand means changing these seven lines and the
+     hexes below them. Nothing else in the codebase names a brand colour. */
+  --accent-1-rgb:       78 36 84;    /* plum */
+  --accent-1-deep-rgb:  53 24 57;
+  --accent-1-glow-rgb:  216 141 226; /* lilac halo */
+  --accent-2-rgb:       44 104 73;   /* sage */
+  --accent-2-deep-rgb:  30 74 51;
+  --accent-2-glow-rgb:  129 218 172; /* mint halo */
+  --honey-rgb:          236 199 123; /* third glow tone */
+
+  /* ---- Plum accent (contrast surface, Band 1 / Intro) ---- */
+  --plum:         #4E2454;  /* plum surface */
+  --plum-deep:    #351839;  /* darker plum */
+  /* Card surface for cards sitting ON the plum band. Was #783781, a LIFTED
+     plum: at that lightness --on-dark-muted landed on 4.06:1 and failed AA.
+     Cards now RECESS below their band instead of rising above it, which is
+     both compliant (all three text weights >=7.1:1) and the more honest
+     reading of a card cut into a coloured field. */
+  --plum-soft:    #5C2A63;  /* recessed plum for cards on plum */
+  --plum-glow:    #D88DE2;  /* lilac used in glows */
+  /* Plum bright enough to survive as a UI mark on a near-black page; see
+     --accent in the dark-mode block. Unused in light mode. */
+  --plum-lift:    #9A4BA7;
+
+  /* ---- Sage accent (contrast surface, Band 2 / Ehrenamt) ---- */
+  --sage:         #2C6849;  /* sage surface */
+  --sage-deep:    #1E4A33;  /* darker sage */
+  /* Same move as --plum-soft, and here it was not marginal: the old lifted
+     #47895F failed AA on EVERY text weight (on-dark-strong 3.92:1,
+     on-dark-body 3.16:1, on-dark-muted 2.16:1). Recessed: >=6.3:1 on all
+     three. This was the site's worst contrast failure and the audit missed
+     it entirely, having only looked at text tokens. */
+  --sage-soft:    #22543A;  /* recessed sage for cards on sage */
+  --sage-glow:    #81DAAC;  /* mint used in glows — halo/glow ONLY, never body text
+                                (3.94:1 as text on the sage band itself — see .on-sage) */
+  --sage-lift:    #3C8F63;  /* sage counterpart of --plum-lift */
+  --honey:        #ECC77B;  /* secondary warm glow tone */
+  /* Honey is a GLOW tone: as a surface behind white text it bottoms out at
+     1.61:1. This is the same hue taken down to where white clears AA across
+     a whole gradient ramp (4.72:1 at the worst point). Use --honey for
+     halos, --honey-deep for anything text sits on. */
+  --honey-deep:   #9A6A16;
+
+  /* Surface of the polaroid mount (sections-new.jsx). Lives here rather than
+     inline because an inline style cannot sit behind @supports, and a bare
+     light-dark() in one would leave the mount transparent on a browser that
+     cannot parse it. */
+  --polaroid-mount: #FBFBFC;
+
+  /* Badge surfaces. Light values here so a browser without light-dark()
+     still gets a badge; the mode-aware versions are in the @supports block
+     below. */
+  --badge-accent-bg:     rgb(var(--accent-1-rgb) / 0.12);
+  --badge-accent-border: rgb(var(--accent-1-rgb) / 0.22);
+  --badge-accent-fg:     var(--plum-deep);
+  --badge-plum-fg:       var(--plum);
+
+  /* ---- Text on dark/accent surfaces ----
+     Neutralised off the old warm cream ramp (#FBF8F2/#E6DFD2/#B9B1A0), which
+     read muddy on either new band. */
+  --on-dark-strong: #F7F7F9;
+  --on-dark-body:   #DFDFE4;
+  /* Was #B9B9C6 = 3.40:1 on the sage band: a real AA failure on every
+     eyebrow, caption and timestamp in the Ehrenamt section. 4.74:1 now.
+     Sage is the binding constraint here — it is the lighter of the two
+     bands, so a value that clears sage clears plum with room to spare
+     (8.86:1). */
+  --on-dark-muted:  #DADAE1;
+  --on-dark-hairline: rgba(255,255,255,0.14);
+
+  /* ============================================================
+     SEMANTIC ALIASES — prefer these in components
+     ============================================================ */
+  --bg:              var(--paper);
+  --bg-alt:          var(--paper-2);
+  --surface-card:    var(--paper);
+  --surface-sunken:  var(--paper-2);
+  --border:          var(--hairline);
+  --border-strong:   var(--hairline-strong);
+
+  --text:            var(--text-body);
+  --heading:         var(--text-strong);
+  --label:           var(--text-muted);
+
+  /* --accent is hand-set to Plum rather than left to Band 2 (Sage): every
+     plain UI mark on paper — timeline dots, badges, link underlines, the
+     focus ring below — reads through this one token, and a green accent on
+     a form field or a hover state carries a "valid/success" connotation the
+     brand doesn't intend. --accent-2 is Sage, the secondary alias. */
+  --accent:          var(--plum);
+  --accent-2:        var(--sage);
+  --accent-on:       var(--on-dark-strong);
+
+  /* Interaction tints (Apple-style subtle press/hover) */
+  --press-tint:      rgba(20,20,26,0.05);
+  --hover-tint:      rgba(20,20,26,0.035);
+  --focus-ring:      rgb(var(--accent-1-rgb) / 0.45); /* plum @ 45%, matches --accent */
+}
+
+/* Dark/accent section scope — opt-in by adding class to a section.
+   Flips text + the glow logic (shapes glow white on dark). */
+.on-plum {
+  --bg: var(--plum);
+  --surface-card: var(--plum-soft);
+  --border: var(--on-dark-hairline);
+  --text: var(--on-dark-body);
+  --heading: var(--on-dark-strong);
+  --label: var(--on-dark-muted);
+  --accent: var(--sage-glow);
+  color: var(--on-dark-body);
+  background: var(--plum);
+}
+
+.on-sage {
+  --bg: var(--sage);
+  --surface-card: var(--sage-soft);
+  --border: var(--on-dark-hairline);
+  --text: var(--on-dark-body);
+  --heading: var(--on-dark-strong);
+  --label: var(--on-dark-muted);
+  /* NOT --sage-glow here: 3.94:1 on its own band fails AA as text. Pinned to
+     on-dark-strong instead — see --sage-glow's comment above. */
+  --accent: var(--on-dark-strong);
+  color: var(--on-dark-body);
+  background: var(--sage);
+}
+
+/* ============================================================
+   DARK MODE
+   ============================================================
+   Activation has to satisfy two things at once: follow the OS when the
+   reader has expressed no opinion, and let an explicit choice beat the OS.
+   The obvious spelling of that is a @media block plus an attribute
+   selector, which means writing the whole palette out twice and letting
+   the two copies drift. Instead every token below carries BOTH values in
+   one declaration via light-dark(), and the manual override is reduced to
+   a single color-scheme line. One definition per token, no duplication.
+
+   color-scheme also gets us correctly themed scrollbars, form controls
+   and canvas backgrounds for free, which a token remap alone would not.
+
+   The whole thing sits behind @supports, so a browser without light-dark()
+   simply keeps the light palette defined above — the tokens are never left
+   holding a value it cannot parse. Degrades to "no dark mode", not "broken
+   page", which is the only acceptable failure here.
+
+   --------- why the bands do NOT hit 4.5:1 against the paper ---------
+   4.5:1 is the threshold for TEXT against its own background. There is no
+   WCAG minimum between two neighbouring decorative surfaces, and the
+   nearest rule (1.4.11, 3:1) covers non-text UI that conveys meaning —
+   these bands don't, since the sections are already delimited by <section>,
+   real headings and the wave blends.
+
+   That matters because chasing 4.5:1 here is self-defeating. A plum that is
+   4.5:1 lighter than a near-black paper is a mid-tone (~#AF5EBA), and
+   mid-tones carry NEITHER white nor black text at 4.5:1 — measured, the
+   squeeze point is light text 3.82:1 / dark text 4.45:1, i.e. both fail.
+   Pushing further forces the band text to flip to dark ink, which turns
+   Intro and Ehrenamt into light panels on a dark page: the opposite of
+   dark mode.
+
+   So the contrast budget is spent where it is actually required — on text,
+   where every pair below clears 4.5:1 — and the bands are set by eye at
+   1.84:1 (plum) and 2.80:1 (sage), which reads clearly across a full-width
+   field. Worst text pair in the dark set: 4.71:1.
+   ============================================================ */
+
+@supports (color: light-dark(#000, #fff)) {
+  :root {
+    color-scheme: light dark;
+
+    /* ---- Surfaces ---- */
+    --paper:        light-dark(#F6F6F7, #0A0A0D);
+    --paper-2:      light-dark(#EFEFF1, #121217);
+    --paper-3:      light-dark(#E4E4E8, #1B1B21);
+
+    /* ---- The shape motif INVERTS ----
+       --ink is the near-black silhouette of every GlowShape / BlobPhoto,
+       traced by a coloured Scribble. At #15151A on a #0A0A0D paper it
+       measures 1.03:1 — the motif would simply disappear. Flipping it to
+       near-white keeps the drawing intact and still reads on the raised
+       bands (8.8:1 on plum, 5.8:1 on sage), so the silhouettes stay one
+       consistent colour across the whole page instead of splitting into
+       black-on-paper / white-on-accent. The Scribble keeps its hue. */
+    --ink:          light-dark(#15151A, #E8E8EE);
+    --ink-soft:     light-dark(#202027, #DCDCE3);
+
+    /* ---- Text on the paper bands ---- */
+    --text-strong:  light-dark(#15151A, #F2F2F5);  /* 17.70:1 */
+    --text-body:    light-dark(#3C3C45, #D9D9E1);  /* 14.09:1 */
+    --text-muted:   light-dark(#6B6B76, #AEAEBA);  /*  9.00:1 */
+    --text-faint:   light-dark(#A2A2AC, #6E6E79);  /* decorative only, both modes */
+    --hairline:        light-dark(#E2E2E7, #26262E);
+    --hairline-strong: light-dark(#CECED5, #3A3A45);
+
+    /* ---- The accent bands ----
+       Same hue family, lifted just enough to read as distinct zones against
+       a near-black paper while still carrying light text comfortably. */
+    --plum:         light-dark(#4E2454, #5B2A62);
+    --plum-deep:    light-dark(#351839, #3F1D45);
+    --plum-soft:    light-dark(#5C2A63, #4B2252);  /* recessed in both modes */
+    --sage:         light-dark(#2C6849, #2A6345);
+    --sage-deep:    light-dark(#1E4A33, #1F4C36);
+    --sage-soft:    light-dark(#22543A, #1C4831);  /* recessed in both modes */
+
+    /* ---- Text on the accent bands ----
+       The dark bands land close to the light ones in lightness, so this
+       ramp barely moves. --on-dark-body lifts one step because dark --sage
+       is marginally lighter than light --sage. */
+    --on-dark-body:  light-dark(#DFDFE4, #E4E4EA);
+
+    /* A physical print keeps its light mount in both schemes; dark mode only
+       dims it, because full #FBFBFC glares against a near-black page. */
+    --polaroid-mount: light-dark(#FBFBFC, #E8E8EC);
+
+    /* ---- Interaction tints invert: ink-on-light, light-on-ink ---- */
+    --press-tint:   light-dark(rgba(20,20,26,0.05),  rgba(232,232,238,0.08));
+    --hover-tint:   light-dark(rgba(20,20,26,0.035), rgba(232,232,238,0.055));
+
+    /* --------- accent marks have to lift off a near-black page --------- */
+    /* --accent is every plain UI mark on paper: timeline dots, the little
+       rule inside an Eyebrow, badges, link underlines. At the band's own
+       plum it measures 1.84:1 on --paper in dark mode, so all of those
+       would be very nearly invisible — a mark that conveys meaning wants
+       3:1 (WCAG 1.4.11), and these do. Lifted to a mid plum at 3.71:1,
+       which is bright enough to read without becoming the loudest thing on
+       a dark page the way the full lilac halo tone (8.31:1) would be. */
+    --accent:       light-dark(var(--plum), var(--plum-lift));  /* 1.84:1 -> 3.71:1 */
+    --accent-2:     light-dark(var(--sage), var(--sage-lift));  /* 2.80:1 -> 4.99:1 */
+
+    /* ---- Badges ----
+       The accent badge used --plum-deep text on a 12%-plum tint. On a
+       near-black page that is dark-plum-on-black: the skills grid was
+       unreadable. Dark mode moves the text to the lilac halo tone over a
+       lifted-plum tint (7.53:1). */
+    --badge-accent-bg:     light-dark(rgb(var(--accent-1-rgb) / 0.12),
+                                      rgb(var(--accent-1-rgb) / 0.14));
+    --badge-accent-border: light-dark(rgb(var(--accent-1-rgb) / 0.22),
+                                      rgb(var(--accent-1-rgb) / 0.30));
+    --badge-accent-fg:     light-dark(var(--plum-deep), var(--plum-glow));
+    --badge-plum-fg:       light-dark(var(--plum), var(--plum-glow));
+
+    /* Plum at 45% is all but invisible on a near-black ground, so dark mode
+       rings with the lilac halo tone instead of the band colour. */
+    --focus-ring:   light-dark(rgb(var(--accent-1-rgb) / 0.45),
+                               rgb(var(--accent-1-glow-rgb) / 0.75));
+  }
+
+  /* The manual override. "auto" is the absence of the attribute. */
+  :root[data-theme="light"] { color-scheme: light; }
+  :root[data-theme="dark"]  { color-scheme: dark; }
+}
+
+/* ============================================================
+   TIER 2 — HIGH CONTRAST (opt-in by the reader, never by default)
+   ============================================================
+   The design compromises live here and nowhere else.
+
+   Worth being clear about what this block does and does not buy, because
+   it is easy to assume otherwise: Lighthouse and axe-core audit the
+   DEFAULT rendering and do not enable prefers-contrast. This block scores
+   nothing. Everything above it — the token nudges and the recessed card
+   surfaces — is what clears AA, and it clears AA at full visual fidelity.
+
+   So this is not a compliance backstop. It is for readers who have told
+   their OS they want more contrast, and for them the brand's softness is
+   the wrong default: muted text firms up to body weight, hairlines go to
+   their strong variant, and the focus ring stops being subtle.
+
+   Must stay CSS-only. build.mjs prerenders React in Node, so a matchMedia
+   branch inside a render body would emit markup that disagrees with the
+   client, and React does not correct inline styles during hydration —
+   the same rule already documented at primitives.jsx and sections-new.jsx
+   for prefers-reduced-motion.
+   ============================================================ */
+
+@media (prefers-contrast: more) {
+  :root {
+    /* Captions, eyebrows and timestamps stop being quiet. */
+    --text-muted:      var(--text-body);
+    --on-dark-muted:   var(--on-dark-strong);
+    --text-faint:      var(--text-muted);
+
+    /* Dividers become structure rather than suggestion. */
+    --hairline:        var(--hairline-strong);
+    --on-dark-hairline: rgba(255,255,255,0.45);
+
+    --focus-ring:      rgb(var(--accent-1-rgb) / 0.9);
+  }
+
+  /* Cards need a visible edge once the surface tint alone can't carry the
+     boundary. */
+  .on-plum, .on-sage { --border: rgba(255,255,255,0.45); }
+}
+
+/* ============================================================
+   FORCED COLORS (Windows High Contrast)
+   ============================================================
+   Here the OS palette is authoritative and the brand steps aside
+   entirely. The job is to stop decoration from fighting it: the ambient
+   glows, the near-black silhouettes and the wave blends all become noise
+   against a forced two-colour scheme, and none of them carry meaning that
+   the text doesn't already carry.
+   ============================================================ */
+
+@media (forced-colors: active) {
+  :root {
+    --focus-ring: Highlight;
+  }
+
+  /* Decorative only — all of these are aria-hidden in the markup, so
+     removing them costs no information. */
+  .hero-glow-blob,
+  [class*="glow"],
+  .scribble,
+  .waveblend {
+    display: none !important;
+  }
+
+  /* Let the forced background through instead of painting over it. */
+  .on-plum, .on-sage { background: Canvas !important; color: CanvasText !important; }
+}
+
+/* ============================================================
+   DARK — channel tokens
+   ============================================================
+   These hold raw "R G B" triplets for the rgb(R G B / A) form, not colours,
+   so light-dark() cannot carry them and they need a real scope. That is the
+   one place in this file where the dark values are written twice; keep the
+   two blocks in step.
+
+   Lifting them in dark does double duty: every alpha tint built on the band
+   colour (badge surfaces, borders, the outer stop of the ambient glows)
+   stops compositing an almost-black plum onto an almost-black page.
+   ============================================================ */
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --accent-1-rgb: 154 75 167;  /* --plum-lift */
+    --accent-2-rgb: 60 143 99;   /* --sage-lift */
+  }
+}
+:root[data-theme="dark"] {
+  --accent-1-rgb: 154 75 167;
+  --accent-2-rgb: 60 143 99;
+}
+
+/* ============================================================
+   TYPOGRAPHY — system-font-stack led, SF Pro Display first.
+   On Apple devices this renders genuine SF Pro Display/Text.
+   Elsewhere it falls back gracefully through system-ui.
+   (SF Pro binaries were not provided — see readme / flag.)
+   ============================================================ */
+
+:root {
+  --font-display: -apple-system, BlinkMacSystemFont, "Inter",
+                  "Segoe UI", system-ui, "Helvetica Neue", Arial, sans-serif;
+  --font-text:    -apple-system, BlinkMacSystemFont, "Inter",
+                  "Segoe UI", system-ui, "Helvetica Neue", Arial, sans-serif;
+  --font-mono:    "SF Mono", ui-monospace, "Menlo", Consolas, monospace;
+
+  /* ---- Fluid type scale (clamp: works 320px → 21:9 ultrawide) ---- */
+  --fs-display:   clamp(3.25rem, 1.6rem + 7.2vw, 7.5rem); /* @kind other */ /* hero name */
+  --fs-h1:        clamp(2.25rem, 1.4rem + 3.6vw, 4rem); /* @kind other */
+  --fs-h2:        clamp(1.75rem, 1.25rem + 2.1vw, 2.75rem); /* @kind other */
+  --fs-h3:        clamp(1.35rem, 1.1rem + 1.1vw, 1.875rem); /* @kind other */
+  --fs-title:     clamp(1.15rem, 1rem + 0.6vw, 1.375rem); /* @kind other */
+  --fs-lead:      clamp(1.125rem, 1rem + 0.5vw, 1.4rem); /* @kind other */ /* intro */
+  --fs-body:      clamp(1rem, 0.97rem + 0.16vw, 1.0625rem); /* @kind other */
+  --fs-small:     0.9375rem; /* @kind other */
+  --fs-caption:   0.8125rem; /* @kind other */
+  --fs-label:     0.75rem; /* @kind other */ /* eyebrow / overline labels */
+
+  /* ---- Weights (SF Pro range) ---- */
+  --fw-regular:   400; /* @kind other */
+  --fw-medium:    500; /* @kind other */
+  --fw-semibold:  600; /* @kind other */
+  --fw-bold:      700; /* @kind other */
+
+  /* ---- Line heights ---- */
+  --lh-tight:     1.04; /* @kind other */ /* display */
+  --lh-snug:      1.16; /* @kind other */ /* headings */
+  --lh-normal:    1.5; /* @kind other */ /* body */
+  --lh-relaxed:   1.65; /* @kind other */ /* long-form */
+
+  /* ---- Letter spacing (Apple-style optical tightening on big text) ---- */
+  --ls-display:  -0.025em; /* @kind other */
+  --ls-heading:  -0.018em; /* @kind other */
+  --ls-body:      0; /* @kind other */
+  --ls-label:     0.14em; /* @kind other */ /* uppercase eyebrows */
+}
+
+/* ---- Helper typographic classes ---- */
+.t-display {
+  font-family: var(--font-display);
+  font-size: var(--fs-display);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-display);
+  color: var(--heading);
+}
+.t-h1 { font-family: var(--font-display); font-size: var(--fs-h1); font-weight: var(--fw-semibold); line-height: var(--lh-snug); letter-spacing: var(--ls-heading); color: var(--heading); }
+.t-h2 { font-family: var(--font-display); font-size: var(--fs-h2); font-weight: var(--fw-semibold); line-height: var(--lh-snug); letter-spacing: var(--ls-heading); color: var(--heading); }
+.t-h3 { font-family: var(--font-display); font-size: var(--fs-h3); font-weight: var(--fw-semibold); line-height: var(--lh-snug); letter-spacing: var(--ls-heading); color: var(--heading); }
+.t-lead { font-family: var(--font-text); font-size: var(--fs-lead); font-weight: var(--fw-regular); line-height: var(--lh-relaxed); color: var(--text); }
+.t-body { font-family: var(--font-text); font-size: var(--fs-body); font-weight: var(--fw-regular); line-height: var(--lh-normal); color: var(--text); }
+.t-small { font-family: var(--font-text); font-size: var(--fs-small); line-height: var(--lh-normal); color: var(--text); }
+.t-caption { font-family: var(--font-text); font-size: var(--fs-caption); color: var(--label); }
+.t-label {
+  font-family: var(--font-text);
+  font-size: var(--fs-label);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--label);
+}
+.t-mono { font-family: var(--font-mono); font-size: var(--fs-small); }
+
+/* ---- Hero display cut ----
+   The hero name is the only text allowed to break out of the content
+   column on ultrawide displays, so it gets its own clamp with a higher
+   ceiling. --fs-display above is deliberately left untouched: .t-display
+   and every other page keep the existing scale. */
+:root {
+  --fs-display-hero: clamp(3.25rem, 1.2rem + 8.4vw, 10rem); /* @kind other */
+}
+
+/* ============================================================
+   SPACING & LAYOUT — 4px base grid. Generous, Apple-like air.
+   ============================================================ */
+
+:root {
+  --space-0:   0;
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   24px;
+  --space-6:   32px;
+  --space-7:   48px;
+  --space-8:   64px;
+  --space-9:   96px;
+  --space-10:  128px;
+  --space-11:  192px;
+
+  /* Section rhythm — vertical breathing between scroll sections */
+  --section-y:    clamp(72px, 9vw, 168px); /* @kind spacing */
+  --section-y-sm: clamp(48px, 6vw, 96px); /* @kind spacing */
+
+  /* Content widths — keep copy readable on 21:9 ultrawide */
+  --measure:        68ch;   /* long-form text column */
+  --content-narrow: 720px;
+  --content:        1080px;
+  --content-wide:   1320px;
+  --content-full:   1680px;
+
+  /* Gutters scale fluidly with viewport */
+  --gutter:    clamp(20px, 5vw, 80px); /* @kind spacing */
+  --gutter-sm: clamp(16px, 4vw, 40px); /* @kind spacing */
+}
+
+/* Centered content containers */
+.container       { width: 100%; max-width: var(--content); margin-inline: auto; padding-inline: var(--gutter); }
+.container-narrow{ width: 100%; max-width: var(--content-narrow); margin-inline: auto; padding-inline: var(--gutter); }
+.container-wide  { width: 100%; max-width: var(--content-wide); margin-inline: auto; padding-inline: var(--gutter); }
+.section         { padding-block: var(--section-y); }
+
+/* ============================================================
+   EFFECTS — radii, soft shadows, blur, and the signature motif:
+   near-black abstract shapes traced by a hand-drawn COLOURED
+   SCRIBBLE and grounded by a clear, legible drop shadow. The
+   colour used to live in a blurred gradient glow sitting behind
+   the shape; it now lives in the scribble's ink instead, so the
+   shadow underneath the shape can just be a shadow.
+   ============================================================ */
+
+:root {
+  /* ---- Corner radii (Apple-generous, continuous feel) ---- */
+  --radius-xs:   8px;
+  --radius-sm:   12px;
+  --radius-md:   18px;
+  --radius-lg:   24px;
+  --radius-xl:   32px;
+  --radius-2xl:  44px;
+  --radius-pill: 999px;
+  --radius-card: var(--radius-lg);
+
+  /* ---- Soft elevation shadows (warm-tinted, diffuse, never harsh) ---- */
+  --shadow-sm:  0 1px 2px rgba(20,20,26,0.04), 0 2px 6px rgba(20,20,26,0.05);
+  --shadow-md:  0 2px 8px rgba(20,20,26,0.05), 0 12px 28px rgba(20,20,26,0.07);
+  --shadow-lg:  0 4px 16px rgba(20,20,26,0.06), 0 28px 60px rgba(20,20,26,0.10);
+  --shadow-inset: inset 0 1px 0 rgba(255,255,255,0.6);
+
+  /* ---- Shape drop shadow (the near-black GlowShape/BlobPhoto silhouettes) ----
+     Deliberately more present than the card shadows above: a shorter blur,
+     a bigger offset, more opacity — it has to read as a CLEAR cast shadow
+     at a glance, not as another soft ambient haze. Colour stays out of it;
+     colour is the scribble's job now. -sm is scaled for the <150px "dense"
+     shapes (SectionHead deco, award icon) where the full shadow overpowers
+     the shape. */
+  --shadow-shape:    0 26px 46px -16px rgba(21,21,26,0.42), 0 10px 20px -10px rgba(21,21,26,0.26);
+  --shadow-shape-sm: 0 12px 22px -8px rgba(21,21,26,0.38), 0 5px 10px -5px rgba(21,21,26,0.24);
+
+  /* ---- Glass / blur ---- */
+  --blur-sm:  blur(8px); /* @kind other */
+  --blur-md:  blur(18px); /* @kind other */
+  --blur-lg:  blur(40px); /* @kind other */
+
+  /* ---- LEGACY/SMALL-SCALE GRADIENT GLOWS ----
+     Soft radial color halos. No longer the main shape motif (GlowShape and
+     BlobPhoto trace a Scribble around the shape instead, in primitives.jsx)
+     but still used at dot scale, where a hand-drawn stroke has no room to
+     read: the TimelineEntry accent dot's halo. Use on light surfaces; on
+     .on-plum / .on-sage use --glow-white. */
+  --glow-sage: radial-gradient(closest-side,
+                  rgb(var(--accent-2-glow-rgb) / 0.85), rgb(var(--accent-2-rgb) / 0.45) 55%, transparent 80%); /* @kind other */
+  --glow-honey:  radial-gradient(closest-side,
+                  rgb(var(--honey-rgb) / 0.80), rgb(var(--honey-rgb) / 0.30) 55%, transparent 80%); /* @kind other */
+  --glow-plum:   radial-gradient(closest-side,
+                  rgb(var(--accent-1-glow-rgb) / 0.75), rgb(var(--accent-1-rgb) / 0.40) 55%, transparent 80%); /* @kind other */
+  --glow-duo:    radial-gradient(closest-side at 35% 35%,
+                  rgb(var(--accent-2-glow-rgb) / 0.80), transparent 70%),
+                 radial-gradient(closest-side at 70% 70%,
+                  rgb(var(--accent-1-glow-rgb) / 0.65), transparent 72%); /* @kind other */
+  /* Inverted: white halo for black shapes on dark accent surfaces */
+  --glow-white:  radial-gradient(closest-side,
+                  rgba(255,255,255,0.55), rgba(255,255,255,0.18) 55%, transparent 80%); /* @kind other */
+
+  /* Box-shadow form of the glow (for elements that can't host a pseudo-bg) */
+  --glow-shadow-sage: 0 24px 80px -20px rgb(var(--accent-2-rgb) / 0.55);
+  --glow-shadow-plum:   0 24px 80px -20px rgb(var(--accent-1-rgb) / 0.55);
+}
+
+/* ============================================================
+   DENSE GLOWS + CHROME MATERIAL
+   The base --glow-* gradients were tuned for large ambient shapes.
+   Below ~140px their falloff is so wide that the halo disappears and
+   the near-black shape reads as a hard grey drop shadow — exactly what
+   the brand forbids. The -dense variants keep the same hues but hold
+   more alpha in the inner stop so small section decos still glow.
+   ============================================================ */
+
+:root {
+  --glow-sage-dense: radial-gradient(closest-side,
+                        rgb(var(--accent-2-glow-rgb) / 0.95), rgb(var(--accent-2-rgb) / 0.62) 46%, rgb(var(--accent-2-rgb) / 0.18) 72%, transparent 88%); /* @kind other */
+  --glow-honey-dense:  radial-gradient(closest-side,
+                        rgb(var(--honey-rgb) / 0.92), rgb(var(--honey-rgb) / 0.50) 46%, rgb(var(--accent-2-rgb) / 0.16) 72%, transparent 88%); /* @kind other */
+  --glow-plum-dense:   radial-gradient(closest-side,
+                        rgb(var(--accent-1-glow-rgb) / 0.90), rgb(var(--accent-1-rgb) / 0.55) 46%, rgb(var(--accent-1-rgb) / 0.16) 72%, transparent 88%); /* @kind other */
+  --glow-duo-dense:    radial-gradient(closest-side at 34% 34%,
+                        rgb(var(--accent-2-glow-rgb) / 0.92), transparent 68%),
+                       radial-gradient(closest-side at 72% 72%,
+                        rgb(var(--accent-1-glow-rgb) / 0.78), transparent 70%); /* @kind other */
+  /* Inverted halo for near-black shapes on the plum / sage bands. */
+  --glow-white-strong: radial-gradient(closest-side,
+                        rgba(255,255,255,0.72), rgba(255,255,255,0.30) 48%, rgba(255,255,255,0.10) 72%, transparent 88%); /* @kind other */
+
+  /* ---- Chrome material ----
+     Translucency is confined to floating chrome (language globe, contact
+     chip, section rail). Content surfaces stay opaque: this is not a
+     glassmorphism brand, and the readme says so explicitly. */
+  /* One token, both modes. This used to be a --material-chrome /
+     --material-chrome-dark pair duplicating a --glass-light / --glass-dark
+     pair further up, with only the first of the four ever referenced; the
+     dead three are gone. The dark value is lifted off the near-black paper
+     rather than matching it, so floating chrome still reads as floating. */
+  --material-chrome: rgba(246,246,247,0.72);
+  --blur-chrome: blur(20px) saturate(1.4); /* @kind other */
+  --chrome-hairline: rgba(20,20,26,0.10);
+}
+
+/* ============================================================
+   DARK MODE — effects
+   ============================================================
+   Guarded exactly like the palette in colors.css, and for a sharper
+   reason here: a custom property stores its value unparsed, so writing a
+   plain declaration followed by a light-dark() one does not give a
+   fallback — the later declaration always wins, and a browser that cannot
+   parse it only fails at var() time, dropping the property to nothing.
+   Unguarded, an old browser would lose every shadow on the page. Behind
+   @supports it simply keeps the literals above.
+
+   Colours are allowed inside a box-shadow, so light-dark() can sit on the
+   individual stops and each shadow stays a single declaration.
+   ============================================================ */
+
+@supports (color: light-dark(#000, #fff)) {
+  :root {
+    /* Elevation shadows go to near-pure black on dark: the ink-tinted
+       rgba above is lighter than the #0A0A0D paper and would read as a
+       faint halo rather than a shadow. */
+    --shadow-sm:  0 1px 2px light-dark(rgba(20,20,26,0.04), rgba(0,0,0,0.44)),
+                  0 2px 6px light-dark(rgba(20,20,26,0.05), rgba(0,0,0,0.36));
+    --shadow-md:  0 2px 8px  light-dark(rgba(20,20,26,0.05), rgba(0,0,0,0.48)),
+                  0 12px 28px light-dark(rgba(20,20,26,0.07), rgba(0,0,0,0.40));
+    --shadow-lg:  0 4px 16px light-dark(rgba(20,20,26,0.06), rgba(0,0,0,0.52)),
+                  0 28px 60px light-dark(rgba(20,20,26,0.10), rgba(0,0,0,0.46));
+
+    /* The specular top edge is a light-mode conceit; on dark it survives
+       only as a whisper. */
+    --shadow-inset: inset 0 1px 0 light-dark(rgba(255,255,255,0.6), rgba(255,255,255,0.06));
+
+    /* --------- the shape shadow has to change meaning --------- */
+    /* In light mode this is a CAST SHADOW: a near-black silhouette
+       dropping onto off-white paper. In dark mode --ink inverts to
+       near-white (see colors.css) and the paper goes near-black, so a dark
+       cast shadow would fall invisibly onto an already-black ground and
+       the shape would float unanchored.
+
+       It becomes a BLOOM instead — the same geometry, so the offset still
+       reads as a light source above, but tinted with the shape's own ink
+       so the silhouette sits in a halo of its own colour. That is the one
+       translation that keeps the motif grounded without inventing a new
+       visual device for dark mode. */
+    --shadow-shape:    0 26px 46px -16px light-dark(rgba(21,21,26,0.42), rgba(232,232,238,0.15)),
+                       0 10px 20px -10px light-dark(rgba(21,21,26,0.26), rgba(232,232,238,0.09));
+    --shadow-shape-sm: 0 12px 22px -8px light-dark(rgba(21,21,26,0.38), rgba(232,232,238,0.13)),
+                       0 5px 10px -5px light-dark(rgba(21,21,26,0.24), rgba(232,232,238,0.08));
+
+    /* Floating chrome lifts OFF the near-black paper rather than matching
+       it, so the globe and contact chip still read as hovering. */
+    --material-chrome:  light-dark(rgba(246,246,247,0.72), rgba(30,30,38,0.66));
+    --chrome-hairline:  light-dark(rgba(20,20,26,0.10), rgba(255,255,255,0.12));
+
+    /* Near-black shapes on the accent bands glowed white. In dark mode the
+       shapes are already near-white, so that halo would wash them out. */
+    --glow-white:  radial-gradient(closest-side,
+                     light-dark(rgba(255,255,255,0.55), rgba(255,255,255,0.22)),
+                     light-dark(rgba(255,255,255,0.18), rgba(255,255,255,0.07)) 55%,
+                     transparent 80%); /* @kind other */
+  }
+}
+
+/* ============================================================
+   TIER 2 — HIGH CONTRAST (reader opt-in)
+   ============================================================
+   Translucency and ambient haze are the first things to go: a blurred
+   backdrop behind chrome text is precisely the effect someone enabling
+   this setting is trying to get rid of. Chrome becomes opaque, the blur
+   is dropped outright, and the decorative glows stop tinting the ground
+   behind body copy.
+   ============================================================ */
+
+@media (prefers-contrast: more) {
+  :root {
+    --material-chrome: var(--paper);
+    --blur-chrome: none; /* @kind other */
+    --chrome-hairline: var(--hairline-strong);
+
+    /* Keep the shapes, drop the haze around them. */
+    --glow-sage: none;  --glow-honey: none;  --glow-plum: none;  --glow-duo: none;
+    --glow-sage-dense: none; --glow-honey-dense: none;
+    --glow-plum-dense: none; --glow-duo-dense: none;
+    --glow-white: none;  --glow-white-strong: none;
+    --glow-shadow-sage: none; --glow-shadow-plum: none;
+  }
+}
+
+/* ============================================================
+   MOTION — felt but never hectic. Movement is core to the brand.
+   Long, eased scroll reveals; quick, soft interaction feedback.
+   ============================================================ */
+
+:root {
+  /* Easing curves */
+  --ease-out:      cubic-bezier(0.22, 1, 0.36, 1);   /* @kind other */ /* primary — soft settle */
+  --ease-in-out:   cubic-bezier(0.65, 0, 0.35, 1); /* @kind other */
+  --ease-glide:    cubic-bezier(0.16, 1, 0.30, 1);   /* @kind other */ /* long scroll-reveal glide */
+  --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);/* @kind other */ /* gentle overshoot */
+
+  /* Durations */
+  --dur-fast:    140ms; /* @kind other */ /* hover tints */
+  --dur-base:    240ms; /* @kind other */ /* press, small transitions */
+  --dur-slow:    520ms; /* @kind other */ /* element entrances */
+  --dur-reveal:  760ms; /* @kind other */ /* section scroll reveals */
+  --dur-drift:   16s; /* @kind other */ /* ambient shape drift loops */
+
+  /* Reveal travel distance */
+  --reveal-rise: 28px;
+}
+
+/* Scroll-reveal primitive: start hidden + translated, reveal on .is-in.
+   Gate decorative motion on reduced-motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(var(--reveal-rise));
+    transition: opacity var(--dur-reveal) var(--ease-glide),
+                transform var(--dur-reveal) var(--ease-glide);
+    will-change: opacity, transform;
+  }
+  .reveal.is-in { opacity: 1; transform: none; }
+  .reveal-d1 { transition-delay: 80ms; }
+  .reveal-d2 { transition-delay: 160ms; }
+  .reveal-d3 { transition-delay: 240ms; }
+  .reveal-d4 { transition-delay: 320ms; }
+}
+
+/* Ambient slow drift for background shapes */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes drift {
+    0%   { transform: translate3d(0,0,0) scale(1) rotate(0deg); }
+    25%  { transform: translate3d(4%, -7%, 0) scale(1.035) rotate(-5deg); }
+    50%  { transform: translate3d(7%, -2%, 0) scale(0.97) rotate(8deg); }
+    75%  { transform: translate3d(2%, 5%, 0) scale(1.02) rotate(-3deg); }
+    100% { transform: translate3d(0,0,0) scale(1) rotate(0deg); }
+  }
+  .drift { animation: drift var(--dur-drift) var(--ease-spring) infinite; }
+  .drift:nth-of-type(2n) { animation-duration: calc(var(--dur-drift) * 1.3); animation-delay: -3s; }
+  .drift:nth-of-type(3n) { animation-duration: calc(var(--dur-drift) * 0.8); animation-delay: -7s; }
+
+  /* Gentler drift for foreground photos — about a third of the amplitude and
+     slower, so the imagery breathes without distracting. */
+  @keyframes drift-soft {
+    0%   { transform: translate3d(0,0,0) scale(1) rotate(0deg); }
+    33%  { transform: translate3d(1.4%, -2.2%, 0) scale(1.008) rotate(-1.4deg); }
+    66%  { transform: translate3d(2%, 1.4%, 0) scale(0.992) rotate(2deg); }
+    100% { transform: translate3d(0,0,0) scale(1) rotate(0deg); }
+  }
+  .drift-soft { animation: drift-soft calc(var(--dur-drift) * 1.6) var(--ease-in-out) infinite; }
+  .drift-soft:nth-of-type(2n) { animation-duration: calc(var(--dur-drift) * 1.95); animation-delay: -5s; }
+}
+
+/* ============================================================
+   FLUID-INTERFACE LAYER
+   Apple's fluid-interface guidance: motion tracks input, stays
+   interruptible, and never blocks interaction. These tokens back
+   the scroll-linked parallax and the pointer-tracked press/lift.
+   ============================================================ */
+
+:root {
+  /* Asymmetric settle — fast to leave, long to arrive. Used for
+     entrances that should feel "placed" rather than "played". */
+  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1); /* @kind other */
+  /* Exits run ~65% of the entrance so dismissal feels responsive. */
+  --dur-exit: 160ms; /* @kind other */
+
+  /* Parallax depth planes. Multiplied against the element's distance
+     from the viewport centre to produce its --py offset. Depth is a
+     token so planes stay consistent across sections. */
+  --depth-1: 0.04; /* @kind other */ /* foreground detail — barely moves */
+  --depth-2: 0.08; /* @kind other */ /* mid plane — photos, clusters */
+  --depth-3: 0.14; /* @kind other */ /* far plane — ambient shapes */
+}
+
+/* Parallax carrier. --py is written by the shared rAF loop in
+   primitives.jsx; the element itself only ever transforms. */
+.parallax { transform: translate3d(0, var(--py, 0px), 0); will-change: transform; }
+
+/* Pointer-tracked lift. --mx/--my are set by Pressable and read here so
+   the tilt is expressed in CSS and can be neutralised wholesale. */
+.pressable {
+  transform: translate3d(0, var(--lift, 0px), 0) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale(var(--pscale, 1));
+  transition: transform var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out);
+  transform-style: preserve-3d;
+}
+.pressable:active { --pscale: 0.97; transition-duration: var(--dur-exit); }
+
+/* Reduced motion: freeze every input-linked plane. The elements stay
+   exactly where layout puts them; nothing animates. */
+@media (prefers-reduced-motion: reduce) {
+  .parallax { --py: 0px !important; transform: none !important; will-change: auto; }
+  .pressable { --lift: 0px !important; --rx: 0deg !important; --ry: 0deg !important; transform: none !important; }
+  .pressable:active { --pscale: 1; }
+}
+
+/* ============================================================
+   BASE — minimal resets + element defaults using the tokens.
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-text);
+  font-size: var(--fs-body);
+  line-height: var(--lh-normal);
+  letter-spacing: var(--ls-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  color: var(--heading);
+  letter-spacing: var(--ls-heading);
+  line-height: var(--lh-snug);
+  margin: 0;
+}
+
+p { margin: 0; }
+a { color: inherit; text-decoration: none; }
+
+::selection { background: rgb(var(--accent-2-rgb) / 0.22); }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+img { max-width: 100%; display: block; }
+
+hr { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+/* ------------------------------------------------------------
+   Accessibility / SEO utility: screen-reader-only content.
+   Clips an element out of the visual flow while leaving it fully
+   intact in the DOM for assistive tech, search spiders and LLM
+   crawlers. Used for invisible semantic landmarks/headings that
+   give the custom layout a clean, linear document outline without
+   altering the visual design.
+   ------------------------------------------------------------ */
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* The default selection is sage @ 22% — invisible on the dark plum/sage bands.
+   Use a light veil there so highlighted text is actually visible. */
+.on-plum ::selection, .on-sage ::selection,
+.on-plum::selection, .on-sage::selection { background: rgb(255 255 255 / 0.32); color: var(--on-dark-strong); }
+
+/* ------------------------------------------------------------
+   Inline links inside timeline bullets.
+
+   These rules used to live as a style="" attribute inside an i18n string
+   that was injected with dangerouslySetInnerHTML — which meant the one
+   place on the site a reader most needs a strong link affordance was also
+   the one place no stylesheet could reach. An inline attribute outranks
+   every rule here, so prefers-contrast could not touch it.
+   ------------------------------------------------------------ */
+.tl-point-link {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: from-font;
+}
+.tl-point-link:hover { text-decoration-color: var(--accent); }
+.tl-point-link:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+@media (prefers-contrast: more) {
+  /* now reachable, which was the point */
+  .tl-point-link { text-decoration-thickness: 2px; color: var(--heading); }
+}
+

@@ -45,4 +45,14 @@ desktop.ini
 # internal briefs, not for the repo
 DESIGN_GUIDE_anti-vibecode.md
 RELEASE_BRIEF_v1.1.md
-audit-report.html
+audit-report*.html
+lighthouse*
+
+# brag film render masters (with audio, ~150 MB). They live on iCloud and are
+# reproducible with `node ci/build-brag.mjs`. The compositions themselves and
+# the site copies in ci/assets/video/ stay tracked.
+/brag-output/*.mp4
+/brag-output/*.jpg
+/brag-output/work-*/
+/brag-vertical/*.mp4
+/brag-vertical/*.jpg

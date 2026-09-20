@@ -18,6 +18,22 @@
         --on-dark:#F7F7F9; --on-dark-body:#DFDFE4;
         --font:"SF Pro Display", -apple-system, system-ui, sans-serif;
         --mono: ui-monospace, monospace;
+        /* accent for marks sitting ON paper; plum is too dark to read on the dark paper */
+        --plum-mark:var(--plum);
+        --award-ink:#7a5a16;
+      }
+      /* Dark palette — mirrors ci/tokens/colors.css. The build script sets
+         data-theme="dark" on <html> before rendering the dark variants.
+         NB: this file's --ink is heading text, so it maps to the site's
+         --text-strong, not the site's --ink (which is the shape motif). */
+      :root[data-theme="dark"] {
+        --paper:#0A0A0D; --paper-2:#121217; --paper-3:#1B1B21;
+        --ink:#F2F2F5; --text:#D9D9E1; --muted:#AEAEBA; --hairline:#26262E; --hairline-2:#3A3A45;
+        --plum:#5B2A62; --plum-deep:#3F1D45;
+        --sage:#2A6345; --sage-deep:#1F4C36;
+        --on-dark-body:#E4E4EA;
+        --plum-mark:#9A4BA7;  /* --plum-lift: 3.71:1 on dark paper */
+        --award-ink:var(--honey);
       }
       * { margin:0; padding:0; box-sizing:border-box; }
       html, body { margin:0; width:1920px; height:1080px; overflow:hidden; background:var(--paper); }
@@ -54,12 +70,12 @@
         border-radius:999px; background:rgba(236,199,123,.20); border:1px solid rgba(236,199,123,.55); }
       .award-pill .star { width:34px; height:34px; border-radius:50%; flex:none; display:grid; place-items:center;
         background:radial-gradient(circle at 34% 30%, #fff, var(--honey) 62%, #d9a94e); font-size:17px; }
-      .award-pill .t { font-family:var(--font); font-weight:600; font-size:20px; color:#7a5a16; letter-spacing:-.01em; }
+      .award-pill .t { font-family:var(--font); font-weight:600; font-size:20px; color:var(--award-ink); letter-spacing:-.01em; }
       .chartwrap { position:absolute; right:150px; top:50%; transform:translateY(-50%); z-index:2; width:660px; }
       .chart-cap { font-family:var(--mono); font-size:19px; color:var(--muted); margin-top:8px; text-align:right; }
-      #seebeck-line { fill:none; stroke:var(--plum); stroke-width:5; stroke-linecap:round; stroke-linejoin:round; }
+      #seebeck-line { fill:none; stroke:var(--plum-mark); stroke-width:5; stroke-linecap:round; stroke-linejoin:round; }
       .axis { stroke:var(--hairline-2); stroke-width:1.5; } .axis-lbl { font-family:var(--mono); font-size:19px; fill:var(--muted); }
-      .dotpt { fill:var(--plum); }
+      .dotpt { fill:var(--plum-mark); }
 
       /* 7 · Seeking */
       .seek-copy { position:absolute; left:120px; right:120px; top:180px; z-index:3; }
@@ -83,6 +99,17 @@
       .chip { font-family:var(--mono); font-size:19px; font-weight:600; padding:11px 16px; border-radius:12px; background:var(--paper-2); border:1px solid var(--hairline); color:var(--muted); }
       .cs-shot { position:absolute; right:150px; top:210px; width:1000px; z-index:2; border-radius:22px; overflow:hidden; border:1px solid var(--hairline); box-shadow:0 50px 110px -46px rgba(20,20,26,.6); }
       .cs-shot img { display:block; width:1000px; height:auto; }
+      /* one screenshot per theme — the app ships its own light and dark chrome */
+      .cs-shot .dark-only { display:none; }
+      :root[data-theme="dark"] .cs-shot { border-color:var(--hairline-2);
+        box-shadow:0 40px 90px -44px rgba(0,0,0,.72), 0 0 0 1px rgba(232,232,238,.06); }
+      :root[data-theme="dark"] .cs-shot .light-only { display:none; }
+      :root[data-theme="dark"] .cs-shot .dark-only { display:block; }
+      /* no dark phone capture exists, so the dark cut is desktop-led */
+      :root[data-theme="dark"] .cs-phone { display:none; }
+      .cs-card .nfl { display:none; }
+      :root[data-theme="dark"] .cs-card .mlb { display:none; }
+      :root[data-theme="dark"] .cs-card .nfl { display:block; }
       /* phone PNG already includes a device bezel — render raw, just a drop-shadow (no second frame) */
       .cs-phone { position:absolute; right:196px; bottom:14px; width:250px; z-index:3;
         filter:drop-shadow(0 40px 60px rgba(20,20,26,.55)); }
@@ -103,8 +130,32 @@
       .outro-glow { position:absolute; width:760px; height:760px; border-radius:50%; z-index:1; pointer-events:none; filter:blur(12px); top:50%; margin-top:-380px; }
       #outro-glow-a { left:-120px; background:radial-gradient(circle at 50% 50%, rgba(120,55,129,.42), transparent 68%); }
       #outro-glow-b { right:-120px; background:radial-gradient(circle at 50% 50%, rgba(44,104,73,.40), transparent 68%); }
+      /* The blobs sit on near-black here, so they need more presence — but on
+         paper the eye forgives two identical centred circles, and on black it
+         does not. Break all three symmetries (size, vertical offset, focus)
+         and stretch the falloff so no circular edge is legible. */
+      :root[data-theme="dark"] .outro-glow { filter:blur(26px); }
+      :root[data-theme="dark"] #outro-glow-a {
+        width:900px; height:720px; left:-210px; margin-top:-470px;
+        background:radial-gradient(ellipse 56% 60% at 44% 38%, rgba(154,75,167,.52), transparent 78%); }
+      :root[data-theme="dark"] #outro-glow-b {
+        width:770px; height:840px; right:-160px; margin-top:-300px;
+        background:radial-gradient(ellipse 54% 58% at 58% 60%, rgba(60,143,99,.44), transparent 76%); }
+      /* the card is already near-black; lift its edge so it separates from dark paper */
+      :root[data-theme="dark"] .cs-card { border-color:rgba(255,255,255,.16); }
       .wordmark { font-family:var(--font); font-weight:700; font-size:128px; letter-spacing:-.035em; color:var(--ink); }
       .tagline { font-family:var(--font); font-weight:500; font-size:34px; color:var(--muted); margin-top:26px; letter-spacing:-.01em; }
+
+      /* Dither for the dark cut. 8-bit gradients on near-black quantise into
+         visible contour rings, and H.264 then blocks them. A fine static noise
+         laid over the gradient with mix-blend-mode:overlay scales with the local
+         brightness, so it breaks the contours without lifting the black floor.
+         Deterministic (feTurbulence, fixed seed) and off in the light cut. */
+      .grain { display:none; position:absolute; inset:0; z-index:1; pointer-events:none;
+        mix-blend-mode:overlay; opacity:.16; background-size:256px 256px;
+        background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='256' height='256'><filter id='n' x='0' y='0' width='100%' height='100%'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' seed='7' stitchTiles='stitch'/><feColorMatrix values='.33 .33 .33 0 0 .33 .33 .33 0 0 .33 .33 .33 0 0 0 0 0 0 1'/><feComponentTransfer><feFuncR type='linear' slope='3' intercept='-1'/><feFuncG type='linear' slope='3' intercept='-1'/><feFuncB type='linear' slope='3' intercept='-1'/></feComponentTransfer></filter><rect width='256' height='256' filter='url(%23n)'/></svg>"); }
+      :root[data-theme="dark"] .grain { display:block; }
+      #s-outro .grain { z-index:2; }
     </style>
   </head>
   <body>
@@ -112,6 +163,7 @@
 
       <!-- 1 · OPENER -->
       <div class="clip scene" id="s-open" data-start="0" data-duration="1.60" data-track-index="0">
+        <div class="grain"></div>
         <div class="op-copy">
           <div class="mask"><span class="eyebrow mint" id="op-eyebrow">Materials Science · B.Sc.</span></div>
           <h1 class="op-head" id="op-head">Measurement, sensors, thin films &amp; NDT.</h1>
@@ -204,6 +256,7 @@
 
       <!-- 11 · VOL TITLE (sage) -->
       <div class="clip scene" id="s-voltitle" data-start="7.91" data-duration="1.05" data-track-index="0">
+        <div class="grain"></div>
         <div class="vt-copy">
           <div class="mask"><span class="eyebrow on-dark" id="vt-eyebrow">Volunteering</span></div>
           <h2 class="vt-head" id="vt-head">Engagement that matters to me</h2>
@@ -213,19 +266,38 @@
 
       <!-- 12 · CHEAPSEATS -->
       <div class="clip scene" id="s-cs" data-start="8.96" data-duration="2.64" data-track-index="0">
-        <div class="cs-shot" id="cs-shot"><img src="assets/img/cs-overview.png" alt="CheapSeats app" /></div>
+        <div class="cs-shot" id="cs-shot">
+          <img class="light-only" src="assets/img/cs-overview.png" alt="CheapSeats app" />
+          <img class="dark-only" src="assets/img/cs-overview-dark.png" alt="CheapSeats app in dark mode" />
+        </div>
         <div class="cs-phone" id="cs-phone"><img src="assets/img/cs-phone.png" alt="CheapSeats on mobile" /></div>
         <div class="cs-card-persp"><div class="cs-card" id="cs-card">
-          <div class="banner">
-            <div class="k">Next Game · Week 25</div>
-            <div class="m">@ Miami Marlins</div>
-            <div class="s">Sun, Jun 21 · 7:40 PM · loanDepot park</div>
+          <div class="mlb">
+            <div class="banner">
+              <div class="k">Next Game · Week 25</div>
+              <div class="m">@ Miami Marlins</div>
+              <div class="s">Sun, Jun 21 · 7:40 PM · loanDepot park</div>
+            </div>
+            <div class="tiles">
+              <div class="tile"><div class="tk">ERA</div><div class="tv">5.73</div></div>
+              <div class="tile"><div class="tk">K</div><div class="tv">48</div></div>
+              <div class="tile"><div class="tk">WHIP</div><div class="tv">1.58</div></div>
+              <div class="tile"><div class="tk">W-L</div><div class="tv">2-6</div></div>
+            </div>
           </div>
-          <div class="tiles">
-            <div class="tile"><div class="tk">ERA</div><div class="tv">5.73</div></div>
-            <div class="tile"><div class="tk">K</div><div class="tv">48</div></div>
-            <div class="tile"><div class="tk">WHIP</div><div class="tv">1.58</div></div>
-            <div class="tile"><div class="tk">W-L</div><div class="tv">2-6</div></div>
+          <!-- dark cut shows the app's NFL view, so the card matches it -->
+          <div class="nfl">
+            <div class="banner">
+              <div class="k">Next Game · Week 2</div>
+              <div class="m">vs Miami Dolphins</div>
+              <div class="s">Sun, Sep 20 · 10:25 PM · Levi's Stadium</div>
+            </div>
+            <div class="tiles">
+              <div class="tile"><div class="tk">COMP%</div><div class="tv">73.5</div></div>
+              <div class="tile"><div class="tk">PASS YDS</div><div class="tv">205</div></div>
+              <div class="tile"><div class="tk">TD</div><div class="tv">3</div></div>
+              <div class="tile"><div class="tk">INT</div><div class="tv">1</div></div>
+            </div>
           </div>
         </div></div>
         <div class="cs-copy">
@@ -242,6 +314,7 @@
 
       <!-- 13 · OUTRO -->
       <div class="clip scene" id="s-outro" data-start="11.60" data-duration="2.10" data-track-index="0">
+        <div class="grain"></div>
         <div class="outro-glow" id="outro-glow-a"></div>
         <div class="outro-glow" id="outro-glow-b"></div>
         <div class="center">

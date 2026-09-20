@@ -191,16 +191,16 @@ function Footer() {
         <div style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h3)", color: "var(--heading)", letterSpacing: "var(--ls-heading)" }}>Mika Jeske</div>
         <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 24 }}>
           <a href={LINKEDIN} target="_blank" rel="noopener" style={{ fontSize: "var(--fs-body)", color: "var(--text-body)", fontWeight: 500 }}>{f.linkedinLabel}</a>
-          <a href={EMAIL} aria-label={f.emailAria} style={{ display: "inline-flex", alignItems: "center", gap: 7, fontSize: "var(--fs-body)", color: "var(--text-body)", fontWeight: 500 }}>
+          <a href={EMAIL} style={{ display: "inline-flex", alignItems: "center", gap: 7, fontSize: "var(--fs-body)", color: "var(--text-body)", fontWeight: 500 }}>
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m4 7 8 6 8-6" /></svg>
             {f.email}
           </a>
-          <a href={PHONE} aria-label={f.phoneAria} style={{ display: "inline-flex", alignItems: "center", gap: 7, fontSize: "var(--fs-body)", color: "var(--text-body)", fontWeight: 500 }}>
+          <a href={PHONE} style={{ display: "inline-flex", alignItems: "center", gap: 7, fontSize: "var(--fs-body)", color: "var(--text-body)", fontWeight: 500 }}>
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
             {f.phone}
           </a>
           <a href={asset("impressum/")} style={{ fontSize: "var(--fs-body)", color: "var(--text-body)", fontWeight: 500 }}>{f.legal}</a>
-          <span style={{ fontFamily: "var(--font-mono)", fontSize: "var(--fs-caption)", color: "var(--text-faint)" }}>{f.madeBy}</span>
+          <span style={{ fontFamily: "var(--font-mono)", fontSize: "var(--fs-caption)", color: "var(--text-muted)" }}>{f.madeBy}</span>
         </div>
       </div>
       <div className="container">
@@ -208,7 +208,7 @@ function Footer() {
         {f.privacyNote && <p className="i18n-disclaimer">{f.privacyNote}</p>}
       </div>
       <div style={{ display: "flex", justifyContent: "center", marginTop: 32 }}>
-        <a href={asset("private/")} style={{ display: "inline-flex", padding: 8, color: "var(--text-faint)", opacity: 0.35 }}>
+        <a href={asset("private/")} aria-label="Private Hub (Not needed for public site navigation)" style={{ display: "inline-flex", padding: 8, color: "var(--text-faint)", opacity: 0.35 }}>
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="4" y="11" width="16" height="10" rx="2" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></svg>
         </a>
       </div>

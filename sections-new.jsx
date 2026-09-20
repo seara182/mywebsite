@@ -94,7 +94,7 @@ function TornSection({ label, seed = 7, teaser, children }) {
               border: "1px solid var(--hairline-strong)", borderRadius: 14,
               fontFamily: "var(--font-text)", color: "var(--text)",
             }}>
-            <img src={teaser.photo} alt="" aria-hidden
+            <img src={teaser.photo} alt="" aria-hidden width={56} height={56}
               style={{ width: 56, height: 56, borderRadius: 10, objectFit: "cover", flex: "none" }} />
             <span style={{ flex: 1, fontSize: "var(--fs-small)", lineHeight: "var(--lh-relaxed)", color: "var(--text)" }}>
               {teaser.text}
@@ -179,7 +179,7 @@ function TornSection({ label, seed = 7, teaser, children }) {
   );
 }
 
-function LoosePhoto({ src, caption, rot, w }) {
+function LoosePhoto({ src, caption, rot, w, imgW, imgH }) {
   return (
     <figure style={{ margin: 0, flex: `0 1 ${w}px`, transform: `rotate(${rot}deg)`, transition: "transform .4s var(--ease-out)" }}
       className="loose-photo">
@@ -188,7 +188,7 @@ function LoosePhoto({ src, caption, rot, w }) {
         boxShadow: "0 2px 10px -2px rgba(20,20,26,0.18), 0 18px 40px -22px rgb(var(--accent-2-rgb) / 0.45)",
         border: "1px solid var(--hairline)",
       }}>
-        <img src={src} alt={caption} loading="lazy" style={{ display: "block", width: "100%", height: "auto", borderRadius: 5 }} />
+        <img src={src} alt={caption} loading="lazy" width={imgW} height={imgH} style={{ display: "block", width: "100%", height: "auto", borderRadius: 5 }} />
       </div>
       <figcaption className="photo-cap" style={{ fontFamily: "var(--font-mono)", fontSize: "var(--fs-caption)", color: "var(--text-muted)", marginTop: 10, paddingLeft: 4 }}>
         {caption}
@@ -197,7 +197,7 @@ function LoosePhoto({ src, caption, rot, w }) {
   );
 }
 
-function Polaroid({ src, caption, rot, tape }) {
+function Polaroid({ src, caption, rot, tape, imgW, imgH }) {
   return (
     <figure style={{ margin: 0, transform: `rotate(${rot}deg)`, transition: "transform .4s var(--ease-out)", position: "relative" }}
       className="polaroid">
@@ -217,7 +217,7 @@ function Polaroid({ src, caption, rot, tape }) {
         background: "var(--polaroid-mount)", padding: "12px 12px 0", borderRadius: 3,
         boxShadow: "0 6px 22px -10px rgba(20,20,26,0.40), 0 30px 50px -30px rgb(var(--accent-2-rgb) / 0.40)",
       }}>
-        <img src={src} alt={caption} loading="lazy" style={{ display: "block", width: "100%", height: "auto", filter: "saturate(1.02) contrast(1.02)" }} />
+        <img src={src} alt={caption} loading="lazy" width={imgW} height={imgH} style={{ display: "block", width: "100%", height: "auto", filter: "saturate(1.02) contrast(1.02)" }} />
         <figcaption style={{ fontFamily: "var(--font-mono)", fontSize: "12px", color: "#45454E", textAlign: "center", padding: "14px 6px 16px", lineHeight: 1.4 }}>
           {caption}
         </figcaption>
@@ -302,10 +302,10 @@ function CleanroomTear() {
           <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: 0 }}>{c.p3}</p>
         </div>
         <div style={{ display: "flex", flexWrap: "wrap", gap: "clamp(16px,2.4vw,30px)", alignItems: "flex-start", marginTop: "clamp(28px,4vw,44px)" }}>
-          <LoosePhoto src={asset("ci/assets/Bilder/ZMN/ZMN_Sputter.jpeg")} caption={c.photos[0]} rot={-2.5} w={340} />
-          <LoosePhoto src={asset("ci/assets/Bilder/ZMN/ZMN_Me.jpeg")} caption={c.photos[1]} rot={2.5} w={210} />
-          <LoosePhoto src={asset("ci/assets/Bilder/ZMN/ZMN_Profilo.jpeg")} caption={c.photos[2]} rot={1.5} w={330} />
-          <LoosePhoto src={asset("ci/assets/Bilder/ZMN/ZMN_Proben.jpeg")} caption={c.photos[3]} rot={-1.5} w={205} />
+          <LoosePhoto src={asset("ci/assets/Bilder/ZMN/ZMN_Sputter.jpeg")} caption={c.photos[0]} rot={-2.5} w={340} imgW={1600} imgH={900} />
+          <LoosePhoto src={asset("ci/assets/Bilder/ZMN/ZMN_Me.jpeg")} caption={c.photos[1]} rot={2.5} w={210} imgW={899} imgH={1599} />
+          <LoosePhoto src={asset("ci/assets/Bilder/ZMN/ZMN_Profilo.jpeg")} caption={c.photos[2]} rot={1.5} w={330} imgW={1600} imgH={900} />
+          <LoosePhoto src={asset("ci/assets/Bilder/ZMN/ZMN_Proben.jpeg")} caption={c.photos[3]} rot={-1.5} w={205} imgW={900} imgH={1600} />
         </div>
       </TornSection>
     </section>
@@ -344,10 +344,10 @@ function ConfiTear() {
         </SplitFeature>
         <div style={{ display: "flex", flexWrap: "wrap", gap: "clamp(18px,2.4vw,34px)", alignItems: "flex-start", marginTop: "clamp(28px,4vw,48px)" }}>
           <div style={{ flex: "1 1 260px", maxWidth: 340 }}>
-            <Polaroid src={asset("ci/assets/Bilder/Konfi/Konfi_Phe.jpeg")} caption={c.photos[1]} rot={3} tape />
+            <Polaroid src={asset("ci/assets/Bilder/Konfi/Konfi_Phe.jpeg")} caption={c.photos[1]} rot={3} tape imgW={1200} imgH={1600} />
           </div>
           <div style={{ flex: "1 1 260px", maxWidth: 340 }}>
-            <Polaroid src={asset("ci/assets/Bilder/Konfi/Konfi_Party.jpeg")} caption={c.photos[2]} rot={-3.5} />
+            <Polaroid src={asset("ci/assets/Bilder/Konfi/Konfi_Party.jpeg")} caption={c.photos[2]} rot={-3.5} imgW={1600} imgH={900} />
           </div>
         </div>
       </TornSection>
@@ -392,7 +392,7 @@ function Collaborations() {
                 boxShadow: "0 10px 30px -12px rgba(20,20,26,0.28), 0 44px 76px -38px rgb(var(--accent-2-rgb) / 0.35)",
                 border: "1px solid var(--hairline)",
               }}>
-                <img src={asset("ci/assets/Bilder/DerHochsitz/DerHochsitz_Poster.jpeg")} alt={c.posterCaption} loading="lazy"
+                <img src={asset("ci/assets/Bilder/DerHochsitz/DerHochsitz_Poster.jpeg")} alt={c.posterCaption} loading="lazy" width={710} height={1000}
                   style={{ display: "block", width: "100%", height: "auto", borderRadius: 8 }} />
               </div>
               <figcaption style={{ fontFamily: "var(--font-mono)", fontSize: "var(--fs-caption)", color: "var(--text-muted)", marginTop: 12, textAlign: "center" }}>
