@@ -13,9 +13,9 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="icon" href="../../favicon.ico" sizes="48x48">
-  <link rel="icon" type="image/png" sizes="32x32" href="../../ci/icons/favicon-32.png">
-  <link rel="apple-touch-icon" href="../../ci/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="stylesheet" href="../../ci/styles.css">
   <link rel="stylesheet" href="../../ci/i18n-ui.css">
   <style>
@@ -347,23 +347,38 @@
     .feature-card p { font-size: var(--fs-small); line-height: 1.5; color: var(--text-body); margin: 0; }
 
     /* ---- trailer video ---- */
-    .video-frame { position: relative; margin-top: clamp(32px,4vw,48px); aspect-ratio: 16/9; border-radius: var(--radius-xl); overflow: hidden; background: var(--ink); box-shadow: var(--shadow-lg); }
-    .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-    .video-frame__gate {
-      position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
-      padding: clamp(20px,4vw,40px); text-align: center;
-      background: radial-gradient(circle at 50% 40%, rgba(255,255,255,0.08), transparent 60%), linear-gradient(135deg, var(--plum), var(--ink));
+    .video-frame { position: relative; margin-top: clamp(32px,4vw,48px); aspect-ratio: 16/9; border-radius: var(--radius-xl); overflow: hidden; background: #0d0d11; box-shadow: var(--shadow-lg); }
+    .video-frame video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #0d0d11; }
+    /* Controls take their colours from the theme tokens, so they flip with light/dark mode. */
+    .vp-big {
+      position: absolute; inset: 0; margin: auto; width: 76px; height: 76px; display: grid; place-items: center;
+      background: var(--paper); color: var(--ink); border: 0; border-radius: var(--radius-md); cursor: pointer;
+      box-shadow: var(--shadow-md); transition: transform .2s var(--ease-out), opacity .2s var(--ease-out);
     }
-    .video-frame__play {
-      display: inline-flex; align-items: center; gap: 10px; padding: 14px 26px;
-      background: var(--paper); color: var(--ink); border: 0; border-radius: var(--radius-pill);
-      font-family: var(--font-text); font-size: var(--fs-body); font-weight: 600; cursor: pointer;
-      transition: transform .2s var(--ease-out), box-shadow .2s var(--ease-out);
+    .vp-big:hover { transform: scale(1.06); }
+    .vp-big svg { width: 30px; height: 30px; }
+    .video-frame.is-playing .vp-big { opacity: 0; pointer-events: none; }
+    .vp-bar {
+      position: absolute; left: 12px; right: 12px; bottom: 12px; display: flex; align-items: center; gap: 10px;
+      padding: 8px 10px; background: color-mix(in srgb, var(--paper) 90%, transparent); color: var(--ink);
+      -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-radius: var(--radius-sm);
+      transition: opacity .25s var(--ease-out), transform .25s var(--ease-out);
     }
-    .video-frame__play:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
-    .video-frame__play svg { width: 20px; height: 20px; }
-    .video-frame__note { max-width: 46ch; font-size: var(--fs-caption); line-height: 1.5; color: var(--on-dark-body); margin: 0; }
-    .video-frame__note a { color: inherit; text-decoration: underline; }
+    .video-frame.is-playing:not(:hover):not(:focus-within) .vp-bar { opacity: 0; transform: translateY(6px); }
+    .vp-btn { flex: none; display: grid; place-items: center; width: 36px; height: 36px; padding: 0; background: transparent; color: inherit; border: 0; border-radius: var(--radius-xs); cursor: pointer; }
+    .vp-btn:hover { background: var(--paper-3); }
+    .vp-btn svg { width: 20px; height: 20px; }
+    .vp-time { flex: none; font-size: var(--fs-caption); font-variant-numeric: tabular-nums; color: var(--text); min-width: 5.5em; text-align: center; }
+    .vp-range { -webkit-appearance: none; appearance: none; height: 20px; margin: 0; background: transparent; cursor: pointer; --p: 0%; }
+    .vp-range::-webkit-slider-runnable-track { height: 4px; border-radius: 2px; background: linear-gradient(to right, var(--accent) var(--p), var(--paper-3) var(--p)); }
+    .vp-range::-moz-range-track { height: 4px; border-radius: 2px; background: linear-gradient(to right, var(--accent) var(--p), var(--paper-3) var(--p)); }
+    .vp-range::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; margin-top: -5px; border-radius: 4px; background: var(--accent); border: 0; }
+    .vp-range::-moz-range-thumb { width: 14px; height: 14px; border-radius: 4px; background: var(--accent); border: 0; }
+    .vp-range:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+    .vp-seek { flex: 1 1 auto; min-width: 0; }
+    .vp-vol { flex: none; width: 72px; }
+    @media (max-width: 560px) { .vp-vol { display: none; } .vp-time { min-width: 0; } }
+    @media (prefers-reduced-motion: reduce) { .vp-big, .vp-bar { transition: none; } }
 
     /* ---- phones band (plum) ---- */
     .phones { background: var(--plum); color: var(--on-dark-body); position: relative; overflow: hidden; }
@@ -592,23 +607,24 @@
     </div>
   </section>
 
-  <!-- TRAILER - click-to-load YouTube embed. Nothing is fetched from
-       YouTube/Google until the visitor clicks "Video laden": no iframe, no
-       thumbnail request, no cookies, per the GDPR consent note in the
-       Impressum. The IDs below are placeholders; fill in TRAILER_DE /
-       TRAILER_EN in the script block near the bottom once the links exist. -->
+  <!-- TRAILER - self-hosted native player, no autoplay, volume 60%.
+       PLACEHOLDER files: replace media/trailer-de.mp4, media/trailer-en.mp4
+       (used for en/fr/es/it) and media/trailer-poster.jpg with the real ones. -->
   <section id="trailer">
     <div class="wrap">
       <span class="section-label reveal" data-i18n="cheapseats.trailerLabel">Trailer</span>
       <h2 class="reveal" data-i18n="cheapseats.trailerHeading">CheapSeats in Bewegung</h2>
       <p class="lede reveal" data-i18n="cheapseats.trailerLede">Eine kurze Tour durchs Dashboard, bevor du sie selbst installierst.</p>
       <div class="video-frame reveal" id="video-frame">
-        <div class="video-frame__gate" id="video-gate">
-          <button type="button" class="video-frame__play" id="video-gate-btn" aria-describedby="video-gate-note">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
-            <span data-i18n="cheapseats.trailerConsent.button">Video laden</span>
-          </button>
-          <p class="video-frame__note" id="video-gate-note" data-i18n-html="cheapseats.trailerConsent.notice">Dieses Video wird von YouTube geladen. Beim Klick werden Daten an YouTube/Google (USA) übertragen. Mehr dazu im <a href="../../impressum/">Impressum</a>.</p>
+        <video id="vp-video" preload="metadata" playsinline poster="media/trailer-poster.jpg"></video>
+        <button type="button" class="vp-big" id="vp-big" data-i18n-attr="aria-label:cheapseats.player.play" aria-label="Abspielen"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+        <div class="vp-bar" role="group" data-i18n-attr="aria-label:cheapseats.player.controls" aria-label="Videosteuerung">
+          <button type="button" class="vp-btn" id="vp-play" data-i18n-attr="aria-label:cheapseats.player.play" aria-label="Abspielen"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+          <input type="range" class="vp-range vp-seek" id="vp-seek" min="0" max="1000" value="0" step="1" data-i18n-attr="aria-label:cheapseats.player.seek" aria-label="Position">
+          <span class="vp-time" id="vp-time" aria-hidden="true">0:00 / 0:00</span>
+          <button type="button" class="vp-btn" id="vp-mute" data-i18n-attr="aria-label:cheapseats.player.mute" aria-label="Ton aus"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z"/></svg></button>
+          <input type="range" class="vp-range vp-vol" id="vp-vol" min="0" max="100" value="60" step="1" data-i18n-attr="aria-label:cheapseats.player.volume" aria-label="Lautstärke">
+          <button type="button" class="vp-btn" id="vp-fs" data-i18n-attr="aria-label:cheapseats.player.fullscreen" aria-label="Vollbild"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 5h5v2H7v3H5V5zm9 0h5v5h-2V7h-3V5zM5 14h2v3h3v2H5v-5zm12 0h2v5h-5v-2h3v-3z"/></svg></button>
         </div>
       </div>
     </div>
@@ -871,24 +887,75 @@
       Widgets.mountContactChip(document.getElementById("contact-chip-root"));
       window.addEventListener("langchange", function () { Widgets.applyStaticTranslations(document); applyStoreLinks(); });
     })();
-    // trailer: click-to-load YouTube embed (youtube-nocookie.com), gated
-    // behind explicit consent - nothing is requested from Google until the
-    // visitor clicks. Fill in real video IDs here once they're available.
+    // trailer: native player. No autoplay, volume 60%, nothing third-party.
+    // Placeholder media in media/ - overwrite the files to go live.
     (function () {
-      var TRAILER_DE = "GXmdEJRIiW4";
-      var TRAILER_EN = "OFMLX86O3rs"; // used for en/fr/es/it
-      function trailerId() { return I18N.getLang() === "de" ? TRAILER_DE : TRAILER_EN; }
-      var btn = document.getElementById("video-gate-btn");
-      if (!btn) return;
-      btn.addEventListener("click", function () {
-        var frame = document.getElementById("video-frame");
-        var iframe = document.createElement("iframe");
-        iframe.src = "https://www.youtube-nocookie.com/embed/" + trailerId() + "?autoplay=1&rel=0&cc_load_policy=0&modestbranding=1&playsinline=1";
-        iframe.title = "CheapSeats trailer";
-        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
-        iframe.allowFullscreen = true;
-        frame.replaceChildren(iframe);
-      }, { once: true });
+      var SRC_DE = "media/trailer-de.mp4";
+      var SRC_EN = "media/trailer-en.mp4"; // used for en/fr/es/it
+      var $ = function (id) { return document.getElementById(id); };
+      var frame = $("video-frame"), v = $("vp-video");
+      if (!v) return;
+      var big = $("vp-big"), play = $("vp-play"), seek = $("vp-seek"), time = $("vp-time"),
+          mute = $("vp-mute"), vol = $("vp-vol"), fs = $("vp-fs");
+      var ICON_PLAY = '<path d="M8 5v14l11-7z"/>';
+      var ICON_PAUSE = '<path d="M6 5h4v14H6zm8 0h4v14h-4z"/>';
+      var ICON_VOL = '<path d="M3 9v6h4l5 4V5L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z"/>';
+      var ICON_MUTED = '<path d="M3 9v6h4l5 4V5L7 9H3zm12.6 3 2.4-2.4-1.4-1.4-2.4 2.4-2.4-2.4L10.4 9.6 12.8 12l-2.4 2.4 1.4 1.4 2.4-2.4 2.4 2.4 1.4-1.4z"/>';
+      function fmt(t) { t = isFinite(t) ? Math.floor(t) : 0; return Math.floor(t / 60) + ":" + ("0" + (t % 60)).slice(-2); }
+      function icon(btn, d) { btn.querySelector("svg").innerHTML = d; }
+      function fill(el) { el.style.setProperty("--p", (el.value / el.max * 100) + "%"); }
+      function label() {
+        var t = I18N.t;
+        var lp = v.paused ? t("cheapseats.player.play") : t("cheapseats.player.pause");
+        play.setAttribute("aria-label", lp); big.setAttribute("aria-label", lp);
+        mute.setAttribute("aria-label", v.muted || v.volume === 0 ? t("cheapseats.player.unmute") : t("cheapseats.player.mute"));
+      }
+      function setSource() {
+        var src = I18N.getLang() === "de" ? SRC_DE : SRC_EN;
+        if (v.getAttribute("src") === src) return;
+        var wasPlaying = !v.paused, at = v.currentTime;
+        v.src = src;
+        v.addEventListener("loadedmetadata", function once() {
+          v.removeEventListener("loadedmetadata", once);
+          if (at) v.currentTime = at;
+          if (wasPlaying) v.play();
+        });
+      }
+      function sync() {
+        icon(play, v.paused ? ICON_PLAY : ICON_PAUSE);
+        icon(mute, v.muted || v.volume === 0 ? ICON_MUTED : ICON_VOL);
+        frame.classList.toggle("is-playing", !v.paused);
+        label();
+      }
+      function toggle() { if (v.paused) { v.play(); } else { v.pause(); } }
+      v.volume = 0.6; vol.value = 60; fill(vol);
+      setSource();
+      big.addEventListener("click", toggle);
+      play.addEventListener("click", toggle);
+      v.addEventListener("click", toggle);
+      v.addEventListener("play", sync);
+      v.addEventListener("pause", sync);
+      v.addEventListener("ended", sync);
+      v.addEventListener("volumechange", sync);
+      function progress() {
+        if (v.duration) { seek.value = v.currentTime / v.duration * seek.max; fill(seek); }
+        time.textContent = fmt(v.currentTime) + " / " + fmt(v.duration);
+      }
+      v.addEventListener("timeupdate", progress);
+      v.addEventListener("loadedmetadata", progress);
+      seek.addEventListener("input", function () {
+        if (v.duration) v.currentTime = seek.value / seek.max * v.duration;
+        fill(seek);
+      });
+      vol.addEventListener("input", function () { v.muted = false; v.volume = vol.value / 100; fill(vol); });
+      mute.addEventListener("click", function () { v.muted = !v.muted; });
+      if (frame.requestFullscreen) {
+        fs.addEventListener("click", function () {
+          if (document.fullscreenElement) document.exitFullscreen(); else frame.requestFullscreen();
+        });
+      } else { fs.hidden = true; }
+      window.addEventListener("langchange", function () { setSource(); label(); });
+      sync();
     })();
     // scroll reveals
     (function () {

@@ -228,10 +228,7 @@
         dashboardK: "Dark & Light", dashboardV: "Dieselbe Übersicht in Hell und Dunkel: nächstes Spiel, letztes Ergebnis und Player-Spotlight auf einen Blick.",
         trailerLabel: "Trailer", trailerHeading: "CheapSeats in Bewegung",
         trailerLede: "Eine kurze Tour durchs Dashboard, bevor du sie selbst installierst.",
-        trailerConsent: {
-          button: "Video laden",
-          notice: "Dieses Video wird von YouTube geladen. Beim Klick werden Daten an YouTube/Google (USA) übertragen. Mehr dazu im <a href=\"../../impressum/\">Impressum</a>.",
-        },
+        player: { play: "Abspielen", pause: "Pause", mute: "Ton aus", unmute: "Ton an", volume: "Lautstärke", seek: "Position im Video", fullscreen: "Vollbild", controls: "Videosteuerung" },
         featuresLabel: "Funktionen", featuresHeading: "Was die App kann",
         featuresLede: "Wenig visuelles Rauschen, die wichtigen Zahlen zuerst und eine Erklärung für jeden Fachbegriff: Zwischen Hinsehen und Verstehen soll so wenig Zeit wie möglich liegen.",
         features: [
@@ -485,10 +482,7 @@
         dashboardK: "Dark & Light", dashboardV: "The same overview in both themes: next game, last result and player spotlight at a glance.",
         trailerLabel: "Trailer", trailerHeading: "CheapSeats in motion",
         trailerLede: "A short tour of the dashboard before you install it yourself.",
-        trailerConsent: {
-          button: "Load video",
-          notice: "This video is loaded from YouTube. Clicking sends data to YouTube/Google (USA). See the <a href=\"../../impressum/\">privacy notice</a> for details.",
-        },
+        player: { play: "Play", pause: "Pause", mute: "Mute", unmute: "Unmute", volume: "Volume", seek: "Video position", fullscreen: "Fullscreen", controls: "Video controls" },
         featuresLabel: "Features", featuresHeading: "What the app can do",
         featuresLede: "Low visual clutter, the numbers that matter up front, and an explanation for every piece of jargon: as little time as possible between looking and understanding.",
         features: [
@@ -742,10 +736,7 @@
         dashboardK: "Dark & Light", dashboardV: "La même vue d'ensemble dans les deux thèmes : prochain match, dernier résultat et joueur à l'honneur en un coup d'œil.",
         trailerLabel: "Bande-annonce", trailerHeading: "CheapSeats en mouvement",
         trailerLede: "Un court tour du tableau de bord avant de l'installer toi-même.",
-        trailerConsent: {
-          button: "Charger la vidéo",
-          notice: "Cette vidéo est chargée depuis YouTube. En cliquant, des données sont transmises à YouTube/Google (États-Unis). Voir la <a href=\"../../impressum/\">politique de confidentialité</a> pour en savoir plus.",
-        },
+        player: { play: "Lire", pause: "Pause", mute: "Couper le son", unmute: "Activer le son", volume: "Volume", seek: "Position dans la vidéo", fullscreen: "Plein écran", controls: "Commandes vidéo" },
         featuresLabel: "Fonctionnalités", featuresHeading: "Ce que l'application permet de faire",
         featuresLede: "Peu de bruit visuel, les chiffres importants d'abord et une explication pour chaque terme technique : le moins de temps possible entre regarder et comprendre.",
         features: [
@@ -999,10 +990,7 @@
         dashboardK: "Dark & Light", dashboardV: "La misma vista general en ambos temas: próximo partido, último resultado y jugador destacado de un vistazo.",
         trailerLabel: "Tráiler", trailerHeading: "CheapSeats en movimiento",
         trailerLede: "Un breve recorrido por el panel antes de instalarlo tú mismo.",
-        trailerConsent: {
-          button: "Cargar vídeo",
-          notice: "Este vídeo se carga desde YouTube. Al hacer clic, se envían datos a YouTube/Google (EE. UU.). Más información en el <a href=\"../../impressum/\">aviso de privacidad</a>.",
-        },
+        player: { play: "Reproducir", pause: "Pausa", mute: "Silenciar", unmute: "Activar sonido", volume: "Volumen", seek: "Posición del vídeo", fullscreen: "Pantalla completa", controls: "Controles de vídeo" },
         featuresLabel: "Funciones", featuresHeading: "Lo que la aplicación puede hacer",
         featuresLede: "Poco ruido visual, las cifras importantes primero y una explicación para cada término técnico: el menor tiempo posible entre mirar y entender.",
         features: [
@@ -1269,10 +1257,7 @@
         dashboardK: "Dark & Light", dashboardV: "La stessa panoramica in entrambi i temi: prossima partita, ultimo risultato e giocatore in evidenza a colpo d'occhio.",
         trailerLabel: "Trailer", trailerHeading: "CheapSeats in movimento",
         trailerLede: "Un breve tour della dashboard prima di installarla tu stesso.",
-        trailerConsent: {
-          button: "Carica video",
-          notice: "Questo video viene caricato da YouTube. Cliccando, i dati vengono trasmessi a YouTube/Google (USA). Maggiori informazioni nell'<a href=\"../../impressum/\">informativa sulla privacy</a>.",
-        },
+        player: { play: "Riproduci", pause: "Pausa", mute: "Disattiva audio", unmute: "Attiva audio", volume: "Volume", seek: "Posizione del video", fullscreen: "Schermo intero", controls: "Controlli video" },
         featuresLabel: "Funzioni", featuresHeading: "Cosa sa fare l'app",
         featuresLede: "Poco rumore visivo, i numeri che contano in primo piano e una spiegazione per ogni termine tecnico: il minor tempo possibile tra guardare e capire.",
         features: [
