@@ -60,3 +60,8 @@ hr { border: none; border-top: 1px solid var(--border); margin: 0; }
   white-space: nowrap;
   border: 0;
 }
+
+/* The default selection is sage @ 22% — invisible on the dark plum/sage bands.
+   Use a light veil there so highlighted text is actually visible. */
+.on-plum ::selection, .on-sage ::selection,
+.on-plum::selection, .on-sage::selection { background: rgb(255 255 255 / 0.32); color: var(--on-dark-strong); }
