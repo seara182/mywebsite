@@ -16,8 +16,8 @@
     min-height: 100vh; min-height: 100dvh; margin: 0;
     display: grid; place-items: center; padding: 32px 16px;
     background:
-      radial-gradient(60% 70% at 30% 55%, rgb(var(--accent-1-glow-rgb) / .28), transparent 70%),
-      linear-gradient(135deg, var(--plum-deep), var(--plum) 60%, #2a1230);
+      radial-gradient(60% 70% at 30% 55%, rgb(var(--accent-2-glow-rgb) / .22), transparent 70%),
+      linear-gradient(135deg, var(--sage-deep), var(--sage) 60%, #14301F);
     color: var(--on-dark-body);
   }
   main {
@@ -33,11 +33,11 @@
   p { font-size: clamp(17px, 1.6vw, 20px); line-height: 1.5; max-width: 34ch; margin: 0 0 32px; }
   .home {
     display: inline-flex; align-items: center; gap: 10px; padding: 14px 26px; border-radius: 999px;
-    background: var(--on-dark-strong); color: var(--plum-deep); font-weight: 600; font-size: 17px;
+    background: var(--on-dark-strong); color: var(--sage-deep); font-weight: 600; font-size: 17px;
     transition: transform .25s var(--ease-out, ease), box-shadow .25s;
   }
   .home:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgb(0 0 0 / .3); }
-  .home:focus-visible { outline-color: var(--plum-glow); }
+  .home:focus-visible { outline-color: var(--sage-glow); }
 
   /* chewing: head bobs, jaw snaps, the caught cable jiggles, the loose plug sparks */
   .head { transform-origin: 236px 160px; animation: nod 1.1s ease-in-out infinite alternate; }
@@ -80,9 +80,9 @@
     <!-- socket on the right -->
     <g>
       <rect x="426" y="250" width="44" height="60" rx="10" fill="#EDEAF0"/>
-      <rect x="434" y="262" width="5" height="14" rx="2" fill="#4E2454"/>
-      <rect x="452" y="262" width="5" height="14" rx="2" fill="#4E2454"/>
-      <circle cx="446" cy="292" r="4" fill="#4E2454"/>
+      <rect x="434" y="262" width="5" height="14" rx="2" fill="#1E4A33"/>
+      <rect x="452" y="262" width="5" height="14" rx="2" fill="#1E4A33"/>
+      <circle cx="446" cy="292" r="4" fill="#1E4A33"/>
     </g>
 
     <!-- cable from the ceiling, sagging low to the giraffe's mouth -->
@@ -90,6 +90,8 @@
 
     <!-- giraffe body + legs -->
     <g>
+      <!-- mane: drawn first so the neck covers half of it and only a clean edge peeks out -->
+      <path d="M 190 288 C 200 220, 214 170, 232 118" fill="none" stroke="#7A4A1E" stroke-width="12" stroke-linecap="round"/>
       <g fill="#E3AE4B">
         <rect x="88"  y="318" width="20" height="50" rx="8"/>
         <rect x="124" y="322" width="20" height="46" rx="8" opacity=".9"/>
@@ -108,13 +110,11 @@
       <!-- spots -->
       <g fill="#A8622A">
         <ellipse cx="128" cy="288" rx="14" ry="11"/><ellipse cx="166" cy="312" rx="15" ry="10"/>
-        <ellipse cx="112" cy="316" rx="9" ry="7"/><ellipse cx="192" cy="284" rx="11" ry="9"/>
+        <ellipse cx="112" cy="316" rx="9" ry="7"/>
         <ellipse cx="218" cy="262" rx="9" ry="12" transform="rotate(14 218 262)"/>
         <ellipse cx="226" cy="216" rx="8" ry="11" transform="rotate(16 226 216)"/>
         <ellipse cx="238" cy="170" rx="7" ry="10" transform="rotate(18 238 170)"/>
       </g>
-      <!-- mane -->
-      <path d="M 228 118 C 214 170, 200 220, 188 286" fill="none" stroke="#7A4A1E" stroke-width="7" stroke-linecap="round" stroke-dasharray="2 9"/>
     </g>
 
     <!-- head (nods while chewing) -->
