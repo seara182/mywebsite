@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de" data-outlet="de">
+<html lang="de">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,9 +13,6 @@
 <link rel="stylesheet" href="/ci/styles.css">
 <style>
   html { color-scheme: dark; }
-  /* outlet variants: only the one matching html[data-outlet] shows (default de) */
-  .o { display: none; }
-  html[data-outlet="de"] .o-de, html[data-outlet="fr"] .o-fr, html[data-outlet="it"] .o-it, html[data-outlet="us"] .o-us { display: inline; }
   body {
     min-height: 100vh; min-height: 100dvh; margin: 0;
     display: grid; place-items: center; padding: 32px 16px;
@@ -25,16 +22,58 @@
     color: var(--on-dark-body);
   }
   main {
-    width: min(1040px, 100%); display: grid; gap: clamp(16px, 4vw, 56px);
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); align-items: center;
+    width: min(1040px, 100%); display: grid; gap: clamp(20px, 4vw, 56px);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center;
   }
-  .art { width: 100%; height: auto; display: block; overflow: visible; }
+
+  /* photo: transparent cut-out, so it sits straight on the background */
+  .pic { margin: 0; text-align: center; }
+  .pic__frame { position: relative; width: min(100%, 460px); margin-inline: auto; }
+  .pic__frame::after { /* soft ground shadow under the hooves */
+    content: ""; position: absolute; left: 6%; right: 2%; bottom: 0; height: 5%;
+    background: radial-gradient(closest-side, rgb(0 0 0 / .38), transparent);
+    filter: blur(3px);
+  }
+  .pic img {
+    position: relative; z-index: 1; display: block; width: 100%; height: auto;
+    filter: drop-shadow(0 14px 18px rgb(0 0 0 / .28));
+  }
+  .pic figcaption { margin-top: 14px; font-size: 15px; line-height: 1.45; color: var(--on-dark-body); }
+  .pic figcaption strong { color: var(--on-dark-strong); font-weight: 600; }
+  .pic figcaption small { display: block; margin-top: 2px; font-size: 13px; opacity: .7; }
+
   .code {
     font-family: var(--font-display); font-weight: 700; letter-spacing: -.04em; line-height: .9;
     font-size: clamp(88px, 16vw, 168px); color: var(--on-dark-strong); margin: 0 0 14px;
   }
   h1 { font-size: clamp(26px, 3.6vw, 40px); font-weight: 600; color: var(--on-dark-strong); margin: 0 0 14px; }
-  p { font-size: clamp(17px, 1.6vw, 20px); line-height: 1.5; max-width: 34ch; margin: 0 0 32px; }
+  p.msg { font-size: clamp(17px, 1.6vw, 20px); line-height: 1.5; max-width: 34ch; margin: 0 0 24px; }
+
+  /* fun-fact box + dice */
+  .fact {
+    display: flex; align-items: center; gap: 16px; max-width: 420px; margin: 0 0 28px;
+    padding: 14px 16px 14px 20px; border-radius: 20px;
+    background: rgb(255 255 255 / .08); border: 1px solid rgb(255 255 255 / .16);
+  }
+  .fact__body { flex: 1; min-width: 0; }
+  .fact__label { display: block; font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--sage-glow); margin-bottom: 4px; }
+  .fact__text { display: block; font-size: 22px; font-weight: 600; line-height: 1.25; color: var(--on-dark-strong); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+  .dice {
+    flex: none; width: 52px; height: 52px; padding: 0; border: 0; border-radius: 14px; cursor: pointer;
+    background: var(--on-dark-strong); color: var(--sage-deep); display: grid; place-items: center;
+    box-shadow: 0 6px 16px rgb(0 0 0 / .25); transition: transform .2s var(--ease-out, ease), box-shadow .2s;
+  }
+  .dice:hover { transform: translateY(-2px) rotate(-6deg); box-shadow: 0 10px 22px rgb(0 0 0 / .3); }
+  .dice:active { transform: scale(.94); }
+  .dice:focus-visible { outline-color: var(--sage-glow); }
+  .dice svg { width: 34px; height: 34px; display: block; }
+  .dice.rolling svg { animation: roll .8s cubic-bezier(.3, .6, .3, 1); }
+  @keyframes roll {
+    0%   { transform: rotate(0) scale(1); }
+    35%  { transform: rotate(200deg) scale(1.22); }
+    100% { transform: rotate(720deg) scale(1); }
+  }
+
   .home {
     display: inline-flex; align-items: center; gap: 10px; padding: 14px 26px; border-radius: 999px;
     background: var(--on-dark-strong); color: var(--sage-deep); font-weight: 600; font-size: 17px;
@@ -43,235 +82,65 @@
   .home:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgb(0 0 0 / .3); }
   .home:focus-visible { outline-color: var(--sage-glow); }
 
-  /* chewing: head bobs, jaw snaps, the caught cable jiggles, the loose plug sparks */
-  .head { transform-origin: 236px 160px; animation: nod 1.1s ease-in-out infinite alternate; }
-  .jaw  { transform-origin: 262px 128px; animation: chew .55s ease-in-out infinite alternate; }
-  .wire-loose { transform-origin: 268px 128px; animation: sway 1.6s ease-in-out infinite alternate; }
-  .spark { animation: zap 1.4s steps(1, end) infinite; }
-  .blink { transform-origin: 254px 99px; animation: blink 4.2s infinite; }
-  @keyframes nod   { from { transform: rotate(-2deg); } to { transform: rotate(2.5deg); } }
-  @keyframes chew  { from { transform: rotate(0); } to { transform: rotate(9deg); } }
-  @keyframes sway  { from { transform: rotate(-2.5deg); } to { transform: rotate(2.5deg); } }
-  @keyframes zap   { 0%, 55%, 100% { opacity: 0; } 60%, 68% { opacity: 1; } 76% { opacity: 0; } 82% { opacity: 1; } 88% { opacity: 0; } }
-  @keyframes blink { 0%, 94%, 100% { transform: scaleY(1); } 97% { transform: scaleY(.1); } }
   @media (prefers-reduced-motion: reduce) {
-    .head, .jaw, .wire-loose, .blink { animation: none; }
-    .spark { animation: none; opacity: 1; }
-    .home { transition: none; }
+    .dice.rolling svg { animation: none; }
+    .dice, .home { transition: none; }
+    .dice:hover, .home:hover { transform: none; }
   }
   /* stack only on narrow portrait screens; landscape phones keep two columns so nothing scrolls */
   @media (max-width: 760px) and (orientation: portrait) {
     main { grid-template-columns: 1fr; text-align: center; }
-    p { margin-inline: auto; }
-    .art { max-width: 380px; margin-inline: auto; }
+    .pic__frame { width: min(100%, 320px); }
+    p.msg, .fact { margin-inline: auto; }
+    .fact { text-align: left; }
   }
   @media (max-height: 480px) and (orientation: landscape) {
     body { padding: 16px; }
-    .code { font-size: 72px; margin-bottom: 8px; }
-    h1 { font-size: 24px; margin-bottom: 8px; }
-    p { font-size: 15px; margin-bottom: 16px; }
+    .pic__frame { width: min(100%, 250px); }
+    .pic figcaption { font-size: 13px; margin-top: 8px; }
+    .pic figcaption small { display: none; }
+    .code { font-size: 64px; margin-bottom: 6px; }
+    h1 { font-size: 22px; margin-bottom: 6px; }
+    p.msg { font-size: 14px; margin-bottom: 12px; }
+    .fact { margin-bottom: 14px; padding: 8px 12px 8px 16px; }
+    .fact__text { font-size: 18px; }
+    .dice { width: 40px; height: 40px; border-radius: 11px; }
+    .dice svg { width: 26px; height: 26px; }
     .home { padding: 10px 20px; font-size: 15px; }
   }
 </style>
 </head>
 <body>
 <main>
-  <svg class="art" viewBox="0 0 480 400" role="img" aria-labelledby="art-title">
-    <title id="art-title">Eine Giraffe kaut an einem herunterhängenden Kabel, der Stecker baumelt lose neben der Steckdose.</title>
-    <!-- ground -->
-    <ellipse cx="200" cy="370" rx="190" ry="9" fill="#000" opacity=".22"/>
-
-    <!-- wall socket: one variant per country, chosen via html[data-outlet] -->
-    <g>
-      <rect x="426" y="250" width="44" height="60" rx="10" fill="#EDEAF0"/>
-      <!-- US (type A/B) -->
-      <g class="o o-us">
-        <rect x="434" y="262" width="5" height="14" rx="2" fill="#1E4A33"/><rect x="452" y="262" width="5" height="14" rx="2" fill="#1E4A33"/>
-        <circle cx="446" cy="292" r="4" fill="#1E4A33"/>
-      </g>
-      <!-- DE / ES (type F, Schuko): round recess, two round holes, earthing clips top + bottom -->
-      <g class="o o-de">
-        <circle cx="448" cy="280" r="18" fill="#DAD6DF"/>
-        <circle cx="439" cy="280" r="3.6" fill="#1E4A33"/><circle cx="457" cy="280" r="3.6" fill="#1E4A33"/>
-        <rect x="444" y="262" width="8" height="3.6" rx="1.5" fill="#B9B4C0"/><rect x="444" y="294.4" width="8" height="3.6" rx="1.5" fill="#B9B4C0"/>
-      </g>
-      <!-- FR (type E): round recess, two round holes, earth pin sticking out at the top -->
-      <g class="o o-fr">
-        <circle cx="448" cy="282" r="18" fill="#DAD6DF"/>
-        <circle cx="439" cy="284" r="3.6" fill="#1E4A33"/><circle cx="457" cy="284" r="3.6" fill="#1E4A33"/>
-        <rect x="446" y="266" width="4" height="9" rx="2" fill="#B9B4C0" stroke="#1E4A33" stroke-width="1"/>
-      </g>
-      <!-- IT (type L): three round holes in a row -->
-      <g class="o o-it">
-        <rect x="430" y="270" width="36" height="20" rx="10" fill="#DAD6DF"/>
-        <circle cx="438" cy="280" r="3.2" fill="#1E4A33"/><circle cx="448" cy="280" r="3.2" fill="#1E4A33"/><circle cx="458" cy="280" r="3.2" fill="#1E4A33"/>
-      </g>
-    </g>
-
-    <!-- cable from the ceiling, sagging low to the giraffe's mouth -->
-    <path d="M 470 -800 L 470 20 C 470 90, 340 150, 270 126" fill="none" stroke="#15151A" stroke-width="7" stroke-linecap="round"/>
-
-    <!-- giraffe: silhouette shapes are reused for fill + clipping so the patch pattern stays inside the body -->
-    <defs>
-      <linearGradient id="gBase" gradientUnits="userSpaceOnUse" x1="0" y1="226" x2="0" y2="366">
-        <stop offset="0" stop-color="#E7BA68"/><stop offset=".5" stop-color="#EDCB86"/><stop offset="1" stop-color="#F5E4BC"/>
-      </linearGradient>
-      <linearGradient id="gShade" gradientUnits="userSpaceOnUse" x1="0" y1="226" x2="0" y2="306">
-        <stop offset="0" stop-color="#5A2D0C" stop-opacity="0"/><stop offset="1" stop-color="#5A2D0C" stop-opacity=".34"/>
-      </linearGradient>
-      <linearGradient id="gRim" gradientUnits="userSpaceOnUse" x1="204" y1="0" x2="268" y2="0">
-        <stop offset="0" stop-color="#5A2D0C" stop-opacity=".30"/><stop offset=".7" stop-color="#5A2D0C" stop-opacity="0"/>
-      </linearGradient>
-      <path id="gBody" d="M86 262 C84 242 104 232 128 232 C156 230 184 226 208 226 L246 262 C248 284 238 298 214 300 C190 304 150 304 124 300 C100 298 86 284 86 262 Z"/>
-      <path id="gNeck" d="M204 236 C210 196 218 160 232 118 L272 132 C268 176 264 216 258 266 L236 292 L200 264 Z"/>
-      <path id="gLegH" d="M98 286 L132 290 C134 312 126 326 125 340 L123 361 L108 361 L109 340 C108 326 98 312 98 286 Z"/>
-      <path id="gLegF" d="M206 290 L240 290 C238 312 232 328 230 340 L228 361 L213 361 L214 340 C210 328 206 312 206 290 Z"/>
-      <path id="gHead" d="M230 100 C230 82 250 74 268 82 C278 86 288 96 300 104 C308 110 308 122 298 128 L264 134 C244 138 230 122 230 100 Z"/>
-      <clipPath id="clipSil"><use href="#gBody"/><use href="#gNeck"/><use href="#gLegH"/><use href="#gLegF"/></clipPath>
-      <clipPath id="clipNeck"><use href="#gNeck"/></clipPath>
-      <clipPath id="clipHead"><use href="#gHead"/></clipPath>
-    </defs>
-
-    <!-- far-side legs, darkened to sit behind the body -->
-    <g>
-      <use href="#gLegH" transform="translate(24 0)" fill="url(#gBase)"/><use href="#gLegH" transform="translate(24 0)" fill="#3a1f0a" opacity=".28"/>
-      <use href="#gLegF" transform="translate(-24 0)" fill="url(#gBase)"/><use href="#gLegF" transform="translate(-24 0)" fill="#3a1f0a" opacity=".28"/>
-      <g fill="#2b1a0e" opacity=".85">
-        <path d="M130 360 h15 q2 0 2 3 v6 h-17 z"/><path d="M182 360 h15 q2 0 2 3 v6 h-17 z"/>
-      </g>
-    </g>
-
-    <!-- tail: hangs from the rump, dark tuft at the end -->
-    <path d="M90 246 C68 252 58 284 60 322" fill="none" stroke="#E2B462" stroke-width="5" stroke-linecap="round"/>
-    <path d="M60 316 C50 328 51 346 60 356 C69 346 70 328 60 316 Z" fill="#3B2210"/>
-
-    <!-- mane: bristles + solid core, behind the neck so only the edge shows -->
-    <g stroke="#5B3416" stroke-linecap="round" stroke-width="3.4" fill="none"><path d="M204.0 236.0 L195.4 231.7"/><path d="M204.7 231.4 L196.2 227.1"/><path d="M205.4 226.8 L195.1 222.2"/><path d="M206.2 222.3 L197.4 217.9"/><path d="M206.9 217.8 L197.2 213.2"/><path d="M207.7 213.3 L200.1 209.0"/><path d="M208.5 208.8 L199.2 204.2"/><path d="M209.4 204.4 L201.5 199.9"/><path d="M210.2 199.9 L200.6 195.1"/><path d="M211.1 195.5 L204.6 191.2"/><path d="M212.0 191.1 L203.0 186.2"/><path d="M213.0 186.6 L206.2 182.2"/><path d="M214.0 182.2 L206.1 177.5"/><path d="M215.0 177.8 L207.2 173.0"/><path d="M216.1 173.3 L209.6 168.9"/><path d="M217.1 168.8 L208.5 163.8"/><path d="M218.3 164.4 L211.4 159.7"/><path d="M219.5 159.9 L212.7 155.2"/><path d="M220.7 155.4 L214.7 150.9"/><path d="M221.9 150.8 L215.3 146.1"/><path d="M223.2 146.2 L216.2 141.4"/><path d="M224.6 141.6 L216.8 136.5"/><path d="M225.9 137.0 L219.4 132.2"/><path d="M227.4 132.3 L219.9 127.2"/><path d="M228.9 127.6 L223.2 123.0"/><path d="M230.4 122.8 L224.0 117.9"/><path d="M232.0 118.0 L225.4 113.0"/></g>
-    <path d="M204 236 C210 196 218 160 232 118" fill="none" stroke="#5B3416" stroke-width="9" stroke-linecap="round"/>
-
-    <!-- near legs, body, neck -->
-    <use href="#gLegH" fill="url(#gBase)"/><use href="#gLegF" fill="url(#gBase)"/>
-    <use href="#gBody" fill="url(#gBase)"/><use href="#gNeck" fill="url(#gBase)"/>
-    <g clip-path="url(#clipSil)">
-      <path d="M74.1 234.3 L73.8 226.6 L82.7 222.9 L93.4 225.5 L94.5 233.8 L89.0 244.1 L81.7 242.2Z" fill="#BB6D31" stroke="#BB6D31" stroke-width="3.2" stroke-linejoin="round"/>
-      <path d="M104.8 237.1 L105.4 228.3 L112.7 219.0 L125.2 226.8 L126.0 234.0 L121.0 244.6 L112.4 248.6Z" fill="#9C4F24" stroke="#9C4F24" stroke-width="3.2" stroke-linejoin="round"/>
-      <path d="M131.3 229.8 L132.8 221.6 L140.8 217.9 L150.0 225.2 L151.0 230.8 L147.8 239.5 L137.5 239.9Z" fill="#A9592A" stroke="#A9592A" stroke-width="3.2" stroke-linejoin="round"/>
-      <path d="M190.8 225.4 L187.0 237.9 L177.5 243.0 L170.2 232.7 L169.9 225.7 L176.4 219.8 L183.9 220.0Z" fill="#BB6D31" stroke="#BB6D31" stroke-width="3.2" stroke-linejoin="round"/>
-      <path d="M218.1 229.6 L215.2 238.4 L206.1 242.0 L196.1 240.0 L194.7 228.3 L202.4 226.0 L212.4 224.2Z" fill="#B4652C" stroke="#B4652C" stroke-width="3.2" stroke-linejoin="round"/>
-      <path d="M235.1 245.2 L226.9 240.7 L228.3 228.7 L234.6 226.7 L242.9 228.3 L248.6 234.6 L245.3 246.3Z" fill="#BB6D31" stroke="#BB6D31" stroke-width="3.2" stroke-linejoin="round"/>
-      <path d="M92.4 253.8 L99.2 251.7 L106.2 253.9 L109.9 260.7 L105.9 269.2 L96.9 270.6 L92.2 264.3Z" fill="#B4652C" stroke="#B4652C" stroke-width="3.2" stroke-linejoin="round"/>
-      <path d="M135.1 253.7 L138.8 262.9 L134.6 274.8 L123.5 272.9 L117.0 266.6 L115.4 258.6 L125.5 252.0Z" fill="#A9592A" stroke="#A9592A" stroke-width="3.2" stroke-linejoin="round"/>
-      <path d="M164.5 270.0 L156.0 266.6 L152.7 255.4 L157.6 249.5 L168.7 246.5 L173.7 258.7 L170.6 264.9Z" fill="#BB6D31" stroke="#BB6D31" stroke-width="3.2" stroke-linejoin="round"/>
-      <path d="M204.1 258.4 L203.8 266.7 L195.7 272.6 L184.3 270.1 L186.3 262.3 L187.3 252.5 L198.8 251.7Z" fill="#A9592A" stroke="#A9592A" stroke-width="3.2" stroke-linejoin="round"/>
-      <path d="M221.0 245.2 L229.3 255.9 L231.7 262.9 L225.1 268.4 L214.9 270.6 L211.7 259.7 L213.4 248.8Z" fill="#A9592A" stroke="#A9592A" stroke-width="3.2" stroke-linejoin="round"/>
-      <path d="M72.8 296.7 L72.6 286.4 L78.7 278.6 L88.6 278.7 L97.3 289.0 L91.3 297.5 L82.6 303.1Z" fill="#B4652C" stroke="#B4652C" stroke-width="3.2" stroke-linejoin="round"/>
-      <path d="M125.2 288.2 L120.7 299.5 L113.5 300.8 L102.9 294.3 L104.4 285.7 L107.9 279.7 L116.4 281.0Z" fill="#A9592A" stroke="#A9592A" stroke-width="3.2" stroke-linejoin="round"/>
-      <path d="M160.4 285.3 L158.0 294.0 L148.2 301.3 L138.7 296.0 L134.9 288.3 L139.8 277.7 L151.7 279.3Z" fill="#BB6D31" stroke="#BB6D31" stroke-width="3.2" stroke-linejoin="round"/>
-      <path d="M187.9 290.3 L181.7 297.2 L173.2 294.8 L164.5 291.1 L167.8 281.5 L176.3 272.3 L185.0 280.3Z" fill="#BB6D31" stroke="#BB6D31" stroke-width="3.2" stroke-linejoin="round"/>
-      <path d="M207.8 282.0 L213.1 280.1 L220.0 288.1 L217.5 300.1 L206.2 303.2 L199.8 298.3 L198.5 284.9Z" fill="#B4652C" stroke="#B4652C" stroke-width="3.2" stroke-linejoin="round"/>
-      <path d="M247.4 275.0 L252.0 285.0 L246.5 292.6 L238.1 299.5 L231.2 290.5 L230.5 281.1 L235.7 273.6Z" fill="#B4652C" stroke="#B4652C" stroke-width="3.2" stroke-linejoin="round"/>
-      <path d="M105.4 320.6 L99.9 325.2 L91.3 323.7 L90.4 313.4 L94.9 305.9 L101.5 309.1 L105.5 312.5Z" fill="#A9592A" stroke="#A9592A" stroke-width="3.2" stroke-linejoin="round"/>
-      <path d="M141.1 311.6 L139.2 319.2 L132.2 321.8 L125.8 318.9 L123.7 312.7 L126.6 308.5 L136.7 305.3Z" fill="#B4652C" stroke="#B4652C" stroke-width="3.2" stroke-linejoin="round"/>
-      <path d="M155.8 312.1 L163.3 308.0 L169.5 308.7 L172.4 313.7 L170.0 320.6 L163.6 323.0 L158.2 319.0Z" fill="#BB6D31" stroke="#BB6D31" stroke-width="3.2" stroke-linejoin="round"/>
-      <path d="M196.0 326.0 L189.7 323.1 L185.8 316.3 L191.9 307.2 L197.9 307.4 L204.0 314.1 L203.9 320.2Z" fill="#A9592A" stroke="#A9592A" stroke-width="3.2" stroke-linejoin="round"/>
-      <path d="M232.0 315.1 L226.5 322.4 L220.7 325.0 L215.4 322.5 L212.6 315.2 L219.3 308.9 L225.5 310.3Z" fill="#BB6D31" stroke="#BB6D31" stroke-width="3.2" stroke-linejoin="round"/>
-      <path d="M207.3 257.8 L216.2 252.5 L228.9 248.9 L237.0 263.0 L230.6 274.1 L217.8 274.7 L210.2 266.2Z" fill="#9C4F24" stroke="#9C4F24" stroke-width="3.2" stroke-linejoin="round"/>
-      <path d="M269.1 286.9 L262.3 287.2 L250.9 279.0 L252.6 271.0 L260.7 260.3 L272.3 262.0 L275.7 274.2Z" fill="#BB6D31" stroke="#BB6D31" stroke-width="3.2" stroke-linejoin="round"/>
-      <path d="M226.5 250.9 L217.5 251.8 L206.8 247.7 L207.3 236.5 L214.0 224.1 L220.6 231.1 L230.2 237.6Z" fill="#BB6D31" stroke="#BB6D31" stroke-width="3.2" stroke-linejoin="round"/>
-      <path d="M267.5 256.2 L256.7 263.6 L248.4 262.6 L244.7 251.0 L247.8 240.1 L256.3 241.1 L265.8 248.2Z" fill="#9C4F24" stroke="#9C4F24" stroke-width="3.2" stroke-linejoin="round"/>
-      <path d="M218.0 225.2 L211.3 218.2 L211.7 209.3 L220.3 201.2 L229.1 208.2 L234.3 216.3 L230.1 223.7Z" fill="#9C4F24" stroke="#9C4F24" stroke-width="3.2" stroke-linejoin="round"/>
-      <path d="M258.5 237.1 L250.4 234.5 L244.8 223.3 L248.8 214.1 L259.1 210.6 L265.7 221.1 L268.9 229.1Z" fill="#B4652C" stroke="#B4652C" stroke-width="3.2" stroke-linejoin="round"/>
-      <path d="M227.4 181.0 L235.4 184.8 L240.6 191.8 L233.5 196.2 L226.0 198.8 L218.1 193.3 L220.5 184.7Z" fill="#B4652C" stroke="#B4652C" stroke-width="3.2" stroke-linejoin="round"/>
-      <path d="M268.3 193.3 L270.9 203.9 L266.1 210.7 L254.8 208.4 L249.0 200.5 L251.7 192.2 L262.3 189.4Z" fill="#A9592A" stroke="#A9592A" stroke-width="3.2" stroke-linejoin="round"/>
-      <path d="M241.2 157.1 L243.8 167.5 L240.0 174.7 L232.2 174.6 L224.9 168.4 L224.8 163.2 L233.0 158.7Z" fill="#9C4F24" stroke="#9C4F24" stroke-width="3.2" stroke-linejoin="round"/>
-      <path d="M260.3 188.0 L255.3 177.3 L255.7 170.4 L261.0 165.3 L269.5 168.6 L271.6 178.1 L266.7 186.1Z" fill="#A9592A" stroke="#A9592A" stroke-width="3.2" stroke-linejoin="round"/>
-      <path d="M243.7 138.4 L248.5 146.3 L243.2 152.5 L238.0 157.3 L229.6 149.8 L228.7 143.0 L237.5 135.9Z" fill="#BB6D31" stroke="#BB6D31" stroke-width="3.2" stroke-linejoin="round"/>
-      <path d="M263.6 148.0 L269.4 147.4 L274.3 154.5 L271.1 160.3 L262.9 161.7 L255.6 157.4 L256.0 151.6Z" fill="#B4652C" stroke="#B4652C" stroke-width="3.2" stroke-linejoin="round"/>
-      <rect x="70" y="100" width="200" height="270" fill="url(#gShade)"/>
-      
-    </g>
-    <rect x="204" y="110" width="70" height="140" fill="url(#gRim)" clip-path="url(#clipNeck)"/>
-    <!-- knees / hocks -->
-    <g fill="none" stroke="#6E4520" stroke-width="1.6" stroke-linecap="round" opacity=".55">
-      <path d="M110 336 q7 3 13 0"/><path d="M214 336 q7 3 14 0"/>
-    </g>
-    <g fill="#2b1a0e">
-      <path d="M106 360 h17 q2 0 2 3 v7 h-21 v-7 q0 -3 2 -3z"/><path d="M211 360 h17 q2 0 2 3 v7 h-21 v-7 q0 -3 2 -3z"/>
-    </g>
-
-    <!-- head (nods while chewing) -->
-    <g class="head">
-      <!-- far ear + ossicones -->
-      <ellipse cx="238" cy="86" rx="14" ry="6" fill="#B98337" transform="rotate(-58 238 86)"/>
-      <g stroke="#D3A050" stroke-width="7" stroke-linecap="round">
-        <line x1="247" y1="83" x2="244" y2="58"/><line x1="260" y1="82" x2="264" y2="60"/>
-      </g>
-      <g fill="#33200F"><ellipse cx="244" cy="55" rx="6.5" ry="7.5"/><ellipse cx="264" cy="57" rx="6.5" ry="7.5"/></g>
-      <!-- skull + snout -->
-      <use href="#gHead" fill="url(#gBase)"/>
-      <g clip-path="url(#clipHead)">
-        <path d="M245.4 105.6 L244.4 109.1 L239.8 110.2 L234.9 108.4 L235.6 104.8 L238.1 102.0 L242.2 101.4Z" fill="#A9592A" stroke="#A9592A" stroke-width="3.2" stroke-linejoin="round"/><path d="M257.0 90.7 L253.1 89.9 L252.2 85.9 L252.1 82.8 L256.1 81.2 L259.3 84.3 L259.7 86.9Z" fill="#B4652C" stroke="#B4652C" stroke-width="3.2" stroke-linejoin="round"/><path d="M273.6 96.8 L271.6 99.0 L269.2 97.4 L267.9 95.6 L269.2 91.6 L271.7 92.6 L274.1 93.5Z" fill="#9C4F24" stroke="#9C4F24" stroke-width="3.2" stroke-linejoin="round"/><path d="M234.3 123.9 L234.1 119.3 L236.2 115.9 L239.3 116.1 L242.6 119.3 L241.1 122.9 L238.2 123.5Z" fill="#B4652C" stroke="#B4652C" stroke-width="3.2" stroke-linejoin="round"/>
-        <ellipse cx="246" cy="118" rx="12" ry="8" fill="#5A2D0C" opacity=".22"/>
-        <path d="M284 96 C302 98 312 110 308 126 C300 132 290 131 282 129 C288 118 288 108 284 96 Z" fill="#7C5D4B"/>
-      </g>
-      <ellipse cx="300" cy="111" rx="2.4" ry="3.6" fill="#241409" transform="rotate(-12 300 111)"/>
-      <!-- brow, eye, lashes -->
-      <path d="M244 93 Q254 88 263 92" fill="none" stroke="#9C6524" stroke-width="2" stroke-linecap="round" opacity=".7"/>
-      <g class="blink"><ellipse cx="254" cy="99" rx="6.2" ry="5.6" fill="#1B110A"/><circle cx="256.4" cy="97" r="1.9" fill="#fff"/></g>
-      <g stroke="#1B110A" stroke-width="1.6" stroke-linecap="round"><line x1="249" y1="94.5" x2="246" y2="91"/><line x1="253" y1="93" x2="252" y2="89"/><line x1="258" y1="93.5" x2="259" y2="90"/></g>
-      <!-- near ear -->
-      <g transform="rotate(-28 228 101)"><ellipse cx="228" cy="101" rx="18" ry="7.5" fill="#D3A050"/><ellipse cx="228" cy="101" rx="11" ry="3.8" fill="#C0806A"/></g>
-      <!-- mouth line + lower jaw -->
-      <path d="M264 131 L299 128" stroke="#4A2A18" stroke-width="1.6" stroke-linecap="round" fill="none"/>
-      <g class="jaw"><path d="M256 129 L296 130 C302 130 302 138 293 139 L263 141 C256 141 253 134 256 129 Z" fill="#DDB061"/><path d="M270 139 L295 137.4" stroke="#7C5D4B" stroke-width="3" stroke-linecap="round"/></g>
-      <!-- the cable caught between the teeth -->
-      <path d="M268 128 L285 127.5" stroke="#15151A" stroke-width="6.5" stroke-linecap="round"/>
-    </g>
-
-    <!-- grass -->
-    <g fill="none" stroke="#81DAAC" stroke-width="2.2" stroke-linecap="round" opacity=".55">
-      <path d="M40 372 q2 -12 6 -16 M46 372 q1 -9 -3 -14 M52 372 q4 -8 8 -10"/>
-      <path d="M262 372 q2 -10 6 -14 M268 372 q0 -8 -4 -12 M274 372 q4 -6 8 -8"/>
-      <path d="M340 372 q2 -10 6 -14 M346 372 q1 -8 -3 -12"/>
-    </g>
-
-    <!-- chewed-off piece: hangs from the mouth, plug swinging near the socket -->
-    <g class="wire-loose">
-      <path d="M 272 130 C 300 168, 372 176, 384 226" fill="none" stroke="#15151A" stroke-width="7" stroke-linecap="round"/>
-      <g transform="translate(384 226) rotate(12)">
-        <rect x="-11" y="0" width="22" height="26" rx="5" fill="#EDEAF0"/>
-        <g class="o o-us" fill="#B9B4C0">
-          <rect x="-7" y="26" width="4" height="12" rx="1.5"/><rect x="3" y="26" width="4" height="12" rx="1.5"/><rect x="-1.6" y="26" width="3.2" height="8" rx="1.6"/>
-        </g>
-        <g class="o o-de">
-          <rect x="-13" y="9" width="3" height="7" rx="1.2" fill="#B9B4C0"/><rect x="10" y="9" width="3" height="7" rx="1.2" fill="#B9B4C0"/>
-          <g fill="#B9B4C0"><rect x="-10.5" y="26" width="5" height="13" rx="2.5"/><rect x="5.5" y="26" width="5" height="13" rx="2.5"/></g>
-        </g>
-        <g class="o o-fr">
-          <ellipse cx="0" cy="22" rx="2.8" ry="2" fill="#1E4A33"/>
-          <g fill="#B9B4C0"><rect x="-10.5" y="26" width="5" height="13" rx="2.5"/><rect x="5.5" y="26" width="5" height="13" rx="2.5"/></g>
-        </g>
-        <g class="o o-it" fill="#B9B4C0">
-          <rect x="-10" y="26" width="3.6" height="12" rx="1.8"/><rect x="-1.8" y="26" width="3.6" height="12" rx="1.8"/><rect x="6.4" y="26" width="3.6" height="12" rx="1.8"/>
-        </g>
-      </g>
-      <!-- frayed cut at the mouth -->
-      <g stroke="#E8B04A" stroke-width="2" stroke-linecap="round">
-        <line x1="270" y1="126" x2="264" y2="118"/><line x1="272" y1="124" x2="270" y2="114"/>
-      </g>
-    </g>
-
-    <!-- spark between plug and socket -->
-    <g class="spark" stroke="#FFE27A" stroke-width="3" stroke-linecap="round" fill="none">
-      <path d="M 404 266 l 8 -10 l -4 0 l 9 -12"/>
-      <path d="M 398 250 l -10 -4 M 420 268 l 10 4"/>
-    </g>
-  </svg>
+  <figure class="pic">
+    <div class="pic__frame">
+      <img src="/ci/assets/Bilder/Weitere/giraffen-diko-tessa.webp" width="506" height="490" decoding="async"
+           alt="Die beiden Kordofan-Giraffen Diko und Tessa nebeneinander, freigestellt vor hellem Hintergrund">
+    </div>
+    <figcaption>
+      <span id="cap"><strong>Diko und Tessa</strong>, zwei Kordofan-Giraffen im Zoo Dresden.</span>
+      <small id="credit">Foto: Mika Jeske</small>
+    </figcaption>
+  </figure>
 
   <section>
     <div class="code" aria-hidden="true">404</div>
     <h1 id="t">Verbindung unterbrochen.</h1>
-    <p id="d">Die Giraffe hatte Hunger und das Kabel hing einfach zu tief. Diese Seite gibt es nicht (mehr).</p>
+    <p class="msg" id="d">Diese Seite gibt es nicht (mehr). Vermutlich haben Diko und Tessa das Kabel durchgekaut.</p>
+
+    <div class="fact">
+      <div class="fact__body">
+        <span class="fact__label" id="factLabel">Giraffen-Fakt</span>
+        <output class="fact__text" id="fact" aria-live="polite">#1</output>
+      </div>
+      <button class="dice" id="dice" type="button" aria-label="Neuen Fakt würfeln">
+        <svg viewBox="0 0 34 34" aria-hidden="true">
+          <rect x="3" y="3" width="28" height="28" rx="7" fill="none" stroke="currentColor" stroke-width="2.4"/>
+          <g fill="currentColor"><circle cx="11" cy="11" r="2.6"/><circle cx="23" cy="11" r="2.6"/><circle cx="17" cy="17" r="2.6"/><circle cx="11" cy="23" r="2.6"/><circle cx="23" cy="23" r="2.6"/></g>
+        </svg>
+      </button>
+    </div>
+
     <a class="home" id="h" href="/">Zur Startseite</a>
   </section>
 </main>
@@ -280,25 +149,79 @@
   // Plain-JS language pick (no dependency on the app bundle): de is the default and lives in the HTML above.
   (function () {
     var L = {
-      en: ["Connection lost.", "The giraffe was hungry and the cable hung way too low. This page doesn't exist (anymore).", "Back to the homepage", "Page not found"],
-      fr: ["Connexion perdue.", "La girafe avait faim et le câble pendait vraiment trop bas. Cette page n'existe pas (ou plus).", "Retour à l'accueil", "Page introuvable"],
-      es: ["Conexión perdida.", "La jirafa tenía hambre y el cable colgaba demasiado bajo. Esta página no existe (ya).", "Volver al inicio", "Página no encontrada"],
-      it: ["Connessione interrotta.", "La giraffa aveva fame e il cavo penzolava troppo in basso. Questa pagina non esiste (più).", "Torna alla home", "Pagina non trovata"]
+      en: {
+        t: "Connection lost.", d: "This page doesn't exist (anymore). Diko and Tessa probably chewed through the cable.",
+        h: "Back to the homepage", title: "Page not found", label: "Giraffe fact", dice: "Roll a new fact",
+        cap: "<strong>Diko and Tessa</strong>, two Kordofan giraffes at Dresden Zoo.", credit: "Photo: Mika Jeske",
+        alt: "The two Kordofan giraffes Diko and Tessa standing side by side, cut out from their background"
+      },
+      fr: {
+        t: "Connexion perdue.", d: "Cette page n'existe pas (ou plus). Diko et Tessa ont sans doute rongé le câble.",
+        h: "Retour à l'accueil", title: "Page introuvable", label: "Fait sur les girafes", dice: "Lancer le dé pour un nouveau fait",
+        cap: "<strong>Diko et Tessa</strong>, deux girafes du Kordofan au zoo de Dresde.", credit: "Photo : Mika Jeske",
+        alt: "Les deux girafes du Kordofan Diko et Tessa côte à côte, détourées"
+      },
+      es: {
+        t: "Conexión perdida.", d: "Esta página no existe (ya). Seguramente Diko y Tessa mordieron el cable.",
+        h: "Volver al inicio", title: "Página no encontrada", label: "Dato sobre jirafas", dice: "Tirar el dado para otro dato",
+        cap: "<strong>Diko y Tessa</strong>, dos jirafas de Kordofán en el zoo de Dresde.", credit: "Foto: Mika Jeske",
+        alt: "Las dos jirafas de Kordofán Diko y Tessa, una junto a la otra, recortadas del fondo"
+      },
+      it: {
+        t: "Connessione interrotta.", d: "Questa pagina non esiste (più). Probabilmente Diko e Tessa hanno rosicchiato il cavo.",
+        h: "Torna alla home", title: "Pagina non trovata", label: "Curiosità sulle giraffe", dice: "Tira il dado per un'altra curiosità",
+        cap: "<strong>Diko e Tessa</strong>, due giraffe del Kordofan allo zoo di Dresda.", credit: "Foto: Mika Jeske",
+        alt: "Le due giraffe del Kordofan Diko e Tessa affiancate, ritagliate dallo sfondo"
+      }
     };
     var lang = ((navigator.language || "de").slice(0, 2)).toLowerCase();
     var seg = location.pathname.split("/")[1];
     if (L[seg]) lang = seg; // a broken URL under /en/… keeps its language
-    // wall outlet by country: Germany + Spain use Schuko (type F), France type E, Italy type L, English = USA
-    document.documentElement.setAttribute("data-outlet", { de: "de", es: "de", fr: "fr", it: "it", en: "us" }[lang] || "de");
     var s = L[lang];
-    if (!s) return;
-    document.documentElement.lang = lang;
-    document.getElementById("t").textContent = s[0];
-    document.getElementById("d").textContent = s[1];
-    var h = document.getElementById("h");
-    h.textContent = s[2];
-    h.href = "/" + lang + "/";
-    document.title = "404 · " + s[3] + " · Mika Jeske";
+    if (s) {
+      var $ = function (id) { return document.getElementById(id); };
+      document.documentElement.lang = lang;
+      $("t").textContent = s.t;
+      $("d").textContent = s.d;
+      $("cap").innerHTML = s.cap;
+      $("credit").textContent = s.credit;
+      $("factLabel").textContent = s.label;
+      $("dice").setAttribute("aria-label", s.dice);
+      document.querySelector(".pic img").alt = s.alt;
+      var h = $("h");
+      h.textContent = s.h;
+      h.href = "/" + lang + "/";
+      document.title = "404 · " + s.title + " · Mika Jeske";
+    }
+
+    // Fun-fact dice. No facts written yet, so it shuffles through 1-100.
+    // Later: fill FACTS (index 0 = fact #1) and the box shows the text instead of the number.
+    var FACTS = [];
+    var out = document.getElementById("fact"), dice = document.getElementById("dice");
+    var current = 0, timer = null;
+    function pick() { var n; do { n = 1 + Math.floor(Math.random() * 100); } while (n === current); return n; }
+    function show(n) { out.textContent = FACTS[n - 1] || "#" + n; }
+    current = pick(); show(current);
+    dice.addEventListener("click", function () {
+      if (timer) return;
+      var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var final = pick();
+      dice.classList.remove("rolling"); void dice.offsetWidth; dice.classList.add("rolling");
+      if (reduce) { current = final; show(final); dice.classList.remove("rolling"); return; }
+      var ticks = 0;
+      out.removeAttribute("aria-live"); // don't read out every shuffled number
+      timer = setInterval(function () {
+        ticks++;
+        if (ticks >= 13) {
+          clearInterval(timer); timer = null;
+          current = final; show(final);
+          dice.classList.remove("rolling");
+          out.setAttribute("aria-live", "polite");
+          return;
+        }
+        show(1 + Math.floor(Math.random() * 100));
+      }, 62);
+    });
   })();
 </script>
 </body>
