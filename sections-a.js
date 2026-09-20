@@ -185,7 +185,7 @@ function Hero() {
       try {
         video.currentTime = 0;
       } catch (e) {}
-      video.playbackRate = 0.74285;
+      video.playbackRate = 0.8125;
       const pr = video.play();
       if (pr && typeof pr.catch === "function") pr.catch(onRefused);
     }
@@ -204,7 +204,7 @@ function Hero() {
     const ease = x => x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
     function tryPlay() {
       if (!video.src) video.src = src;
-      video.playbackRate = 0.74285;
+      video.playbackRate = 0.8125;
       const pr = video.play();
       if (pr && typeof pr.catch === "function") pr.catch(onRefused);
     }
@@ -403,9 +403,12 @@ function Hero() {
       zIndex: 0
     }
   }), /*#__PURE__*/React.createElement("img", {
-    src: asset("ci/assets/Bilder/Weitere/site_header.png"),
+    src: asset("ci/assets/Bilder/Weitere/site_header.webp"),
     alt: "Mika Jeske",
     className: "drift-soft",
+    width: 1844,
+    height: 2304,
+    fetchPriority: "high",
     style: {
       position: "relative",
       zIndex: 1,
@@ -674,7 +677,7 @@ function Intro() {
       marginTop: "clamp(24px,3vw,40px)"
     }
   }, /*#__PURE__*/React.createElement("img", {
-    src: asset("ci/assets/Bilder/Weitere/signatur-mika-jeske.png"),
+    src: asset("ci/assets/Bilder/Weitere/signatur-mika-jeske.webp"),
     alt: "Mika Andreas Jeske",
     loading: "lazy",
     style: {

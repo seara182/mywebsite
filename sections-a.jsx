@@ -188,7 +188,7 @@ function Hero() {
         <div ref={faceRef} className="hero-photo" aria-hidden="true" style={{ position: "absolute", zIndex: 3, right: "clamp(80px, 15vw, 340px)", bottom: 0, height: "clamp(520px, 66vh, 820px)", pointerEvents: "none" }}>
           <div className="hero-photo__in" style={{ position: "relative", height: "100%", opacity: mounted ? 1 : 0, transform: mounted ? "none" : "translateY(26px) scale(0.965)", filter: mounted ? "blur(0px)" : "blur(10px)", transition: "opacity 1.1s var(--ease-emphasized) " + HERO_T.portrait + "ms, transform 1.1s var(--ease-emphasized) " + HERO_T.portrait + "ms, filter 1.1s var(--ease-emphasized) " + HERO_T.portrait + "ms" }}>
             <Scribble seed={9} glow="duo" size={340} style={{ top: "42%", left: "50%", width: "84%", height: "84%", zIndex: 0 }} />
-            <img src={asset("ci/assets/Bilder/Weitere/site_header.png")} alt="Mika Jeske" className="drift-soft"
+            <img src={asset("ci/assets/Bilder/Weitere/site_header.webp")} alt="Mika Jeske" className="drift-soft" width={1844} height={2304} fetchPriority="high"
               style={{ position: "relative", zIndex: 1, display: "block", height: "100%", width: "auto" }} />
             <span ref={aiRef} className="hero-ailabel" style={{ position: "absolute", zIndex: 2, right: 10, bottom: 10, fontFamily: "var(--font-text)", fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "#808080", textShadow: "0 0 8px var(--bg), 0 0 14px var(--bg)" }}>
               {t("hero.aiImageLabel")}
@@ -280,7 +280,7 @@ function Intro() {
                 measure and not on the wider copy column; invert() paints the
                 black source white for the plum band */}
             <div style={{ maxWidth: "46ch", marginTop: "clamp(24px,3vw,40px)" }}>
-              <img src={asset("ci/assets/Bilder/Weitere/signatur-mika-jeske.png")}
+              <img src={asset("ci/assets/Bilder/Weitere/signatur-mika-jeske.webp")}
                 alt="Mika Andreas Jeske" loading="lazy"
                 style={{ display: "block", marginInline: "auto", width: "min(300px, 66%)", height: "auto", filter: "invert(1)", opacity: 0.9 }} />
             </div>

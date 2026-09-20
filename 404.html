@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>404 · Mika Jeske</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Seite nicht gefunden.">
+<!-- GitHub Pages serves this file for any missing path at any depth, so every URL below is absolute. -->
+<link rel="icon" href="/ci/icons/Favicon32x.ico">
+<link rel="apple-touch-icon" href="/ci/icons/Favicon128x.ico">
+<link rel="stylesheet" href="/ci/styles.css">
+<style>
+  html { color-scheme: dark; }
+  body {
+    min-height: 100vh; min-height: 100dvh; margin: 0;
+    display: grid; place-items: center; padding: 32px 16px;
+    background:
+      radial-gradient(60% 70% at 30% 55%, rgb(var(--accent-1-glow-rgb) / .28), transparent 70%),
+      linear-gradient(135deg, var(--plum-deep), var(--plum) 60%, #2a1230);
+    color: var(--on-dark-body);
+  }
+  main {
+    width: min(1040px, 100%); display: grid; gap: clamp(16px, 4vw, 56px);
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); align-items: center;
+  }
+  .art { width: 100%; height: auto; display: block; overflow: visible; }
+  .code {
+    font-family: var(--font-display); font-weight: 700; letter-spacing: -.04em; line-height: .9;
+    font-size: clamp(88px, 16vw, 168px); color: var(--on-dark-strong); margin: 0 0 14px;
+  }
+  h1 { font-size: clamp(26px, 3.6vw, 40px); font-weight: 600; color: var(--on-dark-strong); margin: 0 0 14px; }
+  p { font-size: clamp(17px, 1.6vw, 20px); line-height: 1.5; max-width: 34ch; margin: 0 0 32px; }
+  .home {
+    display: inline-flex; align-items: center; gap: 10px; padding: 14px 26px; border-radius: 999px;
+    background: var(--on-dark-strong); color: var(--plum-deep); font-weight: 600; font-size: 17px;
+    transition: transform .25s var(--ease-out, ease), box-shadow .25s;
+  }
+  .home:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgb(0 0 0 / .3); }
+  .home:focus-visible { outline-color: var(--plum-glow); }
+
+  /* chewing: head bobs, jaw snaps, the caught cable jiggles, the loose plug sparks */
+  .head { transform-origin: 236px 160px; animation: nod 1.1s ease-in-out infinite alternate; }
+  .jaw  { transform-origin: 262px 128px; animation: chew .55s ease-in-out infinite alternate; }
+  .wire-loose { transform-origin: 268px 128px; animation: sway 1.6s ease-in-out infinite alternate; }
+  .spark { animation: zap 1.4s steps(1, end) infinite; }
+  .blink { transform-origin: 250px 100px; animation: blink 4.2s infinite; }
+  @keyframes nod   { from { transform: rotate(-2deg); } to { transform: rotate(2.5deg); } }
+  @keyframes chew  { from { transform: rotate(0); } to { transform: rotate(9deg); } }
+  @keyframes sway  { from { transform: rotate(-2.5deg); } to { transform: rotate(2.5deg); } }
+  @keyframes zap   { 0%, 55%, 100% { opacity: 0; } 60%, 68% { opacity: 1; } 76% { opacity: 0; } 82% { opacity: 1; } 88% { opacity: 0; } }
+  @keyframes blink { 0%, 94%, 100% { transform: scaleY(1); } 97% { transform: scaleY(.1); } }
+  @media (prefers-reduced-motion: reduce) {
+    .head, .jaw, .wire-loose, .blink { animation: none; }
+    .spark { animation: none; opacity: 1; }
+    .home { transition: none; }
+  }
+  /* stack only on narrow portrait screens; landscape phones keep two columns so nothing scrolls */
+  @media (max-width: 760px) and (orientation: portrait) {
+    main { grid-template-columns: 1fr; text-align: center; }
+    p { margin-inline: auto; }
+    .art { max-width: 380px; margin-inline: auto; }
+  }
+  @media (max-height: 480px) and (orientation: landscape) {
+    body { padding: 16px; }
+    .code { font-size: 72px; margin-bottom: 8px; }
+    h1 { font-size: 24px; margin-bottom: 8px; }
+    p { font-size: 15px; margin-bottom: 16px; }
+    .home { padding: 10px 20px; font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <svg class="art" viewBox="0 0 480 400" role="img" aria-labelledby="art-title">
+    <title id="art-title">Eine Giraffe kaut an einem herunterhängenden Kabel, der Stecker baumelt lose neben der Steckdose.</title>
+    <!-- ground -->
+    <ellipse cx="240" cy="372" rx="215" ry="12" fill="#000" opacity=".22"/>
+
+    <!-- socket on the right -->
+    <g>
+      <rect x="426" y="250" width="44" height="60" rx="10" fill="#EDEAF0"/>
+      <rect x="434" y="262" width="5" height="14" rx="2" fill="#4E2454"/>
+      <rect x="452" y="262" width="5" height="14" rx="2" fill="#4E2454"/>
+      <circle cx="446" cy="292" r="4" fill="#4E2454"/>
+    </g>
+
+    <!-- cable from the ceiling, sagging low to the giraffe's mouth -->
+    <path d="M 470 -800 L 470 20 C 470 90, 340 150, 270 126" fill="none" stroke="#15151A" stroke-width="7" stroke-linecap="round"/>
+
+    <!-- giraffe body + legs -->
+    <g>
+      <g fill="#E3AE4B">
+        <rect x="88"  y="318" width="20" height="50" rx="8"/>
+        <rect x="124" y="322" width="20" height="46" rx="8" opacity=".9"/>
+        <rect x="178" y="322" width="20" height="46" rx="8" opacity=".9"/>
+        <rect x="210" y="318" width="20" height="50" rx="8"/>
+      </g>
+      <g fill="#3a2a1c">
+        <rect x="88"  y="360" width="20" height="9" rx="4"/><rect x="124" y="360" width="20" height="9" rx="4"/>
+        <rect x="178" y="360" width="20" height="9" rx="4"/><rect x="210" y="360" width="20" height="9" rx="4"/>
+      </g>
+      <ellipse cx="160" cy="300" rx="82" ry="46" fill="#E3AE4B"/>
+      <path d="M 78 292 q -26 8 -30 40" fill="none" stroke="#E3AE4B" stroke-width="7" stroke-linecap="round"/>
+      <circle cx="46" cy="336" r="7" fill="#7A4A1E"/>
+      <!-- neck -->
+      <path d="M 190 288 C 200 220, 214 170, 232 118 L 268 130 C 258 190, 250 240, 236 300 Z" fill="#E3AE4B"/>
+      <!-- spots -->
+      <g fill="#A8622A">
+        <ellipse cx="128" cy="288" rx="14" ry="11"/><ellipse cx="166" cy="312" rx="15" ry="10"/>
+        <ellipse cx="112" cy="316" rx="9" ry="7"/><ellipse cx="192" cy="284" rx="11" ry="9"/>
+        <ellipse cx="218" cy="262" rx="9" ry="12" transform="rotate(14 218 262)"/>
+        <ellipse cx="226" cy="216" rx="8" ry="11" transform="rotate(16 226 216)"/>
+        <ellipse cx="238" cy="170" rx="7" ry="10" transform="rotate(18 238 170)"/>
+      </g>
+      <!-- mane -->
+      <path d="M 228 118 C 214 170, 200 220, 188 286" fill="none" stroke="#7A4A1E" stroke-width="7" stroke-linecap="round" stroke-dasharray="2 9"/>
+    </g>
+
+    <!-- head (nods while chewing) -->
+    <g class="head">
+      <!-- ossicones + ear -->
+      <g stroke="#7A4A1E" stroke-width="5" stroke-linecap="round">
+        <line x1="234" y1="82" x2="228" y2="60"/><line x1="252" y1="80" x2="256" y2="58"/>
+      </g>
+      <circle cx="228" cy="58" r="6" fill="#7A4A1E"/><circle cx="256" cy="56" r="6" fill="#7A4A1E"/>
+      <ellipse cx="222" cy="100" rx="16" ry="8" fill="#C98F3A" transform="rotate(-28 222 100)"/>
+      <!-- skull + snout -->
+      <ellipse cx="248" cy="106" rx="30" ry="26" fill="#E3AE4B"/>
+      <path d="M 250 98 L 292 104 Q 300 118 288 126 L 246 128 Z" fill="#E3AE4B"/>
+      <ellipse cx="290" cy="112" rx="4" ry="3" fill="#7A4A1E"/>
+      <!-- eye -->
+      <g class="blink"><circle cx="250" cy="100" r="5" fill="#15151A"/><circle cx="252" cy="98" r="1.6" fill="#fff"/></g>
+      <ellipse cx="240" cy="112" rx="8" ry="5" fill="#A8622A" opacity=".7"/>
+      <!-- lower jaw, chewing -->
+      <g class="jaw"><path d="M 250 122 L 286 124 Q 290 134 276 136 L 250 134 Z" fill="#D69A3E"/></g>
+      <!-- the cable caught between the teeth -->
+      <path d="M 262 127 L 284 127" stroke="#15151A" stroke-width="7" stroke-linecap="round"/>
+    </g>
+
+    <!-- chewed-off piece: hangs from the mouth, plug swinging near the socket -->
+    <g class="wire-loose">
+      <path d="M 272 130 C 300 168, 372 176, 384 226" fill="none" stroke="#15151A" stroke-width="7" stroke-linecap="round"/>
+      <g transform="translate(384 226) rotate(12)">
+        <rect x="-11" y="0" width="22" height="26" rx="5" fill="#EDEAF0"/>
+        <rect x="-7" y="26" width="4" height="12" rx="1.5" fill="#B9B4C0"/>
+        <rect x="3" y="26" width="4" height="12" rx="1.5" fill="#B9B4C0"/>
+      </g>
+      <!-- frayed cut at the mouth -->
+      <g stroke="#E8B04A" stroke-width="2" stroke-linecap="round">
+        <line x1="270" y1="126" x2="264" y2="118"/><line x1="272" y1="124" x2="270" y2="114"/>
+      </g>
+    </g>
+
+    <!-- spark between plug and socket -->
+    <g class="spark" stroke="#FFE27A" stroke-width="3" stroke-linecap="round" fill="none">
+      <path d="M 404 266 l 8 -10 l -4 0 l 9 -12"/>
+      <path d="M 398 250 l -10 -4 M 420 268 l 10 4"/>
+    </g>
+  </svg>
+
+  <section>
+    <div class="code" aria-hidden="true">404</div>
+    <h1 id="t">Verbindung unterbrochen.</h1>
+    <p id="d">Die Giraffe hatte Hunger und das Kabel hing einfach zu tief. Diese Seite gibt es nicht (mehr).</p>
+    <a class="home" id="h" href="/">Zur Startseite</a>
+  </section>
+</main>
+
+<script>
+  // Plain-JS language pick (no dependency on the app bundle): de is the default and lives in the HTML above.
+  (function () {
+    var L = {
+      en: ["Connection lost.", "The giraffe was hungry and the cable hung way too low. This page doesn't exist (anymore).", "Back to the homepage", "Page not found"],
+      fr: ["Connexion perdue.", "La girafe avait faim et le câble pendait vraiment trop bas. Cette page n'existe pas (ou plus).", "Retour à l'accueil", "Page introuvable"],
+      es: ["Conexión perdida.", "La jirafa tenía hambre y el cable colgaba demasiado bajo. Esta página no existe (ya).", "Volver al inicio", "Página no encontrada"],
+      it: ["Connessione interrotta.", "La giraffa aveva fame e il cavo penzolava troppo in basso. Questa pagina non esiste (più).", "Torna alla home", "Pagina non trovata"]
+    };
+    var lang = ((navigator.language || "de").slice(0, 2)).toLowerCase();
+    var seg = location.pathname.split("/")[1];
+    if (L[seg]) lang = seg; // a broken URL under /en/… keeps its language
+    var s = L[lang];
+    if (!s) return;
+    document.documentElement.lang = lang;
+    document.getElementById("t").textContent = s[0];
+    document.getElementById("d").textContent = s[1];
+    var h = document.getElementById("h");
+    h.textContent = s[2];
+    h.href = "/" + lang + "/";
+    document.title = "404 · " + s[3] + " · Mika Jeske";
+  })();
+</script>
+</body>
+</html>

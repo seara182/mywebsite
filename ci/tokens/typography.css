@@ -6,9 +6,9 @@
    ============================================================ */
 
 :root {
-  --font-display: "SF Pro Display", -apple-system, BlinkMacSystemFont,
+  --font-display: -apple-system, BlinkMacSystemFont, "Inter",
                   "Segoe UI", system-ui, "Helvetica Neue", Arial, sans-serif;
-  --font-text:    "SF Pro Display", -apple-system, BlinkMacSystemFont,
+  --font-text:    -apple-system, BlinkMacSystemFont, "Inter",
                   "Segoe UI", system-ui, "Helvetica Neue", Arial, sans-serif;
   --font-mono:    "SF Mono", ui-monospace, "Menlo", Consolas, monospace;
 
