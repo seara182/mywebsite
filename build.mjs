@@ -33,7 +33,7 @@ function compile(name) {
   const { code } = transformFileSync(`${name}.jsx`, {
     presets: [["@babel/preset-react", { runtime: "classic" }]],
   });
-  const wrapped = `// AUTO-GENERATED from ${name}.jsx by build.mjs — do not edit directly.\n(function () {\n${code}\n})();\n`;
+  const wrapped = `// TRANSPILED from ${name}.jsx by build.mjs — do not edit directly.\n(function () {\n${code}\n})();\n`;
   writeFileSync(`${name}.js`, wrapped);
   console.log(`  ${name}.jsx -> ${name}.js`);
 }

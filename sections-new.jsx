@@ -1,4 +1,4 @@
-const { useState, useRef, useEffect } = React;
+const { useState, useRef, useEffect, useId } = React;
 const { asset, Reveal, Pressable, SplitFeature, Eyebrow, GlowShape, WaveBlend, AlignBlock, FigurePlot, useLang } = window.MJ;
 
 /* bachelor-thesis data: µV/K vs °C */
@@ -61,6 +61,11 @@ function TornEdge({ side, seed, color = "var(--paper)" }) {
 
 function TornSection({ label, seed = 7, teaser, children }) {
   const [open, setOpen] = useState(false);
+  /* useId is the one id source that is guaranteed identical under
+     renderToString and hydrateRoot, which matters because build.mjs
+     prerenders this. The component's own props can't supply one: `label` is
+     optional and `seed` is not unique across call sites. */
+  const panelId = useId();
   const [h, setH] = useState(0);
   const inner = useRef(null);
 
@@ -81,6 +86,7 @@ function TornSection({ label, seed = 7, teaser, children }) {
           <button
             onClick={() => setOpen(o => !o)}
             aria-expanded={open}
+            aria-controls={panelId}
             className="tear-trigger tear-trigger--teaser"
             style={{
               width: "100%", display: "flex", alignItems: "center", gap: 16, textAlign: "left",
@@ -104,6 +110,7 @@ function TornSection({ label, seed = 7, teaser, children }) {
           <button
             onClick={() => setOpen(o => !o)}
             aria-expanded={open}
+            aria-controls={panelId}
             className="tear-trigger"
             style={{
               width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 14,
@@ -131,7 +138,18 @@ function TornSection({ label, seed = 7, teaser, children }) {
 
       {/* transition is unconditional and disabled in CSS: branching on a media
           query here would desync the prerender from the browser */}
-      <div className="tear-panel" style={{
+      {/* `inert` is doing the more important half of the job here. The panel
+          collapses to max-height:0 with overflow:hidden, which hides it
+          visually but leaves every link and button inside it focusable and in
+          the accessibility tree — so a keyboard user tabbing past a closed
+          section fell into a run of invisible stops. aria-controls alone
+          would have announced the relationship while leaving that intact.
+
+          Spelled as undefined/"" rather than a boolean because React 18 has
+          no special handling for `inert`: inert={false} would render
+          inert="false", and for a boolean attribute mere presence is enough,
+          so the panel would be permanently inert. */}
+      <div className="tear-panel" id={panelId} inert={open ? undefined : ""} style={{
         maxHeight: open ? h + 80 : 0,
         overflow: "hidden",
         transition: "max-height .8s var(--ease-glide)",
@@ -190,11 +208,17 @@ function Polaroid({ src, caption, rot, tape }) {
         boxShadow: "0 1px 3px rgba(20,20,26,0.10)",
       }} />}
       <div style={{
-        background: "#FBFBFC", padding: "12px 12px 0", borderRadius: 3,
+        /* A polaroid is a physical print, so the mount stays light in both
+           schemes rather than inverting — but full #FBFBFC glares against a
+           near-black page, so dark mode dims it. The caption below is pinned
+           to a fixed ink for the same reason: it sits on the mount, not on
+           the page, so it must not follow --text-muted into light grey.
+           9.17:1 on the light mount, 7.76:1 on the dark one. */
+        background: "var(--polaroid-mount)", padding: "12px 12px 0", borderRadius: 3,
         boxShadow: "0 6px 22px -10px rgba(20,20,26,0.40), 0 30px 50px -30px rgb(var(--accent-2-rgb) / 0.40)",
       }}>
         <img src={src} alt={caption} loading="lazy" style={{ display: "block", width: "100%", height: "auto", filter: "saturate(1.02) contrast(1.02)" }} />
-        <figcaption style={{ fontFamily: "var(--font-mono)", fontSize: "12px", color: "#55555E", textAlign: "center", padding: "14px 6px 16px", lineHeight: 1.4 }}>
+        <figcaption style={{ fontFamily: "var(--font-mono)", fontSize: "12px", color: "#45454E", textAlign: "center", padding: "14px 6px 16px", lineHeight: 1.4 }}>
           {caption}
         </figcaption>
       </div>

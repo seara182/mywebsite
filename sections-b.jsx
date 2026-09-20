@@ -46,12 +46,18 @@ function Resume() {
 
         <Reveal style={{ marginTop: "clamp(48px,6vw,88px)" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 28 }}>
-            <Eyebrow>{r.skillsEyebrow}</Eyebrow>
+            {/* h3, matching its two siblings: the experience and education
+                blocks above both head themselves with a real <h3>, while this
+                one introduced the whole skills grid with a bare span. It was
+                the only eyebrow on the site genuinely acting as a heading. */}
+            <Eyebrow as="h3">{r.skillsEyebrow}</Eyebrow>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(240px,100%),1fr))", gap: "clamp(20px,2.5vw,32px)" }}>
             {skills.map((s, i) => (
               <div key={i}>
-                <div style={{ fontFamily: "var(--font-text)", fontSize: "var(--fs-small)", fontWeight: 600, color: "var(--heading)", marginBottom: 14 }}>{s.group}</div>
+                {/* group names were styled divs, so the grid had no internal
+                    structure to navigate by at all */}
+                <h4 style={{ fontFamily: "var(--font-text)", fontSize: "var(--fs-small)", fontWeight: 600, color: "var(--heading)", margin: "0 0 14px" }}>{s.group}</h4>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
                   {s.items.map((it, j) => <Badge key={j} variant={i === 0 ? "accent" : "neutral"}>{it}</Badge>)}
                 </div>
@@ -128,9 +134,6 @@ function Projects() {
               <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: 0, maxWidth: "46ch" }}>
                 {p.description}
               </p>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 28 }}>
-                {p.stack.map((s, i) => <Badge key={i} variant="plum">{s}</Badge>)}
-              </div>
               <div style={{ display: "flex", flexWrap: "wrap", gap: "10px 24px", marginTop: 28 }}>
                 {p.features.map((f, i) => (
                   <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-small)", color: "var(--text-body)" }}>
@@ -144,9 +147,20 @@ function Projects() {
             </div>
             {/* translateZ on the children needs the perspective on this wrapper */}
             <div className="bay-stage" style={{ perspective: 1200, minWidth: 0 }}>
-            <Pressable className="bay-preview" tilt={7} lift={-6} style={{ position: "relative", minWidth: 0, aspectRatio: "16/10", minHeight: 300, display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 16, padding: 26, borderRadius: "var(--radius-xl)", overflow: "hidden", background: "#14151D", boxShadow: "var(--shadow-lg)", border: "1px solid var(--border)" }}>
+            <Pressable className="bay-preview" tilt={7} lift={-6} style={{ position: "relative", minWidth: 0, aspectRatio: "16/10", minHeight: 300, display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 16, padding: 26, borderRadius: "var(--radius-xl)", overflow: "hidden",
+              /* Theme-fixed on purpose. This is a mock of the CheapSeats app's
+                 own dark interface — product imagery, like a screenshot, not
+                 site chrome. Re-theming it to light would misrepresent the
+                 app, so it keeps literal values in both schemes. */
+              background: "#14151D", boxShadow: "var(--shadow-lg)", border: "1px solid var(--border)" }}>
               <div style={{ position: "absolute", inset: 0, background: "radial-gradient(120% 120% at 80% 0%, rgb(var(--accent-2-glow-rgb) / 0.5), transparent 55%)" }} />
-              <div style={{ position: "relative", transform: "translateZ(34px)", padding: "20px 22px", borderRadius: "var(--radius-lg)", background: "linear-gradient(110deg, var(--sage-deep), var(--honey))", color: "#fff", boxShadow: "0 18px 40px -22px rgba(0,0,0,0.8)" }}>
+              <div style={{ position: "relative", transform: "translateZ(34px)", padding: "20px 22px", borderRadius: "var(--radius-lg)", /* The warm end was --honey, which put white text at 1.61:1 over the
+                 right-hand half of this card — comfortably the worst contrast
+                 on the site, and one the audit never found because it only
+                 looked at text tokens, never at what text was sitting on.
+                 --honey-deep is the same hue dropped to where white clears AA
+                 across the entire ramp (worst point 4.72:1). */
+              background: "linear-gradient(110deg, var(--sage-deep), var(--honey-deep))", color: "#fff", boxShadow: "0 18px 40px -22px rgba(0,0,0,0.8)" }}>
                 <div style={{ fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", opacity: 0.85, fontWeight: 600 }}>Next Game · Week 25</div>
                 <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "clamp(20px,3vw,34px)", marginTop: 6 }}>@ Miami Marlins</div>
                 <div style={{ fontSize: 13, opacity: 0.9, marginTop: 8 }}>Sat, Jun 20 · 1:10 AM · loanDepot park</div>

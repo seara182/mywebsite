@@ -122,3 +122,92 @@
   color: var(--text-faint);
   margin-top: 12px;
 }
+
+/* ============================================================
+   APPEARANCE ROW — inside the language popover
+   ============================================================
+   Reuses the popover's own vocabulary rather than introducing a second
+   one: same glass material, same hairline, same pill radius, same
+   staggered entrance. It reads as the last item in the menu because it is
+   built like the items above it.
+   ============================================================ */
+
+.lang-sep {
+  height: 1px; margin: 4px 2px 2px;
+  background: var(--chrome-hairline);
+  opacity: 0; transform: scaleX(0.4); transform-origin: left;
+  transition: opacity .3s var(--ease-spring), transform .3s var(--ease-spring);
+  transition-delay: 300ms;
+}
+.lang-menu.is-open .lang-sep { opacity: 1; transform: scaleX(1); }
+
+.theme-row {
+  display: flex; flex-direction: column; gap: 6px;
+  opacity: 0; transform: translateY(-10px) scale(0.5);
+  transition: opacity .3s var(--ease-spring), transform .3s var(--ease-spring);
+}
+.lang-menu.is-open .theme-row { opacity: 1; transform: translateY(0) scale(1); }
+
+.theme-row__label {
+  padding-left: 4px;
+  font-family: var(--font-text); font-size: 10px; font-weight: 600;
+  letter-spacing: var(--ls-label); text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.theme-seg {
+  display: inline-flex; align-items: center; gap: 2px;
+  padding: 3px;
+  background: var(--material-chrome);
+  -webkit-backdrop-filter: var(--blur-chrome); backdrop-filter: var(--blur-chrome);
+  border: 1px solid var(--chrome-hairline); border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  width: max-content;
+}
+
+.theme-opt {
+  display: inline-grid; place-items: center;
+  min-width: 34px; height: 28px; padding: 0 9px;
+  background: transparent; border: 1px solid transparent;
+  border-radius: var(--radius-xs);
+  font-family: var(--font-text); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background .22s var(--ease-out), color .22s var(--ease-out), border-color .22s var(--ease-out);
+}
+.theme-opt svg { width: 15px; height: 15px; display: block; }
+.theme-opt:hover { color: var(--text-body); background: var(--hover-tint); }
+.theme-opt:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* The selected state matches the language pills' aria-current treatment, so
+   "which one is on" is expressed the same way twice in one menu. */
+.theme-opt.is-active {
+  color: var(--sage-deep);
+  border-color: rgb(var(--accent-2-rgb) / 0.35);
+  background: rgb(var(--accent-2-rgb) / 0.10);
+}
+/* --sage-deep is tuned against paper; on a dark chrome surface it goes
+   muddy, so the active mark lifts to the mint halo tone instead. */
+:root[data-theme="dark"] .theme-opt.is-active { color: var(--sage-glow); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-opt.is-active { color: var(--sage-glow); }
+}
+
+/* ---------- the globe/sun glyph ----------
+   Static by design — see the comment on GLOBE_SVG in widgets.js. The only
+   thing CSS does here is hold the two halves at slightly different weights
+   so the split reads at 22px: the terminator is lighter than the rim, and
+   the rays are a touch lighter than the globe grid, which stops the mark
+   flattening into one busy circle. */
+.globe-glyph .gs-rays  { opacity: 0.85; }
+
+@media (prefers-reduced-motion: reduce) {
+  .lang-sep, .theme-row { transition: opacity .2s ease; transform: none !important; }
+}
+
+@media (prefers-contrast: more) {
+  .theme-opt { color: var(--text-body); }
+  .theme-opt.is-active { border-color: var(--accent); background: var(--accent); color: var(--accent-on); }
+  .globe-glyph .gs-rays { opacity: 1; }
+}

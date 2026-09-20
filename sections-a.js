@@ -1,4 +1,4 @@
-// AUTO-GENERATED from sections-a.jsx by build.mjs — do not edit directly.
+// TRANSPILED from sections-a.jsx by build.mjs — do not edit directly.
 (function () {
 const {
   asset,
@@ -372,7 +372,6 @@ function Hero() {
   })), /*#__PURE__*/React.createElement("div", {
     ref: faceRef,
     className: "hero-photo",
-    "aria-hidden": "true",
     style: {
       position: "absolute",
       zIndex: 3,
@@ -404,7 +403,7 @@ function Hero() {
     }
   }), /*#__PURE__*/React.createElement("img", {
     src: asset("ci/assets/Bilder/Weitere/site_header.webp"),
-    alt: "Mika Jeske",
+    alt: t("hero.portraitAlt"),
     className: "drift-soft",
     width: 1844,
     height: 2304,
@@ -429,8 +428,21 @@ function Hero() {
       fontWeight: 600,
       letterSpacing: "0.14em",
       textTransform: "uppercase",
-      color: "#808080",
-      textShadow: "0 0 8px var(--bg), 0 0 14px var(--bg)"
+      color: "var(--text-body)",
+      /* This is the Art. 50 AI-disclosure label and it sits on top of
+         the portrait, so a ratio against --paper was never the real
+         measurement. It used to be #808080 (3.66:1 even against bare
+         paper) held together by a background-coloured text-shadow,
+         which fails wherever the photo underneath is busy. It now
+         carries its own surface, in the same glass-chrome language as
+         the globe, contact chip and replay button — so it is legible
+         over any pixel of the image and themes with the page. */
+      background: "var(--material-chrome)",
+      WebkitBackdropFilter: "var(--blur-chrome)",
+      backdropFilter: "var(--blur-chrome)",
+      border: "1px solid var(--chrome-hairline)",
+      borderRadius: "var(--radius-xs)",
+      padding: "3px 9px"
     }
   }, t("hero.aiImageLabel")))), /*#__PURE__*/React.createElement("div", {
     ref: nameRef,

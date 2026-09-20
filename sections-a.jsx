@@ -185,12 +185,29 @@ function Hero() {
         </div>
 
         {/* ≥1440px only, see .hero-photo */}
-        <div ref={faceRef} className="hero-photo" aria-hidden="true" style={{ position: "absolute", zIndex: 3, right: "clamp(80px, 15vw, 340px)", bottom: 0, height: "clamp(520px, 66vh, 820px)", pointerEvents: "none" }}>
+        {/* Not aria-hidden any more. The wrapper used to carry aria-hidden="true",
+            which suppresses the ENTIRE subtree — so the portrait's alt text and,
+            more importantly, the Art. 50 AI-disclosure label inside it were both
+            invisible to screen readers. aria-hidden on an ancestor cannot be
+            undone by a descendant, so the attribute had to come off here. */}
+        <div ref={faceRef} className="hero-photo" style={{ position: "absolute", zIndex: 3, right: "clamp(80px, 15vw, 340px)", bottom: 0, height: "clamp(520px, 66vh, 820px)", pointerEvents: "none" }}>
           <div className="hero-photo__in" style={{ position: "relative", height: "100%", opacity: mounted ? 1 : 0, transform: mounted ? "none" : "translateY(26px) scale(0.965)", filter: mounted ? "blur(0px)" : "blur(10px)", transition: "opacity 1.1s var(--ease-emphasized) " + HERO_T.portrait + "ms, transform 1.1s var(--ease-emphasized) " + HERO_T.portrait + "ms, filter 1.1s var(--ease-emphasized) " + HERO_T.portrait + "ms" }}>
             <Scribble seed={9} glow="duo" size={340} style={{ top: "42%", left: "50%", width: "84%", height: "84%", zIndex: 0 }} />
-            <img src={asset("ci/assets/Bilder/Weitere/site_header.webp")} alt="Mika Jeske" className="drift-soft" width={1844} height={2304} fetchPriority="high"
+            <img src={asset("ci/assets/Bilder/Weitere/site_header.webp")} alt={t("hero.portraitAlt")} className="drift-soft" width={1844} height={2304} fetchPriority="high"
               style={{ position: "relative", zIndex: 1, display: "block", height: "100%", width: "auto" }} />
-            <span ref={aiRef} className="hero-ailabel" style={{ position: "absolute", zIndex: 2, right: 10, bottom: 10, fontFamily: "var(--font-text)", fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "#808080", textShadow: "0 0 8px var(--bg), 0 0 14px var(--bg)" }}>
+            <span ref={aiRef} className="hero-ailabel" style={{ position: "absolute", zIndex: 2, right: 10, bottom: 10, fontFamily: "var(--font-text)", fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--text-body)",
+              /* This is the Art. 50 AI-disclosure label and it sits on top of
+                 the portrait, so a ratio against --paper was never the real
+                 measurement. It used to be #808080 (3.66:1 even against bare
+                 paper) held together by a background-coloured text-shadow,
+                 which fails wherever the photo underneath is busy. It now
+                 carries its own surface, in the same glass-chrome language as
+                 the globe, contact chip and replay button — so it is legible
+                 over any pixel of the image and themes with the page. */
+              background: "var(--material-chrome)",
+              WebkitBackdropFilter: "var(--blur-chrome)", backdropFilter: "var(--blur-chrome)",
+              border: "1px solid var(--chrome-hairline)", borderRadius: "var(--radius-xs)",
+              padding: "3px 9px" }}>
               {t("hero.aiImageLabel")}
             </span>
           </div>

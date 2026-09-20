@@ -38,8 +38,6 @@
   --blur-sm:  blur(8px); /* @kind other */
   --blur-md:  blur(18px); /* @kind other */
   --blur-lg:  blur(40px); /* @kind other */
-  --glass-light: rgba(246,246,247,0.72);
-  --glass-dark:  rgba(20,21,29,0.55);
 
   /* ---- LEGACY/SMALL-SCALE GRADIENT GLOWS ----
      Soft radial color halos. No longer the main shape motif (GlowShape and
@@ -94,8 +92,99 @@
      Translucency is confined to floating chrome (language globe, contact
      chip, section rail). Content surfaces stay opaque: this is not a
      glassmorphism brand, and the readme says so explicitly. */
+  /* One token, both modes. This used to be a --material-chrome /
+     --material-chrome-dark pair duplicating a --glass-light / --glass-dark
+     pair further up, with only the first of the four ever referenced; the
+     dead three are gone. The dark value is lifted off the near-black paper
+     rather than matching it, so floating chrome still reads as floating. */
   --material-chrome: rgba(246,246,247,0.72);
-  --material-chrome-dark: rgba(20,21,29,0.55);
   --blur-chrome: blur(20px) saturate(1.4); /* @kind other */
   --chrome-hairline: rgba(20,20,26,0.10);
+}
+
+/* ============================================================
+   DARK MODE — effects
+   ============================================================
+   Guarded exactly like the palette in colors.css, and for a sharper
+   reason here: a custom property stores its value unparsed, so writing a
+   plain declaration followed by a light-dark() one does not give a
+   fallback — the later declaration always wins, and a browser that cannot
+   parse it only fails at var() time, dropping the property to nothing.
+   Unguarded, an old browser would lose every shadow on the page. Behind
+   @supports it simply keeps the literals above.
+
+   Colours are allowed inside a box-shadow, so light-dark() can sit on the
+   individual stops and each shadow stays a single declaration.
+   ============================================================ */
+
+@supports (color: light-dark(#000, #fff)) {
+  :root {
+    /* Elevation shadows go to near-pure black on dark: the ink-tinted
+       rgba above is lighter than the #0A0A0D paper and would read as a
+       faint halo rather than a shadow. */
+    --shadow-sm:  0 1px 2px light-dark(rgba(20,20,26,0.04), rgba(0,0,0,0.44)),
+                  0 2px 6px light-dark(rgba(20,20,26,0.05), rgba(0,0,0,0.36));
+    --shadow-md:  0 2px 8px  light-dark(rgba(20,20,26,0.05), rgba(0,0,0,0.48)),
+                  0 12px 28px light-dark(rgba(20,20,26,0.07), rgba(0,0,0,0.40));
+    --shadow-lg:  0 4px 16px light-dark(rgba(20,20,26,0.06), rgba(0,0,0,0.52)),
+                  0 28px 60px light-dark(rgba(20,20,26,0.10), rgba(0,0,0,0.46));
+
+    /* The specular top edge is a light-mode conceit; on dark it survives
+       only as a whisper. */
+    --shadow-inset: inset 0 1px 0 light-dark(rgba(255,255,255,0.6), rgba(255,255,255,0.06));
+
+    /* --------- the shape shadow has to change meaning --------- */
+    /* In light mode this is a CAST SHADOW: a near-black silhouette
+       dropping onto off-white paper. In dark mode --ink inverts to
+       near-white (see colors.css) and the paper goes near-black, so a dark
+       cast shadow would fall invisibly onto an already-black ground and
+       the shape would float unanchored.
+
+       It becomes a BLOOM instead — the same geometry, so the offset still
+       reads as a light source above, but tinted with the shape's own ink
+       so the silhouette sits in a halo of its own colour. That is the one
+       translation that keeps the motif grounded without inventing a new
+       visual device for dark mode. */
+    --shadow-shape:    0 26px 46px -16px light-dark(rgba(21,21,26,0.42), rgba(232,232,238,0.15)),
+                       0 10px 20px -10px light-dark(rgba(21,21,26,0.26), rgba(232,232,238,0.09));
+    --shadow-shape-sm: 0 12px 22px -8px light-dark(rgba(21,21,26,0.38), rgba(232,232,238,0.13)),
+                       0 5px 10px -5px light-dark(rgba(21,21,26,0.24), rgba(232,232,238,0.08));
+
+    /* Floating chrome lifts OFF the near-black paper rather than matching
+       it, so the globe and contact chip still read as hovering. */
+    --material-chrome:  light-dark(rgba(246,246,247,0.72), rgba(30,30,38,0.66));
+    --chrome-hairline:  light-dark(rgba(20,20,26,0.10), rgba(255,255,255,0.12));
+
+    /* Near-black shapes on the accent bands glowed white. In dark mode the
+       shapes are already near-white, so that halo would wash them out. */
+    --glow-white:  radial-gradient(closest-side,
+                     light-dark(rgba(255,255,255,0.55), rgba(255,255,255,0.22)),
+                     light-dark(rgba(255,255,255,0.18), rgba(255,255,255,0.07)) 55%,
+                     transparent 80%); /* @kind other */
+  }
+}
+
+/* ============================================================
+   TIER 2 — HIGH CONTRAST (reader opt-in)
+   ============================================================
+   Translucency and ambient haze are the first things to go: a blurred
+   backdrop behind chrome text is precisely the effect someone enabling
+   this setting is trying to get rid of. Chrome becomes opaque, the blur
+   is dropped outright, and the decorative glows stop tinting the ground
+   behind body copy.
+   ============================================================ */
+
+@media (prefers-contrast: more) {
+  :root {
+    --material-chrome: var(--paper);
+    --blur-chrome: none; /* @kind other */
+    --chrome-hairline: var(--hairline-strong);
+
+    /* Keep the shapes, drop the haze around them. */
+    --glow-sage: none;  --glow-honey: none;  --glow-plum: none;  --glow-duo: none;
+    --glow-sage-dense: none; --glow-honey-dense: none;
+    --glow-plum-dense: none; --glow-duo-dense: none;
+    --glow-white: none;  --glow-white-strong: none;
+    --glow-shadow-sage: none; --glow-shadow-plum: none;
+  }
 }

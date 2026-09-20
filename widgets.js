@@ -7,7 +7,51 @@
   "use strict";
   var I18N = window.I18N;
 
-  var GLOBE_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 4 6 4 9s-1.5 6.4-4 9c-2.5-2.6-4-6-4-9s1.5-6.4 4-9z"/></svg>';
+  /* ---------- the globe/sun glyph ----------
+     One disc, split on the diagonal: globe on the upper-left, sun on the
+     lower-right. Mika drew this, and it is the version that actually says
+     what the button does — the earlier attempts morphed the whole mark
+     between globe / sun / moon, which meant that at any given moment it
+     only advertised ONE of the two things the button opens, and in the
+     default state it advertised appearance not at all.
+
+     The split is the line x + y = 24. The globe grid is clipped to the
+     x + y < 24 side; the rays all sit on the far side of it, outside the
+     rim. Deliberately STATIC — this is a signifier for "language and
+     appearance", not a state readout. Which mode is active is shown by the
+     segmented control inside the menu, where there is room to say it
+     properly. */
+  var GLOBE_SVG = [
+    '<svg class="globe-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor"',
+    ' stroke-width="1.6" stroke-linecap="round" aria-hidden="true">',
+      '<defs><clipPath id="mjGlobeHalf">',
+        /* everything above-left of the diagonal */
+        '<polygon points="0,0 24,0 0,24"/>',
+      '</clipPath></defs>',
+      '<circle cx="12" cy="12" r="7.5"/>',
+      /* NO drawn terminator. A diagonal stroke across a circle is the
+         universal "prohibited / disabled" mark — with the line in, the
+         button read as a crossed-out globe. The split is carried by the
+         content instead: grid lines only on the upper-left, rays only off
+         the lower-right, which is the same division without the negation. */
+      '<g clip-path="url(#mjGlobeHalf)">',
+        '<path d="M4.5 12H19.5"/>',                      /* equator */
+        '<path d="M5.22 8.8H18.78"/>',                   /* upper parallel */
+        '<path d="M12 4.5A3.6 7.5 0 0 0 12 19.5"/>',     /* meridian */
+      '</g>',
+      '<g class="gs-rays">',
+        '<line x1="19.62" y1="7.6" x2="21.44" y2="6.55"/>',
+        '<line x1="20.8" y1="12" x2="22.9" y2="12"/>',
+        '<line x1="19.62" y1="16.4" x2="21.44" y2="17.45"/>',
+        '<line x1="16.4" y1="19.62" x2="17.45" y2="21.44"/>',
+        '<line x1="12" y1="20.8" x2="12" y2="22.9"/>',
+      '</g>',
+    '</svg>'
+  ].join("");
+
+  /* Small standalone marks for the three appearance options. */
+  var SUN_SVG  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.6"/><path d="M12 2.4v2.4M12 19.2v2.4M2.4 12h2.4M19.2 12h2.4M5.2 5.2l1.7 1.7M17.1 17.1l1.7 1.7M18.8 5.2l-1.7 1.7M6.9 17.1l-1.7 1.7"/></svg>';
+  var MOON_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.2A8.4 8.4 0 0 1 9.8 4a8.4 8.4 0 1 0 10.2 10.2z"/></svg>';
 
   function reduceMotion() {
     return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -76,6 +120,81 @@
       return btn;
     });
 
+    /* ---------- appearance ----------
+       Deliberately inside the existing popover rather than as a second
+       floating button. The corners are already carrying the globe and the
+       contact chip, and a portfolio does not need a third permanent control
+       hovering over the reader; the cost of hiding it one tap deep is
+       smaller than the cost of the clutter.
+
+       role="group" + menuitemradio, NOT role="radiogroup": the parent is a
+       role="menu", and a menu may only contain menuitem, menuitemradio,
+       menuitemcheckbox or group. A radiogroup in here would be invalid ARIA
+       and screen readers would report the containment badly. */
+    var sep = document.createElement("div");
+    sep.className = "lang-sep";
+    sep.setAttribute("aria-hidden", "true");
+    menu.appendChild(sep);
+
+    var themeRow = document.createElement("div");
+    themeRow.className = "theme-row";
+    themeRow.setAttribute("role", "group");
+    themeRow.style.transitionDelay = (I18N.LANGUAGES.length * 60) + "ms";
+
+    var themeLabel = document.createElement("span");
+    themeLabel.className = "theme-row__label";
+    themeLabel.setAttribute("aria-hidden", "true");
+    themeRow.appendChild(themeLabel);
+
+    var seg = document.createElement("div");
+    seg.className = "theme-seg";
+    themeRow.appendChild(seg);
+
+    var THEME_MARK = { auto: "", light: SUN_SVG, dark: MOON_SVG };
+    var themeEls = I18N.THEMES.map(function (code) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "theme-opt theme-opt--" + code;
+      b.setAttribute("role", "menuitemradio");
+      b.dataset.theme = code;
+      b.addEventListener("click", function () { I18N.setTheme(code); });
+      seg.appendChild(b);
+      return b;
+    });
+
+    /* Left/Right within the segment, which is what the segmented shape
+       promises; Tab still steps through them as it does the language pills
+       above, matching how the rest of this menu already behaves. */
+    seg.addEventListener("keydown", function (e) {
+      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+      var i = themeEls.indexOf(document.activeElement);
+      if (i === -1) return;
+      e.preventDefault();
+      var next = (i + (e.key === "ArrowRight" ? 1 : themeEls.length - 1)) % themeEls.length;
+      themeEls[next].focus();
+      I18N.setTheme(I18N.THEMES[next]);
+    });
+
+    function renderTheme() {
+      var active = I18N.getTheme();
+      themeLabel.textContent = I18N.t("theme.label");
+      themeRow.setAttribute("aria-label", I18N.t("theme.groupAria"));
+      themeEls.forEach(function (b, i) {
+        var code = I18N.THEMES[i];
+        var on = code === active;
+        b.setAttribute("aria-checked", on ? "true" : "false");
+        b.classList.toggle("is-active", on);
+        b.setAttribute("aria-label", I18N.t("theme." + code + "Aria"));
+        /* Auto reads as a word; light and dark read as their marks, with the
+           accessible name carrying the meaning either way. */
+        b.innerHTML = code === "auto"
+          ? '<span class="theme-opt__txt"></span>'
+          : THEME_MARK[code];
+        if (code === "auto") b.firstChild.textContent = I18N.t("theme.auto");
+      });
+    }
+    window.addEventListener("themechange", renderTheme);
+
     function renderLabels() {
       globe.setAttribute("aria-label", I18N.t("langSwitcher.globeAria"));
       optionEls.forEach(function (btn, i) {
@@ -85,6 +204,7 @@
         btn.setAttribute("aria-label", I18N.t("langSwitcher.optionAria").replace("{lang}", lang.name));
       });
       renderHint();
+      renderTheme();
     }
 
     function renderHint() {
@@ -144,6 +264,8 @@
 
     window.addEventListener("langchange", renderLabels);
     renderLabels();
+
+    menu.appendChild(themeRow);
 
     wrap.appendChild(globe);
     wrap.appendChild(hint);

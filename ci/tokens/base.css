@@ -65,3 +65,29 @@ hr { border: none; border-top: 1px solid var(--border); margin: 0; }
    Use a light veil there so highlighted text is actually visible. */
 .on-plum ::selection, .on-sage ::selection,
 .on-plum::selection, .on-sage::selection { background: rgb(255 255 255 / 0.32); color: var(--on-dark-strong); }
+
+/* ------------------------------------------------------------
+   Inline links inside timeline bullets.
+
+   These rules used to live as a style="" attribute inside an i18n string
+   that was injected with dangerouslySetInnerHTML — which meant the one
+   place on the site a reader most needs a strong link affordance was also
+   the one place no stylesheet could reach. An inline attribute outranks
+   every rule here, so prefers-contrast could not touch it.
+   ------------------------------------------------------------ */
+.tl-point-link {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: from-font;
+}
+.tl-point-link:hover { text-decoration-color: var(--accent); }
+.tl-point-link:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+@media (prefers-contrast: more) {
+  /* now reachable, which was the point */
+  .tl-point-link { text-decoration-thickness: 2px; color: var(--heading); }
+}

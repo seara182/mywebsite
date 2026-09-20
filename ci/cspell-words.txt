@@ -220,6 +220,7 @@ prerenders
 prerendered
 impressum
 langchange
+themechange
 
 # --- sports jargon ---
 MLB

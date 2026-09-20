@@ -21,7 +21,13 @@
   /* ---- Text on light surfaces ---- */
   --text-strong:  #15151A;  /* headings */
   --text-body:    #3C3C45;  /* body copy */
-  --text-muted:   #71717C;  /* captions, meta, labels */
+  /* Was #71717C, which measured 4.46:1 on --paper — AA by a rounding error.
+     This is the same grey two steps darker: 4.87:1 on --paper, 4.58:1 on
+     --paper-2. The change is below the perceptual threshold; the compliance
+     change is not. */
+  --text-muted:   #6B6B76;  /* captions, meta, labels */
+  /* Decorative/disabled ONLY (2.34:1). Never put meaningful text in this —
+     see .hero-ailabel, which used to and no longer does. */
   --text-faint:   #A2A2AC;  /* disabled, watermark */
   --hairline:     #E2E2E7;  /* borders, dividers */
   --hairline-strong: #CECED5;
@@ -48,23 +54,61 @@
   /* ---- Plum accent (contrast surface, Band 1 / Intro) ---- */
   --plum:         #4E2454;  /* plum surface */
   --plum-deep:    #351839;  /* darker plum */
-  --plum-soft:    #783781;  /* lifted plum for cards on plum */
+  /* Card surface for cards sitting ON the plum band. Was #783781, a LIFTED
+     plum: at that lightness --on-dark-muted landed on 4.06:1 and failed AA.
+     Cards now RECESS below their band instead of rising above it, which is
+     both compliant (all three text weights >=7.1:1) and the more honest
+     reading of a card cut into a coloured field. */
+  --plum-soft:    #5C2A63;  /* recessed plum for cards on plum */
   --plum-glow:    #D88DE2;  /* lilac used in glows */
+  /* Plum bright enough to survive as a UI mark on a near-black page; see
+     --accent in the dark-mode block. Unused in light mode. */
+  --plum-lift:    #9A4BA7;
 
   /* ---- Sage accent (contrast surface, Band 2 / Ehrenamt) ---- */
   --sage:         #2C6849;  /* sage surface */
   --sage-deep:    #1E4A33;  /* darker sage */
-  --sage-soft:    #47895F;  /* lifted sage */
+  /* Same move as --plum-soft, and here it was not marginal: the old lifted
+     #47895F failed AA on EVERY text weight (on-dark-strong 3.92:1,
+     on-dark-body 3.16:1, on-dark-muted 2.16:1). Recessed: >=6.3:1 on all
+     three. This was the site's worst contrast failure and the audit missed
+     it entirely, having only looked at text tokens. */
+  --sage-soft:    #22543A;  /* recessed sage for cards on sage */
   --sage-glow:    #81DAAC;  /* mint used in glows — halo/glow ONLY, never body text
                                 (3.94:1 as text on the sage band itself — see .on-sage) */
+  --sage-lift:    #3C8F63;  /* sage counterpart of --plum-lift */
   --honey:        #ECC77B;  /* secondary warm glow tone */
+  /* Honey is a GLOW tone: as a surface behind white text it bottoms out at
+     1.61:1. This is the same hue taken down to where white clears AA across
+     a whole gradient ramp (4.72:1 at the worst point). Use --honey for
+     halos, --honey-deep for anything text sits on. */
+  --honey-deep:   #9A6A16;
+
+  /* Surface of the polaroid mount (sections-new.jsx). Lives here rather than
+     inline because an inline style cannot sit behind @supports, and a bare
+     light-dark() in one would leave the mount transparent on a browser that
+     cannot parse it. */
+  --polaroid-mount: #FBFBFC;
+
+  /* Badge surfaces. Light values here so a browser without light-dark()
+     still gets a badge; the mode-aware versions are in the @supports block
+     below. */
+  --badge-accent-bg:     rgb(var(--accent-1-rgb) / 0.12);
+  --badge-accent-border: rgb(var(--accent-1-rgb) / 0.22);
+  --badge-accent-fg:     var(--plum-deep);
+  --badge-plum-fg:       var(--plum);
 
   /* ---- Text on dark/accent surfaces ----
      Neutralised off the old warm cream ramp (#FBF8F2/#E6DFD2/#B9B1A0), which
      read muddy on either new band. */
   --on-dark-strong: #F7F7F9;
   --on-dark-body:   #DFDFE4;
-  --on-dark-muted:  #B9B9C6;
+  /* Was #B9B9C6 = 3.40:1 on the sage band: a real AA failure on every
+     eyebrow, caption and timestamp in the Ehrenamt section. 4.74:1 now.
+     Sage is the binding constraint here — it is the lighter of the two
+     bands, so a value that clears sage clears plum with room to spare
+     (8.86:1). */
+  --on-dark-muted:  #DADAE1;
   --on-dark-hairline: rgba(255,255,255,0.14);
 
   /* ============================================================
@@ -122,4 +166,224 @@
   --accent: var(--on-dark-strong);
   color: var(--on-dark-body);
   background: var(--sage);
+}
+
+/* ============================================================
+   DARK MODE
+   ============================================================
+   Activation has to satisfy two things at once: follow the OS when the
+   reader has expressed no opinion, and let an explicit choice beat the OS.
+   The obvious spelling of that is a @media block plus an attribute
+   selector, which means writing the whole palette out twice and letting
+   the two copies drift. Instead every token below carries BOTH values in
+   one declaration via light-dark(), and the manual override is reduced to
+   a single color-scheme line. One definition per token, no duplication.
+
+   color-scheme also gets us correctly themed scrollbars, form controls
+   and canvas backgrounds for free, which a token remap alone would not.
+
+   The whole thing sits behind @supports, so a browser without light-dark()
+   simply keeps the light palette defined above — the tokens are never left
+   holding a value it cannot parse. Degrades to "no dark mode", not "broken
+   page", which is the only acceptable failure here.
+
+   --------- why the bands do NOT hit 4.5:1 against the paper ---------
+   4.5:1 is the threshold for TEXT against its own background. There is no
+   WCAG minimum between two neighbouring decorative surfaces, and the
+   nearest rule (1.4.11, 3:1) covers non-text UI that conveys meaning —
+   these bands don't, since the sections are already delimited by <section>,
+   real headings and the wave blends.
+
+   That matters because chasing 4.5:1 here is self-defeating. A plum that is
+   4.5:1 lighter than a near-black paper is a mid-tone (~#AF5EBA), and
+   mid-tones carry NEITHER white nor black text at 4.5:1 — measured, the
+   squeeze point is light text 3.82:1 / dark text 4.45:1, i.e. both fail.
+   Pushing further forces the band text to flip to dark ink, which turns
+   Intro and Ehrenamt into light panels on a dark page: the opposite of
+   dark mode.
+
+   So the contrast budget is spent where it is actually required — on text,
+   where every pair below clears 4.5:1 — and the bands are set by eye at
+   1.84:1 (plum) and 2.80:1 (sage), which reads clearly across a full-width
+   field. Worst text pair in the dark set: 4.71:1.
+   ============================================================ */
+
+@supports (color: light-dark(#000, #fff)) {
+  :root {
+    color-scheme: light dark;
+
+    /* ---- Surfaces ---- */
+    --paper:        light-dark(#F6F6F7, #0A0A0D);
+    --paper-2:      light-dark(#EFEFF1, #121217);
+    --paper-3:      light-dark(#E4E4E8, #1B1B21);
+
+    /* ---- The shape motif INVERTS ----
+       --ink is the near-black silhouette of every GlowShape / BlobPhoto,
+       traced by a coloured Scribble. At #15151A on a #0A0A0D paper it
+       measures 1.03:1 — the motif would simply disappear. Flipping it to
+       near-white keeps the drawing intact and still reads on the raised
+       bands (8.8:1 on plum, 5.8:1 on sage), so the silhouettes stay one
+       consistent colour across the whole page instead of splitting into
+       black-on-paper / white-on-accent. The Scribble keeps its hue. */
+    --ink:          light-dark(#15151A, #E8E8EE);
+    --ink-soft:     light-dark(#202027, #DCDCE3);
+
+    /* ---- Text on the paper bands ---- */
+    --text-strong:  light-dark(#15151A, #F2F2F5);  /* 17.70:1 */
+    --text-body:    light-dark(#3C3C45, #D9D9E1);  /* 14.09:1 */
+    --text-muted:   light-dark(#6B6B76, #AEAEBA);  /*  9.00:1 */
+    --text-faint:   light-dark(#A2A2AC, #6E6E79);  /* decorative only, both modes */
+    --hairline:        light-dark(#E2E2E7, #26262E);
+    --hairline-strong: light-dark(#CECED5, #3A3A45);
+
+    /* ---- The accent bands ----
+       Same hue family, lifted just enough to read as distinct zones against
+       a near-black paper while still carrying light text comfortably. */
+    --plum:         light-dark(#4E2454, #5B2A62);
+    --plum-deep:    light-dark(#351839, #3F1D45);
+    --plum-soft:    light-dark(#5C2A63, #4B2252);  /* recessed in both modes */
+    --sage:         light-dark(#2C6849, #2A6345);
+    --sage-deep:    light-dark(#1E4A33, #1F4C36);
+    --sage-soft:    light-dark(#22543A, #1C4831);  /* recessed in both modes */
+
+    /* ---- Text on the accent bands ----
+       The dark bands land close to the light ones in lightness, so this
+       ramp barely moves. --on-dark-body lifts one step because dark --sage
+       is marginally lighter than light --sage. */
+    --on-dark-body:  light-dark(#DFDFE4, #E4E4EA);
+
+    /* A physical print keeps its light mount in both schemes; dark mode only
+       dims it, because full #FBFBFC glares against a near-black page. */
+    --polaroid-mount: light-dark(#FBFBFC, #E8E8EC);
+
+    /* ---- Interaction tints invert: ink-on-light, light-on-ink ---- */
+    --press-tint:   light-dark(rgba(20,20,26,0.05),  rgba(232,232,238,0.08));
+    --hover-tint:   light-dark(rgba(20,20,26,0.035), rgba(232,232,238,0.055));
+
+    /* --------- accent marks have to lift off a near-black page --------- */
+    /* --accent is every plain UI mark on paper: timeline dots, the little
+       rule inside an Eyebrow, badges, link underlines. At the band's own
+       plum it measures 1.84:1 on --paper in dark mode, so all of those
+       would be very nearly invisible — a mark that conveys meaning wants
+       3:1 (WCAG 1.4.11), and these do. Lifted to a mid plum at 3.71:1,
+       which is bright enough to read without becoming the loudest thing on
+       a dark page the way the full lilac halo tone (8.31:1) would be. */
+    --accent:       light-dark(var(--plum), var(--plum-lift));  /* 1.84:1 -> 3.71:1 */
+    --accent-2:     light-dark(var(--sage), var(--sage-lift));  /* 2.80:1 -> 4.99:1 */
+
+    /* ---- Badges ----
+       The accent badge used --plum-deep text on a 12%-plum tint. On a
+       near-black page that is dark-plum-on-black: the skills grid was
+       unreadable. Dark mode moves the text to the lilac halo tone over a
+       lifted-plum tint (7.53:1). */
+    --badge-accent-bg:     light-dark(rgb(var(--accent-1-rgb) / 0.12),
+                                      rgb(var(--accent-1-rgb) / 0.14));
+    --badge-accent-border: light-dark(rgb(var(--accent-1-rgb) / 0.22),
+                                      rgb(var(--accent-1-rgb) / 0.30));
+    --badge-accent-fg:     light-dark(var(--plum-deep), var(--plum-glow));
+    --badge-plum-fg:       light-dark(var(--plum), var(--plum-glow));
+
+    /* Plum at 45% is all but invisible on a near-black ground, so dark mode
+       rings with the lilac halo tone instead of the band colour. */
+    --focus-ring:   light-dark(rgb(var(--accent-1-rgb) / 0.45),
+                               rgb(var(--accent-1-glow-rgb) / 0.75));
+  }
+
+  /* The manual override. "auto" is the absence of the attribute. */
+  :root[data-theme="light"] { color-scheme: light; }
+  :root[data-theme="dark"]  { color-scheme: dark; }
+}
+
+/* ============================================================
+   TIER 2 — HIGH CONTRAST (opt-in by the reader, never by default)
+   ============================================================
+   The design compromises live here and nowhere else.
+
+   Worth being clear about what this block does and does not buy, because
+   it is easy to assume otherwise: Lighthouse and axe-core audit the
+   DEFAULT rendering and do not enable prefers-contrast. This block scores
+   nothing. Everything above it — the token nudges and the recessed card
+   surfaces — is what clears AA, and it clears AA at full visual fidelity.
+
+   So this is not a compliance backstop. It is for readers who have told
+   their OS they want more contrast, and for them the brand's softness is
+   the wrong default: muted text firms up to body weight, hairlines go to
+   their strong variant, and the focus ring stops being subtle.
+
+   Must stay CSS-only. build.mjs prerenders React in Node, so a matchMedia
+   branch inside a render body would emit markup that disagrees with the
+   client, and React does not correct inline styles during hydration —
+   the same rule already documented at primitives.jsx and sections-new.jsx
+   for prefers-reduced-motion.
+   ============================================================ */
+
+@media (prefers-contrast: more) {
+  :root {
+    /* Captions, eyebrows and timestamps stop being quiet. */
+    --text-muted:      var(--text-body);
+    --on-dark-muted:   var(--on-dark-strong);
+    --text-faint:      var(--text-muted);
+
+    /* Dividers become structure rather than suggestion. */
+    --hairline:        var(--hairline-strong);
+    --on-dark-hairline: rgba(255,255,255,0.45);
+
+    --focus-ring:      rgb(var(--accent-1-rgb) / 0.9);
+  }
+
+  /* Cards need a visible edge once the surface tint alone can't carry the
+     boundary. */
+  .on-plum, .on-sage { --border: rgba(255,255,255,0.45); }
+}
+
+/* ============================================================
+   FORCED COLORS (Windows High Contrast)
+   ============================================================
+   Here the OS palette is authoritative and the brand steps aside
+   entirely. The job is to stop decoration from fighting it: the ambient
+   glows, the near-black silhouettes and the wave blends all become noise
+   against a forced two-colour scheme, and none of them carry meaning that
+   the text doesn't already carry.
+   ============================================================ */
+
+@media (forced-colors: active) {
+  :root {
+    --focus-ring: Highlight;
+  }
+
+  /* Decorative only — all of these are aria-hidden in the markup, so
+     removing them costs no information. */
+  .hero-glow-blob,
+  [class*="glow"],
+  .scribble,
+  .waveblend {
+    display: none !important;
+  }
+
+  /* Let the forced background through instead of painting over it. */
+  .on-plum, .on-sage { background: Canvas !important; color: CanvasText !important; }
+}
+
+/* ============================================================
+   DARK — channel tokens
+   ============================================================
+   These hold raw "R G B" triplets for the rgb(R G B / A) form, not colours,
+   so light-dark() cannot carry them and they need a real scope. That is the
+   one place in this file where the dark values are written twice; keep the
+   two blocks in step.
+
+   Lifting them in dark does double duty: every alpha tint built on the band
+   colour (badge surfaces, borders, the outer stop of the ambient glows)
+   stops compositing an almost-black plum onto an almost-black page.
+   ============================================================ */
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --accent-1-rgb: 154 75 167;  /* --plum-lift */
+    --accent-2-rgb: 60 143 99;   /* --sage-lift */
+  }
+}
+:root[data-theme="dark"] {
+  --accent-1-rgb: 154 75 167;
+  --accent-2-rgb: 60 143 99;
 }

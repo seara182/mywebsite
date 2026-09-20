@@ -391,7 +391,10 @@
   }
   .herostage__replay svg { width: 18px; height: 18px; }
   .herostage__replay:hover { box-shadow: var(--shadow-lg); transform: translateX(-50%) scale(1.07); }
-  .herostage__replay:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+  /* --ink, not #fff: this matches the button's own icon colour (set above)
+     and the sibling .tl__ico ring, and it inverts with the scheme instead of
+     assuming a light page. */
+  .herostage__replay:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
   .herostage.is-revealed .herostage__replay { visibility: visible; opacity: 1; transform: translateX(-50%) scale(1); pointer-events: auto; }
 
   /* the four ways in — flank the film on the side edges, hidden until it ends.

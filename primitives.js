@@ -1,4 +1,4 @@
-// AUTO-GENERATED from primitives.jsx by build.mjs — do not edit directly.
+// TRANSPILED from primitives.jsx by build.mjs — do not edit directly.
 (function () {
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
 const {
@@ -362,15 +362,23 @@ function AlignBlock({
     }
   }, children);
 }
+
+/* `as` exists for the handful of eyebrows that are the only thing introducing
+   a block of content. Most eyebrows sit directly above a real <h2>/<h3> as a
+   kicker, and those must stay spans — promoting them all would double every
+   entry in a screen reader's heading list, which is worse than the gap it
+   would be fixing. Opt in per call site, not by default. */
 function Eyebrow({
   children,
-  color
+  color,
+  as: Tag = "span"
 }) {
-  return /*#__PURE__*/React.createElement("span", {
+  return /*#__PURE__*/React.createElement(Tag, {
     style: {
       display: "inline-flex",
       alignItems: "center",
       gap: 10,
+      margin: 0,
       fontFamily: "var(--font-text)",
       fontSize: "var(--fs-label)",
       fontWeight: 600,
@@ -379,6 +387,7 @@ function Eyebrow({
       color: color || "var(--label)"
     }
   }, /*#__PURE__*/React.createElement("span", {
+    "aria-hidden": "true",
     style: {
       width: 22,
       height: 2,
@@ -398,14 +407,14 @@ function Badge({
       border: "1px solid var(--border)"
     },
     accent: {
-      background: "rgb(var(--accent-1-rgb) / 0.12)",
-      color: "var(--plum-deep)",
-      border: "1px solid rgb(var(--accent-1-rgb) / 0.22)"
+      background: "var(--badge-accent-bg)",
+      color: "var(--badge-accent-fg)",
+      border: "1px solid var(--badge-accent-border)"
     },
     plum: {
-      background: "rgb(var(--accent-1-rgb) / 0.10)",
-      color: "var(--plum)",
-      border: "1px solid rgb(var(--accent-1-rgb) / 0.20)"
+      background: "var(--badge-accent-bg)",
+      color: "var(--badge-plum-fg)",
+      border: "1px solid var(--badge-accent-border)"
     },
     onDark: {
       background: "rgba(255,255,255,0.10)",
@@ -421,7 +430,7 @@ function Badge({
       fontFamily: "var(--font-text)",
       fontSize: "var(--fs-caption)",
       fontWeight: 600,
-      borderRadius: 999,
+      borderRadius: "var(--radius-xs)",
       whiteSpace: "nowrap",
       ...v
     }
@@ -509,7 +518,7 @@ function Scribble({
     viewBox: `0 0 ${size} ${size}`,
     width: size,
     height: size,
-    className: className,
+    className: ("scribble " + className).trim(),
     style: {
       position: "absolute",
       top: "50%",
@@ -966,6 +975,7 @@ function WaveBlend({
     viewBox: `0 0 ${VBW} ${height}`,
     preserveAspectRatio: "xMidYMid slice",
     "aria-hidden": "true",
+    className: "waveblend",
     style: {
       position: "absolute",
       left: 0,
@@ -1003,6 +1013,41 @@ function WaveBlend({
     filter: `url(#${uid}f)`,
     transform: `translate(0,${-sy})`
   })) : null);
+}
+
+/* One bullet. A point is either a plain string, or a link-bearing object
+   { before, link: { href, text }, after }.
+
+   That object used to be { html: "<a …>" } fed straight into
+   dangerouslySetInnerHTML. The injection risk was theoretical — the strings
+   are authored in i18n.js, not user input — but the concrete problem was
+   that the markup carried its own inline style="color:inherit;…", which no
+   stylesheet and no prefers-contrast rule could ever override. Structured
+   data puts the styling back under CSS's control. */
+function TimelinePoint({
+  point
+}) {
+  const [, t] = useLang();
+  /* typeof check first, and it is load-bearing: String.prototype.link is a
+     legacy Annex B method, so "any string".link is a FUNCTION and therefore
+     truthy. A plain `!point.link` guard sends every plain-string bullet down
+     the link branch, where before/after/link.href/link.text are all
+     undefined and the bullet renders as an empty <a>. That silently emptied
+     every timeline bullet on the site. */
+  if (!point || typeof point !== "object" || !point.link) return /*#__PURE__*/React.createElement(React.Fragment, null, point);
+  const {
+    before,
+    link,
+    after
+  } = point;
+  return /*#__PURE__*/React.createElement(React.Fragment, null, before, /*#__PURE__*/React.createElement("a", {
+    className: "tl-point-link",
+    href: link.href,
+    target: "_blank",
+    rel: "noopener noreferrer"
+  }, link.text, /*#__PURE__*/React.createElement("span", {
+    className: "sr-only"
+  }, " (", t("nav.newTab"), ")")), after);
 }
 function TimelineEntry({
   role,
@@ -1105,24 +1150,16 @@ function TimelineEntry({
       flexDirection: "column",
       gap: 7
     }
-  }, points.map((p, i) => p && p.html ? /*#__PURE__*/React.createElement("li", {
-    key: i,
-    style: {
-      fontSize: "var(--fs-body)",
-      color: "var(--text)",
-      lineHeight: "var(--lh-normal)"
-    },
-    dangerouslySetInnerHTML: {
-      __html: p.html
-    }
-  }) : /*#__PURE__*/React.createElement("li", {
+  }, points.map((p, i) => /*#__PURE__*/React.createElement("li", {
     key: i,
     style: {
       fontSize: "var(--fs-body)",
       color: "var(--text)",
       lineHeight: "var(--lh-normal)"
     }
-  }, p)))));
+  }, /*#__PURE__*/React.createElement(TimelinePoint, {
+    point: p
+  }))))));
 }
 window.MJ = {
   asset,

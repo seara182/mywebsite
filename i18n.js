@@ -67,7 +67,7 @@
         title: "Mika Jeske — Werkstoffwissenschaft & Messtechnik",
         description: "Mika Jeske, Werkstoffwissenschaftler (B.Sc.) mit Fokus auf Messtechnik, Sensorik und zerstörungsfreie Prüfung. Ab Oktober 2026 Master in Metrologie und Messtechnik in Braunschweig; auf der Suche nach einer Werkstudentenstelle und nach Ehrenämtern.",
       },
-      hero: { eyebrow: "Werkstoffwissenschaft · B.Sc.", eyebrow2: "Metrologie · M.Sc.", scrollHint: "Scroll", aiImageLabel: "KI-bearbeitetes Bild" },
+      hero: { eyebrow: "Werkstoffwissenschaft · B.Sc.", eyebrow2: "Metrologie · M.Sc.", scrollHint: "Scroll", aiImageLabel: "KI-bearbeitetes Bild", portraitAlt: "Porträt von Mika Jeske, dem Urheber und Protagonisten dieser Seite, in einem grauen Anzug, weißem Hemd und einer gestrickten Krawatte in Terrakotta. Mika zeigt auf den eigenen Namen und lächelt; mittellanges braunes Haar, braune Augen, glatt rasiert. Das Bild wurde mit KI-Werkzeugen bearbeitet." },
       trailer: { cv: "Lebenslauf", story: "Der kleine Maßstab", cheapseats: "CheapSeats", volunteering: "Ehrenamt", caption: "Wähle einen Weg hinein — oder erkunde durch Scrollen", enterLabel: "Zur Seite", replay: "Erneut abspielen" },
       intro: {
         eyebrow: "Moin.",
@@ -78,7 +78,7 @@
           "Eingeladen zur DGZfP in Magdeburg; als Teil des Awards",
         ],
       },
-      nav: { werkstudent: "Werkstudent", ehrenamt: "Ehrenamt", lebenslauf: "Lebenslauf", projekt: "Projekt", skipLabel: "Zum Abschnitt springen" },
+      nav: { werkstudent: "Werkstudent", ehrenamt: "Ehrenamt", lebenslauf: "Lebenslauf", projekt: "Projekt", skipLabel: "Zum Abschnitt springen", newTab: "öffnet in neuem Tab" },
       seeking: {
         eyebrow: "Was ich suche",
         heading: "Werkstudent neben dem Master",
@@ -195,7 +195,7 @@
         { role: "Ehrenamtliche Gruppenleitung", org: "Evangelische Kirche Mitteldeutschland · Ilmenau", period: "seit 2022",
           points: ["Mehrjährige Gruppenleitung im mehrköpfigen Leitungsteam für Konfirmations- und offene Jugendarbeit", "Nach dem Umzug: Ansprechpartner, Eventplanung und Koordination im Team der Ehrenamtlichen", "Gemeinsam mit dem Leitungsteam Freizeiten und Events mit über 150 Teilnehmenden geleitet"] },
         { role: "Gewähltes Mitglied der Studierendenvertretung", org: "TU Ilmenau", period: "2024 – 2026", last: true,
-          points: ["Studienausschuss im Universitätssenat; gemeinsam mit dem Gremium Hochschulpolitik und Studienordnungen mitgestaltet", { html: 'Mitgestalter <a href="https://www.mdr.de/nachrichten/thueringen/landtagswahl/wahl-o-mat-landtag-alternativen-112.html" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">Wahl-O-Mat zur Thüringer Landtagswahl 2024</a> (bpb · MDR)' }] },
+          points: ["Studienausschuss im Universitätssenat; gemeinsam mit dem Gremium Hochschulpolitik und Studienordnungen mitgestaltet", { before: "Mitgestalter ", link: { href: "https://www.mdr.de/nachrichten/thueringen/landtagswahl/wahl-o-mat-landtag-alternativen-112.html", text: "Wahl-O-Mat zur Thüringer Landtagswahl 2024" }, after: " (bpb · MDR)" }] },
       ],
       skills: [
         { group: "Materialanalyse", items: ["REM / SEM", "Röntgenografie", "Profilometrie", "Gefügeanalyse", "Dünnschichttechnik", "Viskosimetrie"] },
@@ -219,7 +219,8 @@
         privacyNote: "Einzelne Personen wurden aus Datenschutz- oder rechtlichen Gründen unkenntlich gemacht.",
       },
       contact: { chip: "Kontakt aufnehmen" },
-      langSwitcher: { selectLabel: "Sprache wählen", globeAria: "Sprache auswählen", optionAria: "{lang} auswählen" },
+      langSwitcher: { selectLabel: "Sprache wählen", globeAria: "Sprache und Erscheinungsbild", optionAria: "{lang} auswählen" },
+      theme: { label: "Erscheinungsbild", auto: "Auto", light: "Hell", dark: "Dunkel", groupAria: "Erscheinungsbild wählen", autoAria: "Automatisch – dem Gerät folgen", lightAria: "Helles Erscheinungsbild", darkAria: "Dunkles Erscheinungsbild" },
       cheapseats: {
         nav: { features: "Funktionen", deepDive: "Einblicke", mobile: "Mobil", tech: "Technik", updates: "Updates", download: "Jetzt herunterladen", menu: "Abschnitte", customize: "Anpassen", trailer: "Trailer" },
         backLink: "Startseite", madeBy: "Made by Mika", eyebrow: "Projekt", title: "CheapSeats",
@@ -323,7 +324,7 @@
         title: "Mika Jeske — Materials Science & Measurement",
         description: "Mika Jeske, materials scientist (B.Sc.) focused on measurement technology, sensor technology and non-destructive testing. Starting the Master in Metrology and Measurement Technology in Braunschweig in October 2026; looking for a working-student role and for volunteer work.",
       },
-      hero: { eyebrow: "Materials Science · B.Sc.", eyebrow2: "Metrology · M.Sc.", scrollHint: "Scroll", aiImageLabel: "AI-edited image" },
+      hero: { eyebrow: "Materials Science · B.Sc.", eyebrow2: "Metrology · M.Sc.", scrollHint: "Scroll", aiImageLabel: "AI-edited image", portraitAlt: "Portrait of Mika Jeske, the creator and protagonist of this site, in a grey suit, white dress shirt and a burnt sienna knitted tie. Mika is pointing towards their own name and smiling; medium-length brown hair, brown eyes, neatly shaven. The image was edited using AI tools." },
       trailer: { cv: "CV", story: "The small scale", cheapseats: "CheapSeats", volunteering: "Volunteering", caption: "Click a way in — or explore through scrolling", enterLabel: "Enter the site", replay: "Replay" },
       intro: {
         eyebrow: "Hey.",
@@ -334,7 +335,7 @@
           "Invited to the DGZfP in Magdeburg; part of the award",
         ],
       },
-      nav: { werkstudent: "Working student", ehrenamt: "Volunteering", lebenslauf: "CV", projekt: "Project", skipLabel: "Skip to section" },
+      nav: { werkstudent: "Working student", ehrenamt: "Volunteering", lebenslauf: "CV", projekt: "Project", skipLabel: "Skip to section", newTab: "opens in a new tab" },
       seeking: {
         eyebrow: "What I am looking for",
         heading: "A working-student role alongside the Master",
@@ -451,7 +452,7 @@
         { role: "Volunteer Group Leader", org: "Protestant Church in Central Germany · Ilmenau", period: "since 2022",
           points: ["Several years leading groups as part of a multi-person leadership team, in confirmation classes and open youth work", "After relocating: contact person, event planning and coordination within the volunteer team", "Led camps and events together with the leadership team, with over 150 participants"] },
         { role: "Elected Student Representative", org: "TU Ilmenau", period: "2024 – 2026", last: true,
-          points: ["Academic affairs committee in the university senate; helped shape higher-education policy and study regulations together with the committee", { html: 'Co-developed the <a href="https://www.mdr.de/nachrichten/thueringen/landtagswahl/wahl-o-mat-landtag-alternativen-112.html" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">Wahl-O-Mat voting-aid tool for the 2024 Thuringia state election</a> (bpb · MDR)' }] },
+          points: ["Academic affairs committee in the university senate; helped shape higher-education policy and study regulations together with the committee", { before: "Co-developed the ", link: { href: "https://www.mdr.de/nachrichten/thueringen/landtagswahl/wahl-o-mat-landtag-alternativen-112.html", text: "Wahl-O-Mat voting-aid tool for the 2024 Thuringia state election" }, after: " (bpb · MDR)" }] },
       ],
       skills: [
         { group: "Material Analysis", items: ["SEM", "X-ray imaging", "Profilometry", "Microstructure analysis", "Thin-film technology", "Viscometry"] },
@@ -475,7 +476,8 @@
         privacyNote: "Some individuals have been blurred for privacy or legal reasons.",
       },
       contact: { chip: "Contact me now" },
-      langSwitcher: { selectLabel: "Select Language", globeAria: "Select language", optionAria: "Select {lang}" },
+      langSwitcher: { selectLabel: "Select Language", globeAria: "Language and appearance", optionAria: "Select {lang}" },
+      theme: { label: "Appearance", auto: "Auto", light: "Light", dark: "Dark", groupAria: "Choose appearance", autoAria: "Automatic – follow device", lightAria: "Light appearance", darkAria: "Dark appearance" },
       cheapseats: {
         nav: { features: "Features", deepDive: "Close-ups", mobile: "Mobile", tech: "Tech", updates: "Updates", download: "Download now", menu: "Sections", customize: "Customise", trailer: "Trailer" },
         backLink: "Home", madeBy: "Made by Mika", eyebrow: "Project", title: "CheapSeats",
@@ -579,7 +581,7 @@
         title: "Mika Jeske — Science des matériaux & métrologie",
         description: "Mika Jeske, scientifique des matériaux (B.Sc.) spécialisé en métrologie, capteurs et contrôle non destructif. Master en métrologie et techniques de mesure à Brunswick à partir d’octobre 2026 ; à la recherche d’un poste d’étudiant salarié et de missions bénévoles.",
       },
-      hero: { eyebrow: "Science des matériaux · B.Sc.", eyebrow2: "Métrologie · M.Sc.", scrollHint: "Scroll", aiImageLabel: "Image retouchée par IA" },
+      hero: { eyebrow: "Science des matériaux · B.Sc.", eyebrow2: "Métrologie · M.Sc.", scrollHint: "Scroll", aiImageLabel: "Image retouchée par IA", portraitAlt: "Portrait de Mika Jeske, créateur et protagoniste de ce site, en costume gris, chemise blanche et cravate tricotée terre de Sienne brûlée. Mika pointe son propre nom en souriant ; cheveux bruns mi-longs, yeux marron, rasé de près. L'image a été retouchée à l'aide d'outils d'IA." },
       trailer: { cv: "Parcours", story: "La petite échelle", cheapseats: "CheapSeats", volunteering: "Bénévolat", caption: "Choisissez une entrée — ou explorez en faisant défiler", enterLabel: "Entrer sur le site", replay: "Revoir" },
       intro: {
         eyebrow: "Salut.",
@@ -590,7 +592,7 @@
           "Invité à la DGZfP à Magdebourg ; dans le cadre du prix",
         ],
       },
-      nav: { werkstudent: "Étudiant salarié", ehrenamt: "Bénévolat", lebenslauf: "Parcours", projekt: "Projet", skipLabel: "Aller à la section" },
+      nav: { werkstudent: "Étudiant salarié", ehrenamt: "Bénévolat", lebenslauf: "Parcours", projekt: "Projet", skipLabel: "Aller à la section", newTab: "s'ouvre dans un nouvel onglet" },
       seeking: {
         eyebrow: "Ce que je cherche",
         heading: "Un poste d’étudiant salarié en parallèle du master",
@@ -707,7 +709,7 @@
         { role: "Responsable de groupe bénévole", org: "Église protestante d'Allemagne centrale · Ilmenau", period: "depuis 2022",
           points: ["Plusieurs années à la tête de groupes en équipe d'encadrement, dans la catéchèse et l'animation jeunesse ouverte", "Après le déménagement : interlocuteur, organisation d'événements et coordination au sein de l'équipe de bénévoles", "Direction, avec l'équipe d'encadrement, de camps et d'événements réunissant plus de 150 participants"] },
         { role: "Membre élu de la représentation étudiante", org: "TU Ilmenau", period: "2024 – 2026", last: true,
-          points: ["Commission des affaires académiques au sénat universitaire ; contribution, avec la commission, à la politique de l'enseignement supérieur et aux règlements d'études", { html: 'Co-concepteur du <a href="https://www.mdr.de/nachrichten/thueringen/landtagswahl/wahl-o-mat-landtag-alternativen-112.html" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">Wahl-O-Mat, outil d\'aide au vote pour les élections régionales de Thuringe 2024</a> (bpb · MDR)' }] },
+          points: ["Commission des affaires académiques au sénat universitaire ; contribution, avec la commission, à la politique de l'enseignement supérieur et aux règlements d'études", { before: "Co-concepteur du ", link: { href: "https://www.mdr.de/nachrichten/thueringen/landtagswahl/wahl-o-mat-landtag-alternativen-112.html", text: "Wahl-O-Mat, outil d'aide au vote pour les élections régionales de Thuringe 2024" }, after: " (bpb · MDR)" }] },
       ],
       skills: [
         { group: "Analyse des matériaux", items: ["MEB", "Radiographie", "Profilométrie", "Analyse microstructurale", "Technologie des couches minces", "Viscosimétrie"] },
@@ -731,7 +733,8 @@
         privacyNote: "Certaines personnes ont été floutées pour des raisons de confidentialité ou juridiques.",
       },
       contact: { chip: "Me contacter" },
-      langSwitcher: { selectLabel: "Choisir la langue", globeAria: "Sélectionner la langue", optionAria: "Sélectionner le {lang}" },
+      langSwitcher: { selectLabel: "Choisir la langue", globeAria: "Langue et apparence", optionAria: "Sélectionner le {lang}" },
+      theme: { label: "Apparence", auto: "Auto", light: "Clair", dark: "Sombre", groupAria: "Choisir l'apparence", autoAria: "Automatique – suivre l'appareil", lightAria: "Apparence claire", darkAria: "Apparence sombre" },
       cheapseats: {
         nav: { features: "Fonctions", deepDive: "Aperçus", mobile: "Mobile", tech: "Technique", updates: "Mises à jour", download: "Télécharger", menu: "Sections", customize: "Personnaliser", trailer: "Bande-annonce" },
         backLink: "Accueil", madeBy: "Made by Mika", eyebrow: "Projet", title: "CheapSeats",
@@ -835,7 +838,7 @@
         title: "Mika Jeske — Ciencia de materiales y metrología",
         description: "Mika Jeske, científico de materiales (B.Sc.) centrado en metrología, sensórica y ensayos no destructivos. Máster en Metrología y Técnicas de Medición en Brunswick desde octubre de 2026; en busca de un puesto de estudiante en prácticas y de voluntariado.",
       },
-      hero: { eyebrow: "Ciencia de materiales · B.Sc.", eyebrow2: "Metrología · M.Sc.", scrollHint: "Scroll", aiImageLabel: "Imagen editada con IA" },
+      hero: { eyebrow: "Ciencia de materiales · B.Sc.", eyebrow2: "Metrología · M.Sc.", scrollHint: "Scroll", aiImageLabel: "Imagen editada con IA", portraitAlt: "Retrato de Mika Jeske, creador y protagonista de este sitio, con traje gris, camisa blanca y corbata de punto en siena tostada. Mika señala su propio nombre y sonríe; pelo castaño de media melena, ojos marrones, bien afeitado. La imagen se editó con herramientas de IA." },
       trailer: { cv: "Trayectoria", story: "La pequeña escala", cheapseats: "CheapSeats", volunteering: "Voluntariado", caption: "Elige una entrada — o explora desplazándote", enterLabel: "Entrar en el sitio", replay: "Repetir" },
       intro: {
         eyebrow: "Hola.",
@@ -846,7 +849,7 @@
           "Invitado a la DGZfP en Magdeburgo; como parte del premio",
         ],
       },
-      nav: { werkstudent: "Estudiante en prácticas", ehrenamt: "Voluntariado", lebenslauf: "Trayectoria", projekt: "Proyecto", skipLabel: "Ir a la sección" },
+      nav: { werkstudent: "Estudiante en prácticas", ehrenamt: "Voluntariado", lebenslauf: "Trayectoria", projekt: "Proyecto", skipLabel: "Ir a la sección", newTab: "se abre en una pestaña nueva" },
       seeking: {
         eyebrow: "Lo que busco",
         heading: "Un puesto de estudiante en prácticas junto al máster",
@@ -963,7 +966,7 @@
         { role: "Líder de grupo voluntario", org: "Iglesia Evangélica de Alemania Central · Ilmenau", period: "desde 2022",
           points: ["Varios años liderando grupos como parte de un equipo de coordinación, en catequesis confirmatoria y trabajo juvenil abierto", "Tras la mudanza: persona de contacto, organización de eventos y coordinación dentro del equipo de voluntariado", "Dirección, junto con el equipo de coordinación, de campamentos y eventos con más de 150 participantes"] },
         { role: "Representante estudiantil electo", org: "TU Ilmenau", period: "2024 – 2026", last: true,
-          points: ["Comisión de asuntos académicos en el senado universitario; contribución, junto con la comisión, a la política de educación superior y a los reglamentos de estudio", { html: 'Co-creador del <a href="https://www.mdr.de/nachrichten/thueringen/landtagswahl/wahl-o-mat-landtag-alternativen-112.html" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">Wahl-O-Mat, herramienta de ayuda al voto para las elecciones regionales de Turingia de 2024</a> (bpb · MDR)' }] },
+          points: ["Comisión de asuntos académicos en el senado universitario; contribución, junto con la comisión, a la política de educación superior y a los reglamentos de estudio", { before: "Co-creador del ", link: { href: "https://www.mdr.de/nachrichten/thueringen/landtagswahl/wahl-o-mat-landtag-alternativen-112.html", text: "Wahl-O-Mat, herramienta de ayuda al voto para las elecciones regionales de Turingia de 2024" }, after: " (bpb · MDR)" }] },
       ],
       skills: [
         { group: "Análisis de materiales", items: ["SEM", "Radiografía", "Perfilometría", "Análisis microestructural", "Tecnología de capas finas", "Viscosimetría"] },
@@ -987,7 +990,8 @@
         privacyNote: "Algunas personas han sido difuminadas por motivos de privacidad o legales.",
       },
       contact: { chip: "Contáctame" },
-      langSwitcher: { selectLabel: "Elegir idioma", globeAria: "Seleccionar idioma", optionAria: "Seleccionar {lang}" },
+      langSwitcher: { selectLabel: "Elegir idioma", globeAria: "Idioma y apariencia", optionAria: "Seleccionar {lang}" },
+      theme: { label: "Apariencia", auto: "Auto", light: "Claro", dark: "Oscuro", groupAria: "Elegir apariencia", autoAria: "Automático: seguir el dispositivo", lightAria: "Apariencia clara", darkAria: "Apariencia oscura" },
       cheapseats: {
         nav: { features: "Funciones", deepDive: "Detalles", mobile: "Móvil", tech: "Técnica", updates: "Actualizaciones", download: "Descargar ahora", menu: "Secciones", customize: "Personalizar", trailer: "Tráiler" },
         backLink: "Inicio", madeBy: "Made by Mika", eyebrow: "Proyecto", title: "CheapSeats",
@@ -1104,7 +1108,7 @@
         title: "Mika Jeske — Scienza dei materiali e metrologia",
         description: "Mika Jeske, scienziato dei materiali (B.Sc.) specializzato in metrologia, sensoristica e controlli non distruttivi. Master in Metrologia e tecniche di misura a Braunschweig da ottobre 2026; in cerca di un impiego da studente lavoratore e di attività di volontariato.",
       },
-      hero: { eyebrow: "Scienza dei materiali · B.Sc.", eyebrow2: "Metrologia · M.Sc.", scrollHint: "Scroll", aiImageLabel: "Immagine modificata con IA" },
+      hero: { eyebrow: "Scienza dei materiali · B.Sc.", eyebrow2: "Metrologia · M.Sc.", scrollHint: "Scroll", aiImageLabel: "Immagine modificata con IA", portraitAlt: "Ritratto di Mika Jeske, autore e protagonista di questo sito, in completo grigio, camicia bianca e cravatta in maglia color terra di Siena bruciata. Mika indica il proprio nome e sorride; capelli castani di media lunghezza, occhi marroni, ben rasato. L'immagine è stata modificata con strumenti di IA." },
       trailer: { cv: "Percorso", story: "La piccola scala", cheapseats: "CheapSeats", volunteering: "Volontariato", caption: "Scegli un ingresso — o esplora scorrendo", enterLabel: "Entra nel sito", replay: "Riproduci di nuovo" },
       intro: {
         eyebrow: "Ciao.",
@@ -1115,7 +1119,7 @@
           "Invitato alla DGZfP a Magdeburgo; nell'ambito del premio",
         ],
       },
-      nav: { werkstudent: "Studente lavoratore", ehrenamt: "Volontariato", lebenslauf: "Percorso", projekt: "Progetto", skipLabel: "Vai alla sezione" },
+      nav: { werkstudent: "Studente lavoratore", ehrenamt: "Volontariato", lebenslauf: "Percorso", projekt: "Progetto", skipLabel: "Vai alla sezione", newTab: "si apre in una nuova scheda" },
       seeking: {
         eyebrow: "Che cosa cerco",
         heading: "Un impiego da studente lavoratore accanto al master",
@@ -1232,7 +1236,7 @@
         { role: "Guida di gruppo volontaria", org: "Chiesa evangelica della Germania centrale · Ilmenau", period: "dal 2022",
           points: ["Pluriennale guida di gruppi come parte di un team di coordinamento, nel catechismo e nel lavoro giovanile aperto", "Dopo il trasferimento: referente, organizzazione di eventi e coordinamento all'interno del team di volontari", "Direzione, insieme al team di coordinamento, di campi ed eventi con oltre 150 partecipanti"] },
         { role: "Membro eletto della rappresentanza studentesca", org: "TU Ilmenau", period: "2024 – 2026", last: true,
-          points: ["Commissione per gli affari accademici nel senato universitario; contributo, insieme alla commissione, alla politica universitaria e ai regolamenti didattici", { html: 'Co-realizzatore del <a href="https://www.mdr.de/nachrichten/thueringen/landtagswahl/wahl-o-mat-landtag-alternativen-112.html" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">Wahl-O-Mat per le elezioni regionali della Turingia 2024</a> (bpb · MDR)' }] },
+          points: ["Commissione per gli affari accademici nel senato universitario; contributo, insieme alla commissione, alla politica universitaria e ai regolamenti didattici", { before: "Co-realizzatore del ", link: { href: "https://www.mdr.de/nachrichten/thueringen/landtagswahl/wahl-o-mat-landtag-alternativen-112.html", text: "Wahl-O-Mat per le elezioni regionali della Turingia 2024" }, after: " (bpb · MDR)" }] },
       ],
       skills: [
         { group: "Analisi dei materiali", items: ["SEM", "Radiografia", "Profilometria", "Analisi microstrutturale", "Tecnologia dei film sottili", "Viscosimetria"] },
@@ -1256,7 +1260,8 @@
         privacyNote: "Alcune persone sono state rese irriconoscibili per motivi di privacy o legali.",
       },
       contact: { chip: "Contattami" },
-      langSwitcher: { selectLabel: "Scegli la lingua", globeAria: "Seleziona la lingua", optionAria: "Seleziona {lang}" },
+      langSwitcher: { selectLabel: "Scegli la lingua", globeAria: "Lingua e aspetto", optionAria: "Seleziona {lang}" },
+      theme: { label: "Aspetto", auto: "Auto", light: "Chiaro", dark: "Scuro", groupAria: "Scegli l'aspetto", autoAria: "Automatico – segui il dispositivo", lightAria: "Aspetto chiaro", darkAria: "Aspetto scuro" },
       cheapseats: {
         nav: { features: "Funzioni", deepDive: "Dettagli", mobile: "Mobile", tech: "Tecnica", updates: "Aggiornamenti", download: "Scarica ora", menu: "Sezioni", customize: "Personalizza", trailer: "Trailer" },
         backLink: "Home", madeBy: "Made by Mika", eyebrow: "Progetto", title: "CheapSeats",
@@ -1429,6 +1434,51 @@
   var activeLang = getLang();
   if (HAS_DOCUMENT) document.documentElement.lang = activeLang;
 
+  /* ---------- theme ----------
+     This lives here, in a file the <head> already loads render-blocking
+     before any stylesheet, because the attribute has to be on <html> before
+     first paint. Anything later — a module, an onload handler, the React
+     bundle at the end of <body> — and a reader who chose dark gets a white
+     flash on every navigation. Which is every language switch, since those
+     are real page loads to /en/, /fr/ and so on.
+
+     Reuses safeStorage() rather than adding a second storage path: it is
+     already the one wrapper that survives Safari private mode and blocked
+     site data, where localStorage access throws rather than returning null.
+
+     Three states. "auto" is the absence of the attribute, which lets the
+     prefers-color-scheme branch in colors.css decide; "light" and "dark"
+     pin color-scheme and override the OS. */
+  var THEMES = ["auto", "light", "dark"];
+  var activeTheme = "auto";
+
+  function readTheme() {
+    var ls = safeStorage();
+    try {
+      var v = ls && ls.getItem("theme");
+      return THEMES.indexOf(v) === -1 ? "auto" : v;
+    } catch (e) { return "auto"; }
+  }
+
+  function applyTheme(theme) {
+    if (!HAS_DOCUMENT) return;
+    var el = document.documentElement;
+    if (theme === "auto") el.removeAttribute("data-theme");
+    else el.setAttribute("data-theme", theme);
+  }
+
+  function setTheme(code) {
+    if (THEMES.indexOf(code) === -1) return;
+    activeTheme = code;
+    var ls = safeStorage();
+    try { if (ls) ls.setItem("theme", code); } catch (e) {}
+    applyTheme(code);
+    if (HAS_WINDOW) window.dispatchEvent(new CustomEvent("themechange", { detail: { theme: code } }));
+  }
+
+  activeTheme = readTheme();
+  applyTheme(activeTheme);
+
   function setLang(code) {
     if (SUPPORTED.indexOf(code) === -1) return;
     var ls = safeStorage();
@@ -1476,6 +1526,9 @@
       activeLang = code;
       if (HAS_DOCUMENT) document.documentElement.lang = code;
     },
+    THEMES: THEMES,
+    getTheme: function () { return activeTheme; },
+    setTheme: setTheme,
     t: t,
   };
 

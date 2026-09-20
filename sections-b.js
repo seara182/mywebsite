@@ -1,4 +1,4 @@
-// AUTO-GENERATED from sections-b.jsx by build.mjs — do not edit directly.
+// TRANSPILED from sections-b.jsx by build.mjs — do not edit directly.
 (function () {
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
 const {
@@ -138,7 +138,9 @@ function Resume() {
       gap: 14,
       marginBottom: 28
     }
-  }, /*#__PURE__*/React.createElement(Eyebrow, null, r.skillsEyebrow)), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement(Eyebrow, {
+    as: "h3"
+  }, r.skillsEyebrow)), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "grid",
       gridTemplateColumns: "repeat(auto-fit, minmax(min(240px,100%),1fr))",
@@ -146,13 +148,13 @@ function Resume() {
     }
   }, skills.map((s, i) => /*#__PURE__*/React.createElement("div", {
     key: i
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("h4", {
     style: {
       fontFamily: "var(--font-text)",
       fontSize: "var(--fs-small)",
       fontWeight: 600,
       color: "var(--heading)",
-      marginBottom: 14
+      margin: "0 0 14px"
     }
   }, s.group), /*#__PURE__*/React.createElement("div", {
     style: {
@@ -385,16 +387,6 @@ function Projects() {
     style: {
       display: "flex",
       flexWrap: "wrap",
-      gap: 8,
-      marginTop: 28
-    }
-  }, p.stack.map((s, i) => /*#__PURE__*/React.createElement(Badge, {
-    key: i,
-    variant: "plum"
-  }, s))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      flexWrap: "wrap",
       gap: "10px 24px",
       marginTop: 28
     }
@@ -457,6 +449,10 @@ function Projects() {
       padding: 26,
       borderRadius: "var(--radius-xl)",
       overflow: "hidden",
+      /* Theme-fixed on purpose. This is a mock of the CheapSeats app's
+         own dark interface — product imagery, like a screenshot, not
+         site chrome. Re-theming it to light would misrepresent the
+         app, so it keeps literal values in both schemes. */
       background: "#14151D",
       boxShadow: "var(--shadow-lg)",
       border: "1px solid var(--border)"
@@ -473,7 +469,13 @@ function Projects() {
       transform: "translateZ(34px)",
       padding: "20px 22px",
       borderRadius: "var(--radius-lg)",
-      background: "linear-gradient(110deg, var(--sage-deep), var(--honey))",
+      /* The warm end was --honey, which put white text at 1.61:1 over the
+      right-hand half of this card — comfortably the worst contrast
+      on the site, and one the audit never found because it only
+      looked at text tokens, never at what text was sitting on.
+      --honey-deep is the same hue dropped to where white clears AA
+      across the entire ramp (worst point 4.72:1). */
+      background: "linear-gradient(110deg, var(--sage-deep), var(--honey-deep))",
       color: "#fff",
       boxShadow: "0 18px 40px -22px rgba(0,0,0,0.8)"
     }

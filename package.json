@@ -8,6 +8,7 @@
     "watch": "node build.mjs --watch",
     "spellcheck": "cspell \"i18n.js\" \"index.template.html\" \"impressum/index.html\" \"projects/cheapseats/index.html\" --no-progress",
     "verify": "node ci/verify-prerender.mjs",
+    "verify:contrast": "node ci/verify-contrast.mjs",
     "build:changelog": "node projects/cheapseats/build-changelog.mjs"
   },
   "devDependencies": {

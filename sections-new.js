@@ -1,9 +1,10 @@
-// AUTO-GENERATED from sections-new.jsx by build.mjs — do not edit directly.
+// TRANSPILED from sections-new.jsx by build.mjs — do not edit directly.
 (function () {
 const {
   useState,
   useRef,
-  useEffect
+  useEffect,
+  useId
 } = React;
 const {
   asset,
@@ -111,6 +112,11 @@ function TornSection({
   children
 }) {
   const [open, setOpen] = useState(false);
+  /* useId is the one id source that is guaranteed identical under
+     renderToString and hydrateRoot, which matters because build.mjs
+     prerenders this. The component's own props can't supply one: `label` is
+     optional and `seed` is not unique across call sites. */
+  const panelId = useId();
   const [h, setH] = useState(0);
   const inner = useRef(null);
   useEffect(() => {
@@ -134,6 +140,7 @@ function TornSection({
   }, teaser ? /*#__PURE__*/React.createElement("button", {
     onClick: () => setOpen(o => !o),
     "aria-expanded": open,
+    "aria-controls": panelId,
     className: "tear-trigger tear-trigger--teaser",
     style: {
       width: "100%",
@@ -187,6 +194,7 @@ function TornSection({
   }, "\u2193")) : /*#__PURE__*/React.createElement("button", {
     onClick: () => setOpen(o => !o),
     "aria-expanded": open,
+    "aria-controls": panelId,
     className: "tear-trigger",
     style: {
       width: "100%",
@@ -250,6 +258,8 @@ function TornSection({
     }
   }))), /*#__PURE__*/React.createElement("div", {
     className: "tear-panel",
+    id: panelId,
+    inert: open ? undefined : "",
     style: {
       maxHeight: open ? h + 80 : 0,
       overflow: "hidden",
@@ -365,7 +375,13 @@ function Polaroid({
     }
   }), /*#__PURE__*/React.createElement("div", {
     style: {
-      background: "#FBFBFC",
+      /* A polaroid is a physical print, so the mount stays light in both
+         schemes rather than inverting — but full #FBFBFC glares against a
+         near-black page, so dark mode dims it. The caption below is pinned
+         to a fixed ink for the same reason: it sits on the mount, not on
+         the page, so it must not follow --text-muted into light grey.
+         9.17:1 on the light mount, 7.76:1 on the dark one. */
+      background: "var(--polaroid-mount)",
       padding: "12px 12px 0",
       borderRadius: 3,
       boxShadow: "0 6px 22px -10px rgba(20,20,26,0.40), 0 30px 50px -30px rgb(var(--accent-2-rgb) / 0.40)"
@@ -384,7 +400,7 @@ function Polaroid({
     style: {
       fontFamily: "var(--font-mono)",
       fontSize: "12px",
-      color: "#55555E",
+      color: "#45454E",
       textAlign: "center",
       padding: "14px 6px 16px",
       lineHeight: 1.4

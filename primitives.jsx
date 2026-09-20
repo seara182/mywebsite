@@ -297,23 +297,28 @@ function AlignBlock({ align = "center", maxWidth = "var(--content-narrow)", styl
   );
 }
 
-function Eyebrow({ children, color }) {
+/* `as` exists for the handful of eyebrows that are the only thing introducing
+   a block of content. Most eyebrows sit directly above a real <h2>/<h3> as a
+   kicker, and those must stay spans — promoting them all would double every
+   entry in a screen reader's heading list, which is worse than the gap it
+   would be fixing. Opt in per call site, not by default. */
+function Eyebrow({ children, color, as: Tag = "span" }) {
   return (
-    <span style={{ display: "inline-flex", alignItems: "center", gap: 10, fontFamily: "var(--font-text)", fontSize: "var(--fs-label)", fontWeight: 600, letterSpacing: "var(--ls-label)", textTransform: "uppercase", color: color || "var(--label)" }}>
-      <span style={{ width: 22, height: 2, borderRadius: 2, background: "var(--accent)" }} />
+    <Tag style={{ display: "inline-flex", alignItems: "center", gap: 10, margin: 0, fontFamily: "var(--font-text)", fontSize: "var(--fs-label)", fontWeight: 600, letterSpacing: "var(--ls-label)", textTransform: "uppercase", color: color || "var(--label)" }}>
+      <span aria-hidden="true" style={{ width: 22, height: 2, borderRadius: 2, background: "var(--accent)" }} />
       {children}
-    </span>
+    </Tag>
   );
 }
 
 function Badge({ children, variant = "neutral" }) {
   const v = {
     neutral: { background: "var(--paper-2)", color: "var(--text-body)", border: "1px solid var(--border)" },
-    accent: { background: "rgb(var(--accent-1-rgb) / 0.12)", color: "var(--plum-deep)", border: "1px solid rgb(var(--accent-1-rgb) / 0.22)" },
-    plum: { background: "rgb(var(--accent-1-rgb) / 0.10)", color: "var(--plum)", border: "1px solid rgb(var(--accent-1-rgb) / 0.20)" },
+    accent: { background: "var(--badge-accent-bg)", color: "var(--badge-accent-fg)", border: "1px solid var(--badge-accent-border)" },
+    plum: { background: "var(--badge-accent-bg)", color: "var(--badge-plum-fg)", border: "1px solid var(--badge-accent-border)" },
     onDark: { background: "rgba(255,255,255,0.10)", color: "var(--on-dark-body)", border: "1px solid var(--on-dark-hairline)" },
   }[variant];
-  return <span style={{ display: "inline-flex", alignItems: "center", padding: "5px 12px", fontFamily: "var(--font-text)", fontSize: "var(--fs-caption)", fontWeight: 600, borderRadius: 999, whiteSpace: "nowrap", ...v }}>{children}</span>;
+  return <span style={{ display: "inline-flex", alignItems: "center", padding: "5px 12px", fontFamily: "var(--font-text)", fontSize: "var(--fs-caption)", fontWeight: 600, borderRadius: "var(--radius-xs)", whiteSpace: "nowrap", ...v }}>{children}</span>;
 }
 
 /* seeded, so a given shape's loop is stable across renders */
@@ -361,7 +366,7 @@ function Scribble({ seed = 1, glow = "sage", size = 320, className = "", style =
     { seed: seed + 31, cx: cx + j * 0.5, cy: cy - j * 0.25, r: baseR * 1.18, wobble: 0.26, n: 12, color: colors[1], opacity: 0.55, w: strokeWidth * 0.78 },
   ];
   return (
-    <svg aria-hidden="true" viewBox={`0 0 ${size} ${size}`} width={size} height={size} className={className}
+    <svg aria-hidden="true" viewBox={`0 0 ${size} ${size}`} width={size} height={size} className={("scribble " + className).trim()}
       style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", overflow: "visible", pointerEvents: "none", ...style }}>
       {loops.map((l, i) => (
         <path key={i} d={scribbleLoop(l.seed, { cx: l.cx, cy: l.cy, r: l.r, wobble: l.wobble, n: l.n })}
@@ -536,7 +541,7 @@ function WaveBlend({ edge = "top", color = "var(--paper)", seed = 1, height = 52
   var uid = "wb" + edge + seed + lap;
   var filter = (shadow && !under) ? `drop-shadow(0 ${sy}px ${shadowBlur}px ${shadow})` : "none";
   return (
-    <svg viewBox={`0 0 ${VBW} ${height}`} preserveAspectRatio="xMidYMid slice" aria-hidden="true"
+    <svg viewBox={`0 0 ${VBW} ${height}`} preserveAspectRatio="xMidYMid slice" aria-hidden="true" className="waveblend"
       style={{ position: "absolute", left: 0, right: 0, width: "100%", height: height, [edge]: -over, zIndex: z, display: "block", pointerEvents: "none", filter: filter }}>
       {under && shadow ? (
         <defs>
@@ -554,6 +559,38 @@ function WaveBlend({ edge = "top", color = "var(--paper)", seed = 1, height = 52
         </g>
       ) : null}
     </svg>
+  );
+}
+
+/* One bullet. A point is either a plain string, or a link-bearing object
+   { before, link: { href, text }, after }.
+
+   That object used to be { html: "<a …>" } fed straight into
+   dangerouslySetInnerHTML. The injection risk was theoretical — the strings
+   are authored in i18n.js, not user input — but the concrete problem was
+   that the markup carried its own inline style="color:inherit;…", which no
+   stylesheet and no prefers-contrast rule could ever override. Structured
+   data puts the styling back under CSS's control. */
+function TimelinePoint({ point }) {
+  const [, t] = useLang();
+  /* typeof check first, and it is load-bearing: String.prototype.link is a
+     legacy Annex B method, so "any string".link is a FUNCTION and therefore
+     truthy. A plain `!point.link` guard sends every plain-string bullet down
+     the link branch, where before/after/link.href/link.text are all
+     undefined and the bullet renders as an empty <a>. That silently emptied
+     every timeline bullet on the site. */
+  if (!point || typeof point !== "object" || !point.link) return <>{point}</>;
+  const { before, link, after } = point;
+  return (
+    <>
+      {before}
+      <a className="tl-point-link" href={link.href} target="_blank" rel="noopener noreferrer">
+        {link.text}
+        {/* the link leaves the site, and nothing else said so */}
+        <span className="sr-only"> ({t("nav.newTab")})</span>
+      </a>
+      {after}
+    </>
   );
 }
 
@@ -576,9 +613,9 @@ function TimelineEntry({ role, org, period, location, points = [], last, accent 
         {points.length > 0 && (
           <ul style={{ margin: "12px 0 0", paddingLeft: 18, display: "flex", flexDirection: "column", gap: 7 }}>
             {points.map((p, i) => (
-              p && p.html
-                ? <li key={i} style={{ fontSize: "var(--fs-body)", color: "var(--text)", lineHeight: "var(--lh-normal)" }} dangerouslySetInnerHTML={{ __html: p.html }} />
-                : <li key={i} style={{ fontSize: "var(--fs-body)", color: "var(--text)", lineHeight: "var(--lh-normal)" }}>{p}</li>
+              <li key={i} style={{ fontSize: "var(--fs-body)", color: "var(--text)", lineHeight: "var(--lh-normal)" }}>
+                <TimelinePoint point={p} />
+              </li>
             ))}
           </ul>
         )}
