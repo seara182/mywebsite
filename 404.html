@@ -59,28 +59,37 @@
   h1 { font-size: clamp(26px, 3.6vw, 40px); font-weight: 600; color: var(--on-dark-strong); margin: 0 0 14px; }
   p.msg { font-size: clamp(17px, 1.6vw, 20px); line-height: 1.5; max-width: 34ch; margin: 0 0 24px; }
 
-  /* fun-fact box + dice */
+  /* fun-fact box + dice: a quiet aside, not a feature */
   .fact {
-    display: flex; align-items: center; gap: 16px; max-width: 420px; margin: 0 0 28px;
-    padding: 14px 16px 14px 20px; border-radius: 20px;
-    background: rgb(255 255 255 / .08); border: 1px solid rgb(255 255 255 / .16);
+    --lines: 3;
+    display: flex; align-items: center; gap: 10px; max-width: 440px; margin: 0 0 26px;
+    padding: 10px 8px 10px 16px; border-radius: 14px;
+    background: rgb(255 255 255 / .04); border: 1px solid rgb(255 255 255 / .1);
   }
+  .fact[hidden] { display: none; }
+  .fact--pending { visibility: hidden; }
   .fact__body { flex: 1; min-width: 0; }
-  .fact__label { display: block; font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--sage-glow); margin-bottom: 4px; }
-  .fact__text { display: block; font-size: 22px; font-weight: 600; line-height: 1.25; color: var(--on-dark-strong); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
-  .dice {
-    flex: none; width: 52px; height: 52px; padding: 0; border: 0; border-radius: 14px; cursor: pointer;
-    background: var(--on-dark-strong); color: var(--sage-deep); display: grid; place-items: center;
-    box-shadow: 0 6px 16px rgb(0 0 0 / .25); transition: transform .2s var(--ease-out, ease), box-shadow .2s;
+  .fact__label { display: block; font-size: 10.5px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--sage-glow); opacity: .75; margin-bottom: 3px; }
+  .fact__text {
+    display: block; font-size: 14px; line-height: 1.45; font-weight: 400; color: var(--on-dark-body); opacity: .85;
+    min-height: calc(1.45em * var(--lines)); /* reserve the room so rolling never shifts the layout */
+    transition: opacity .25s ease;
   }
-  .dice:hover { transform: translateY(-2px) rotate(-6deg); box-shadow: 0 10px 22px rgb(0 0 0 / .3); }
-  .dice:active { transform: scale(.94); }
-  .dice:focus-visible { outline-color: var(--sage-glow); }
-  .dice svg { width: 34px; height: 34px; display: block; }
+  .fact__text.is-out { opacity: 0; }
+  .dice {
+    flex: none; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 12px; cursor: pointer;
+    background: none; color: var(--on-dark-strong); opacity: .7; display: grid; place-items: center;
+    transition: opacity .2s ease, transform .2s var(--ease-out, ease);
+  }
+  .dice:hover { opacity: 1; transform: rotate(-8deg); }
+  .dice:active { transform: scale(.92); }
+  .dice:focus-visible { outline-color: var(--sage-glow); opacity: 1; }
+  .dice svg { width: 28px; height: 28px; display: block; }
+  .dice.rolling { opacity: 1; }
   .dice.rolling svg { animation: roll .8s cubic-bezier(.3, .6, .3, 1); }
   @keyframes roll {
     0%   { transform: rotate(0) scale(1); }
-    35%  { transform: rotate(200deg) scale(1.22); }
+    35%  { transform: rotate(200deg) scale(1.18); }
     100% { transform: rotate(720deg) scale(1); }
   }
 
@@ -96,7 +105,7 @@
     .wire-loose { animation: none; }
     .spark { animation: none; opacity: 1; }
     .dice.rolling svg { animation: none; }
-    .dice, .home { transition: none; }
+    .dice, .home, .fact__text { transition: none; }
     .dice:hover, .home:hover { transform: none; }
   }
   /* stack only on narrow portrait screens; landscape phones keep two columns so nothing scrolls */
@@ -104,7 +113,7 @@
     main { grid-template-columns: 1fr; text-align: center; }
     .pic__frame { width: min(100%, 360px); }
     p.msg, .fact { margin-inline: auto; }
-    .fact { text-align: left; }
+    .fact { text-align: left; --lines: 4; }
   }
   @media (max-height: 480px) and (orientation: landscape) {
     body { padding: 16px; }
@@ -114,13 +123,15 @@
     .code { font-size: 64px; margin-bottom: 6px; }
     h1 { font-size: 22px; margin-bottom: 6px; }
     p.msg { font-size: 14px; margin-bottom: 12px; }
-    .fact { margin-bottom: 14px; padding: 8px 12px 8px 16px; }
-    .fact__text { font-size: 18px; }
-    .dice { width: 40px; height: 40px; border-radius: 11px; }
-    .dice svg { width: 26px; height: 26px; }
+    .fact { --lines: 3; margin-bottom: 12px; padding: 6px 6px 6px 12px; }
+    .fact__label { display: none; }
+    .fact__text { font-size: 12.5px; }
+    .dice { width: 36px; height: 36px; }
+    .dice svg { width: 24px; height: 24px; }
     .home { padding: 10px 20px; font-size: 15px; }
   }
 </style>
+<noscript><style>.fact { display: none; }</style></noscript>
 </head>
 <body>
 <main>
@@ -204,15 +215,15 @@
     <h1 id="t">Verbindung unterbrochen.</h1>
     <p class="msg" id="d">Diese Seite gibt es nicht (mehr). Vermutlich haben Diko und Tessa das Kabel durchgekaut.</p>
 
-    <div class="fact">
+    <div class="fact fact--pending" id="factBox">
       <div class="fact__body">
         <span class="fact__label" id="factLabel">Giraffen-Fakt</span>
-        <output class="fact__text" id="fact" aria-live="polite">#1</output>
+        <output class="fact__text" id="fact"></output>
       </div>
       <button class="dice" id="dice" type="button" aria-label="Neuen Fakt würfeln">
         <svg viewBox="0 0 34 34" aria-hidden="true">
-          <rect x="3" y="3" width="28" height="28" rx="7" fill="none" stroke="currentColor" stroke-width="2.4"/>
-          <g fill="currentColor"><circle cx="11" cy="11" r="2.6"/><circle cx="23" cy="11" r="2.6"/><circle cx="17" cy="17" r="2.6"/><circle cx="11" cy="23" r="2.6"/><circle cx="23" cy="23" r="2.6"/></g>
+          <rect x="3" y="3" width="28" height="28" rx="7" fill="none" stroke="currentColor" stroke-width="2.2"/>
+          <g fill="currentColor"><circle cx="11" cy="11" r="2.4"/><circle cx="23" cy="11" r="2.4"/><circle cx="17" cy="17" r="2.4"/><circle cx="11" cy="23" r="2.4"/><circle cx="23" cy="23" r="2.4"/></g>
         </svg>
       </button>
     </div>
@@ -272,34 +283,54 @@
       document.title = "404 · " + s.title + " · Mika Jeske";
     }
 
-    // Fun-fact dice. No facts written yet, so it shuffles through 1-100.
-    // Later: fill FACTS (index 0 = fact #1) and the box shows the text instead of the number.
-    var FACTS = [];
-    var out = document.getElementById("fact"), dice = document.getElementById("dice");
-    var current = 0, timer = null;
-    function pick() { var n; do { n = 1 + Math.floor(Math.random() * 100); } while (n === current); return n; }
-    function show(n) { out.textContent = FACTS[n - 1] || "#" + n; }
-    current = pick(); show(current);
-    dice.addEventListener("click", function () {
-      if (timer) return;
-      var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-      var final = pick();
+    // Fun-fact dice: facts live in /ci/facts/<lang>.json (100 each). Every load rolls the dice once.
+    var box = document.getElementById("factBox"), out = document.getElementById("fact"), dice = document.getElementById("dice");
+    var factLang = L[lang] ? lang : "de";
+    var facts = [], current = -1, busy = false, touched = false;
+    var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // uniform integer in [0, n) from the browser's CSPRNG (rejection sampling, so no modulo bias)
+    function rnd(n) {
+      var c = window.crypto || window.msCrypto;
+      if (!c || !c.getRandomValues) return Math.floor(Math.random() * n);
+      var a = new Uint32Array(1), lim = Math.floor(4294967296 / n) * n;
+      do { c.getRandomValues(a); } while (a[0] >= lim);
+      return a[0] % n;
+    }
+    // never show the same fact twice in a row, not even across reloads
+    function last() { try { var v = parseInt(sessionStorage.getItem("giraffeFact"), 10); return isNaN(v) ? -1 : v; } catch (e) { return -1; } }
+    function remember(i) { try { sessionStorage.setItem("giraffeFact", String(i)); } catch (e) {} }
+    function pick() {
+      var i, avoid = current > -1 ? current : last();
+      do { i = rnd(facts.length); } while (i === avoid && facts.length > 1);
+      return i;
+    }
+    function roll() {
+      if (busy || !facts.length) return;
+      busy = true;
+      var i = pick();
+      var done = function () { current = i; remember(i); out.textContent = facts[i]; out.classList.remove("is-out"); };
+      if (reduce) { done(); busy = false; return; }
       dice.classList.remove("rolling"); void dice.offsetWidth; dice.classList.add("rolling");
-      if (reduce) { current = final; show(final); dice.classList.remove("rolling"); return; }
-      var ticks = 0;
-      out.removeAttribute("aria-live"); // don't read out every shuffled number
-      timer = setInterval(function () {
-        ticks++;
-        if (ticks >= 13) {
-          clearInterval(timer); timer = null;
-          current = final; show(final);
-          dice.classList.remove("rolling");
-          out.setAttribute("aria-live", "polite");
-          return;
-        }
-        show(1 + Math.floor(Math.random() * 100));
-      }, 62);
+      out.classList.add("is-out");
+      setTimeout(done, 300);
+      setTimeout(function () { dice.classList.remove("rolling"); busy = false; }, 800);
+    }
+    dice.addEventListener("click", function () {
+      if (!touched) { touched = true; out.setAttribute("aria-live", "polite"); } // only announce facts the visitor asked for
+      roll();
     });
+    fetch("/ci/facts/" + factLang + ".json")
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (data) {
+        if (!data || !data.length) return;
+        facts = data;
+        // first frame: visible but empty, then the dice rolls in
+        box.classList.remove("fact--pending");
+        out.classList.add("is-out");
+        roll();
+      })
+      .catch(function () { box.hidden = true; /* no facts, no box: the page stays clean */ });
   })();
 </script>
 </body>
