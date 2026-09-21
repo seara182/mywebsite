@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>404 · Mika Jeske</title>
+<title>404 · Seite nicht gefunden · Mika Jeske</title>
 <meta name="robots" content="noindex">
 <meta name="description" content="Seite nicht gefunden.">
 <!-- GitHub Pages serves this file for any missing path at any depth, so every URL below is absolute. -->
@@ -57,7 +57,8 @@
     font-family: var(--font-display); font-weight: 700; letter-spacing: -.04em; line-height: .9;
     font-size: clamp(88px, 16vw, 168px); color: var(--on-dark-strong); margin: 0 0 14px;
   }
-  h1 { font-size: clamp(26px, 3.6vw, 40px); font-weight: 600; color: var(--on-dark-strong); margin: 0 0 14px; }
+  .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  h1, h2 { font-size: clamp(26px, 3.6vw, 40px); font-weight: 600; color: var(--on-dark-strong); margin: 0 0 14px; }
   p.msg { font-size: clamp(17px, 1.6vw, 20px); line-height: 1.5; max-width: 34ch; margin: 0 0 24px; }
 
   /* fun-fact line: a quiet aside, centred near the bottom of the frame (no box, no outline) */
@@ -125,7 +126,8 @@
     .pic figcaption { font-size: 13px; margin-top: 8px; }
     .pic figcaption small { display: none; }
     .code { font-size: 64px; margin-bottom: 6px; }
-    h1 { font-size: 22px; margin-bottom: 6px; }
+    .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  h1, h2 { font-size: 22px; margin-bottom: 6px; }
     p.msg { font-size: 14px; margin-bottom: 12px; }
     body { padding-bottom: 64px; }
     .fact { --lines: 2; bottom: 8px; }
@@ -216,8 +218,8 @@
   </figure>
 
   <section>
-    <div class="code" aria-hidden="true">404</div>
-    <h1 id="t">Verbindung unterbrochen.</h1>
+    <div class="code" role="heading" aria-level="1">404<span class="vh" id="nf"> – Seite nicht gefunden (HTTP 404)</span></div>
+    <h2 id="t">Verbindung unterbrochen.</h2>
     <p class="msg" id="d">Diko und Tessa haben das Kabel für ihr Mittagessen gehalten – diese Seite war Kollateralschaden.</p>
 
     <a class="home" id="h" href="/">Zur Startseite</a>
@@ -240,25 +242,25 @@
     var L = {
       en: {
         t: "Connection lost.", d: "Diko and Tessa mistook the cable for lunch, and this page was collateral damage.",
-        h: "Back to the homepage", title: "Page not found", label: "Giraffe fact", shuf: "Show another random fact",
+        h: "Back to the homepage", title: "Page not found", nf: " – Page not found (HTTP 404)", label: "Giraffe fact", shuf: "Show another random fact",
         cap: "<strong>Diko and Tessa</strong>, two Kordofan giraffes at Dresden Zoo.", credit: "Photo: Mika Jeske",
         alt: "The two Kordofan giraffes Diko and Tessa standing side by side, cut out from their background"
       },
       fr: {
         t: "Connexion perdue.", d: "Diko et Tessa ont pris le câble pour leur déjeuner, et cette page est un dommage collatéral.",
-        h: "Retour à l'accueil", title: "Page introuvable", label: "Fait sur les girafes", shuf: "Afficher un autre fait au hasard",
+        h: "Retour à l'accueil", title: "Page introuvable", nf: " – Page introuvable (HTTP 404)", label: "Fait sur les girafes", shuf: "Afficher un autre fait au hasard",
         cap: "<strong>Diko et Tessa</strong>, deux girafes du Kordofan au zoo de Dresde.", credit: "Photo : Mika Jeske",
         alt: "Les deux girafes du Kordofan Diko et Tessa côte à côte, détourées"
       },
       es: {
         t: "Conexión perdida.", d: "Diko y Tessa confundieron el cable con su almuerzo, y esta página fue un daño colateral.",
-        h: "Volver al inicio", title: "Página no encontrada", label: "Dato sobre jirafas", shuf: "Mostrar otro dato al azar",
+        h: "Volver al inicio", title: "Página no encontrada", nf: " – Página no encontrada (HTTP 404)", label: "Dato sobre jirafas", shuf: "Mostrar otro dato al azar",
         cap: "<strong>Diko y Tessa</strong>, dos jirafas de Kordofán en el zoo de Dresde.", credit: "Foto: Mika Jeske",
         alt: "Las dos jirafas de Kordofán Diko y Tessa, una junto a la otra, recortadas del fondo"
       },
       it: {
         t: "Connessione interrotta.", d: "Diko e Tessa hanno scambiato il cavo per il pranzo, e questa pagina è un danno collaterale.",
-        h: "Torna alla home", title: "Pagina non trovata", label: "Curiosità sulle giraffe", shuf: "Mostra un'altra curiosità a caso",
+        h: "Torna alla home", title: "Pagina non trovata", nf: " – Pagina non trovata (HTTP 404)", label: "Curiosità sulle giraffe", shuf: "Mostra un'altra curiosità a caso",
         cap: "<strong>Diko e Tessa</strong>, due giraffe del Kordofan allo zoo di Dresda.", credit: "Foto: Mika Jeske",
         alt: "Le due giraffe del Kordofan Diko e Tessa affiancate, ritagliate dallo sfondo"
       }
@@ -275,6 +277,7 @@
       var $ = function (id) { return document.getElementById(id); };
       document.documentElement.lang = lang;
       $("t").textContent = s.t;
+      $("nf").textContent = s.nf;
       $("d").textContent = s.d;
       $("cap").innerHTML = s.cap;
       $("credit").textContent = s.credit;
