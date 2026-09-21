@@ -608,15 +608,14 @@
   </section>
 
   <!-- TRAILER - self-hosted native player, no autoplay, volume 60%.
-       PLACEHOLDER files: replace media/trailer-de.mp4, media/trailer-en.mp4
-       (used for en/fr/es/it) and media/trailer-poster.jpg with the real ones. -->
+       4K media in media/: trailer-de.mp4, trailer-en.mp4 (en/fr/es/it), trailer-poster-{de,en}.jpg. -->
   <section id="trailer">
     <div class="wrap">
       <span class="section-label reveal" data-i18n="cheapseats.trailerLabel">Trailer</span>
       <h2 class="reveal" data-i18n="cheapseats.trailerHeading">CheapSeats in Bewegung</h2>
       <p class="lede reveal" data-i18n="cheapseats.trailerLede">Eine kurze Tour durchs Dashboard, bevor du sie selbst installierst.</p>
       <div class="video-frame reveal" id="video-frame">
-        <video id="vp-video" preload="metadata" playsinline poster="media/trailer-poster.jpg"></video>
+        <video id="vp-video" preload="metadata" playsinline poster="media/trailer-poster-de.jpg"></video>
         <button type="button" class="vp-big" id="vp-big" data-i18n-attr="aria-label:cheapseats.player.play" aria-label="Abspielen"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
         <div class="vp-bar" role="group" data-i18n-attr="aria-label:cheapseats.player.controls" aria-label="Videosteuerung">
           <button type="button" class="vp-btn" id="vp-play" data-i18n-attr="aria-label:cheapseats.player.play" aria-label="Abspielen"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
@@ -888,10 +887,10 @@
       window.addEventListener("langchange", function () { Widgets.applyStaticTranslations(document); applyStoreLinks(); });
     })();
     // trailer: native player. No autoplay, volume 60%, nothing third-party.
-    // Placeholder media in media/ - overwrite the files to go live.
     (function () {
       var SRC_DE = "media/trailer-de.mp4";
       var SRC_EN = "media/trailer-en.mp4"; // used for en/fr/es/it
+      var POSTER_DE = "media/trailer-poster-de.jpg", POSTER_EN = "media/trailer-poster-en.jpg";
       var $ = function (id) { return document.getElementById(id); };
       var frame = $("video-frame"), v = $("vp-video");
       if (!v) return;
@@ -911,7 +910,8 @@
         mute.setAttribute("aria-label", v.muted || v.volume === 0 ? t("cheapseats.player.unmute") : t("cheapseats.player.mute"));
       }
       function setSource() {
-        var src = I18N.getLang() === "de" ? SRC_DE : SRC_EN;
+        var de = I18N.getLang() === "de", src = de ? SRC_DE : SRC_EN;
+        v.poster = de ? POSTER_DE : POSTER_EN;
         if (v.getAttribute("src") === src) return;
         var wasPlaying = !v.paused, at = v.currentTime;
         v.src = src;
