@@ -1,0 +1,17 @@
+# Mika Jeske
+
+> Personal site of Mika Jeske, materials scientist (B.Sc.) focused on measurement technology, sensors and non-destructive testing. Master in Metrology and Measurement Technology in Braunschweig from October 2026; looking for a working-student role and volunteer work.
+
+## Pages
+
+- [Home (de)](https://mika-jeske.de/): CV, projects, contact
+- [Home (en)](https://mika-jeske.de/en/)
+- [Home (fr)](https://mika-jeske.de/fr/)
+- [Home (es)](https://mika-jeske.de/es/)
+- [Home (it)](https://mika-jeske.de/it/)
+- [CheapSeats](https://mika-jeske.de/projects/cheapseats/): app project
+- [Impressum](https://mika-jeske.de/impressum/): legal notice
+
+## Optional
+
+- [Sitemap](https://mika-jeske.de/sitemap.xml)
