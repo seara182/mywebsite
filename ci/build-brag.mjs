@@ -117,6 +117,10 @@ const LANGS = ["de", "en", "es", "fr", "it"];
 const THEMES = ["light", "dark"];
 const OUT = "ci/assets/video";
 const POSTER_AT = "4";   /* photo 2-up scene: no text, so posters carry no language */
+/* The poster is a placeholder behind a muted film, not a photograph to study, so it
+   ships far smaller than the video. It used to inherit the full delivery resolution:
+   1080x1920 at ~172 KB, four times the size it is ever drawn at. */
+const POSTER_W = { "16x9": 1280, "9x16": 720 };
 
 const argv = process.argv.slice(2);
 const opt = (name, fallback) => {
@@ -187,8 +191,9 @@ for (const { dir, aspect, master, deliver } of COMPS) {
             : ["-c:v", "copy", "-movflags", "+faststart"];
           run("ffmpeg", ["-y", "-loglevel", "error", "-i", rendered, ...video, "-an", `${OUT}/${stem}.mp4`]);
           run("ffmpeg", ["-y", "-loglevel", "error", "-ss", POSTER_AT, "-i", rendered,
-                         ...(deliver ? ["-vf", `scale=${deliver}:flags=lanczos`] : []),
-                         "-frames:v", "1", "-q:v", "3", `${OUT}/${stem}.jpg`]);
+                         "-vf", `scale=${POSTER_W[aspect]}:-2:flags=lanczos`,
+                         "-frames:v", "1", "-c:v", "libwebp", "-quality", "76",
+                         "-compression_level", "6", `${OUT}/${stem}.webp`]);
         }
         made++;
         console.log("ok");

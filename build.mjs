@@ -113,6 +113,29 @@ function emitPages() {
 }
 
 
+/* ponytail: regex minifier. The inputs are our own token files — verified to carry
+ * no `content:` strings and no data: URIs, so there is nothing here that needs a real
+ * CSS parser to protect it. Swap in lightningcss if either ever appears. */
+function minifyCSS(css) {
+  return css
+    .replace(/\/\*[\s\S]*?\*\//g, "")
+    .replace(/\s+/g, " ")
+    .replace(/\s*([{}:;,>])\s*/g, "$1")
+    .replace(/;}/g, "}")
+    .trim();
+}
+
+/* i18n.js and widgets.js are hand-edited sources the browser loads directly. Minify
+ * them to *.min.js — never in place — and let the HTML point at those. The Node
+ * sandbox in loadApp() keeps reading the unminified originals. */
+async function minifyVendored() {
+  for (const name of ["i18n", "widgets"]) {
+    const { code } = await minify(readFileSync(`${name}.js`, "utf8"));
+    writeFileSync(`${name}.min.js`, code);
+    console.log(`  ${name}.js -> ${name}.min.js`);
+  }
+}
+
 async function bundleCSS() {
   const tokens = [
     "ci/tokens/fonts.css",
@@ -125,14 +148,21 @@ async function bundleCSS() {
   ];
   let bundle = "";
   for (const f of tokens) {
-    bundle += readFileSync(f, "utf8") + "\n";
+    /* The tokens live in ci/tokens/ but the bundle is written to ci/ — one level up —
+       so a token's own `url("../assets/…")` resolves to /assets/ and 404s. That is
+       exactly how the Inter webfont silently stopped loading. Re-root it here. */
+    bundle += readFileSync(f, "utf8").replace(/url\((["']?)\.\.\/assets\//g, "url($1assets/") + "\n";
   }
-  writeFileSync("ci/styles.bundle.css", bundle);
+  /* Already in ci/, so its URLs need no rewrite (it has none). Folded in so the page
+     carries one render-blocking stylesheet instead of two. */
+  bundle += readFileSync("ci/i18n-ui.css", "utf8") + "\n";
+  writeFileSync("ci/styles.bundle.css", minifyCSS(bundle));
   console.log("  Bundled CSS -> ci/styles.bundle.css");
 }
 
 async function buildAll() {
   for (const name of JSX_FILES) await compile(name);
+  await minifyVendored();
   await bundleCSS();
   loadApp();
   emitPages();

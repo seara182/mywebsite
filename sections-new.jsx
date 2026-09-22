@@ -329,7 +329,9 @@ function ConfiTear() {
         </AlignBlock>
       </div>
 
-      <TornSection label={c.label} seed={23} teaser={{ photo: asset("ci/assets/Bilder/Konfi/Konfi_Phe.jpeg"), text: c.teaser }}>
+      {/* -sm: the teaser thumbnail renders at ~56x75, so it gets its own 200w file
+          rather than paying for the full polaroid-sized image */}
+      <TornSection label={c.label} seed={23} teaser={{ photo: asset("ci/assets/Bilder/Konfi/Konfi_Phe-sm.webp"), text: c.teaser }}>
         {/* eyebrow + heading go INSIDE the copy column; above the split they
             would span the whole panel and read as a caption band */}
         <SplitFeature flip
@@ -344,7 +346,7 @@ function ConfiTear() {
         </SplitFeature>
         <div style={{ display: "flex", flexWrap: "wrap", gap: "clamp(18px,2.4vw,34px)", alignItems: "flex-start", marginTop: "clamp(28px,4vw,48px)" }}>
           <div style={{ flex: "1 1 260px", maxWidth: 340 }}>
-            <Polaroid src={asset("ci/assets/Bilder/Konfi/Konfi_Phe.jpeg")} caption={c.photos[1]} rot={3} tape imgW={1200} imgH={1600} />
+            <Polaroid src={asset("ci/assets/Bilder/Konfi/Konfi_Phe.webp")} caption={c.photos[1]} rot={3} tape imgW={700} imgH={933} />
           </div>
           <div style={{ flex: "1 1 260px", maxWidth: 340 }}>
             <Polaroid src={asset("ci/assets/Bilder/Konfi/Konfi_Party.jpeg")} caption={c.photos[2]} rot={-3.5} imgW={1600} imgH={900} />

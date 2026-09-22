@@ -3,7 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="../../i18n.js"></script>
+  <!-- Mirrors the policy in index.template.html, plus wasm-unsafe-eval: the vendored
+       dotLottie player compiles a WebAssembly module. No CDN hosts are listed on
+       purpose — an external <script src> must fail loudly here. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <script src="../../i18n.min.js"></script>
   <title>CheapSeats - Mika Jeske</title>
   <link rel="canonical" href="https://mika-jeske.de/projects/cheapseats/">
   <meta property="og:type" content="website">
@@ -834,8 +838,10 @@
   </div>
 
   <div class="wrap reveal" style="display:flex; justify-content:center; padding-bottom:clamp(24px,4vw,48px)">
-    <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.14/dist/dotlottie-wc.js" type="module"></script>
-    <dotlottie-wc src="https://lottie.host/0caf9409-4c20-463f-adb2-1888ab19648b/AYjitS8tKr.lottie" style="width: 300px;height: 300px" autoplay loop></dotlottie-wc>
+    <!-- vendored, see ci/vendor/dotlottie/README.md — this used to pull six requests
+         from unpkg, jsdelivr and lottie.host on every visit -->
+    <script src="../../ci/vendor/dotlottie/dotlottie-wc.js" type="module"></script>
+    <dotlottie-wc src="../../ci/assets/video/cheapseats.lottie" style="width: 300px;height: 300px" autoplay loop></dotlottie-wc>
   </div>
 
   <footer>
@@ -868,7 +874,7 @@
   <div class="lb" id="lb"><img id="lbImg" src="" alt=""></div>
 
   <script src="changelog-content.js"></script>
-  <script src="../../widgets.js"></script>
+  <script src="../../widgets.min.js"></script>
   <script>
     // i18n: apply translations, mount switcher + chip, re-apply on language change
     (function () {
