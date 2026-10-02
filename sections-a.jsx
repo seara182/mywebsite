@@ -366,9 +366,10 @@ function Intro() {
   const ip = t("intro.photos") || [];
   return (
     <section id="intro" data-section className="on-plum" style={{ position: "relative", zIndex: 1, overflow: "hidden", padding: `12mm 0 calc(5mm + ${LAP}px)`, marginBottom: -LAP }}>
-      {/* plum, not paper: the section above is now the dark trailer film, so the
-          crest waves plum up into the film instead of flashing a white band */}
-      <WaveBlend edge="top" color="var(--plum)" seed={5} shadow="rgb(var(--accent-1-deep-rgb) / 0.55)" z={2} />
+      {/* paper, like every other paper→band seam: the hero stage above sits on
+          --paper in both schemes. Filled plum, the crest was plum on plum and only
+          its shadow showed, under a straight edge. */}
+      <WaveBlend edge="top" color="var(--paper)" seed={5} shadow="rgb(var(--accent-1-deep-rgb) / 0.55)" z={2} />
       <WaveBlend edge="bottom" lap="under" color="var(--paper)" seed={63} shadow="rgb(var(--accent-1-rgb) / 0.45)" z={2} />
       <div className="container" style={{ position: "relative", zIndex: 1 }}>
         <SplitFeature bleed
