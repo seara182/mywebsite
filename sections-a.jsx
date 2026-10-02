@@ -1,4 +1,4 @@
-const { asset, Reveal, Parallax, Pressable, SplitFeature, Eyebrow, Badge, GlowShape, Scribble, WaveBlend, TimelineEntry, AlignBlock, BlobCluster, useLang, prefersReduced } = window.MJ;
+const { asset, Reveal, Pressable, SplitFeature, GlowShape, Scribble, WaveBlend, useLang, prefersReduced } = window.MJ;
 
 /* entrance delays, in ms */
 const HERO_T = { name: 100, nameStep: 120, eyebrow: 500, portrait: 1000, chrome: 1400 };
@@ -375,23 +375,16 @@ function Intro() {
           bleedTop="12mm" bleedBottom={`calc(5mm + ${LAP}px)`}
           src={asset("ci/assets/Bilder/Weitere/i_zfp.webp")}
           alt={ip[0]} caption={ip[0]} focus="25% 40%">
-          <Reveal><Eyebrow color="var(--sage-glow)">{t("intro.eyebrow")}</Eyebrow></Reveal>
-          <Reveal delay={80}>
-            <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h2)", lineHeight: 1.22, letterSpacing: "var(--ls-heading)", color: "var(--on-dark-strong)", margin: "20px 0 0", maxWidth: "18ch" }}>
-              {t("intro.headline")}
-            </h2>
-          </Reveal>
-          <Reveal delay={160}>
-            <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--on-dark-body)", margin: "24px 0 0", maxWidth: "46ch" }}>
-              {t("intro.p1")}
-            </p>
-          </Reveal>
-          <Reveal delay={220}>
-            <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--on-dark-body)", margin: "16px 0 0", maxWidth: "46ch" }}>
-              {t("intro.p2")}
-            </p>
-          </Reveal>
-          <Reveal delay={300}>
+          <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h2)", lineHeight: 1.22, letterSpacing: "var(--ls-heading)", color: "var(--on-dark-strong)", margin: 0, maxWidth: "18ch" }}>
+            {t("intro.headline")}
+          </h2>
+          <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--on-dark-body)", margin: "24px 0 0", maxWidth: "46ch" }}>
+            {t("intro.p1")}
+          </p>
+          <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--on-dark-body)", margin: "16px 0 0", maxWidth: "46ch" }}>
+            {t("intro.p2")}
+          </p>
+          <Reveal>
             {/* 46ch mirrors the paragraphs, so the signature centres on the text
                 measure and not on the wider copy column; invert() paints the
                 black source white for the plum band */}
@@ -415,31 +408,22 @@ function Seeking() {
       {/* top seam is drawn by Intro, which overhangs this section by LAP px */}
       <div className="container" style={{ position: "relative", zIndex: 1 }}>
         <div className="seeking">
+          <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h2)", lineHeight: 1.15, letterSpacing: "var(--ls-heading)", color: "var(--heading)", margin: 0, maxWidth: "20ch" }}>
+            {s.heading}
+          </h2>
           <div>
-            <Reveal><Eyebrow>{s.eyebrow}</Eyebrow></Reveal>
-            <Reveal delay={80}>
-              <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h2)", lineHeight: 1.15, letterSpacing: "var(--ls-heading)", color: "var(--heading)", margin: "16px 0 0", maxWidth: "14ch" }}>
-                {s.heading}
-              </h2>
-            </Reveal>
-          </div>
-          <div>
-            <Reveal>
-              <dl className="seeking__list">
-                {s.rows.map((r, i) => (
-                  <React.Fragment key={i}>
-                    <dt className="seeking__k">{r.k}</dt>
-                    <dd className="seeking__v">{r.v}</dd>
-                  </React.Fragment>
-                ))}
-              </dl>
-            </Reveal>
-            <Reveal delay={80}>
-              <Pressable as="a" className="cta-ink" href="https://www.linkedin.com/in/mika-jeske-835092313/" target="_blank" rel="noopener" lift={-3}
-                style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: "clamp(24px,3vw,36px)", padding: "12px 22px", background: "var(--ink)", color: "var(--paper)", borderRadius: "var(--radius-md)", fontFamily: "var(--font-text)", fontSize: "var(--fs-body)", fontWeight: 600, textDecoration: "none" }}>
-                {s.cta} <span aria-hidden className="cta-arrow">&rarr;</span>
-              </Pressable>
-            </Reveal>
+            <dl className="kv">
+              {s.rows.map((r, i) => (
+                <React.Fragment key={i}>
+                  <dt className="kv__k">{r.k}</dt>
+                  <dd className="kv__v">{r.v}</dd>
+                </React.Fragment>
+              ))}
+            </dl>
+            <Pressable as="a" className="cta-ink" href="https://www.linkedin.com/in/mika-jeske-835092313/" target="_blank" rel="noopener" lift={-3}
+              style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: "clamp(24px,3vw,36px)", padding: "12px 22px", background: "var(--ink)", color: "var(--paper)", borderRadius: "var(--radius-md)", fontFamily: "var(--font-text)", fontSize: "var(--fs-body)", fontWeight: 600, textDecoration: "none" }}>
+              {s.cta} <span aria-hidden className="cta-arrow">&rarr;</span>
+            </Pressable>
           </div>
         </div>
       </div>

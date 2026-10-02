@@ -167,10 +167,8 @@ function Reveal({ children, delay = 0, as = "div", style = {}, className = "" })
       className={("js-reveal " + className).trim()}
       style={{
         opacity: seen ? 1 : 0,
-        transform: seen ? "none" : "translateY(28px) scale(0.985)",
-        /* blur(0px), not none: none is not an animatable end state */
-        filter: seen ? "blur(0px)" : "blur(3px)",
-        transition: "opacity " + d + ", transform " + d + ", filter " + d,
+        transform: seen ? "none" : "translateY(28px)",
+        transition: "opacity " + d + ", transform " + d,
         ...style,
       }}
     >
@@ -295,30 +293,6 @@ function AlignBlock({ align = "center", maxWidth = "var(--content-narrow)", styl
       ...style,
     }}>{children}</div>
   );
-}
-
-/* `as` exists for the handful of eyebrows that are the only thing introducing
-   a block of content. Most eyebrows sit directly above a real <h2>/<h3> as a
-   kicker, and those must stay spans — promoting them all would double every
-   entry in a screen reader's heading list, which is worse than the gap it
-   would be fixing. Opt in per call site, not by default. */
-function Eyebrow({ children, color, as: Tag = "span" }) {
-  return (
-    <Tag style={{ display: "inline-flex", alignItems: "center", gap: 10, margin: 0, fontFamily: "var(--font-text)", fontSize: "var(--fs-label)", fontWeight: 600, letterSpacing: "var(--ls-label)", textTransform: "uppercase", color: color || "var(--label)" }}>
-      <span aria-hidden="true" style={{ width: 22, height: 2, borderRadius: 2, background: "var(--accent)" }} />
-      {children}
-    </Tag>
-  );
-}
-
-function Badge({ children, variant = "neutral" }) {
-  const v = {
-    neutral: { background: "var(--paper-2)", color: "var(--text-body)", border: "1px solid var(--border)" },
-    accent: { background: "var(--badge-accent-bg)", color: "var(--badge-accent-fg)", border: "1px solid var(--badge-accent-border)" },
-    plum: { background: "var(--badge-accent-bg)", color: "var(--badge-plum-fg)", border: "1px solid var(--badge-accent-border)" },
-    onDark: { background: "rgba(255,255,255,0.10)", color: "var(--on-dark-body)", border: "1px solid var(--on-dark-hairline)" },
-  }[variant];
-  return <span style={{ display: "inline-flex", alignItems: "center", padding: "5px 12px", fontFamily: "var(--font-text)", fontSize: "var(--fs-caption)", fontWeight: 600, borderRadius: "var(--radius-xs)", whiteSpace: "nowrap", ...v }}>{children}</span>;
 }
 
 /* seeded, so a given shape's loop is stable across renders */
@@ -449,7 +423,7 @@ function FigurePlot({ series = [], xDomain, yDomain, y2Domain, xTicks = [], yTic
   const leftCol = colors[series.findIndex((s) => s.axis !== 2)] || "var(--text)";
   const rightCol = colors[series.findIndex((s) => s.axis === 2)] || "var(--text)";
   return (
-    <figure className="figure-plot" style={{ margin: 0, padding: "clamp(16px,1.8vw,24px)", background: "var(--paper)", border: "1px solid var(--hairline)", borderRadius: "var(--radius-lg)", boxShadow: "0 10px 26px -14px rgba(20,20,26,0.3), 0 36px 70px -40px rgb(var(--accent-2-rgb) / 0.4)", maxWidth: width + 56 }}>
+    <figure className="figure-plot" style={{ margin: 0, maxWidth: width }}>
       <svg viewBox={`0 0 ${width} ${height}`} width="100%" role="img" aria-label={caption} style={{ display: "block", overflow: "visible" }}>
         {yTicks.map((v, i) => (
           <g key={`y${i}`}>
@@ -624,4 +598,4 @@ function TimelineEntry({ role, org, period, location, points = [], last, accent 
   );
 }
 
-window.MJ = { asset, useReveal, useLang, useParallax, prefersReduced, Reveal, Parallax, Pressable, SectionSkipper, SplitFeature, Eyebrow, Badge, GlowShape, Scribble, WaveBlend, TimelineEntry, AlignBlock, BlobPhoto, BlobCluster, FigurePlot, LanguageSwitcherMount, ContactChipMount };
+window.MJ = { asset, useReveal, useLang, useParallax, prefersReduced, Reveal, Parallax, Pressable, SectionSkipper, SplitFeature, GlowShape, Scribble, WaveBlend, TimelineEntry, AlignBlock, BlobPhoto, BlobCluster, FigurePlot, LanguageSwitcherMount, ContactChipMount };

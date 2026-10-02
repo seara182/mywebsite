@@ -1,4 +1,4 @@
-const { asset, Reveal, Parallax, Pressable, SectionSkipper, Eyebrow, Badge, GlowShape, WaveBlend, TimelineEntry, AlignBlock, BlobCluster, useLang, LanguageSwitcherMount, ContactChipMount } = window.MJ;
+const { asset, Reveal, Pressable, SectionSkipper, WaveBlend, TimelineEntry, AlignBlock, BlobCluster, useLang, LanguageSwitcherMount, ContactChipMount } = window.MJ;
 const { Hero, Intro, Seeking } = window.SECTIONS_A;
 const { Story, CleanroomTear, ConfiTear, Reunion, Collaborations } = window.SECTIONS_NEW;
 
@@ -6,20 +6,9 @@ const LINKEDIN = "https://www.linkedin.com/in/mika-jeske-835092313/";
 const EMAIL = "mailto:mikajeske@gmail.com";
 const PHONE = "tel:+491774866584";
 
-function SectionHead({ kicker, title, glow = "sage", shape = "blob" }) {
-  /* seed derived from the copy, so each doodle is stable but distinct */
-  const seed = kicker ? kicker.charCodeAt(0) * 7 + kicker.length : 1;
+function SectionHead({ title }) {
   return (
-    <div className="section-head" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24, marginBottom: "clamp(32px,5vw,64px)" }}>
-      <div>
-        <Reveal><Eyebrow>{kicker}</Eyebrow></Reveal>
-        <Reveal delay={80}><h2 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h1)", letterSpacing: "var(--ls-heading)", color: "var(--heading)", margin: "16px 0 0", maxWidth: "16ch" }}>{title}</h2></Reveal>
-      </div>
-      <Reveal delay={80} className="section-head__deco" style={{ flex: "none" }}>
-        {/* wrapper keeps the phone's scale() off Reveal's own transform */}
-        <span className="section-head__glow" style={{ display: "block" }}><GlowShape shape={shape} glow={glow} size={84} seed={seed} /></span>
-      </Reveal>
-    </div>
+    <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h1)", letterSpacing: "var(--ls-heading)", color: "var(--heading)", margin: "0 0 clamp(32px,5vw,64px)", maxWidth: "16ch" }}>{title}</h2>
   );
 }
 
@@ -32,54 +21,37 @@ function Resume() {
   return (
     <section id="lebenslauf" data-section style={{ padding: "var(--section-y) 0" }}>
       <div className="container">
-        <SectionHead kicker={r.kicker} title={r.title} />
+        <SectionHead title={r.title} />
         <div className="resume-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(420px,100%),1fr))", gap: "clamp(32px,5vw,72px)", alignItems: "start" }}>
           <div>
-            <Reveal><h3 className="t-h3" style={{ marginBottom: 28 }}>{r.experienceHeading}</h3></Reveal>
-            <Reveal delay={60}><div>{experience.map((e, i) => <TimelineEntry key={i} {...e} last={i === experience.length - 1} />)}</div></Reveal>
+            <h3 className="t-h3" style={{ marginBottom: 28 }}>{r.experienceHeading}</h3>
+            <div>{experience.map((e, i) => <TimelineEntry key={i} {...e} last={i === experience.length - 1} />)}</div>
           </div>
           <div>
-            <Reveal><h3 className="t-h3" style={{ marginBottom: 28 }}>{r.educationHeading}</h3></Reveal>
-            <Reveal delay={60}><div>{education.map((e, i) => <TimelineEntry key={i} {...e} last={i === education.length - 1} />)}</div></Reveal>
+            <h3 className="t-h3" style={{ marginBottom: 28 }}>{r.educationHeading}</h3>
+            <div>{education.map((e, i) => <TimelineEntry key={i} {...e} last={i === education.length - 1} />)}</div>
           </div>
         </div>
 
-        <Reveal style={{ marginTop: "clamp(48px,6vw,88px)" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 28 }}>
-            {/* h3, matching its two siblings: the experience and education
-                blocks above both head themselves with a real <h3>, while this
-                one introduced the whole skills grid with a bare span. It was
-                the only eyebrow on the site genuinely acting as a heading. */}
-            <Eyebrow as="h3">{r.skillsEyebrow}</Eyebrow>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(240px,100%),1fr))", gap: "clamp(20px,2.5vw,32px)" }}>
+        <div style={{ marginTop: "clamp(48px,6vw,88px)" }}>
+          <h3 className="t-h3" style={{ marginBottom: 28 }}>{r.skillsHeading}</h3>
+          <dl className="kv">
             {skills.map((s, i) => (
-              <div key={i}>
-                {/* group names were styled divs, so the grid had no internal
-                    structure to navigate by at all */}
-                <h4 style={{ fontFamily: "var(--font-text)", fontSize: "var(--fs-small)", fontWeight: 600, color: "var(--heading)", margin: "0 0 14px" }}>{s.group}</h4>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                  {s.items.map((it, j) => <Badge key={j} variant={i === 0 ? "accent" : "neutral"}>{it}</Badge>)}
-                </div>
-              </div>
+              <React.Fragment key={i}>
+                <dt className="kv__k">{s.group}</dt>
+                <dd className="kv__v">{s.items.join(", ")}</dd>
+              </React.Fragment>
             ))}
-          </div>
-        </Reveal>
+          </dl>
+        </div>
 
-        <Reveal style={{ marginTop: "clamp(40px,5vw,72px)" }}>
-          <Pressable className="award-card" lift={-5} style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 24, padding: "clamp(24px,3vw,36px)", background: "linear-gradient(140deg, var(--paper), var(--paper-2))", border: "1px solid var(--border)", borderRadius: "var(--radius-lg)", boxShadow: "var(--shadow-md)" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
-              <GlowShape shape="squircle" glow="honey" size={64} seed={41} />
-              <div>
-                <div style={{ fontSize: "var(--fs-caption)", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--label)", fontWeight: 600, marginBottom: 4 }}>{r.awardLabel}</div>
-                <div style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-title)", color: "var(--heading)" }}>{r.awardName}</div>
-              </div>
-            </div>
-            <Pressable as="a" className="cta-ink" href={LINKEDIN} target="_blank" rel="noopener" lift={-3} style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "12px 22px", background: "var(--ink)", color: "var(--paper)", borderRadius: "var(--radius-md)", fontFamily: "var(--font-text)", fontSize: "var(--fs-body)", fontWeight: 600 }}>
-              {r.linkedinLabel} <span aria-hidden className="cta-arrow">→</span>
-            </Pressable>
-          </Pressable>
-        </Reveal>
+        <div style={{ marginTop: "clamp(40px,5vw,72px)" }}>
+          <h3 className="t-h3" style={{ marginBottom: 12 }}>{r.awardLabel}</h3>
+          <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-normal)", color: "var(--text)", margin: 0 }}>
+            {r.awardName}{" · "}
+            <a href={LINKEDIN} target="_blank" rel="noopener" style={{ color: "var(--accent)", fontWeight: 600 }}>{r.linkedinLabel}</a>
+          </p>
+        </div>
       </div>
     </section>
   );
@@ -94,8 +66,6 @@ function Engagement() {
     <section id="ehrenamt" data-section className="on-sage" style={{ position: "relative", overflow: "hidden", padding: "var(--section-y) 0" }}>
       {/* top seam only; the bottom one is drawn by ConfiTear's top wave */}
       <WaveBlend edge="top" color="var(--paper)" seed={31} shadow="rgb(var(--accent-2-deep-rgb) / 0.5)" />
-      {/* size is capped so the scribble ring clears the timeline column */}
-      <GlowShape shape="blob" glow="white" size={190} seed={17} ink="var(--sage-deep)" parallax="--depth-3" className="engagement-glow" style={{ position: "absolute", bottom: "6%", right: "-4%", pointerEvents: "none" }} />
       <div className="fill-slot fill-slot--left">
         <Reveal>
           <BlobCluster style={{ width: 560, height: 860 }} photos={[
@@ -106,15 +76,10 @@ function Engagement() {
       </div>
       <div className="container align-track" style={{ position: "relative", zIndex: 1 }}>
         <AlignBlock align="right" maxWidth="var(--content-narrow)">
-          <div style={{ marginBottom: "clamp(32px,5vw,56px)" }}>
-            <Reveal><Eyebrow color="var(--on-dark-strong)">{s.eyebrow}</Eyebrow></Reveal>
-            <Reveal delay={80}><h2 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h1)", letterSpacing: "var(--ls-heading)", color: "var(--on-dark-strong)", margin: "16px 0 0", maxWidth: "18ch" }}>{s.heading}</h2></Reveal>
+          <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h1)", letterSpacing: "var(--ls-heading)", color: "var(--on-dark-strong)", margin: "0 0 clamp(32px,5vw,56px)", maxWidth: "18ch" }}>{s.heading}</h2>
+          <div style={{ "--ink": "var(--on-dark-strong)", "--accent": "var(--on-dark-strong)", "--heading": "var(--on-dark-strong)", "--text": "var(--on-dark-body)", "--text-body": "var(--on-dark-body)", "--label": "var(--on-dark-muted)", "--border": "var(--on-dark-hairline)", "--paper-2": "rgba(0,0,0,0.12)" }}>
+            {engagement.map((e, i) => <TimelineEntry key={i} {...e} last={i === engagement.length - 1} />)}
           </div>
-          <Reveal delay={60}>
-            <div style={{ "--ink": "var(--on-dark-strong)", "--accent": "var(--on-dark-strong)", "--heading": "var(--on-dark-strong)", "--text": "var(--on-dark-body)", "--text-body": "var(--on-dark-body)", "--label": "var(--on-dark-muted)", "--border": "var(--on-dark-hairline)", "--paper-2": "rgba(0,0,0,0.12)" }}>
-              {engagement.map((e, i) => <TimelineEntry key={i} {...e} last={i === engagement.length - 1} />)}
-            </div>
-          </Reveal>
         </AlignBlock>
       </div>
     </section>
@@ -127,12 +92,14 @@ function Projects() {
   return (
     <section id="projekt" data-section style={{ padding: "var(--section-y) 0" }}>
       <div className="container align-track">
-        <SectionHead kicker={p.kicker} title={p.title} glow="plum" shape="arch" />
-        <Reveal>
+        <SectionHead title={p.title} />
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(340px,100%),1fr))", gap: "clamp(28px,4vw,56px)", alignItems: "center" }}>
             <div>
               <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: 0, maxWidth: "46ch" }}>
-                {p.description}
+                {p.p1}
+              </p>
+              <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "16px 0 0", maxWidth: "46ch" }}>
+                {p.p2}
               </p>
               <div style={{ display: "flex", flexWrap: "wrap", gap: "10px 24px", marginTop: 28 }}>
                 {p.features.map((f, i) => (
@@ -146,7 +113,7 @@ function Projects() {
               </Pressable>
             </div>
             {/* translateZ on the children needs the perspective on this wrapper */}
-            <div className="bay-stage" style={{ perspective: 1200, minWidth: 0 }}>
+            <Reveal className="bay-stage" style={{ perspective: 1200, minWidth: 0 }}>
             <Pressable className="bay-preview" tilt={7} lift={-6} style={{ position: "relative", minWidth: 0, aspectRatio: "16/10", minHeight: 300, display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 16, padding: 26, borderRadius: "var(--radius-xl)", overflow: "hidden",
               /* Theme-fixed on purpose. This is a mock of the CheapSeats app's
                  own dark interface — product imagery, like a screenshot, not
@@ -174,9 +141,8 @@ function Projects() {
                 ))}
               </div>
             </Pressable>
-            </div>
+            </Reveal>
           </div>
-        </Reveal>
       </div>
     </section>
   );
@@ -200,7 +166,6 @@ function Footer() {
             {f.phone}
           </a>
           <a href={asset("impressum/")} style={{ fontSize: "var(--fs-body)", color: "var(--text-body)", fontWeight: 500 }}>{f.legal}</a>
-          <span style={{ fontFamily: "var(--font-mono)", fontSize: "var(--fs-caption)", color: "var(--text-muted)" }}>{f.madeBy}</span>
         </div>
       </div>
       <div className="container">

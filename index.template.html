@@ -64,8 +64,7 @@
   },
   "address": {
     "@type": "PostalAddress",
-    "addressLocality": "Friedrichshafen",
-    "postalCode": "88048",
+    "addressLocality": "Braunschweig",
     "addressCountry": "DE"
   },
   "sameAs": ["https://www.linkedin.com/in/mika-jeske-835092313/"]
@@ -97,8 +96,7 @@
   .skipper {
     position: fixed; top: 0; left: 0; right: 0; z-index: 58;
     display: flex; justify-content: center;
-    background: var(--material-chrome);
-    -webkit-backdrop-filter: var(--blur-chrome); backdrop-filter: var(--blur-chrome);
+    background: var(--paper);
     border-bottom: 1px solid var(--chrome-hairline);
     opacity: 0; transform: translateY(-100%); pointer-events: none;
     transition: opacity .3s var(--ease-out), transform .42s var(--ease-emphasized);
@@ -142,41 +140,41 @@
     .skipper { transform: none; transition: opacity .2s linear; }
     .lang-switcher { transition: opacity .2s linear; }
   }
-  @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
-    .skipper { background: var(--paper); }
-  }
 
   .seeking {
     display: grid;
-    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    /* even halves: the German heading ends in one long compound that a narrower
+       first column pushed into the gap */
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: clamp(24px, 4vw, 72px);
     align-items: start;
   }
-  .seeking__list {
+  /* key/value rows, shared by "what I'm looking for" and the skills list */
+  .kv {
     display: grid; grid-template-columns: max-content minmax(0, 1fr);
     gap: 0 clamp(20px, 2.6vw, 40px); margin: 0;
   }
-  .seeking__k, .seeking__v {
+  .kv__k, .kv__v {
     border-bottom: 1px solid var(--hairline);
     padding: 12px 0;
   }
-  .seeking__list > .seeking__k:first-of-type,
-  .seeking__list > .seeking__k:first-of-type + .seeking__v { padding-top: 0; }
-  .seeking__k {
+  .kv > .kv__k:first-of-type,
+  .kv > .kv__k:first-of-type + .kv__v { padding-top: 0; }
+  .kv__k {
     font-family: var(--font-mono); font-size: var(--fs-caption);
     letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted);
   }
-  .seeking__v {
+  .kv__v {
     margin: 0; font-size: var(--fs-body); line-height: 1.45;
     color: var(--heading); font-weight: 500;
   }
   @media (max-width: 860px) {
     .seeking { grid-template-columns: 1fr; }
     /* one rule under each pair instead of per column */
-    .seeking__list { grid-template-columns: 1fr; gap: 0; }
-    .seeking__k { border-bottom: none; padding: 14px 0 2px; }
-    .seeking__list > .seeking__k:first-of-type + .seeking__v { padding-top: 0; }
-    .seeking__v { padding-top: 0; }
+    .kv { grid-template-columns: 1fr; gap: 0; }
+    .kv__k { border-bottom: none; padding: 14px 0 2px; }
+    .kv > .kv__k:first-of-type + .kv__v { padding-top: 0; }
+    .kv__v { padding-top: 0; }
   }
 
   /* margin-left:50% + translateX(-50%) escapes any centred .container: a
@@ -278,10 +276,9 @@
   /* Pressable supplies the transform; these are the surface response */
   .cta-arrow { display: inline-block; transition: transform .24s var(--ease-out); }
   .pressable:hover .cta-arrow { transform: translateX(3px); }
-  .cta-ink:hover { box-shadow: 0 14px 30px -16px rgba(20,20,26,0.55), 0 28px 60px -34px rgb(var(--accent-2-rgb) / 0.5); }
+  .cta-ink:hover { box-shadow: var(--shadow-md); }
   .cta-outline { transition: border-color .24s var(--ease-out), background .24s var(--ease-out), color .24s var(--ease-out); }
   .cta-outline:hover { border-color: rgb(var(--accent-2-rgb) / 0.55); color: var(--sage-deep); background: rgb(var(--accent-2-rgb) / 0.06); }
-  .award-card:hover { box-shadow: var(--shadow-lg), 0 44px 80px -52px rgb(var(--accent-2-rgb) / 0.5); }
   .bay-preview:hover { box-shadow: var(--shadow-lg), 0 50px 90px -44px rgb(var(--accent-2-glow-rgb) / 0.42); }
   @media (prefers-reduced-motion: reduce) { .pressable:hover .cta-arrow { transform: none; } }
 
@@ -292,12 +289,7 @@
 
   .tear-trigger:hover .tear-label { color: var(--sage); }
   .tear-trigger:hover .tear-label > span:last-child { background: rgb(var(--accent-2-rgb) / 0.10); border-color: rgb(var(--accent-2-rgb) / 0.30); }
-  .loose-photo:hover { transform: rotate(0deg) translateY(-4px) !important; }
-  .polaroid:hover { transform: rotate(0deg) scale(1.02) !important; z-index: 2; }
-  .ggi-link { transition: transform .24s var(--ease-out), box-shadow .24s var(--ease-out); }
-  .ggi-link:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
   @media (prefers-reduced-motion: reduce) {
-    .loose-photo, .polaroid { transition: none !important; }
     .tear-panel { transition: none !important; }
 
     /* the components cannot branch on this media query without breaking
@@ -599,22 +591,12 @@
   }
 
   @media (max-width: 560px) {
-    .section-head { flex-direction: column; align-items: flex-start; gap: 20px; }
-    .section-head__deco { align-self: flex-end; }
-    /* mark and halo scale together */
-    .section-head__glow { transform: scale(0.62); transform-origin: right center; }
-
     /* smaller, not fainter: the ink value stays */
     .hero-glow-blob { transform: scale(0.46); transform-origin: top right; }
     .lang-hint { display: none !important; }
     .hero-glow-arch { transform: scale(0.42); transform-origin: bottom left; }
 
     .hero-hint { bottom: max(30px, env(safe-area-inset-bottom, 0px)) !important; }
-
-    .intro-glow { transform: scale(0.55); transform-origin: top right; opacity: 0.6 !important; }
-
-    /* clears the timeline entries above it */
-    .engagement-glow { transform: scale(0.8); transform-origin: bottom right; opacity: 0.7 !important; }
 
     /* grow to fit the wrapped stat row instead of clipping it */
     .bay-preview { aspect-ratio: auto !important; min-height: 0 !important; }

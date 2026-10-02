@@ -4,14 +4,14 @@
   "graph": {},
   "nodes": [
     {
-      "id": "i18n_min_d",
-      "label": "d()",
+      "id": "i18n_min_c",
+      "label": "c()",
       "_callable": true,
       "_origin": "ast",
       "community": 0,
       "community_name": "primitives.js",
       "file_type": "code",
-      "norm_label": "d()",
+      "norm_label": "c()",
       "source_file": "i18n.min.js",
       "source_location": "L1"
     },
@@ -232,14 +232,14 @@
       "source_location": "L1"
     },
     {
-      "id": "sections_b_c",
-      "label": "C()",
+      "id": "sections_b_b",
+      "label": "b()",
       "_callable": true,
       "_origin": "ast",
       "community": 0,
       "community_name": "primitives.js",
       "file_type": "code",
-      "norm_label": "c()",
+      "norm_label": "b()",
       "source_file": "sections-b.js",
       "source_location": "L1"
     },
@@ -256,14 +256,14 @@
       "source_location": "L1"
     },
     {
-      "id": "sections_b_n",
-      "label": "N()",
+      "id": "sections_b_k",
+      "label": "k()",
       "_callable": true,
       "_origin": "ast",
       "community": 0,
       "community_name": "primitives.js",
       "file_type": "code",
-      "norm_label": "n()",
+      "norm_label": "k()",
       "source_file": "sections-b.js",
       "source_location": "L1"
     },
@@ -280,20 +280,8 @@
       "source_location": "L1"
     },
     {
-      "id": "sections_b_t",
-      "label": "T()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "primitives.js",
-      "file_type": "code",
-      "norm_label": "t()",
-      "source_file": "sections-b.js",
-      "source_location": "L1"
-    },
-    {
       "id": "sections_b_w",
-      "label": "W()",
+      "label": "w()",
       "_callable": true,
       "_origin": "ast",
       "community": 0,
@@ -304,75 +292,15 @@
       "source_location": "L1"
     },
     {
-      "id": "sections_b_z",
-      "label": "z()",
+      "id": "sections_b_x",
+      "label": "x()",
       "_callable": true,
       "_origin": "ast",
       "community": 0,
       "community_name": "primitives.js",
       "file_type": "code",
-      "norm_label": "z()",
+      "norm_label": "x()",
       "source_file": "sections-b.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "sections_new_e",
-      "label": "E()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "primitives.js",
-      "file_type": "code",
-      "norm_label": "e()",
-      "source_file": "sections-new.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "sections_new_f",
-      "label": "f()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "primitives.js",
-      "file_type": "code",
-      "norm_label": "f()",
-      "source_file": "sections-new.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "sections_new_h",
-      "label": "h()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "primitives.js",
-      "file_type": "code",
-      "norm_label": "h()",
-      "source_file": "sections-new.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "sections_new_r",
-      "label": "R()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "primitives.js",
-      "file_type": "code",
-      "norm_label": "r()",
-      "source_file": "sections-new.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "sections_new_y",
-      "label": "y()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "primitives.js",
-      "file_type": "code",
-      "norm_label": "y()",
-      "source_file": "sections-new.js",
       "source_location": "L1"
     },
     {
@@ -481,7 +409,7 @@
       "file_type": "code",
       "norm_label": "alignblock()",
       "source_file": "primitives.jsx",
-      "source_location": "L288"
+      "source_location": "L286"
     },
     {
       "id": "primitives_asset",
@@ -496,18 +424,6 @@
       "source_location": "L5"
     },
     {
-      "id": "primitives_badge",
-      "label": "Badge()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "primitives.jsx",
-      "file_type": "code",
-      "norm_label": "badge()",
-      "source_file": "primitives.jsx",
-      "source_location": "L314"
-    },
-    {
       "id": "primitives_blobcluster",
       "label": "BlobCluster()",
       "_callable": true,
@@ -517,7 +433,7 @@
       "file_type": "code",
       "norm_label": "blobcluster()",
       "source_file": "primitives.jsx",
-      "source_location": "L424"
+      "source_location": "L398"
     },
     {
       "id": "primitives_blobphoto",
@@ -529,7 +445,7 @@
       "file_type": "code",
       "norm_label": "blobphoto()",
       "source_file": "primitives.jsx",
-      "source_location": "L402"
+      "source_location": "L376"
     },
     {
       "id": "primitives_contactchipmount",
@@ -556,18 +472,6 @@
       "source_location": "L62"
     },
     {
-      "id": "primitives_eyebrow",
-      "label": "Eyebrow()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "primitives.jsx",
-      "file_type": "code",
-      "norm_label": "eyebrow()",
-      "source_file": "primitives.jsx",
-      "source_location": "L305"
-    },
-    {
       "id": "primitives_figureplot",
       "label": "FigurePlot()",
       "_callable": true,
@@ -577,7 +481,7 @@
       "file_type": "code",
       "norm_label": "figureplot()",
       "source_file": "primitives.jsx",
-      "source_location": "L437"
+      "source_location": "L411"
     },
     {
       "id": "primitives_glowshape",
@@ -589,7 +493,7 @@
       "file_type": "code",
       "norm_label": "glowshape()",
       "source_file": "primitives.jsx",
-      "source_location": "L379"
+      "source_location": "L353"
     },
     {
       "id": "primitives_languageswitchermount",
@@ -637,7 +541,7 @@
       "file_type": "code",
       "norm_label": "pressable()",
       "source_file": "primitives.jsx",
-      "source_location": "L182"
+      "source_location": "L180"
     },
     {
       "id": "primitives_pressable_onleave",
@@ -649,7 +553,7 @@
       "file_type": "code",
       "norm_label": "onleave()",
       "source_file": "primitives.jsx",
-      "source_location": "L201"
+      "source_location": "L199"
     },
     {
       "id": "primitives_pressable_onmove",
@@ -661,7 +565,7 @@
       "file_type": "code",
       "norm_label": "onmove()",
       "source_file": "primitives.jsx",
-      "source_location": "L192"
+      "source_location": "L190"
     },
     {
       "id": "primitives_pressable_set",
@@ -673,7 +577,7 @@
       "file_type": "code",
       "norm_label": "set()",
       "source_file": "primitives.jsx",
-      "source_location": "L186"
+      "source_location": "L184"
     },
     {
       "id": "primitives_pxlisten",
@@ -745,7 +649,7 @@
       "file_type": "code",
       "norm_label": "scribble()",
       "source_file": "primitives.jsx",
-      "source_location": "L357"
+      "source_location": "L331"
     },
     {
       "id": "primitives_scribbleloop",
@@ -757,7 +661,7 @@
       "file_type": "code",
       "norm_label": "scribbleloop()",
       "source_file": "primitives.jsx",
-      "source_location": "L325"
+      "source_location": "L299"
     },
     {
       "id": "primitives_sectionskipper",
@@ -769,7 +673,7 @@
       "file_type": "code",
       "norm_label": "sectionskipper()",
       "source_file": "primitives.jsx",
-      "source_location": "L216"
+      "source_location": "L214"
     },
     {
       "id": "primitives_sectionskipper_jump",
@@ -781,7 +685,7 @@
       "file_type": "code",
       "norm_label": "jump()",
       "source_file": "primitives.jsx",
-      "source_location": "L245"
+      "source_location": "L243"
     },
     {
       "id": "primitives_splitfeature",
@@ -793,7 +697,7 @@
       "file_type": "code",
       "norm_label": "splitfeature()",
       "source_file": "primitives.jsx",
-      "source_location": "L270"
+      "source_location": "L268"
     },
     {
       "id": "primitives_timelineentry",
@@ -805,7 +709,7 @@
       "file_type": "code",
       "norm_label": "timelineentry()",
       "source_file": "primitives.jsx",
-      "source_location": "L597"
+      "source_location": "L571"
     },
     {
       "id": "primitives_timelinepoint",
@@ -817,7 +721,7 @@
       "file_type": "code",
       "norm_label": "timelinepoint()",
       "source_file": "primitives.jsx",
-      "source_location": "L574"
+      "source_location": "L548"
     },
     {
       "id": "primitives_uselang",
@@ -865,7 +769,7 @@
       "file_type": "code",
       "norm_label": "waveblend()",
       "source_file": "primitives.jsx",
-      "source_location": "L532"
+      "source_location": "L506"
     },
     {
       "id": "primitives_wavepath",
@@ -877,7 +781,7 @@
       "file_type": "code",
       "norm_label": "wavepath()",
       "source_file": "primitives.jsx",
-      "source_location": "L504"
+      "source_location": "L478"
     },
     {
       "id": "i18n_applytheme",
@@ -889,7 +793,7 @@
       "file_type": "code",
       "norm_label": "applytheme()",
       "source_file": "i18n.js",
-      "source_location": "L1508"
+      "source_location": "L1453"
     },
     {
       "id": "i18n_getlang",
@@ -901,7 +805,7 @@
       "file_type": "code",
       "norm_label": "getlang()",
       "source_file": "i18n.js",
-      "source_location": "L1424"
+      "source_location": "L1369"
     },
     {
       "id": "i18n_langfrompath",
@@ -913,7 +817,7 @@
       "file_type": "code",
       "norm_label": "langfrompath()",
       "source_file": "i18n.js",
-      "source_location": "L1418"
+      "source_location": "L1363"
     },
     {
       "id": "i18n_onprerenderedhome",
@@ -925,7 +829,7 @@
       "file_type": "code",
       "norm_label": "onprerenderedhome()",
       "source_file": "i18n.js",
-      "source_location": "L1451"
+      "source_location": "L1396"
     },
     {
       "id": "i18n_pathforlang",
@@ -937,7 +841,7 @@
       "file_type": "code",
       "norm_label": "pathforlang()",
       "source_file": "i18n.js",
-      "source_location": "L1443"
+      "source_location": "L1388"
     },
     {
       "id": "i18n_readtheme",
@@ -949,7 +853,7 @@
       "file_type": "code",
       "norm_label": "readtheme()",
       "source_file": "i18n.js",
-      "source_location": "L1500"
+      "source_location": "L1445"
     },
     {
       "id": "i18n_resolvepath",
@@ -961,7 +865,7 @@
       "file_type": "code",
       "norm_label": "resolvepath()",
       "source_file": "i18n.js",
-      "source_location": "L1545"
+      "source_location": "L1490"
     },
     {
       "id": "i18n_safestorage",
@@ -985,7 +889,7 @@
       "file_type": "code",
       "norm_label": "setlang()",
       "source_file": "i18n.js",
-      "source_location": "L1527"
+      "source_location": "L1472"
     },
     {
       "id": "i18n_settheme",
@@ -997,7 +901,7 @@
       "file_type": "code",
       "norm_label": "settheme()",
       "source_file": "i18n.js",
-      "source_location": "L1515"
+      "source_location": "L1460"
     },
     {
       "id": "i18n_t",
@@ -1009,7 +913,7 @@
       "file_type": "code",
       "norm_label": "t()",
       "source_file": "i18n.js",
-      "source_location": "L1554"
+      "source_location": "L1499"
     },
     {
       "id": "ci_vendor_react_dom_production_min_aa",
@@ -1017,7 +921,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "aa()",
       "source_file": "ci/vendor/react-dom.production.min.js",
@@ -1029,7 +933,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "af()",
       "source_file": "ci/vendor/react-dom.production.min.js",
@@ -1041,7 +945,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "ah()",
       "source_file": "ci/vendor/react-dom.production.min.js",
@@ -1053,7 +957,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "ai()",
       "source_file": "ci/vendor/react-dom.production.min.js",
@@ -1065,35 +969,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "bi()",
       "source_file": "ci/vendor/react-dom.production.min.js",
       "source_location": "L116"
-    },
-    {
-      "id": "ci_vendor_react_dom_production_min_ci",
-      "label": "ci()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "ok",
-      "file_type": "code",
-      "norm_label": "ci()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L116"
-    },
-    {
-      "id": "ci_vendor_react_dom_production_min_dg",
-      "label": "Dg()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "ok",
-      "file_type": "code",
-      "norm_label": "dg()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L40"
     },
     {
       "id": "ci_vendor_react_dom_production_min_ef",
@@ -1101,7 +981,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "ef()",
       "source_file": "ci/vendor/react-dom.production.min.js",
@@ -1113,7 +993,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "eh()",
       "source_file": "ci/vendor/react-dom.production.min.js",
@@ -1125,7 +1005,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "fb()",
       "source_file": "ci/vendor/react-dom.production.min.js",
@@ -1137,7 +1017,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "$g()",
       "source_file": "ci/vendor/react-dom.production.min.js",
@@ -1149,7 +1029,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "gf()",
       "source_file": "ci/vendor/react-dom.production.min.js",
@@ -1161,7 +1041,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "gi()",
       "source_file": "ci/vendor/react-dom.production.min.js",
@@ -1173,7 +1053,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "hb()",
       "source_file": "ci/vendor/react-dom.production.min.js",
@@ -1185,11 +1065,23 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "hi()",
       "source_file": "ci/vendor/react-dom.production.min.js",
       "source_location": "L121"
+    },
+    {
+      "id": "ci_vendor_react_dom_production_min_ia",
+      "label": "ia()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 15,
+      "community_name": "ia",
+      "file_type": "code",
+      "norm_label": "ia()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L184"
     },
     {
       "id": "ci_vendor_react_dom_production_min_ic",
@@ -1197,7 +1089,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "ic()",
       "source_file": "ci/vendor/react-dom.production.min.js",
@@ -1209,11 +1101,23 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "ih()",
       "source_file": "ci/vendor/react-dom.production.min.js",
       "source_location": "L103"
+    },
+    {
+      "id": "ci_vendor_react_dom_production_min_jk",
+      "label": "jk()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 15,
+      "community_name": "ia",
+      "file_type": "code",
+      "norm_label": "jk()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L79"
     },
     {
       "id": "ci_vendor_react_dom_production_min_kb",
@@ -1221,7 +1125,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "kb()",
       "source_file": "ci/vendor/react-dom.production.min.js",
@@ -1233,7 +1137,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "ki()",
       "source_file": "ci/vendor/react-dom.production.min.js",
@@ -1245,7 +1149,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "lh()",
       "source_file": "ci/vendor/react-dom.production.min.js",
@@ -1257,7 +1161,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "mh()",
       "source_file": "ci/vendor/react-dom.production.min.js",
@@ -1269,7 +1173,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "oa()",
       "source_file": "ci/vendor/react-dom.production.min.js",
@@ -1281,23 +1185,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "oe()",
       "source_file": "ci/vendor/react-dom.production.min.js",
       "source_location": "L30"
-    },
-    {
-      "id": "ci_vendor_react_dom_production_min_ok",
-      "label": "ok()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "ok",
-      "file_type": "code",
-      "norm_label": "ok()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L115"
     },
     {
       "id": "ci_vendor_react_dom_production_min_pa",
@@ -1305,23 +1197,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "pa()",
       "source_file": "ci/vendor/react-dom.production.min.js",
       "source_location": "L98"
-    },
-    {
-      "id": "ci_vendor_react_dom_production_min_pd",
-      "label": "pd()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "ok",
-      "file_type": "code",
-      "norm_label": "pd()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L82"
     },
     {
       "id": "ci_vendor_react_dom_production_min_ph",
@@ -1329,7 +1209,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "ph()",
       "source_file": "ci/vendor/react-dom.production.min.js",
@@ -1341,7 +1221,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "pi()",
       "source_file": "ci/vendor/react-dom.production.min.js",
@@ -1353,23 +1233,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "qg()",
       "source_file": "ci/vendor/react-dom.production.min.js",
       "source_location": "L29"
-    },
-    {
-      "id": "ci_vendor_react_dom_production_min_qi",
-      "label": "qi()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "ok",
-      "file_type": "code",
-      "norm_label": "qi()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L126"
     },
     {
       "id": "ci_vendor_react_dom_production_min_qk",
@@ -1377,7 +1245,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "qk()",
       "source_file": "ci/vendor/react-dom.production.min.js",
@@ -1389,7 +1257,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "sd()",
       "source_file": "ci/vendor/react-dom.production.min.js",
@@ -1401,7 +1269,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "si()",
       "source_file": "ci/vendor/react-dom.production.min.js",
@@ -1413,23 +1281,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "sk()",
       "source_file": "ci/vendor/react-dom.production.min.js",
       "source_location": "L201"
-    },
-    {
-      "id": "ci_vendor_react_dom_production_min_th",
-      "label": "th()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "ok",
-      "file_type": "code",
-      "norm_label": "th()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L77"
     },
     {
       "id": "ci_vendor_react_dom_production_min_ti",
@@ -1437,23 +1293,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "ti()",
       "source_file": "ci/vendor/react-dom.production.min.js",
       "source_location": "L133"
-    },
-    {
-      "id": "ci_vendor_react_dom_production_min_vd",
-      "label": "vd()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "ok",
-      "file_type": "code",
-      "norm_label": "vd()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L98"
     },
     {
       "id": "ci_vendor_react_dom_production_min_wf",
@@ -1461,11 +1305,23 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "wf()",
       "source_file": "ci/vendor/react-dom.production.min.js",
       "source_location": "L121"
+    },
+    {
+      "id": "ci_vendor_react_dom_production_min_wh",
+      "label": "wh()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 15,
+      "community_name": "ia",
+      "file_type": "code",
+      "norm_label": "wh()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L79"
     },
     {
       "id": "ci_vendor_react_dom_production_min_wi",
@@ -1473,7 +1329,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "wi()",
       "source_file": "ci/vendor/react-dom.production.min.js",
@@ -1485,7 +1341,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "wk()",
       "source_file": "ci/vendor/react-dom.production.min.js",
@@ -1497,7 +1353,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "xa()",
       "source_file": "ci/vendor/react-dom.production.min.js",
@@ -1509,23 +1365,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "xd()",
       "source_file": "ci/vendor/react-dom.production.min.js",
       "source_location": "L104"
-    },
-    {
-      "id": "ci_vendor_react_dom_production_min_xe",
-      "label": "xe()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "ok",
-      "file_type": "code",
-      "norm_label": "xe()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L41"
     },
     {
       "id": "ci_vendor_react_dom_production_min_xi",
@@ -1533,7 +1377,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "xi()",
       "source_file": "ci/vendor/react-dom.production.min.js",
@@ -1545,23 +1389,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 15,
-      "community_name": "ok",
+      "community_name": "ia",
       "file_type": "code",
       "norm_label": "z()",
       "source_file": "ci/vendor/react-dom.production.min.js",
       "source_location": "L183"
-    },
-    {
-      "id": "ci_vendor_react_dom_production_min_zh",
-      "label": "zh()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "ok",
-      "file_type": "code",
-      "norm_label": "zh()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L80"
     },
     {
       "id": "sections_b_app",
@@ -1573,7 +1405,7 @@
       "file_type": "code",
       "norm_label": "app()",
       "source_file": "sections-b.jsx",
-      "source_location": "L231"
+      "source_location": "L196"
     },
     {
       "id": "sections_b_engagement",
@@ -1585,7 +1417,7 @@
       "file_type": "code",
       "norm_label": "engagement()",
       "source_file": "sections-b.jsx",
-      "source_location": "L88"
+      "source_location": "L60"
     },
     {
       "id": "sections_b_footer",
@@ -1597,7 +1429,7 @@
       "file_type": "code",
       "norm_label": "footer()",
       "source_file": "sections-b.jsx",
-      "source_location": "L185"
+      "source_location": "L151"
     },
     {
       "id": "sections_b_projects",
@@ -1609,7 +1441,7 @@
       "file_type": "code",
       "norm_label": "projects()",
       "source_file": "sections-b.jsx",
-      "source_location": "L124"
+      "source_location": "L89"
     },
     {
       "id": "sections_b_resume",
@@ -1621,7 +1453,7 @@
       "file_type": "code",
       "norm_label": "resume()",
       "source_file": "sections-b.jsx",
-      "source_location": "L26"
+      "source_location": "L15"
     },
     {
       "id": "sections_b_sectionhead",
@@ -1645,7 +1477,7 @@
       "file_type": "code",
       "norm_label": "useskipperitems()",
       "source_file": "sections-b.jsx",
-      "source_location": "L220"
+      "source_location": "L185"
     },
     {
       "id": "i18n_node_insertbefore",
@@ -1768,18 +1600,6 @@
       "source_location": "L97"
     },
     {
-      "id": "ci_vendor_react_dom_production_min_fh",
-      "label": "Fh()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "react-dom.production.min.js",
-      "file_type": "code",
-      "norm_label": "fh()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L97"
-    },
-    {
       "id": "ci_vendor_react_dom_production_min_gd",
       "label": "gd()",
       "_callable": true,
@@ -1874,18 +1694,6 @@
       "norm_label": "mb()",
       "source_file": "ci/vendor/react-dom.production.min.js",
       "source_location": "L14"
-    },
-    {
-      "id": "ci_vendor_react_dom_production_min_oj",
-      "label": "oj()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "react-dom.production.min.js",
-      "file_type": "code",
-      "norm_label": "oj()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L37"
     },
     {
       "id": "ci_vendor_react_dom_production_min_rf",
@@ -2008,18 +1816,6 @@
       "source_location": "L189"
     },
     {
-      "id": "ci_vendor_react_dom_production_min_yg",
-      "label": "Yg()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "react-dom.production.min.js",
-      "file_type": "code",
-      "norm_label": "yg()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L55"
-    },
-    {
       "id": "ci_vendor_react_dom_production_min_yi",
       "label": "Yi()",
       "_callable": true,
@@ -2090,6 +1886,30 @@
       "norm_label": "q",
       "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
       "source_location": "L1"
+    },
+    {
+      "id": "ci_vendor_react_dom_production_min_fa",
+      "label": "Fa()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 24,
+      "community_name": "react.production.min.js",
+      "file_type": "code",
+      "norm_label": "fa()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L106"
+    },
+    {
+      "id": "ci_vendor_react_dom_production_min_qh",
+      "label": "Qh()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 24,
+      "community_name": "react.production.min.js",
+      "file_type": "code",
+      "norm_label": "qh()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L111"
     },
     {
       "id": "ci_vendor_react_production_min_b",
@@ -2404,18 +2224,6 @@
       "source_location": "L35"
     },
     {
-      "id": "ci_vendor_react_dom_production_min_b",
-      "label": "B()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 25,
-      "community_name": "m",
-      "file_type": "code",
-      "norm_label": "b()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L63"
-    },
-    {
       "id": "ci_vendor_react_dom_production_min_cc",
       "label": "Cc()",
       "_callable": true,
@@ -2452,6 +2260,18 @@
       "source_location": "L95"
     },
     {
+      "id": "ci_vendor_react_dom_production_min_eg",
+      "label": "Eg()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "m",
+      "file_type": "code",
+      "norm_label": "eg()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L42"
+    },
+    {
       "id": "ci_vendor_react_dom_production_min_gk",
       "label": "Gk()",
       "_callable": true,
@@ -2476,16 +2296,16 @@
       "source_location": "L115"
     },
     {
-      "id": "ci_vendor_react_dom_production_min_hh",
-      "label": "hh()",
+      "id": "ci_vendor_react_dom_production_min_hc",
+      "label": "hc()",
       "_callable": true,
       "_origin": "ast",
       "community": 25,
       "community_name": "m",
       "file_type": "code",
-      "norm_label": "hh()",
+      "norm_label": "hc()",
       "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L63"
+      "source_location": "L37"
     },
     {
       "id": "ci_vendor_react_dom_production_min_jd",
@@ -2512,6 +2332,18 @@
       "source_location": "L109"
     },
     {
+      "id": "ci_vendor_react_dom_production_min_kk",
+      "label": "Kk()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "m",
+      "file_type": "code",
+      "norm_label": "kk()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L195"
+    },
+    {
       "id": "ci_vendor_react_dom_production_min_lf",
       "label": "lf()",
       "_callable": true,
@@ -2522,6 +2354,30 @@
       "norm_label": "lf()",
       "source_file": "ci/vendor/react-dom.production.min.js",
       "source_location": "L105"
+    },
+    {
+      "id": "ci_vendor_react_dom_production_min_li",
+      "label": "Li()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "m",
+      "file_type": "code",
+      "norm_label": "li()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L189"
+    },
+    {
+      "id": "ci_vendor_react_dom_production_min_lk",
+      "label": "Lk()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "m",
+      "file_type": "code",
+      "norm_label": "lk()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L188"
     },
     {
       "id": "ci_vendor_react_dom_production_min_m",
@@ -2548,16 +2404,16 @@
       "source_location": "L34"
     },
     {
-      "id": "ci_vendor_react_dom_production_min_ne",
-      "label": "ne()",
+      "id": "ci_vendor_react_dom_production_min_nd",
+      "label": "Nd()",
       "_callable": true,
       "_origin": "ast",
       "community": 25,
       "community_name": "m",
       "file_type": "code",
-      "norm_label": "ne()",
+      "norm_label": "nd()",
       "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L28"
+      "source_location": "L194"
     },
     {
       "id": "ci_vendor_react_dom_production_min_nh",
@@ -2570,6 +2426,18 @@
       "norm_label": "nh()",
       "source_file": "ci/vendor/react-dom.production.min.js",
       "source_location": "L110"
+    },
+    {
+      "id": "ci_vendor_react_dom_production_min_ni",
+      "label": "ni()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "m",
+      "file_type": "code",
+      "norm_label": "ni()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L124"
     },
     {
       "id": "ci_vendor_react_dom_production_min_nj",
@@ -2596,6 +2464,18 @@
       "source_location": "L107"
     },
     {
+      "id": "ci_vendor_react_dom_production_min_pe",
+      "label": "pe()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "m",
+      "file_type": "code",
+      "norm_label": "pe()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L30"
+    },
+    {
       "id": "ci_vendor_react_dom_production_min_pf",
       "label": "pf()",
       "_callable": true,
@@ -2606,6 +2486,30 @@
       "norm_label": "pf()",
       "source_file": "ci/vendor/react-dom.production.min.js",
       "source_location": "L109"
+    },
+    {
+      "id": "ci_vendor_react_dom_production_min_qf",
+      "label": "qf()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "m",
+      "file_type": "code",
+      "norm_label": "qf()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L113"
+    },
+    {
+      "id": "ci_vendor_react_dom_production_min_rd",
+      "label": "rd()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "m",
+      "file_type": "code",
+      "norm_label": "rd()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L205"
     },
     {
       "id": "ci_vendor_react_dom_production_min_rh",
@@ -2644,6 +2548,30 @@
       "source_location": "L76"
     },
     {
+      "id": "ci_vendor_react_dom_production_min_vc",
+      "label": "Vc()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "m",
+      "file_type": "code",
+      "norm_label": "vc()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L38"
+    },
+    {
+      "id": "ci_vendor_react_dom_production_min_ve",
+      "label": "ve()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "m",
+      "file_type": "code",
+      "norm_label": "ve()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L40"
+    },
+    {
       "id": "ci_vendor_react_dom_production_min_vi",
       "label": "vi()",
       "_callable": true,
@@ -2656,6 +2584,18 @@
       "source_location": "L139"
     },
     {
+      "id": "ci_vendor_react_dom_production_min_xb",
+      "label": "xb()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "m",
+      "file_type": "code",
+      "norm_label": "xb()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L196"
+    },
+    {
       "id": "ci_vendor_react_dom_production_min_xh",
       "label": "Xh()",
       "_callable": true,
@@ -2666,6 +2606,18 @@
       "norm_label": "xh()",
       "source_file": "ci/vendor/react-dom.production.min.js",
       "source_location": "L113"
+    },
+    {
+      "id": "ci_vendor_react_dom_production_min_yf",
+      "label": "yf()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "m",
+      "file_type": "code",
+      "norm_label": "yf()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L203"
     },
     {
       "id": "ci_vendor_react_dom_production_min_yh",
@@ -2812,6 +2764,18 @@
       "source_location": "L42"
     },
     {
+      "id": "ci_vendor_react_dom_production_min_mc",
+      "label": "mc()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 29,
+      "community_name": "be",
+      "file_type": "code",
+      "norm_label": "mc()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L45"
+    },
+    {
       "id": "ci_vendor_react_dom_production_min_ub",
       "label": "ub()",
       "_callable": true,
@@ -2834,6 +2798,30 @@
       "norm_label": "vj()",
       "source_file": "ci/vendor/react-dom.production.min.js",
       "source_location": "L43"
+    },
+    {
+      "id": "ci_vendor_react_dom_production_min_xc",
+      "label": "Xc()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 29,
+      "community_name": "be",
+      "file_type": "code",
+      "norm_label": "xc()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L44"
+    },
+    {
+      "id": "ci_vendor_react_dom_production_min_yj",
+      "label": "yj()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 29,
+      "community_name": "be",
+      "file_type": "code",
+      "norm_label": "yj()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L45"
     },
     {
       "id": "sections_a_hero",
@@ -3013,7 +3001,7 @@
       "file_type": "code",
       "norm_label": "seeking()",
       "source_file": "sections-a.jsx",
-      "source_location": "L410"
+      "source_location": "L403"
     },
     {
       "id": "sections_a_trailerlink",
@@ -3028,6 +3016,42 @@
       "source_location": "L39"
     },
     {
+      "id": "ci_vendor_react_dom_production_min_bd",
+      "label": "Bd()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 30,
+      "community_name": "ye",
+      "file_type": "code",
+      "norm_label": "bd()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L112"
+    },
+    {
+      "id": "ci_vendor_react_dom_production_min_di",
+      "label": "di()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 30,
+      "community_name": "ye",
+      "file_type": "code",
+      "norm_label": "di()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L117"
+    },
+    {
+      "id": "ci_vendor_react_dom_production_min_gc",
+      "label": "Gc()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 30,
+      "community_name": "ye",
+      "file_type": "code",
+      "norm_label": "gc()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L164"
+    },
+    {
       "id": "ci_vendor_react_dom_production_min_hg",
       "label": "Hg()",
       "_callable": true,
@@ -3040,16 +3064,28 @@
       "source_location": "L44"
     },
     {
-      "id": "ci_vendor_react_dom_production_min_mc",
-      "label": "mc()",
+      "id": "ci_vendor_react_dom_production_min_if",
+      "label": "If()",
       "_callable": true,
       "_origin": "ast",
       "community": 30,
       "community_name": "ye",
       "file_type": "code",
-      "norm_label": "mc()",
+      "norm_label": "if()",
       "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L45"
+      "source_location": "L161"
+    },
+    {
+      "id": "ci_vendor_react_dom_production_min_jb",
+      "label": "jb()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 30,
+      "community_name": "ye",
+      "file_type": "code",
+      "norm_label": "jb()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L168"
     },
     {
       "id": "ci_vendor_react_dom_production_min_nc",
@@ -3124,18 +3160,6 @@
       "source_location": "L258"
     },
     {
-      "id": "ci_vendor_react_dom_production_min_xc",
-      "label": "Xc()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 30,
-      "community_name": "ye",
-      "file_type": "code",
-      "norm_label": "xc()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L44"
-    },
-    {
       "id": "ci_vendor_react_dom_production_min_ye",
       "label": "ye()",
       "_callable": true,
@@ -3146,18 +3170,6 @@
       "norm_label": "ye()",
       "source_file": "ci/vendor/react-dom.production.min.js",
       "source_location": "L47"
-    },
-    {
-      "id": "ci_vendor_react_dom_production_min_yj",
-      "label": "yj()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 30,
-      "community_name": "ye",
-      "file_type": "code",
-      "norm_label": "yj()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L45"
     },
     {
       "id": "ci_vendor_react_dom_production_min_zg",
@@ -3496,148 +3508,28 @@
       "source_location": "L55"
     },
     {
-      "id": "ci_vendor_react_dom_production_min_eg",
-      "label": "Eg()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 39,
-      "community_name": "ni",
-      "file_type": "code",
-      "norm_label": "eg()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L42"
-    },
-    {
-      "id": "ci_vendor_react_dom_production_min_hc",
-      "label": "hc()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 39,
-      "community_name": "ni",
-      "file_type": "code",
-      "norm_label": "hc()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L37"
-    },
-    {
       "id": "ci_vendor_react_dom_production_min_hk",
       "label": "Hk()",
       "_callable": true,
       "_origin": "ast",
       "community": 39,
-      "community_name": "ni",
+      "community_name": "Rk",
       "file_type": "code",
       "norm_label": "hk()",
       "source_file": "ci/vendor/react-dom.production.min.js",
       "source_location": "L178"
     },
     {
-      "id": "ci_vendor_react_dom_production_min_ia",
-      "label": "ia()",
+      "id": "ci_vendor_react_dom_production_min_oj",
+      "label": "oj()",
       "_callable": true,
       "_origin": "ast",
       "community": 39,
-      "community_name": "ni",
+      "community_name": "Rk",
       "file_type": "code",
-      "norm_label": "ia()",
+      "norm_label": "oj()",
       "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L184"
-    },
-    {
-      "id": "ci_vendor_react_dom_production_min_jk",
-      "label": "jk()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 39,
-      "community_name": "ni",
-      "file_type": "code",
-      "norm_label": "jk()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L79"
-    },
-    {
-      "id": "ci_vendor_react_dom_production_min_kk",
-      "label": "Kk()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 39,
-      "community_name": "ni",
-      "file_type": "code",
-      "norm_label": "kk()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L195"
-    },
-    {
-      "id": "ci_vendor_react_dom_production_min_li",
-      "label": "Li()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 39,
-      "community_name": "ni",
-      "file_type": "code",
-      "norm_label": "li()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L189"
-    },
-    {
-      "id": "ci_vendor_react_dom_production_min_lk",
-      "label": "Lk()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 39,
-      "community_name": "ni",
-      "file_type": "code",
-      "norm_label": "lk()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L188"
-    },
-    {
-      "id": "ci_vendor_react_dom_production_min_nd",
-      "label": "Nd()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 39,
-      "community_name": "ni",
-      "file_type": "code",
-      "norm_label": "nd()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L194"
-    },
-    {
-      "id": "ci_vendor_react_dom_production_min_ni",
-      "label": "ni()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 39,
-      "community_name": "ni",
-      "file_type": "code",
-      "norm_label": "ni()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L124"
-    },
-    {
-      "id": "ci_vendor_react_dom_production_min_qf",
-      "label": "qf()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 39,
-      "community_name": "ni",
-      "file_type": "code",
-      "norm_label": "qf()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L113"
-    },
-    {
-      "id": "ci_vendor_react_dom_production_min_rd",
-      "label": "rd()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 39,
-      "community_name": "ni",
-      "file_type": "code",
-      "norm_label": "rd()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L205"
+      "source_location": "L37"
     },
     {
       "id": "ci_vendor_react_dom_production_min_rk",
@@ -3645,7 +3537,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 39,
-      "community_name": "ni",
+      "community_name": "Rk",
       "file_type": "code",
       "norm_label": "rk()",
       "source_file": "ci/vendor/react-dom.production.min.js",
@@ -3657,71 +3549,23 @@
       "_callable": true,
       "_origin": "ast",
       "community": 39,
-      "community_name": "ni",
+      "community_name": "Rk",
       "file_type": "code",
       "norm_label": "uj()",
       "source_file": "ci/vendor/react-dom.production.min.js",
       "source_location": "L41"
     },
     {
-      "id": "ci_vendor_react_dom_production_min_vc",
-      "label": "Vc()",
+      "id": "ci_vendor_react_dom_production_min_yg",
+      "label": "Yg()",
       "_callable": true,
       "_origin": "ast",
       "community": 39,
-      "community_name": "ni",
+      "community_name": "Rk",
       "file_type": "code",
-      "norm_label": "vc()",
+      "norm_label": "yg()",
       "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L38"
-    },
-    {
-      "id": "ci_vendor_react_dom_production_min_ve",
-      "label": "ve()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 39,
-      "community_name": "ni",
-      "file_type": "code",
-      "norm_label": "ve()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L40"
-    },
-    {
-      "id": "ci_vendor_react_dom_production_min_wh",
-      "label": "wh()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 39,
-      "community_name": "ni",
-      "file_type": "code",
-      "norm_label": "wh()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L79"
-    },
-    {
-      "id": "ci_vendor_react_dom_production_min_xb",
-      "label": "xb()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 39,
-      "community_name": "ni",
-      "file_type": "code",
-      "norm_label": "xb()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L196"
-    },
-    {
-      "id": "ci_vendor_react_dom_production_min_yf",
-      "label": "yf()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 39,
-      "community_name": "ni",
-      "file_type": "code",
-      "norm_label": "yf()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L203"
+      "source_location": "L55"
     },
     {
       "id": "ci_verify_contrast_lum",
@@ -5404,18 +5248,6 @@
       "source_location": "L5"
     },
     {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_cleanupcanvas",
-      "label": "_cleanupCanvas()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 48,
-      "community_name": "_updateDotLottieInstanceState",
-      "file_type": "code",
-      "norm_label": "_cleanupcanvas()",
-      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
-      "source_location": "L5"
-    },
-    {
       "id": "ci_vendor_dotlottie_dist_bmns_qxa_cleanupstatemachinelisteners",
       "label": "_cleanupStateMachineListeners()",
       "_callable": true,
@@ -5440,14 +5272,14 @@
       "source_location": "L5"
     },
     {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_dispatcherror",
-      "label": "_dispatchError()",
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_destroy_into_raw",
+      "label": "__destroy_into_raw()",
       "_callable": true,
       "_origin": "ast",
       "community": 48,
       "community_name": "_updateDotLottieInstanceState",
       "file_type": "code",
-      "norm_label": "_dispatcherror()",
+      "norm_label": "__destroy_into_raw()",
       "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
       "source_location": "L1"
     },
@@ -5476,14 +5308,14 @@
       "source_location": "L1"
     },
     {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_fetchdata",
-      "label": "_fetchData()",
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_free",
+      "label": "free()",
       "_callable": true,
       "_origin": "ast",
       "community": 48,
       "community_name": "_updateDotLottieInstanceState",
       "file_type": "code",
-      "norm_label": "_fetchdata()",
+      "norm_label": "free()",
       "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
       "source_location": "L1"
     },
@@ -5536,54 +5368,6 @@
       "source_location": "L1"
     },
     {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_load",
-      "label": "load()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 48,
-      "community_name": "_updateDotLottieInstanceState",
-      "file_type": "code",
-      "norm_label": "load()",
-      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
-      "source_location": "L5"
-    },
-    {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_loadanimation",
-      "label": "loadAnimation()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 48,
-      "community_name": "_updateDotLottieInstanceState",
-      "file_type": "code",
-      "norm_label": "loadanimation()",
-      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
-      "source_location": "L5"
-    },
-    {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_loadfromdata",
-      "label": "_loadFromData()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 48,
-      "community_name": "_updateDotLottieInstanceState",
-      "file_type": "code",
-      "norm_label": "_loadfromdata()",
-      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_loadfromsrc",
-      "label": "_loadFromSrc()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 48,
-      "community_name": "_updateDotLottieInstanceState",
-      "file_type": "code",
-      "norm_label": "_loadfromsrc()",
-      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
-      "source_location": "L5"
-    },
-    {
       "id": "ci_vendor_dotlottie_dist_bmns_qxa_observe",
       "label": "observe()",
       "_callable": true,
@@ -5632,30 +5416,6 @@
       "source_location": "L5"
     },
     {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_resize",
-      "label": "resize()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 48,
-      "community_name": "_updateDotLottieInstanceState",
-      "file_type": "code",
-      "norm_label": "resize()",
-      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
-      "source_location": "L5"
-    },
-    {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_setcanvas",
-      "label": "setCanvas()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 48,
-      "community_name": "_updateDotLottieInstanceState",
-      "file_type": "code",
-      "norm_label": "setcanvas()",
-      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
-      "source_location": "L5"
-    },
-    {
       "id": "ci_vendor_dotlottie_dist_bmns_qxa_setframe",
       "label": "setFrame()",
       "_callable": true,
@@ -5700,6 +5460,18 @@
       "community_name": "_updateDotLottieInstanceState",
       "file_type": "code",
       "norm_label": "setloopcount()",
+      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
+      "source_location": "L5"
+    },
+    {
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_setmode",
+      "label": "setMode()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 48,
+      "community_name": "_updateDotLottieInstanceState",
+      "file_type": "code",
+      "norm_label": "setmode()",
       "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
       "source_location": "L5"
     },
@@ -5762,18 +5534,6 @@
       "norm_label": "_setupstatemachinelisteners()",
       "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
       "source_location": "L5"
-    },
-    {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_setuptarget",
-      "label": "_setupTarget()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 48,
-      "community_name": "_updateDotLottieInstanceState",
-      "file_type": "code",
-      "norm_label": "_setuptarget()",
-      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
-      "source_location": "L1"
     },
     {
       "id": "ci_vendor_dotlottie_dist_bmns_qxa_setuseframeinterpolation",
@@ -5942,18 +5702,6 @@
       "norm_label": "_updatedotlottieinstancestate()",
       "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
       "source_location": "L5"
-    },
-    {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_z",
-      "label": "z()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 48,
-      "community_name": "_updateDotLottieInstanceState",
-      "file_type": "code",
-      "norm_label": "z()",
-      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
-      "source_location": "L1"
     },
     {
       "id": "ci_vendor_dotlottie_dist_bmns_qxa_animation_id",
@@ -7180,6 +6928,18 @@
       "source_location": "L1"
     },
     {
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_addeventlistener",
+      "label": "addEventListener()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 52,
+      "community_name": "e",
+      "file_type": "code",
+      "norm_label": "addeventlistener()",
+      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
+      "source_location": "L1"
+    },
+    {
       "id": "ci_vendor_dotlottie_dist_bmns_qxa_broadcastmessage",
       "label": "broadcastMessage()",
       "_callable": true,
@@ -7192,30 +6952,6 @@
       "source_location": "L5"
     },
     {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_d",
-      "label": "D()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 52,
-      "community_name": "e",
-      "file_type": "code",
-      "norm_label": "d()",
-      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_dispatch",
-      "label": "dispatch()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 52,
-      "community_name": "e",
-      "file_type": "code",
-      "norm_label": "dispatch()",
-      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
-      "source_location": "L1"
-    },
-    {
       "id": "ci_vendor_dotlottie_dist_bmns_qxa_e",
       "label": "e()",
       "_callable": true,
@@ -7226,18 +6962,6 @@
       "norm_label": "e()",
       "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
       "source_location": "L1"
-    },
-    {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_getslot",
-      "label": "getSlot()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 52,
-      "community_name": "e",
-      "file_type": "code",
-      "norm_label": "getslot()",
-      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
-      "source_location": "L5"
     },
     {
       "id": "ci_vendor_dotlottie_dist_bmns_qxa_getslotids",
@@ -7264,6 +6988,18 @@
       "source_location": "L5"
     },
     {
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_getworker",
+      "label": "getWorker()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 52,
+      "community_name": "e",
+      "file_type": "code",
+      "norm_label": "getworker()",
+      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
+      "source_location": "L5"
+    },
+    {
       "id": "ci_vendor_dotlottie_dist_bmns_qxa_h",
       "label": "h()",
       "_callable": true,
@@ -7276,16 +7012,40 @@
       "source_location": "L1"
     },
     {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_manifest",
-      "label": "manifest()",
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_k",
+      "label": "k",
       "_callable": true,
       "_origin": "ast",
       "community": 52,
       "community_name": "e",
       "file_type": "code",
-      "norm_label": "manifest()",
+      "norm_label": "k",
       "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
-      "source_location": "L5"
+      "source_location": "L1"
+    },
+    {
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_k_a",
+      "label": "a()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 52,
+      "community_name": "e",
+      "file_type": "code",
+      "norm_label": "a()",
+      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_k_o",
+      "label": "o()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 52,
+      "community_name": "e",
+      "file_type": "code",
+      "norm_label": "o()",
+      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
+      "source_location": "L1"
     },
     {
       "id": "ci_vendor_dotlottie_dist_bmns_qxa_markers",
@@ -7296,18 +7056,6 @@
       "community_name": "e",
       "file_type": "code",
       "norm_label": "markers()",
-      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_ne",
-      "label": "ne()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 52,
-      "community_name": "e",
-      "file_type": "code",
-      "norm_label": "ne()",
       "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
       "source_location": "L1"
     },
@@ -7336,6 +7084,18 @@
       "source_location": "L5"
     },
     {
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_registerrpcreplyhandler",
+      "label": "registerRpcReplyHandler()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 52,
+      "community_name": "e",
+      "file_type": "code",
+      "norm_label": "registerrpcreplyhandler()",
+      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
+      "source_location": "L5"
+    },
+    {
       "id": "ci_vendor_dotlottie_dist_bmns_qxa_requestanimationframe",
       "label": "requestAnimationFrame()",
       "_callable": true,
@@ -7348,16 +7108,16 @@
       "source_location": "L1"
     },
     {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_set_transform",
-      "label": "set_transform()",
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_sendmessage",
+      "label": "sendMessage()",
       "_callable": true,
       "_origin": "ast",
       "community": 52,
       "community_name": "e",
       "file_type": "code",
-      "norm_label": "set_transform()",
+      "norm_label": "sendmessage()",
       "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
-      "source_location": "L1"
+      "source_location": "L5"
     },
     {
       "id": "ci_vendor_dotlottie_dist_bmns_qxa_setmarker",
@@ -7384,18 +7144,6 @@
       "source_location": "L5"
     },
     {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_sm_start",
-      "label": "sm_start()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 52,
-      "community_name": "e",
-      "file_type": "code",
-      "norm_label": "sm_start()",
-      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
-      "source_location": "L1"
-    },
-    {
       "id": "ci_vendor_dotlottie_dist_bmns_qxa_statemachinegetinputs",
       "label": "stateMachineGetInputs()",
       "_callable": true,
@@ -7408,40 +7156,16 @@
       "source_location": "L5"
     },
     {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_t",
-      "label": "t()",
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_unregisterrpcreplyhandler",
+      "label": "unregisterRpcReplyHandler()",
       "_callable": true,
       "_origin": "ast",
       "community": 52,
       "community_name": "e",
       "file_type": "code",
-      "norm_label": "t()",
+      "norm_label": "unregisterrpcreplyhandler()",
       "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_te",
-      "label": "te()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 52,
-      "community_name": "e",
-      "file_type": "code",
-      "norm_label": "te()",
-      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_addeventlistener",
-      "label": "addEventListener()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 53,
-      "community_name": "constructor",
-      "file_type": "code",
-      "norm_label": "addeventlistener()",
-      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
-      "source_location": "L1"
+      "source_location": "L5"
     },
     {
       "id": "ci_vendor_dotlottie_dist_bmns_qxa_assignanimationtoworker",
@@ -7449,9 +7173,33 @@
       "_callable": true,
       "_origin": "ast",
       "community": 53,
-      "community_name": "constructor",
+      "community_name": "_loadFromData",
       "file_type": "code",
       "norm_label": "assignanimationtoworker()",
+      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
+      "source_location": "L5"
+    },
+    {
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_b",
+      "label": "B()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 53,
+      "community_name": "_loadFromData",
+      "file_type": "code",
+      "norm_label": "b()",
+      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_cleanupcanvas",
+      "label": "_cleanupCanvas()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 53,
+      "community_name": "_loadFromData",
+      "file_type": "code",
+      "norm_label": "_cleanupcanvas()",
       "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
       "source_location": "L5"
     },
@@ -7461,7 +7209,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 53,
-      "community_name": "constructor",
+      "community_name": "_loadFromData",
       "file_type": "code",
       "norm_label": "constructor()",
       "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
@@ -7473,7 +7221,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 53,
-      "community_name": "constructor",
+      "community_name": "_loadFromData",
       "file_type": "code",
       "norm_label": "_create()",
       "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
@@ -7485,23 +7233,35 @@
       "_callable": true,
       "_origin": "ast",
       "community": 53,
-      "community_name": "constructor",
+      "community_name": "_loadFromData",
       "file_type": "code",
       "norm_label": "_createcore()",
       "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
       "source_location": "L1"
     },
     {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_getworker",
-      "label": "getWorker()",
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_dispatcherror",
+      "label": "_dispatchError()",
       "_callable": true,
       "_origin": "ast",
       "community": 53,
-      "community_name": "constructor",
+      "community_name": "_loadFromData",
       "file_type": "code",
-      "norm_label": "getworker()",
+      "norm_label": "_dispatcherror()",
       "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
-      "source_location": "L5"
+      "source_location": "L1"
+    },
+    {
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_fetchdata",
+      "label": "_fetchData()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 53,
+      "community_name": "_loadFromData",
+      "file_type": "code",
+      "norm_label": "_fetchdata()",
+      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
+      "source_location": "L1"
     },
     {
       "id": "ci_vendor_dotlottie_dist_bmns_qxa_initwasm",
@@ -7509,57 +7269,69 @@
       "_callable": true,
       "_origin": "ast",
       "community": 53,
-      "community_name": "constructor",
+      "community_name": "_loadFromData",
       "file_type": "code",
       "norm_label": "_initwasm()",
       "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
       "source_location": "L1"
     },
     {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_j",
-      "label": "J()",
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_load",
+      "label": "load()",
       "_callable": true,
       "_origin": "ast",
       "community": 53,
-      "community_name": "constructor",
+      "community_name": "_loadFromData",
       "file_type": "code",
-      "norm_label": "j()",
+      "norm_label": "load()",
+      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
+      "source_location": "L5"
+    },
+    {
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_loadanimation",
+      "label": "loadAnimation()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 53,
+      "community_name": "_loadFromData",
+      "file_type": "code",
+      "norm_label": "loadanimation()",
+      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
+      "source_location": "L5"
+    },
+    {
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_loadfromdata",
+      "label": "_loadFromData()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 53,
+      "community_name": "_loadFromData",
+      "file_type": "code",
+      "norm_label": "_loadfromdata()",
       "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
       "source_location": "L1"
     },
     {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_k",
-      "label": "k",
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_loadfromsrc",
+      "label": "_loadFromSrc()",
       "_callable": true,
       "_origin": "ast",
       "community": 53,
-      "community_name": "constructor",
+      "community_name": "_loadFromData",
       "file_type": "code",
-      "norm_label": "k",
+      "norm_label": "_loadfromsrc()",
       "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
-      "source_location": "L1"
+      "source_location": "L5"
     },
     {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_k_a",
-      "label": "a()",
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_mode",
+      "label": "mode()",
       "_callable": true,
       "_origin": "ast",
       "community": 53,
-      "community_name": "constructor",
+      "community_name": "_loadFromData",
       "file_type": "code",
-      "norm_label": "a()",
-      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_k_o",
-      "label": "o()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 53,
-      "community_name": "constructor",
-      "file_type": "code",
-      "norm_label": "o()",
+      "norm_label": "mode()",
       "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
       "source_location": "L1"
     },
@@ -7569,7 +7341,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 53,
-      "community_name": "constructor",
+      "community_name": "_loadFromData",
       "file_type": "code",
       "norm_label": "_oncorecreated()",
       "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
@@ -7581,71 +7353,83 @@
       "_callable": true,
       "_origin": "ast",
       "community": 53,
-      "community_name": "constructor",
+      "community_name": "_loadFromData",
       "file_type": "code",
       "norm_label": "registereventhandler()",
       "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
       "source_location": "L5"
     },
     {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_registerrpcreplyhandler",
-      "label": "registerRpcReplyHandler()",
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_resize",
+      "label": "resize()",
       "_callable": true,
       "_origin": "ast",
       "community": 53,
-      "community_name": "constructor",
+      "community_name": "_loadFromData",
       "file_type": "code",
-      "norm_label": "registerrpcreplyhandler()",
+      "norm_label": "resize()",
       "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
       "source_location": "L5"
     },
     {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_sendmessage",
-      "label": "sendMessage()",
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_setcanvas",
+      "label": "setCanvas()",
       "_callable": true,
       "_origin": "ast",
       "community": 53,
-      "community_name": "constructor",
+      "community_name": "_loadFromData",
       "file_type": "code",
-      "norm_label": "sendmessage()",
+      "norm_label": "setcanvas()",
       "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
       "source_location": "L5"
     },
     {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_setmode",
-      "label": "setMode()",
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_setuptarget",
+      "label": "_setupTarget()",
       "_callable": true,
       "_origin": "ast",
       "community": 53,
-      "community_name": "constructor",
+      "community_name": "_loadFromData",
       "file_type": "code",
-      "norm_label": "setmode()",
+      "norm_label": "_setuptarget()",
       "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
-      "source_location": "L5"
+      "source_location": "L1"
     },
     {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_unregisterrpcreplyhandler",
-      "label": "unregisterRpcReplyHandler()",
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_v",
+      "label": "V()",
       "_callable": true,
       "_origin": "ast",
       "community": 53,
-      "community_name": "constructor",
+      "community_name": "_loadFromData",
       "file_type": "code",
-      "norm_label": "unregisterrpcreplyhandler()",
+      "norm_label": "v()",
       "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
-      "source_location": "L5"
+      "source_location": "L1"
     },
     {
-      "id": "ci_vendor_react_dom_production_min_ld",
-      "label": "ld()",
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_y",
+      "label": "Y()",
       "_callable": true,
       "_origin": "ast",
       "community": 53,
-      "community_name": "constructor",
+      "community_name": "_loadFromData",
       "file_type": "code",
-      "norm_label": "ld()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L78"
+      "norm_label": "y()",
+      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_z",
+      "label": "z()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 53,
+      "community_name": "_loadFromData",
+      "file_type": "code",
+      "norm_label": "z()",
+      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
+      "source_location": "L1"
     },
     {
       "id": "ci_vendor_dotlottie_base_dotlottie_wc_adoptedcallback",
@@ -7792,18 +7576,6 @@
       "source_location": "L1"
     },
     {
-      "id": "sections_a_b",
-      "label": "b()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 55,
-      "community_name": "sections-a.js",
-      "file_type": "code",
-      "norm_label": "b()",
-      "source_file": "sections-a.js",
-      "source_location": "L1"
-    },
-    {
       "id": "sections_a_c",
       "label": "C()",
       "_callable": true,
@@ -7836,6 +7608,18 @@
       "community_name": "sections-a.js",
       "file_type": "code",
       "norm_label": "f()",
+      "source_file": "sections-a.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "sections_a_g",
+      "label": "g()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 55,
+      "community_name": "sections-a.js",
+      "file_type": "code",
+      "norm_label": "g()",
       "source_file": "sections-a.js",
       "source_location": "L1"
     },
@@ -8368,6 +8152,18 @@
       "source_location": "L1"
     },
     {
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_j",
+      "label": "J()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "xk",
+      "file_type": "code",
+      "norm_label": "j()",
+      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
+      "source_location": "L1"
+    },
+    {
       "id": "ci_vendor_dotlottie_dist_bmns_qxa_m",
       "label": "M()",
       "_callable": true,
@@ -8390,6 +8186,18 @@
       "norm_label": "p()",
       "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
       "source_location": "L1"
+    },
+    {
+      "id": "ci_vendor_react_dom_production_min_b",
+      "label": "B()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "xk",
+      "file_type": "code",
+      "norm_label": "b()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L63"
     },
     {
       "id": "ci_vendor_react_dom_production_min_bg",
@@ -8488,18 +8296,6 @@
       "source_location": "L144"
     },
     {
-      "id": "ci_vendor_react_dom_production_min_di",
-      "label": "di()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "xk",
-      "file_type": "code",
-      "norm_label": "di()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L117"
-    },
-    {
       "id": "ci_vendor_react_dom_production_min_fi",
       "label": "fi()",
       "_callable": true,
@@ -8510,18 +8306,6 @@
       "norm_label": "fi()",
       "source_file": "ci/vendor/react-dom.production.min.js",
       "source_location": "L118"
-    },
-    {
-      "id": "ci_vendor_react_dom_production_min_gc",
-      "label": "Gc()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "xk",
-      "file_type": "code",
-      "norm_label": "gc()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L164"
     },
     {
       "id": "ci_vendor_react_dom_production_min_ha",
@@ -8548,28 +8332,16 @@
       "source_location": "L104"
     },
     {
-      "id": "ci_vendor_react_dom_production_min_if",
-      "label": "If()",
+      "id": "ci_vendor_react_dom_production_min_hh",
+      "label": "hh()",
       "_callable": true,
       "_origin": "ast",
       "community": 6,
       "community_name": "xk",
       "file_type": "code",
-      "norm_label": "if()",
+      "norm_label": "hh()",
       "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L161"
-    },
-    {
-      "id": "ci_vendor_react_dom_production_min_jb",
-      "label": "jb()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "xk",
-      "file_type": "code",
-      "norm_label": "jb()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L168"
+      "source_location": "L63"
     },
     {
       "id": "ci_vendor_react_dom_production_min_jf",
@@ -8608,6 +8380,18 @@
       "source_location": "L25"
     },
     {
+      "id": "ci_vendor_react_dom_production_min_ld",
+      "label": "ld()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "xk",
+      "file_type": "code",
+      "norm_label": "ld()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L78"
+    },
+    {
       "id": "ci_vendor_react_dom_production_min_le",
       "label": "le()",
       "_callable": true,
@@ -8644,6 +8428,18 @@
       "source_location": "L26"
     },
     {
+      "id": "ci_vendor_react_dom_production_min_ne",
+      "label": "ne()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "xk",
+      "file_type": "code",
+      "norm_label": "ne()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L28"
+    },
+    {
       "id": "ci_vendor_react_dom_production_min_ng",
       "label": "ng()",
       "_callable": true,
@@ -8668,18 +8464,6 @@
       "source_location": "L29"
     },
     {
-      "id": "ci_vendor_react_dom_production_min_pe",
-      "label": "pe()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "xk",
-      "file_type": "code",
-      "norm_label": "pe()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L30"
-    },
-    {
       "id": "ci_vendor_react_dom_production_min_pg",
       "label": "pg()",
       "_callable": true,
@@ -8702,6 +8486,18 @@
       "norm_label": "qe()",
       "source_file": "ci/vendor/react-dom.production.min.js",
       "source_location": "L31"
+    },
+    {
+      "id": "ci_vendor_react_dom_production_min_qi",
+      "label": "qi()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "xk",
+      "file_type": "code",
+      "norm_label": "qi()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L126"
     },
     {
       "id": "ci_vendor_react_dom_production_min_rg",
@@ -8738,6 +8534,18 @@
       "norm_label": "tb()",
       "source_file": "ci/vendor/react-dom.production.min.js",
       "source_location": "L103"
+    },
+    {
+      "id": "ci_vendor_react_dom_production_min_th",
+      "label": "th()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "xk",
+      "file_type": "code",
+      "norm_label": "th()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L77"
     },
     {
       "id": "ci_vendor_react_dom_production_min_ua",
@@ -8824,40 +8632,112 @@
       "source_location": "L11"
     },
     {
-      "id": "ci_vendor_react_dom_production_min_bd",
-      "label": "Bd()",
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_d",
+      "label": "D()",
       "_callable": true,
       "_origin": "ast",
       "community": 62,
-      "community_name": "Bd",
+      "community_name": "t",
       "file_type": "code",
-      "norm_label": "bd()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L112"
+      "norm_label": "d()",
+      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
+      "source_location": "L1"
     },
     {
-      "id": "ci_vendor_react_dom_production_min_fa",
-      "label": "Fa()",
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_dispatch",
+      "label": "dispatch()",
       "_callable": true,
       "_origin": "ast",
       "community": 62,
-      "community_name": "Bd",
+      "community_name": "t",
       "file_type": "code",
-      "norm_label": "fa()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L106"
+      "norm_label": "dispatch()",
+      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
+      "source_location": "L1"
     },
     {
-      "id": "ci_vendor_react_dom_production_min_qh",
-      "label": "Qh()",
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_getslot",
+      "label": "getSlot()",
       "_callable": true,
       "_origin": "ast",
       "community": 62,
-      "community_name": "Bd",
+      "community_name": "t",
       "file_type": "code",
-      "norm_label": "qh()",
-      "source_file": "ci/vendor/react-dom.production.min.js",
-      "source_location": "L111"
+      "norm_label": "getslot()",
+      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
+      "source_location": "L5"
+    },
+    {
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_manifest",
+      "label": "manifest()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 62,
+      "community_name": "t",
+      "file_type": "code",
+      "norm_label": "manifest()",
+      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
+      "source_location": "L5"
+    },
+    {
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_ne",
+      "label": "ne()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 62,
+      "community_name": "t",
+      "file_type": "code",
+      "norm_label": "ne()",
+      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_set_transform",
+      "label": "set_transform()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 62,
+      "community_name": "t",
+      "file_type": "code",
+      "norm_label": "set_transform()",
+      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_sm_start",
+      "label": "sm_start()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 62,
+      "community_name": "t",
+      "file_type": "code",
+      "norm_label": "sm_start()",
+      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_t",
+      "label": "t()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 62,
+      "community_name": "t",
+      "file_type": "code",
+      "norm_label": "t()",
+      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "ci_vendor_dotlottie_dist_bmns_qxa_te",
+      "label": "te()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 62,
+      "community_name": "t",
+      "file_type": "code",
+      "norm_label": "te()",
+      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
+      "source_location": "L1"
     },
     {
       "id": "ci_vendor_react_dom_production_min_dd",
@@ -8932,76 +8812,124 @@
       "source_location": "L62"
     },
     {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_b",
-      "label": "B()",
+      "id": "sections_new_f",
+      "label": "f()",
       "_callable": true,
       "_origin": "ast",
       "community": 65,
-      "community_name": "V",
+      "community_name": "sections-new.js",
       "file_type": "code",
-      "norm_label": "b()",
-      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
+      "norm_label": "f()",
+      "source_file": "sections-new.js",
       "source_location": "L1"
     },
     {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_v",
-      "label": "V()",
+      "id": "sections_new_h",
+      "label": "h()",
       "_callable": true,
       "_origin": "ast",
       "community": 65,
-      "community_name": "V",
+      "community_name": "sections-new.js",
+      "file_type": "code",
+      "norm_label": "h()",
+      "source_file": "sections-new.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "sections_new_v",
+      "label": "v()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 65,
+      "community_name": "sections-new.js",
       "file_type": "code",
       "norm_label": "v()",
-      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
+      "source_file": "sections-new.js",
       "source_location": "L1"
     },
     {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_destroy_into_raw",
-      "label": "__destroy_into_raw()",
+      "id": "sections_new_x",
+      "label": "x()",
       "_callable": true,
       "_origin": "ast",
-      "community": 66,
-      "community_name": "free",
+      "community": 65,
+      "community_name": "sections-new.js",
       "file_type": "code",
-      "norm_label": "__destroy_into_raw()",
-      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
+      "norm_label": "x()",
+      "source_file": "sections-new.js",
       "source_location": "L1"
     },
     {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_free",
-      "label": "free()",
+      "id": "sections_new_y",
+      "label": "y()",
       "_callable": true,
       "_origin": "ast",
-      "community": 66,
-      "community_name": "free",
-      "file_type": "code",
-      "norm_label": "free()",
-      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_mode",
-      "label": "mode()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "Y",
-      "file_type": "code",
-      "norm_label": "mode()",
-      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "ci_vendor_dotlottie_dist_bmns_qxa_y",
-      "label": "Y()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 67,
-      "community_name": "Y",
+      "community": 65,
+      "community_name": "sections-new.js",
       "file_type": "code",
       "norm_label": "y()",
-      "source_file": "ci/vendor/dotlottie/dist-BMnS_qxa.js",
+      "source_file": "sections-new.js",
       "source_location": "L1"
+    },
+    {
+      "id": "ci_vendor_react_dom_production_min_dg",
+      "label": "Dg()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 66,
+      "community_name": "xe",
+      "file_type": "code",
+      "norm_label": "dg()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L40"
+    },
+    {
+      "id": "ci_vendor_react_dom_production_min_pd",
+      "label": "pd()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 66,
+      "community_name": "xe",
+      "file_type": "code",
+      "norm_label": "pd()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L82"
+    },
+    {
+      "id": "ci_vendor_react_dom_production_min_vd",
+      "label": "vd()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 66,
+      "community_name": "xe",
+      "file_type": "code",
+      "norm_label": "vd()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L98"
+    },
+    {
+      "id": "ci_vendor_react_dom_production_min_xe",
+      "label": "xe()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 66,
+      "community_name": "xe",
+      "file_type": "code",
+      "norm_label": "xe()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L41"
+    },
+    {
+      "id": "ci_vendor_react_dom_production_min_zh",
+      "label": "zh()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 66,
+      "community_name": "xe",
+      "file_type": "code",
+      "norm_label": "zh()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L80"
     },
     {
       "id": "ci_vendor_dotlottie_dist_bmns_qxa_onclick",
@@ -9061,7 +8989,7 @@
       "file_type": "code",
       "norm_label": "cleanroomtear()",
       "source_file": "sections-new.jsx",
-      "source_location": "L279"
+      "source_location": "L269"
     },
     {
       "id": "sections_new_collaborations",
@@ -9073,7 +9001,7 @@
       "file_type": "code",
       "norm_label": "collaborations()",
       "source_file": "sections-new.jsx",
-      "source_location": "L363"
+      "source_location": "L341"
     },
     {
       "id": "sections_new_confitear",
@@ -9085,7 +9013,7 @@
       "file_type": "code",
       "norm_label": "confitear()",
       "source_file": "sections-new.jsx",
-      "source_location": "L315"
+      "source_location": "L303"
     },
     {
       "id": "sections_new_loosephoto",
@@ -9121,7 +9049,7 @@
       "file_type": "code",
       "norm_label": "reunion()",
       "source_file": "sections-new.jsx",
-      "source_location": "L460"
+      "source_location": "L401"
     },
     {
       "id": "sections_new_story",
@@ -9338,6 +9266,18 @@
       "norm_label": "bf()",
       "source_file": "ci/vendor/react-dom.production.min.js",
       "source_location": "L133"
+    },
+    {
+      "id": "ci_vendor_react_dom_production_min_ci",
+      "label": "ci()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "ri",
+      "file_type": "code",
+      "norm_label": "ci()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L116"
     },
     {
       "id": "ci_vendor_react_dom_production_min_dh",
@@ -9592,6 +9532,18 @@
       "source_location": "L117"
     },
     {
+      "id": "ci_vendor_react_dom_production_min_fh",
+      "label": "Fh()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "ri",
+      "file_type": "code",
+      "norm_label": "fh()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L97"
+    },
+    {
       "id": "ci_vendor_react_dom_production_min_mf",
       "label": "mf()",
       "_callable": true,
@@ -9638,6 +9590,18 @@
       "norm_label": "oi()",
       "source_file": "ci/vendor/react-dom.production.min.js",
       "source_location": "L125"
+    },
+    {
+      "id": "ci_vendor_react_dom_production_min_ok",
+      "label": "ok()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "ri",
+      "file_type": "code",
+      "norm_label": "ok()",
+      "source_file": "ci/vendor/react-dom.production.min.js",
+      "source_location": "L115"
     },
     {
       "id": "ci_vendor_react_dom_production_min_pk",
@@ -9865,17 +9829,6 @@
       "source_location": "L1"
     },
     {
-      "id": "sections_new_js_sections_new",
-      "label": "sections-new.js",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "primitives.js",
-      "file_type": "code",
-      "norm_label": "sections-new.js",
-      "source_file": "sections-new.js",
-      "source_location": "L1"
-    },
-    {
       "id": "widgets_min",
       "label": "widgets.min.js",
       "_origin": "ast",
@@ -9906,7 +9859,7 @@
       "file_type": "code",
       "norm_label": "scribble_colors",
       "source_file": "primitives.jsx",
-      "source_location": "L349"
+      "source_location": "L323"
     },
     {
       "id": "brag_vertical_composition_hyperframes",
@@ -10912,10 +10865,10 @@
       "node_kind": "heading",
       "norm_label": "accessibility",
       "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
-      "source_location": "L27"
+      "source_location": "L28"
     },
     {
-      "id": "projects_cheapseats_cheapseats_features_and_changelog_accessibility_120",
+      "id": "projects_cheapseats_cheapseats_features_and_changelog_accessibility_122",
       "label": "Accessibility",
       "_origin": "ast",
       "community": 27,
@@ -10924,10 +10877,10 @@
       "node_kind": "heading",
       "norm_label": "accessibility",
       "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
-      "source_location": "L120"
+      "source_location": "L122"
     },
     {
-      "id": "projects_cheapseats_cheapseats_features_and_changelog_accessibility_81",
+      "id": "projects_cheapseats_cheapseats_features_and_changelog_accessibility_83",
       "label": "Accessibility",
       "_origin": "ast",
       "community": 27,
@@ -10936,7 +10889,7 @@
       "node_kind": "heading",
       "norm_label": "accessibility",
       "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
-      "source_location": "L81"
+      "source_location": "L83"
     },
     {
       "id": "projects_cheapseats_cheapseats_features_and_changelog_changelog",
@@ -10960,10 +10913,10 @@
       "node_kind": "heading",
       "norm_label": "fixed",
       "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
-      "source_location": "L30"
+      "source_location": "L31"
     },
     {
-      "id": "projects_cheapseats_cheapseats_features_and_changelog_fixed_130",
+      "id": "projects_cheapseats_cheapseats_features_and_changelog_fixed_132",
       "label": "Fixed",
       "_origin": "ast",
       "community": 27,
@@ -10972,10 +10925,10 @@
       "node_kind": "heading",
       "norm_label": "fixed",
       "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
-      "source_location": "L130"
+      "source_location": "L132"
     },
     {
-      "id": "projects_cheapseats_cheapseats_features_and_changelog_fixed_84",
+      "id": "projects_cheapseats_cheapseats_features_and_changelog_fixed_86",
       "label": "Fixed",
       "_origin": "ast",
       "community": 27,
@@ -10984,7 +10937,7 @@
       "node_kind": "heading",
       "norm_label": "fixed",
       "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
-      "source_location": "L84"
+      "source_location": "L86"
     },
     {
       "id": "projects_cheapseats_cheapseats_features_and_changelog_improved",
@@ -10996,10 +10949,10 @@
       "node_kind": "heading",
       "norm_label": "improved",
       "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
-      "source_location": "L22"
+      "source_location": "L23"
     },
     {
-      "id": "projects_cheapseats_cheapseats_features_and_changelog_improved_109",
+      "id": "projects_cheapseats_cheapseats_features_and_changelog_improved_111",
       "label": "Improved",
       "_origin": "ast",
       "community": 27,
@@ -11008,10 +10961,10 @@
       "node_kind": "heading",
       "norm_label": "improved",
       "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
-      "source_location": "L109"
+      "source_location": "L111"
     },
     {
-      "id": "projects_cheapseats_cheapseats_features_and_changelog_improved_68",
+      "id": "projects_cheapseats_cheapseats_features_and_changelog_improved_70",
       "label": "Improved",
       "_origin": "ast",
       "community": 27,
@@ -11020,7 +10973,7 @@
       "node_kind": "heading",
       "norm_label": "improved",
       "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
-      "source_location": "L68"
+      "source_location": "L70"
     },
     {
       "id": "projects_cheapseats_cheapseats_features_and_changelog_new",
@@ -11035,7 +10988,7 @@
       "source_location": "L8"
     },
     {
-      "id": "projects_cheapseats_cheapseats_features_and_changelog_new_137",
+      "id": "projects_cheapseats_cheapseats_features_and_changelog_new_139",
       "label": "New",
       "_origin": "ast",
       "community": 27,
@@ -11044,10 +10997,10 @@
       "node_kind": "heading",
       "norm_label": "new",
       "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
-      "source_location": "L137"
+      "source_location": "L139"
     },
     {
-      "id": "projects_cheapseats_cheapseats_features_and_changelog_new_47",
+      "id": "projects_cheapseats_cheapseats_features_and_changelog_new_49",
       "label": "New",
       "_origin": "ast",
       "community": 27,
@@ -11056,10 +11009,10 @@
       "node_kind": "heading",
       "norm_label": "new",
       "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
-      "source_location": "L47"
+      "source_location": "L49"
     },
     {
-      "id": "projects_cheapseats_cheapseats_features_and_changelog_new_90",
+      "id": "projects_cheapseats_cheapseats_features_and_changelog_new_92",
       "label": "New",
       "_origin": "ast",
       "community": 27,
@@ -11068,7 +11021,7 @@
       "node_kind": "heading",
       "norm_label": "new",
       "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
-      "source_location": "L90"
+      "source_location": "L92"
     },
     {
       "id": "projects_cheapseats_cheapseats_features_and_changelog_v1_0_0_first_kickoff",
@@ -11080,7 +11033,7 @@
       "node_kind": "heading",
       "norm_label": "v1.0.0: first kickoff",
       "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
-      "source_location": "L135"
+      "source_location": "L137"
     },
     {
       "id": "projects_cheapseats_cheapseats_features_and_changelog_v1_1_0_yours_live_and_in_color",
@@ -11092,7 +11045,7 @@
       "node_kind": "heading",
       "norm_label": "v1.1.0: yours, live and in color",
       "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
-      "source_location": "L88"
+      "source_location": "L90"
     },
     {
       "id": "projects_cheapseats_cheapseats_features_and_changelog_v1_2_0_watercooler_conversations",
@@ -11104,17 +11057,17 @@
       "node_kind": "heading",
       "norm_label": "v1.2.0: watercooler conversations",
       "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
-      "source_location": "L45"
+      "source_location": "L47"
     },
     {
-      "id": "projects_cheapseats_cheapseats_features_and_changelog_v1_3_0_sandlot_to_sunday",
-      "label": "v1.3.0: Sandlot to Sunday",
+      "id": "projects_cheapseats_cheapseats_features_and_changelog_v1_3_1_sandlot_to_sunday",
+      "label": "v1.3.1: Sandlot to Sunday",
       "_origin": "ast",
       "community": 27,
       "community_name": "Changelog",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "v1.3.0: sandlot to sunday",
+      "norm_label": "v1.3.1: sandlot to sunday",
       "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
       "source_location": "L6"
     },
@@ -12366,6 +12319,17 @@
       "norm_label": "weight",
       "source_file": "ci/vendor/dotlottie/README.md",
       "source_location": "L53"
+    },
+    {
+      "id": "sections_new_js_sections_new",
+      "label": "sections-new.js",
+      "_origin": "ast",
+      "community": 65,
+      "community_name": "sections-new.js",
+      "file_type": "code",
+      "norm_label": "sections-new.js",
+      "source_file": "sections-new.js",
+      "source_location": "L1"
     },
     {
       "id": "sections_new_jsx_sections_new",
@@ -22973,7 +22937,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "i18n.js",
-      "source_location": "L1429",
+      "source_location": "L1374",
       "weight": 1.0
     },
     {
@@ -22985,7 +22949,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "i18n.js",
-      "source_location": "L1431",
+      "source_location": "L1376",
       "weight": 1.0
     },
     {
@@ -22997,7 +22961,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "i18n.js",
-      "source_location": "L1501",
+      "source_location": "L1446",
       "weight": 1.0
     },
     {
@@ -23009,7 +22973,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "i18n.js",
-      "source_location": "L1529",
+      "source_location": "L1474",
       "weight": 1.0
     },
     {
@@ -23021,7 +22985,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "i18n.js",
-      "source_location": "L1534",
+      "source_location": "L1479",
       "weight": 1.0
     },
     {
@@ -23033,7 +22997,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "i18n.js",
-      "source_location": "L1535",
+      "source_location": "L1480",
       "weight": 1.0
     },
     {
@@ -23045,7 +23009,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "i18n.js",
-      "source_location": "L1518",
+      "source_location": "L1463",
       "weight": 1.0
     },
     {
@@ -23057,7 +23021,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "i18n.js",
-      "source_location": "L1520",
+      "source_location": "L1465",
       "weight": 1.0
     },
     {
@@ -23069,7 +23033,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "i18n.js",
-      "source_location": "L1555",
+      "source_location": "L1500",
+      "weight": 1.0
+    },
+    {
+      "source": "primitives_b",
+      "target": "primitives_r",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "primitives.js",
+      "source_location": "L1",
       "weight": 1.0
     },
     {
@@ -23081,7 +23057,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "primitives.jsx",
-      "source_location": "L406",
+      "source_location": "L380",
       "weight": 1.0
     },
     {
@@ -23093,7 +23069,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "primitives.jsx",
-      "source_location": "L385",
+      "source_location": "L359",
       "weight": 1.0
     },
     {
@@ -23122,18 +23098,6 @@
     },
     {
       "source": "primitives_h",
-      "target": "primitives_i",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "primitives.js",
-      "source_location": "L1",
-      "weight": 1.0
-    },
-    {
-      "source": "primitives_h",
       "target": "primitives_m",
       "relation": "calls",
       "_origin": "ast",
@@ -23145,8 +23109,20 @@
       "weight": 1.0
     },
     {
-      "source": "primitives_o",
+      "source": "primitives_h",
       "target": "primitives_o",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "primitives.js",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "primitives_i",
+      "target": "primitives_i",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -23177,7 +23153,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "primitives.jsx",
-      "source_location": "L194",
+      "source_location": "L192",
       "weight": 1.0
     },
     {
@@ -23213,7 +23189,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "primitives.jsx",
-      "source_location": "L372",
+      "source_location": "L346",
       "weight": 1.0
     },
     {
@@ -23225,7 +23201,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "primitives.jsx",
-      "source_location": "L249",
+      "source_location": "L247",
       "weight": 1.0
     },
     {
@@ -23237,7 +23213,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "primitives.jsx",
-      "source_location": "L575",
+      "source_location": "L549",
       "weight": 1.0
     },
     {
@@ -23301,18 +23277,6 @@
       "weight": 1.0
     },
     {
-      "source": "primitives_w",
-      "target": "primitives_r",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "primitives.js",
-      "source_location": "L1",
-      "weight": 1.0
-    },
-    {
       "source": "primitives_waveblend",
       "target": "primitives_wavepath",
       "relation": "calls",
@@ -23321,12 +23285,12 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "primitives.jsx",
-      "source_location": "L535",
+      "source_location": "L509",
       "weight": 1.0
     },
     {
       "source": "primitives_x",
-      "target": "primitives_g",
+      "target": "primitives_h",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -23338,7 +23302,7 @@
     },
     {
       "source": "primitives_y",
-      "target": "primitives_h",
+      "target": "primitives_g",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -23489,11 +23453,11 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "sections-b.jsx",
-      "source_location": "L233",
+      "source_location": "L198",
       "weight": 1.0
     },
     {
-      "source": "sections_b_c",
+      "source": "sections_b_b",
       "target": "sections_b_e",
       "relation": "calls",
       "_origin": "ast",
@@ -23505,7 +23469,7 @@
       "weight": 1.0
     },
     {
-      "source": "sections_b_n",
+      "source": "sections_b_k",
       "target": "sections_b_e",
       "relation": "calls",
       "_origin": "ast",
@@ -23517,7 +23481,7 @@
       "weight": 1.0
     },
     {
-      "source": "sections_b_t",
+      "source": "sections_b_s",
       "target": "sections_b_e",
       "relation": "calls",
       "_origin": "ast",
@@ -23541,30 +23505,6 @@
       "weight": 1.0
     },
     {
-      "source": "sections_b_z",
-      "target": "sections_b_e",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "sections-b.js",
-      "source_location": "L1",
-      "weight": 1.0
-    },
-    {
-      "source": "sections_new_f",
-      "target": "sections_new_h",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "sections-new.js",
-      "source_location": "L1",
-      "weight": 1.0
-    },
-    {
       "source": "sections_new_tornedge",
       "target": "sections_new_tornpath",
       "relation": "calls",
@@ -23574,6 +23514,18 @@
       "context": "call",
       "source_file": "sections-new.jsx",
       "source_location": "L57",
+      "weight": 1.0
+    },
+    {
+      "source": "sections_new_x",
+      "target": "sections_new_h",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "sections-new.js",
+      "source_location": "L1",
       "weight": 1.0
     },
     {
@@ -23717,7 +23669,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "primitives.jsx",
-      "source_location": "L245",
+      "source_location": "L243",
       "weight": 1.0
     },
     {
@@ -32733,6 +32685,50 @@
     },
     {
       "source": "i18n",
+      "target": "i18n_langfrompath",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "i18n.js",
+      "source_location": "L1363",
+      "weight": 1.0
+    },
+    {
+      "source": "i18n",
+      "target": "i18n_getlang",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "i18n.js",
+      "source_location": "L1369",
+      "weight": 1.0
+    },
+    {
+      "source": "i18n",
+      "target": "i18n_pathforlang",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "i18n.js",
+      "source_location": "L1388",
+      "weight": 1.0
+    },
+    {
+      "source": "i18n",
+      "target": "i18n_onprerenderedhome",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "i18n.js",
+      "source_location": "L1396",
+      "weight": 1.0
+    },
+    {
+      "source": "i18n",
       "target": "i18n_safestorage",
       "relation": "contains",
       "_origin": "ast",
@@ -32744,57 +32740,13 @@
     },
     {
       "source": "i18n",
-      "target": "i18n_langfrompath",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "i18n.js",
-      "source_location": "L1418",
-      "weight": 1.0
-    },
-    {
-      "source": "i18n",
-      "target": "i18n_getlang",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "i18n.js",
-      "source_location": "L1424",
-      "weight": 1.0
-    },
-    {
-      "source": "i18n",
-      "target": "i18n_pathforlang",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "i18n.js",
-      "source_location": "L1443",
-      "weight": 1.0
-    },
-    {
-      "source": "i18n",
-      "target": "i18n_onprerenderedhome",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "i18n.js",
-      "source_location": "L1451",
-      "weight": 1.0
-    },
-    {
-      "source": "i18n",
       "target": "i18n_readtheme",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "i18n.js",
-      "source_location": "L1500",
+      "source_location": "L1445",
       "weight": 1.0
     },
     {
@@ -32805,7 +32757,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "i18n.js",
-      "source_location": "L1508",
+      "source_location": "L1453",
       "weight": 1.0
     },
     {
@@ -32816,7 +32768,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "i18n.js",
-      "source_location": "L1515",
+      "source_location": "L1460",
       "weight": 1.0
     },
     {
@@ -32827,7 +32779,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "i18n.js",
-      "source_location": "L1527",
+      "source_location": "L1472",
       "weight": 1.0
     },
     {
@@ -32838,7 +32790,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "i18n.js",
-      "source_location": "L1545",
+      "source_location": "L1490",
       "weight": 1.0
     },
     {
@@ -32849,12 +32801,12 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "i18n.js",
-      "source_location": "L1554",
+      "source_location": "L1499",
       "weight": 1.0
     },
     {
       "source": "i18n_min",
-      "target": "i18n_min_d",
+      "target": "i18n_min_c",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -33322,7 +33274,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "primitives.jsx",
-      "source_location": "L325",
+      "source_location": "L299",
       "weight": 1.0
     },
     {
@@ -33333,7 +33285,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "primitives.jsx",
-      "source_location": "L349",
+      "source_location": "L323",
       "weight": 1.0
     },
     {
@@ -33344,7 +33296,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "primitives.jsx",
-      "source_location": "L504",
+      "source_location": "L478",
       "weight": 1.0
     },
     {
@@ -33355,7 +33307,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "primitives.jsx",
-      "source_location": "L574",
+      "source_location": "L548",
       "weight": 1.0
     },
     {
@@ -33410,7 +33362,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "primitives.jsx",
-      "source_location": "L186",
+      "source_location": "L184",
       "weight": 1.0
     },
     {
@@ -33421,7 +33373,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "primitives.jsx",
-      "source_location": "L192",
+      "source_location": "L190",
       "weight": 1.0
     },
     {
@@ -33432,7 +33384,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "primitives.jsx",
-      "source_location": "L201",
+      "source_location": "L199",
       "weight": 1.0
     },
     {
@@ -33531,7 +33483,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
-      "source_location": "L135",
+      "source_location": "L137",
       "weight": 1.0
     },
     {
@@ -33553,12 +33505,12 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
-      "source_location": "L45",
+      "source_location": "L47",
       "weight": 1.0
     },
     {
       "source": "projects_cheapseats_cheapseats_features_and_changelog_changelog",
-      "target": "projects_cheapseats_cheapseats_features_and_changelog_v1_3_0_sandlot_to_sunday",
+      "target": "projects_cheapseats_cheapseats_features_and_changelog_v1_3_1_sandlot_to_sunday",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -33575,143 +33527,143 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
-      "source_location": "L88",
-      "weight": 1.0
-    },
-    {
-      "source": "projects_cheapseats_cheapseats_features_and_changelog_v1_0_0_first_kickoff",
-      "target": "projects_cheapseats_cheapseats_features_and_changelog_new_137",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
-      "source_location": "L137",
-      "weight": 1.0
-    },
-    {
-      "source": "projects_cheapseats_cheapseats_features_and_changelog_v1_1_0_yours_live_and_in_color",
-      "target": "projects_cheapseats_cheapseats_features_and_changelog_improved_109",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
-      "source_location": "L109",
-      "weight": 1.0
-    },
-    {
-      "source": "projects_cheapseats_cheapseats_features_and_changelog_v1_1_0_yours_live_and_in_color",
-      "target": "projects_cheapseats_cheapseats_features_and_changelog_accessibility_120",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
-      "source_location": "L120",
-      "weight": 1.0
-    },
-    {
-      "source": "projects_cheapseats_cheapseats_features_and_changelog_v1_1_0_yours_live_and_in_color",
-      "target": "projects_cheapseats_cheapseats_features_and_changelog_fixed_130",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
-      "source_location": "L130",
-      "weight": 1.0
-    },
-    {
-      "source": "projects_cheapseats_cheapseats_features_and_changelog_v1_1_0_yours_live_and_in_color",
-      "target": "projects_cheapseats_cheapseats_features_and_changelog_new_90",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
       "source_location": "L90",
       "weight": 1.0
     },
     {
-      "source": "projects_cheapseats_cheapseats_features_and_changelog_v1_2_0_watercooler_conversations",
-      "target": "projects_cheapseats_cheapseats_features_and_changelog_new_47",
+      "source": "projects_cheapseats_cheapseats_features_and_changelog_v1_0_0_first_kickoff",
+      "target": "projects_cheapseats_cheapseats_features_and_changelog_new_139",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
-      "source_location": "L47",
+      "source_location": "L139",
       "weight": 1.0
     },
     {
-      "source": "projects_cheapseats_cheapseats_features_and_changelog_v1_2_0_watercooler_conversations",
-      "target": "projects_cheapseats_cheapseats_features_and_changelog_improved_68",
+      "source": "projects_cheapseats_cheapseats_features_and_changelog_v1_1_0_yours_live_and_in_color",
+      "target": "projects_cheapseats_cheapseats_features_and_changelog_improved_111",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
-      "source_location": "L68",
+      "source_location": "L111",
       "weight": 1.0
     },
     {
-      "source": "projects_cheapseats_cheapseats_features_and_changelog_v1_2_0_watercooler_conversations",
-      "target": "projects_cheapseats_cheapseats_features_and_changelog_accessibility_81",
+      "source": "projects_cheapseats_cheapseats_features_and_changelog_v1_1_0_yours_live_and_in_color",
+      "target": "projects_cheapseats_cheapseats_features_and_changelog_accessibility_122",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
-      "source_location": "L81",
+      "source_location": "L122",
       "weight": 1.0
     },
     {
-      "source": "projects_cheapseats_cheapseats_features_and_changelog_v1_2_0_watercooler_conversations",
-      "target": "projects_cheapseats_cheapseats_features_and_changelog_fixed_84",
+      "source": "projects_cheapseats_cheapseats_features_and_changelog_v1_1_0_yours_live_and_in_color",
+      "target": "projects_cheapseats_cheapseats_features_and_changelog_fixed_132",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
-      "source_location": "L84",
+      "source_location": "L132",
       "weight": 1.0
     },
     {
-      "source": "projects_cheapseats_cheapseats_features_and_changelog_v1_3_0_sandlot_to_sunday",
+      "source": "projects_cheapseats_cheapseats_features_and_changelog_v1_1_0_yours_live_and_in_color",
+      "target": "projects_cheapseats_cheapseats_features_and_changelog_new_92",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
+      "source_location": "L92",
+      "weight": 1.0
+    },
+    {
+      "source": "projects_cheapseats_cheapseats_features_and_changelog_v1_2_0_watercooler_conversations",
+      "target": "projects_cheapseats_cheapseats_features_and_changelog_new_49",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
+      "source_location": "L49",
+      "weight": 1.0
+    },
+    {
+      "source": "projects_cheapseats_cheapseats_features_and_changelog_v1_2_0_watercooler_conversations",
+      "target": "projects_cheapseats_cheapseats_features_and_changelog_improved_70",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
+      "source_location": "L70",
+      "weight": 1.0
+    },
+    {
+      "source": "projects_cheapseats_cheapseats_features_and_changelog_v1_2_0_watercooler_conversations",
+      "target": "projects_cheapseats_cheapseats_features_and_changelog_accessibility_83",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
+      "source_location": "L83",
+      "weight": 1.0
+    },
+    {
+      "source": "projects_cheapseats_cheapseats_features_and_changelog_v1_2_0_watercooler_conversations",
+      "target": "projects_cheapseats_cheapseats_features_and_changelog_fixed_86",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
+      "source_location": "L86",
+      "weight": 1.0
+    },
+    {
+      "source": "projects_cheapseats_cheapseats_features_and_changelog_v1_3_1_sandlot_to_sunday",
       "target": "projects_cheapseats_cheapseats_features_and_changelog_improved",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
-      "source_location": "L22",
+      "source_location": "L23",
       "weight": 1.0
     },
     {
-      "source": "projects_cheapseats_cheapseats_features_and_changelog_v1_3_0_sandlot_to_sunday",
+      "source": "projects_cheapseats_cheapseats_features_and_changelog_v1_3_1_sandlot_to_sunday",
       "target": "projects_cheapseats_cheapseats_features_and_changelog_accessibility",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
-      "source_location": "L27",
+      "source_location": "L28",
       "weight": 1.0
     },
     {
-      "source": "projects_cheapseats_cheapseats_features_and_changelog_v1_3_0_sandlot_to_sunday",
+      "source": "projects_cheapseats_cheapseats_features_and_changelog_v1_3_1_sandlot_to_sunday",
       "target": "projects_cheapseats_cheapseats_features_and_changelog_fixed",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
-      "source_location": "L30",
+      "source_location": "L31",
       "weight": 1.0
     },
     {
-      "source": "projects_cheapseats_cheapseats_features_and_changelog_v1_3_0_sandlot_to_sunday",
+      "source": "projects_cheapseats_cheapseats_features_and_changelog_v1_3_1_sandlot_to_sunday",
       "target": "projects_cheapseats_cheapseats_features_and_changelog_new",
       "relation": "contains",
       "_origin": "ast",
@@ -34009,17 +33961,6 @@
     },
     {
       "source": "sections_a_js_sections_a",
-      "target": "sections_a_b",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "sections-a.js",
-      "source_location": "L1",
-      "weight": 1.0
-    },
-    {
-      "source": "sections_a_js_sections_a",
       "target": "sections_a_c",
       "relation": "contains",
       "_origin": "ast",
@@ -34043,6 +33984,17 @@
     {
       "source": "sections_a_js_sections_a",
       "target": "sections_a_f",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sections-a.js",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "sections_a_js_sections_a",
+      "target": "sections_a_g",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -34152,7 +34104,7 @@
     },
     {
       "source": "sections_b_js_sections_b",
-      "target": "sections_b_c",
+      "target": "sections_b_b",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -34174,7 +34126,7 @@
     },
     {
       "source": "sections_b_js_sections_b",
-      "target": "sections_b_n",
+      "target": "sections_b_k",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -34196,17 +34148,6 @@
     },
     {
       "source": "sections_b_js_sections_b",
-      "target": "sections_b_t",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "sections-b.js",
-      "source_location": "L1",
-      "weight": 1.0
-    },
-    {
-      "source": "sections_b_js_sections_b",
       "target": "sections_b_w",
       "relation": "contains",
       "_origin": "ast",
@@ -34218,7 +34159,7 @@
     },
     {
       "source": "sections_b_js_sections_b",
-      "target": "sections_b_z",
+      "target": "sections_b_x",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -34229,13 +34170,13 @@
     },
     {
       "source": "sections_b_jsx_sections_b",
-      "target": "sections_b_projects",
+      "target": "sections_b_resume",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sections-b.jsx",
-      "source_location": "L124",
+      "source_location": "L15",
       "weight": 1.0
     },
     {
@@ -34246,7 +34187,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sections-b.jsx",
-      "source_location": "L185",
+      "source_location": "L151",
       "weight": 1.0
     },
     {
@@ -34257,18 +34198,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sections-b.jsx",
-      "source_location": "L220",
-      "weight": 1.0
-    },
-    {
-      "source": "sections_b_jsx_sections_b",
-      "target": "sections_b_resume",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "sections-b.jsx",
-      "source_location": "L26",
+      "source_location": "L185",
       "weight": 1.0
     },
     {
@@ -34279,7 +34209,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "sections-b.jsx",
-      "source_location": "L88",
+      "source_location": "L60",
+      "weight": 1.0
+    },
+    {
+      "source": "sections_b_jsx_sections_b",
+      "target": "sections_b_projects",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sections-b.jsx",
+      "source_location": "L89",
       "weight": 1.0
     },
     {
@@ -34291,17 +34232,6 @@
       "confidence_score": 1.0,
       "source_file": "sections-b.jsx",
       "source_location": "L9",
-      "weight": 1.0
-    },
-    {
-      "source": "sections_new_js_sections_new",
-      "target": "sections_new_e",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "sections-new.js",
-      "source_location": "L1",
       "weight": 1.0
     },
     {
@@ -34328,7 +34258,18 @@
     },
     {
       "source": "sections_new_js_sections_new",
-      "target": "sections_new_r",
+      "target": "sections_new_v",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sections-new.js",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "sections_new_js_sections_new",
+      "target": "sections_new_x",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -36313,8 +36254,8 @@
       "weight": 1.0
     },
     {
-      "source": "primitives_y",
-      "target": "primitives_x",
+      "source": "primitives_x",
+      "target": "primitives_y",
       "relation": "indirect_call",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -36469,8 +36410,8 @@
       "weight": 1.0
     },
     {
-      "source": "sections_b_n",
-      "target": "ci_vendor_dotlottie_decorate_c0ofmnng_s",
+      "source": "sections_b_b",
+      "target": "sections_b_x",
       "relation": "indirect_call",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -36481,7 +36422,55 @@
       "weight": 1.0
     },
     {
-      "source": "sections_b_n",
+      "source": "sections_b_k",
+      "target": "i18n_min_c",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "argument",
+      "source_file": "sections-b.js",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "sections_b_k",
+      "target": "widgets_min_a",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "argument",
+      "source_file": "sections-b.js",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "sections_b_w",
+      "target": "ci_vendor_react_production_min_r",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "argument",
+      "source_file": "sections-b.js",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "sections_b_w",
+      "target": "primitives_d",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "argument",
+      "source_file": "sections-b.js",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "sections_b_w",
       "target": "primitives_m",
       "relation": "indirect_call",
       "_origin": "ast",
@@ -36493,7 +36482,7 @@
       "weight": 1.0
     },
     {
-      "source": "sections_b_n",
+      "source": "sections_b_w",
       "target": "primitives_p",
       "relation": "indirect_call",
       "_origin": "ast",
@@ -36505,31 +36494,7 @@
       "weight": 1.0
     },
     {
-      "source": "sections_b_n",
-      "target": "widgets_min_a",
-      "relation": "indirect_call",
-      "_origin": "ast",
-      "confidence": "INFERRED",
-      "confidence_score": 0.85,
-      "context": "argument",
-      "source_file": "sections-b.js",
-      "source_location": "L1",
-      "weight": 1.0
-    },
-    {
-      "source": "sections_b_s",
-      "target": "widgets_min_a",
-      "relation": "indirect_call",
-      "_origin": "ast",
-      "confidence": "INFERRED",
-      "confidence_score": 0.85,
-      "context": "argument",
-      "source_file": "sections-b.js",
-      "source_location": "L1",
-      "weight": 1.0
-    },
-    {
-      "source": "sections_b_t",
+      "source": "sections_b_w",
       "target": "primitives_r",
       "relation": "indirect_call",
       "_origin": "ast",
@@ -36541,7 +36506,7 @@
       "weight": 1.0
     },
     {
-      "source": "sections_b_t",
+      "source": "sections_b_w",
       "target": "primitives_u",
       "relation": "indirect_call",
       "_origin": "ast",
@@ -36553,8 +36518,8 @@
       "weight": 1.0
     },
     {
-      "source": "sections_b_t",
-      "target": "primitives_w",
+      "source": "sections_b_w",
+      "target": "sections_b_b",
       "relation": "indirect_call",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -36565,80 +36530,8 @@
       "weight": 1.0
     },
     {
-      "source": "sections_b_t",
-      "target": "primitives_x",
-      "relation": "indirect_call",
-      "_origin": "ast",
-      "confidence": "INFERRED",
-      "confidence_score": 0.85,
-      "context": "argument",
-      "source_file": "sections-b.js",
-      "source_location": "L1",
-      "weight": 1.0
-    },
-    {
-      "source": "sections_b_t",
-      "target": "sections_b_c",
-      "relation": "indirect_call",
-      "_origin": "ast",
-      "confidence": "INFERRED",
-      "confidence_score": 0.85,
-      "context": "argument",
-      "source_file": "sections-b.js",
-      "source_location": "L1",
-      "weight": 1.0
-    },
-    {
-      "source": "sections_b_t",
-      "target": "sections_b_n",
-      "relation": "indirect_call",
-      "_origin": "ast",
-      "confidence": "INFERRED",
-      "confidence_score": 0.85,
-      "context": "argument",
-      "source_file": "sections-b.js",
-      "source_location": "L1",
-      "weight": 1.0
-    },
-    {
-      "source": "sections_b_t",
-      "target": "sections_b_w",
-      "relation": "indirect_call",
-      "_origin": "ast",
-      "confidence": "INFERRED",
-      "confidence_score": 0.85,
-      "context": "argument",
-      "source_file": "sections-b.js",
-      "source_location": "L1",
-      "weight": 1.0
-    },
-    {
-      "source": "sections_b_t",
-      "target": "sections_b_z",
-      "relation": "indirect_call",
-      "_origin": "ast",
-      "confidence": "INFERRED",
-      "confidence_score": 0.85,
-      "context": "argument",
-      "source_file": "sections-b.js",
-      "source_location": "L1",
-      "weight": 1.0
-    },
-    {
-      "source": "sections_b_t",
-      "target": "sections_new_r",
-      "relation": "indirect_call",
-      "_origin": "ast",
-      "confidence": "INFERRED",
-      "confidence_score": 0.85,
-      "context": "argument",
-      "source_file": "sections-b.js",
-      "source_location": "L1",
-      "weight": 1.0
-    },
-    {
-      "source": "sections_b_t",
-      "target": "widgets_min_v",
+      "source": "sections_b_w",
+      "target": "sections_b_k",
       "relation": "indirect_call",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -36662,6 +36555,18 @@
     },
     {
       "source": "sections_b_w",
+      "target": "sections_b_x",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "argument",
+      "source_file": "sections-b.js",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "sections_b_w",
       "target": "widgets_min_a",
       "relation": "indirect_call",
       "_origin": "ast",
@@ -36673,8 +36578,8 @@
       "weight": 1.0
     },
     {
-      "source": "sections_b_z",
-      "target": "sections_b_s",
+      "source": "sections_b_w",
+      "target": "widgets_min_n",
       "relation": "indirect_call",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -36685,20 +36590,8 @@
       "weight": 1.0
     },
     {
-      "source": "sections_b_z",
-      "target": "widgets_min_a",
-      "relation": "indirect_call",
-      "_origin": "ast",
-      "confidence": "INFERRED",
-      "confidence_score": 0.85,
-      "context": "argument",
-      "source_file": "sections-b.js",
-      "source_location": "L1",
-      "weight": 1.0
-    },
-    {
-      "source": "sections_new_y",
-      "target": "sections_new_f",
+      "source": "sections_new_v",
+      "target": "sections_new_x",
       "relation": "indirect_call",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -36897,7 +36790,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "primitives.jsx",
-      "source_location": "L627",
+      "source_location": "L601",
       "weight": 1.0
     },
     {
@@ -36909,19 +36802,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "primitives.jsx",
-      "source_location": "L627",
-      "weight": 1.0
-    },
-    {
-      "source": "primitives_jsx_primitives",
-      "target": "primitives_badge",
-      "relation": "indirect_call",
-      "_origin": "ast",
-      "confidence": "INFERRED",
-      "confidence_score": 0.85,
-      "context": "collection",
-      "source_file": "primitives.jsx",
-      "source_location": "L627",
+      "source_location": "L601",
       "weight": 1.0
     },
     {
@@ -36933,7 +36814,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "primitives.jsx",
-      "source_location": "L627",
+      "source_location": "L601",
       "weight": 1.0
     },
     {
@@ -36945,7 +36826,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "primitives.jsx",
-      "source_location": "L627",
+      "source_location": "L601",
       "weight": 1.0
     },
     {
@@ -36957,19 +36838,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "primitives.jsx",
-      "source_location": "L627",
-      "weight": 1.0
-    },
-    {
-      "source": "primitives_jsx_primitives",
-      "target": "primitives_eyebrow",
-      "relation": "indirect_call",
-      "_origin": "ast",
-      "confidence": "INFERRED",
-      "confidence_score": 0.85,
-      "context": "collection",
-      "source_file": "primitives.jsx",
-      "source_location": "L627",
+      "source_location": "L601",
       "weight": 1.0
     },
     {
@@ -36981,7 +36850,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "primitives.jsx",
-      "source_location": "L627",
+      "source_location": "L601",
       "weight": 1.0
     },
     {
@@ -36993,7 +36862,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "primitives.jsx",
-      "source_location": "L627",
+      "source_location": "L601",
       "weight": 1.0
     },
     {
@@ -37005,7 +36874,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "primitives.jsx",
-      "source_location": "L627",
+      "source_location": "L601",
       "weight": 1.0
     },
     {
@@ -37017,7 +36886,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "primitives.jsx",
-      "source_location": "L627",
+      "source_location": "L601",
       "weight": 1.0
     },
     {
@@ -37029,7 +36898,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "primitives.jsx",
-      "source_location": "L627",
+      "source_location": "L601",
       "weight": 1.0
     },
     {
@@ -37041,7 +36910,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "primitives.jsx",
-      "source_location": "L627",
+      "source_location": "L601",
       "weight": 1.0
     },
     {
@@ -37053,7 +36922,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "primitives.jsx",
-      "source_location": "L627",
+      "source_location": "L601",
       "weight": 1.0
     },
     {
@@ -37065,7 +36934,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "primitives.jsx",
-      "source_location": "L627",
+      "source_location": "L601",
       "weight": 1.0
     },
     {
@@ -37077,7 +36946,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "primitives.jsx",
-      "source_location": "L627",
+      "source_location": "L601",
       "weight": 1.0
     },
     {
@@ -37089,7 +36958,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "primitives.jsx",
-      "source_location": "L627",
+      "source_location": "L601",
       "weight": 1.0
     },
     {
@@ -37101,7 +36970,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "primitives.jsx",
-      "source_location": "L627",
+      "source_location": "L601",
       "weight": 1.0
     },
     {
@@ -37113,7 +36982,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "primitives.jsx",
-      "source_location": "L627",
+      "source_location": "L601",
       "weight": 1.0
     },
     {
@@ -37125,7 +36994,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "primitives.jsx",
-      "source_location": "L627",
+      "source_location": "L601",
       "weight": 1.0
     },
     {
@@ -37137,7 +37006,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "primitives.jsx",
-      "source_location": "L627",
+      "source_location": "L601",
       "weight": 1.0
     },
     {
@@ -37149,7 +37018,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "primitives.jsx",
-      "source_location": "L627",
+      "source_location": "L601",
       "weight": 1.0
     },
     {
@@ -37161,7 +37030,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "sections-a.jsx",
-      "source_location": "L450",
+      "source_location": "L434",
       "weight": 1.0
     },
     {
@@ -37173,7 +37042,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "sections-a.jsx",
-      "source_location": "L450",
+      "source_location": "L434",
       "weight": 1.0
     },
     {
@@ -37185,12 +37054,12 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "sections-a.jsx",
-      "source_location": "L450",
+      "source_location": "L434",
       "weight": 1.0
     },
     {
-      "source": "sections_b_c",
-      "target": "i18n_min_k",
+      "source": "sections_b_b",
+      "target": "widgets_min_e",
       "relation": "indirect_call",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -37209,12 +37078,12 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "sections-b.jsx",
-      "source_location": "L256",
+      "source_location": "L221",
       "weight": 1.0
     },
     {
-      "source": "sections_b_w",
-      "target": "i18n_min_k",
+      "source": "sections_b_s",
+      "target": "widgets_min_e",
       "relation": "indirect_call",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -37233,7 +37102,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "sections-new.jsx",
-      "source_location": "L519",
+      "source_location": "L430",
       "weight": 1.0
     },
     {
@@ -37245,7 +37114,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "sections-new.jsx",
-      "source_location": "L519",
+      "source_location": "L430",
       "weight": 1.0
     },
     {
@@ -37257,7 +37126,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "sections-new.jsx",
-      "source_location": "L519",
+      "source_location": "L430",
       "weight": 1.0
     },
     {
@@ -37269,7 +37138,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "sections-new.jsx",
-      "source_location": "L519",
+      "source_location": "L430",
       "weight": 1.0
     },
     {
@@ -37281,10 +37150,10 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "sections-new.jsx",
-      "source_location": "L519",
+      "source_location": "L430",
       "weight": 1.0
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "5c51fa4a78ad020c84790de965cea68645b6f39f"
+  "built_at_commit": "6208f385fb5b6bdd75ce1bc84cf9a3a9bef02254"
 }

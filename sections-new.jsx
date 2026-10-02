@@ -1,5 +1,5 @@
 const { useState, useRef, useEffect, useId } = React;
-const { asset, Reveal, Pressable, SplitFeature, Eyebrow, GlowShape, WaveBlend, AlignBlock, FigurePlot, useLang } = window.MJ;
+const { asset, Reveal, Pressable, SplitFeature, WaveBlend, AlignBlock, FigurePlot, useLang } = window.MJ;
 
 /* bachelor-thesis data: µV/K vs °C */
 const SEEBECK_T = {
@@ -91,11 +91,11 @@ function TornSection({ label, seed = 7, teaser, children }) {
             style={{
               width: "100%", display: "flex", alignItems: "center", gap: 16, textAlign: "left",
               padding: "14px 18px", cursor: "pointer", background: "var(--paper-2)",
-              border: "1px solid var(--hairline-strong)", borderRadius: 14,
+              border: "1px solid var(--hairline-strong)", borderRadius: "var(--radius-sm)",
               fontFamily: "var(--font-text)", color: "var(--text)",
             }}>
             <img src={teaser.photo} alt="" aria-hidden width={56} height={56}
-              style={{ width: 56, height: 56, borderRadius: 10, objectFit: "cover", flex: "none" }} />
+              style={{ width: 56, height: 56, borderRadius: "var(--radius-xs)", objectFit: "cover", flex: "none" }} />
             <span style={{ flex: 1, fontSize: "var(--fs-small)", lineHeight: "var(--lh-relaxed)", color: "var(--text)" }}>
               {teaser.text}
             </span>
@@ -181,14 +181,14 @@ function TornSection({ label, seed = 7, teaser, children }) {
 
 function LoosePhoto({ src, caption, rot, w, imgW, imgH }) {
   return (
-    <figure style={{ margin: 0, flex: `0 1 ${w}px`, transform: `rotate(${rot}deg)`, transition: "transform .4s var(--ease-out)" }}
+    <figure style={{ margin: 0, flex: `0 1 ${w}px`, transform: `rotate(${rot}deg)` }}
       className="loose-photo">
       <div style={{
-        padding: 6, background: "var(--paper)", borderRadius: 10,
-        boxShadow: "0 2px 10px -2px rgba(20,20,26,0.18), 0 18px 40px -22px rgb(var(--accent-2-rgb) / 0.45)",
+        padding: 6, background: "var(--paper)", borderRadius: "var(--radius-xs)",
+        boxShadow: "var(--shadow-md)",
         border: "1px solid var(--hairline)",
       }}>
-        <img src={src} alt={caption} loading="lazy" width={imgW} height={imgH} style={{ display: "block", width: "100%", height: "auto", borderRadius: 5 }} />
+        <img src={src} alt={caption} loading="lazy" width={imgW} height={imgH} style={{ display: "block", width: "100%", height: "auto", borderRadius: 2 }} />
       </div>
       <figcaption className="photo-cap" style={{ fontFamily: "var(--font-mono)", fontSize: "var(--fs-caption)", color: "var(--text-muted)", marginTop: 10, paddingLeft: 4 }}>
         {caption}
@@ -199,7 +199,7 @@ function LoosePhoto({ src, caption, rot, w, imgW, imgH }) {
 
 function Polaroid({ src, caption, rot, tape, imgW, imgH }) {
   return (
-    <figure style={{ margin: 0, transform: `rotate(${rot}deg)`, transition: "transform .4s var(--ease-out)", position: "relative" }}
+    <figure style={{ margin: 0, transform: `rotate(${rot}deg)`, position: "relative" }}
       className="polaroid">
       {tape && <span aria-hidden style={{
         position: "absolute", top: -12, left: "50%", width: 78, height: 26,
@@ -215,7 +215,7 @@ function Polaroid({ src, caption, rot, tape, imgW, imgH }) {
            the page, so it must not follow --text-muted into light grey.
            9.17:1 on the light mount, 7.76:1 on the dark one. */
         background: "var(--polaroid-mount)", padding: "12px 12px 0", borderRadius: 3,
-        boxShadow: "0 6px 22px -10px rgba(20,20,26,0.40), 0 30px 50px -30px rgb(var(--accent-2-rgb) / 0.40)",
+        boxShadow: "var(--shadow-md)",
       }}>
         <img src={src} alt={caption} loading="lazy" width={imgW} height={imgH} style={{ display: "block", width: "100%", height: "auto", filter: "saturate(1.02) contrast(1.02)" }} />
         <figcaption style={{ fontFamily: "var(--font-mono)", fontSize: "12px", color: "#45454E", textAlign: "center", padding: "14px 6px 16px", lineHeight: 1.4 }}>
@@ -248,26 +248,16 @@ function Story() {
             </Reveal>
           </div>
           <AlignBlock align="right" maxWidth="66ch">
-          <div style={{ marginBottom: "clamp(28px,4vw,48px)" }}>
-            <Reveal><Eyebrow>{t("story.eyebrow")}</Eyebrow></Reveal>
-            <Reveal delay={80}>
-              <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h1)", letterSpacing: "var(--ls-heading)", color: "var(--heading)", margin: "16px 0 0", maxWidth: "18ch" }}>
-                {t("story.heading")}
-              </h2>
-            </Reveal>
-          </div>
-
+          <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h1)", letterSpacing: "var(--ls-heading)", color: "var(--heading)", margin: "0 0 clamp(28px,4vw,48px)", maxWidth: "18ch" }}>
+            {t("story.heading")}
+          </h2>
           <div style={{ maxWidth: "var(--content-narrow, 64ch)" }}>
-            <Reveal delay={40}>
-              <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 22px", maxWidth: "62ch" }}>
-                {t("story.p1")}
-              </p>
-            </Reveal>
-            <Reveal delay={80}>
-              <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: 0, maxWidth: "62ch" }}>
-                {t("story.p2")}
-              </p>
-            </Reveal>
+            <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 22px", maxWidth: "62ch" }}>
+              {t("story.p1")}
+            </p>
+            <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: 0, maxWidth: "62ch" }}>
+              {t("story.p2")}
+            </p>
           </div>
           </AlignBlock>
         </div>
@@ -283,17 +273,14 @@ function CleanroomTear() {
     <section style={{ position: "relative", paddingBottom: "clamp(40px,6vw,80px)" }}>
       <div className="container align-track">
         <AlignBlock align="left" maxWidth="54ch">
-        <Reveal>
           <p style={{ fontSize: "var(--fs-small)", color: "var(--text-muted)", margin: 0, maxWidth: "54ch" }}>
             {c.intro}
           </p>
-        </Reveal>
         </AlignBlock>
       </div>
 
       <TornSection label={c.label} seed={11}>
-        <Eyebrow color="var(--sage)">{c.eyebrow}</Eyebrow>
-        <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-title)", color: "var(--heading)", margin: "14px 0 18px", maxWidth: "22ch" }}>
+        <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-title)", color: "var(--heading)", margin: "0 0 18px", maxWidth: "22ch" }}>
           {c.heading}
         </h3>
         <div style={{ maxWidth: "62ch" }}>
@@ -301,7 +288,8 @@ function CleanroomTear() {
           <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 16px" }}>{c.p2}</p>
           <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: 0 }}>{c.p3}</p>
         </div>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "clamp(16px,2.4vw,30px)", alignItems: "flex-start", marginTop: "clamp(28px,4vw,44px)" }}>
+        {/* inline padding keeps the rotated corners inside the panel's overflow clip on phones */}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "clamp(16px,2.4vw,30px)", alignItems: "flex-start", marginTop: "clamp(28px,4vw,44px)", paddingInline: 8 }}>
           <LoosePhoto src={asset("ci/assets/Bilder/ZMN/ZMN_Sputter.jpeg")} caption={c.photos[0]} rot={-2.5} w={340} imgW={1600} imgH={900} />
           <LoosePhoto src={asset("ci/assets/Bilder/ZMN/ZMN_Me.jpeg")} caption={c.photos[1]} rot={2.5} w={210} imgW={899} imgH={1599} />
           <LoosePhoto src={asset("ci/assets/Bilder/ZMN/ZMN_Profilo.jpeg")} caption={c.photos[2]} rot={1.5} w={330} imgW={1600} imgH={900} />
@@ -319,32 +307,22 @@ function ConfiTear() {
     <section style={{ position: "relative", padding: "clamp(40px,6vw,80px) 0 clamp(40px,6vw,80px)" }}>
       {/* the sage band above laps down over this paper section */}
       <WaveBlend edge="top" color="var(--sage)" seed={71} shadow="rgb(var(--accent-2-rgb) / 0.45)" />
-      <div className="container align-track" style={{ position: "relative", zIndex: 1 }}>
-        <AlignBlock align="left" maxWidth="54ch">
-        <Reveal>
-          <p style={{ fontSize: "var(--fs-small)", color: "var(--text-muted)", margin: 0, maxWidth: "54ch" }}>
-            {c.intro}
-          </p>
-        </Reveal>
-        </AlignBlock>
-      </div>
 
       {/* -sm: the teaser thumbnail renders at ~56x75, so it gets its own 200w file
           rather than paying for the full polaroid-sized image */}
       <TornSection label={c.label} seed={23} teaser={{ photo: asset("ci/assets/Bilder/Konfi/Konfi_Phe-sm.webp"), text: c.teaser }}>
-        {/* eyebrow + heading go INSIDE the copy column; above the split they
+        {/* the heading goes INSIDE the copy column; above the split it
             would span the whole panel and read as a caption band */}
         <SplitFeature flip
           src={asset("ci/assets/Bilder/Konfi/Konfi_speach.jpeg")}
           alt={c.photos[0]} caption={c.photos[0]} focus="50% 38%">
-          <Eyebrow color="var(--sage)">{c.eyebrow}</Eyebrow>
-          <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-title)", color: "var(--heading)", margin: "14px 0 18px", maxWidth: "24ch" }}>
+          <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-title)", color: "var(--heading)", margin: "0 0 18px", maxWidth: "24ch" }}>
             {c.heading}
           </h3>
           <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 16px", maxWidth: "48ch" }}>{c.p1}</p>
           <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: 0, maxWidth: "48ch" }}>{c.p2}</p>
         </SplitFeature>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "clamp(18px,2.4vw,34px)", alignItems: "flex-start", marginTop: "clamp(28px,4vw,48px)" }}>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "clamp(18px,2.4vw,34px)", alignItems: "flex-start", marginTop: "clamp(28px,4vw,48px)", paddingInline: 8 }}>
           <div style={{ flex: "1 1 260px", maxWidth: 340 }}>
             <Polaroid src={asset("ci/assets/Bilder/Konfi/Konfi_Phe.webp")} caption={c.photos[1]} rot={3} tape imgW={700} imgH={933} />
           </div>
@@ -371,31 +349,35 @@ function Collaborations() {
           gap: "clamp(32px,5vw,56px)", alignItems: "start",
         }}>
           <div>
-            <div style={{ marginBottom: "clamp(28px,4vw,48px)" }}>
-              <Reveal><Eyebrow>{c.eyebrow}</Eyebrow></Reveal>
-              <Reveal delay={80}>
-                <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h1)", letterSpacing: "var(--ls-heading)", color: "var(--heading)", margin: "16px 0 0", maxWidth: "16ch" }}>
-                  {c.heading}
-                </h2>
-              </Reveal>
-            </div>
-            <Reveal delay={40}>
-              <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 18px", maxWidth: "62ch" }}>{c.p1}</p>
-            </Reveal>
-            <Reveal delay={80}>
-              <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: 0, maxWidth: "62ch" }}>{c.p2}</p>
-            </Reveal>
+            <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h1)", letterSpacing: "var(--ls-heading)", color: "var(--heading)", margin: "0 0 clamp(28px,4vw,48px)", maxWidth: "16ch" }}>
+              {c.heading}
+            </h2>
+            <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: 0, maxWidth: "62ch" }}>{c.p1}</p>
+            {c.entries.map((e, i) => (
+              <div key={i} style={{ marginTop: "clamp(24px,3vw,32px)", paddingTop: "clamp(20px,2.4vw,28px)", borderTop: "1px solid var(--border)", maxWidth: "62ch" }}>
+                <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-title)", color: "var(--heading)", margin: "0 0 12px" }}>
+                  {e.label}
+                  <span style={{ fontWeight: 400, color: "var(--text-muted)" }}> · {e.genre}</span>
+                </h3>
+                <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: 0 }}>{e.note}</p>
+                {e.href && (
+                  <a href={e.href} target="_blank" rel="noopener" style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 16, fontFamily: "var(--font-text)", fontSize: "var(--fs-small)", fontWeight: 600, color: "var(--accent)", textDecoration: "none" }}>
+                    {e.linkLabel} <span aria-hidden>↗</span>
+                  </a>
+                )}
+              </div>
+            ))}
           </div>
 
           <Reveal delay={100}>
             <figure style={{ margin: "0 auto", maxWidth: 380, transform: "rotate(-2deg)" }}>
               <div style={{
-                padding: 8, background: "var(--paper)", borderRadius: "var(--radius-lg)",
-                boxShadow: "0 10px 30px -12px rgba(20,20,26,0.28), 0 44px 76px -38px rgb(var(--accent-2-rgb) / 0.35)",
+                padding: 8, background: "var(--paper)", borderRadius: "var(--radius-sm)",
+                boxShadow: "var(--shadow-md)",
                 border: "1px solid var(--hairline)",
               }}>
                 <img src={asset("ci/assets/Bilder/DerHochsitz/DerHochsitz_Poster.jpeg")} alt={c.posterCaption} loading="lazy" width={710} height={1000}
-                  style={{ display: "block", width: "100%", height: "auto", borderRadius: 8 }} />
+                  style={{ display: "block", width: "100%", height: "auto", borderRadius: 2 }} />
               </div>
               <figcaption style={{ fontFamily: "var(--font-mono)", fontSize: "var(--fs-caption)", color: "var(--text-muted)", marginTop: 12, textAlign: "center" }}>
                 {c.posterCaption}
@@ -404,54 +386,13 @@ function Collaborations() {
           </Reveal>
         </div>
 
-        <Reveal delay={100}>
-          <div style={{
-            display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px,100%),1fr))",
-            gap: "clamp(20px,3vw,32px)", marginTop: "clamp(36px,5vw,56px)",
-          }}>
-            {c.entries.map((e, i) => (
-              <div key={i} style={{
-                padding: "clamp(22px,3vw,30px)", borderRadius: "var(--radius-xl)",
-                background: "var(--paper-2)", border: "1px dashed var(--hairline-strong)",
-              }}>
-                <div style={{ fontFamily: "var(--font-mono)", fontSize: "var(--fs-caption)", fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--text-muted)" }}>
-                  {e.kicker}
-                </div>
-                <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-title)", color: "var(--heading)", margin: "10px 0 12px" }}>
-                  {e.label}
-                  {e.genre && <span style={{ fontWeight: 400, color: "var(--text-muted)" }}> · {e.genre}</span>}
-                </h3>
-                <p style={{ fontSize: "var(--fs-small)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: 0 }}>{e.note}</p>
-                {e.href && (
-                  <a href={e.href} target="_blank" rel="noopener" style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 16, fontFamily: "var(--font-text)", fontSize: "var(--fs-small)", fontWeight: 600, color: "var(--accent)", textDecoration: "none" }}>
-                    {e.linkLabel} <span aria-hidden>↗</span>
-                  </a>
-                )}
-                {e.pins && (
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 16 }}>
-                    {e.pins.map((pin, j) => (
-                      <span key={j} style={{
-                        fontFamily: "var(--font-mono)", fontSize: "var(--fs-caption)", fontWeight: 600,
-                        padding: "8px 12px", borderRadius: "var(--radius-sm)",
-                        background: "var(--paper)", border: "1px solid var(--hairline)", color: "var(--text-muted)",
-                      }}>{pin}</span>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </Reveal>
-
-        <Reveal delay={140}>
-          <p style={{ fontSize: "var(--fs-small)", color: "var(--text-muted)", margin: "clamp(28px,4vw,40px) 0 0", maxWidth: "62ch" }}>
-            {c.creditsBefore}
-            <a href={HENDRIK_SITE} target="_blank" rel="noopener" style={{ color: "var(--text-body)", fontWeight: 600 }}>{c.creditsPortfolioLabel}</a>
-            {c.creditsMiddle}
-            <a href={PHP_INSTAGRAM} target="_blank" rel="noopener" style={{ color: "var(--text-body)", fontWeight: 600 }}>{c.creditsInstagramLabel}</a>
-            {c.creditsAfter}
-          </p>
-        </Reveal>
+        <p style={{ fontSize: "var(--fs-small)", color: "var(--text-muted)", margin: "clamp(28px,4vw,40px) 0 0", maxWidth: "62ch" }}>
+          {c.creditsBefore}
+          <a href={HENDRIK_SITE} target="_blank" rel="noopener" style={{ color: "var(--text-body)", fontWeight: 600 }}>{c.creditsPortfolioLabel}</a>
+          {c.creditsMiddle}
+          <a href={PHP_INSTAGRAM} target="_blank" rel="noopener" style={{ color: "var(--text-body)", fontWeight: 600 }}>{c.creditsInstagramLabel}</a>
+          {c.creditsAfter}
+        </p>
       </div>
     </section>
   );
@@ -465,52 +406,22 @@ function Reunion() {
   return (
     <section id="nebenbei" data-section style={{ padding: "clamp(48px,6vw,96px) 0", position: "relative" }}>
       <div className="container">
-        <Reveal>
-          <div style={{
-            position: "relative", overflow: "hidden",
-            display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px,100%),1fr))",
-            gap: "clamp(24px,3.5vw,48px)", alignItems: "center",
-            padding: "clamp(28px,4vw,52px)", borderRadius: "var(--radius-xl)",
-            background: "linear-gradient(135deg, var(--paper-2), var(--paper))",
-            border: "1px dashed var(--hairline-strong)",
-          }}>
-            <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(80% 120% at 110% -10%, rgb(var(--accent-1-glow-rgb) / 0.16), transparent 60%)", pointerEvents: "none" }} />
-            <div style={{ position: "relative" }}>
-              <Eyebrow>{r.eyebrow}</Eyebrow>
-              <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h2)", letterSpacing: "var(--ls-heading)", color: "var(--heading)", margin: "14px 0 18px", maxWidth: "16ch" }}>
-                {r.heading}
-              </h2>
-              <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 16px", maxWidth: "54ch" }}>
-                {p1Before}<strong>ggi-abitur2022.de</strong>{p1After}
-              </p>
-              <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text-body)", margin: "0 0 26px", maxWidth: "54ch" }}>
-                {r.p2}
-              </p>
-              <Pressable as="a" href={GGI} target="_blank" rel="noopener" className="ggi-link cta-ink" lift={-3} style={{
-                display: "inline-flex", alignItems: "center", gap: 8, padding: "12px 22px",
-                background: "var(--ink)", color: "var(--paper)", borderRadius: "var(--radius-md)",
-                fontFamily: "var(--font-text)", fontSize: "var(--fs-body)", fontWeight: 600, textDecoration: "none",
-              }}>
-                {r.linkLabel} <span aria-hidden className="cta-arrow">→</span>
-              </Pressable>
-            </div>
-            <div style={{ position: "relative", display: "flex", flexDirection: "column", alignItems: "center", gap: 18, justifySelf: "center" }}>
-              <div style={{ position: "relative", display: "grid", placeItems: "center" }}>
-                <GlowShape shape="circle" glow="plum" size={120} seed={64} />
-                <span aria-hidden style={{ position: "absolute", fontSize: 40, lineHeight: 1, color: "var(--paper)", transform: "translateY(-2px)" }}>◎</span>
-              </div>
-              <div style={{ display: "flex", gap: 8 }}>
-                {r.pins.map((pin, i) => (
-                  <span key={i} style={{
-                    fontFamily: "var(--font-mono)", fontSize: "var(--fs-caption)", fontWeight: 600,
-                    padding: "8px 12px", borderRadius: "var(--radius-sm)",
-                    background: "var(--paper)", border: "1px solid var(--hairline)", color: "var(--text-muted)",
-                  }}>{pin}</span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </Reveal>
+        <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-h2)", letterSpacing: "var(--ls-heading)", color: "var(--heading)", margin: "0 0 18px", maxWidth: "16ch" }}>
+          {r.heading}
+        </h2>
+        <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 16px", maxWidth: "54ch" }}>
+          {p1Before}<strong>ggi-abitur2022.de</strong>{p1After}
+        </p>
+        <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "0 0 26px", maxWidth: "54ch" }}>
+          {r.p2}
+        </p>
+        <Pressable as="a" href={GGI} target="_blank" rel="noopener" className="cta-ink" lift={-3} style={{
+          display: "inline-flex", alignItems: "center", gap: 8, padding: "12px 22px",
+          background: "var(--ink)", color: "var(--paper)", borderRadius: "var(--radius-md)",
+          fontFamily: "var(--font-text)", fontSize: "var(--fs-body)", fontWeight: 600, textDecoration: "none",
+        }}>
+          {r.linkLabel} <span aria-hidden className="cta-arrow">→</span>
+        </Pressable>
       </div>
     </section>
   );

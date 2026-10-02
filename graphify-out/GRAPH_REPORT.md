@@ -1,17 +1,17 @@
 # Graph Report - Mika-Jeske.de  (2026-10-02)
 
 ## Corpus Check
-- 51 files · ~2,273,028 words
+- 51 files · ~2,263,452 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 28 file(s) not represented in the graph (top: .css 10, .otf 8, (none) 3)
 
 ## Summary
-- 1058 nodes · 2138 edges · 77 communities (55 shown, 17 thin omitted)
-- Extraction: 90% EXTRACTED · 10% INFERRED · 0% AMBIGUOUS · INFERRED: 219 edges (avg confidence: 0.85)
+- 1055 nodes · 2130 edges · 76 communities (57 shown, 14 thin omitted)
+- Extraction: 90% EXTRACTED · 10% INFERRED · 0% AMBIGUOUS · INFERRED: 213 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `5c51fa4a`
+- Built from commit: `6208f385`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -31,7 +31,7 @@
 - scripts
 - scripts
 - i18n.js
-- ok
+- ia
 - sections-b.jsx
 - scripts
 - babel.config.json
@@ -52,7 +52,7 @@
 - HyperFrames Composition Project
 - HyperFrames Composition Project
 - HyperFrames Composition Project
-- ni
+- Rk
 - Brag plan — a cinematic tour of mika-jeske.de
 - dist-BMnS_qxa.js
 - CheapSeats
@@ -64,7 +64,7 @@
 - decorate-C0oFmnNg.js
 - _draw
 - e
-- constructor
+- _loadFromData
 - base-dotlottie-wc.js
 - sections-a.js
 - _$AI
@@ -73,12 +73,11 @@
 - performUpdate
 - dotlottie-wc — vendored
 - createRenderRoot
-- Bd
+- t
 - ka
 - mj
-- V
-- free
-- Y
+- sections-new.js
+- xe
 - _onClick
 - _onPointerDown
 - _onPointerEnter
@@ -102,28 +101,28 @@
 10. `c()` - 21 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `N()` --indirect_call--> `s()`  [INFERRED]
-  sections-b.js → ci/vendor/dotlottie/decorate-C0oFmnNg.js
 - `S()` --indirect_call--> `A()`  [INFERRED]
   ci/vendor/react.production.min.js → sections-a.js
-- `T()` --indirect_call--> `R()`  [INFERRED]
-  sections-b.js → sections-new.js
-- `C()` --indirect_call--> `k()`  [INFERRED]
+- `w()` --indirect_call--> `R()`  [INFERRED]
+  sections-b.js → ci/vendor/react.production.min.js
+- `k()` --indirect_call--> `c()`  [INFERRED]
   sections-b.js → i18n.min.js
-- `W()` --indirect_call--> `k()`  [INFERRED]
-  sections-b.js → i18n.min.js
+- `w()` --indirect_call--> `r()`  [INFERRED]
+  sections-b.js → primitives.js
+- `w()` --indirect_call--> `d()`  [INFERRED]
+  sections-b.js → primitives.js
 
 ## Import Cycles
 - None detected.
 
-## Communities (77 total, 17 thin omitted)
+## Communities (76 total, 14 thin omitted)
 
 ### Community 0 - "primitives.js"
-Cohesion: 0.09
-Nodes (29): k(), d(), f(), g(), h(), i(), m(), o() (+21 more)
+Cohesion: 0.10
+Nodes (25): c(), b(), d(), f(), g(), h(), i(), m() (+17 more)
 
 ### Community 1 - "primitives.jsx"
-Cohesion: 0.08
+Cohesion: 0.09
 Nodes (23): BlobPhoto(), _depth(), GlowShape(), Parallax(), prefersReduced(), Pressable(), onMove(), _pxListen() (+15 more)
 
 ### Community 2 - "package.json"
@@ -144,15 +143,15 @@ Nodes (10): arm(), mountContactChip(), mountLanguageSwitcher(), closeMenu(), ope
 
 ### Community 6 - "xk"
 Cohesion: 0.09
-Nodes (36): F(), M(), P(), Bg(), bj(), Bk(), cf(), Cg() (+28 more)
+Nodes (38): F(), J(), M(), P(), B(), Bg(), bj(), Bk() (+30 more)
 
 ### Community 7 - "sections-new.jsx"
 Cohesion: 0.17
 Nodes (4): SEEBECK_T, SIGMA_TIME, TornEdge(), tornPath()
 
 ### Community 8 - "ri"
-Cohesion: 0.16
-Nodes (43): ac(), Bf(), dh(), b(), c(), d(), e(), f() (+35 more)
+Cohesion: 0.15
+Nodes (46): ac(), Bf(), ci(), dh(), b(), c(), d(), e() (+38 more)
 
 ### Community 9 - "brag-output/composition/hyperframes.json"
 Cohesion: 0.20
@@ -178,9 +177,9 @@ Nodes (8): name, private, scripts, check, dev, publish, render, type
 Cohesion: 0.30
 Nodes (11): applyTheme(), getLang(), langFromPath(), onPrerenderedHome(), pathForLang(), readTheme(), resolvePath(), safeStorage() (+3 more)
 
-### Community 15 - "ok"
-Cohesion: 0.08
-Nodes (46): aa(), af(), ah(), ai(), bi(), ci(), Dg(), ef() (+38 more)
+### Community 15 - "ia"
+Cohesion: 0.09
+Nodes (40): aa(), af(), ah(), ai(), bi(), ef(), Eh(), fb() (+32 more)
 
 ### Community 17 - "scripts"
 Cohesion: 0.29
@@ -188,15 +187,15 @@ Nodes (7): scripts, build, build:changelog, spellcheck, verify, verify:contrast,
 
 ### Community 23 - "react-dom.production.min.js"
 Cohesion: 0.08
-Nodes (17): $a(), Ab(), dj(), ej(), ff(), Fh(), mb(), oj() (+9 more)
+Nodes (14): $a(), Ab(), dj(), ej(), ff(), mb(), sc(), Td() (+6 more)
 
 ### Community 24 - "react.production.min.js"
-Cohesion: 0.13
-Nodes (20): y(), q, B(), C(), D(), E(), fa(), M() (+12 more)
+Cohesion: 0.12
+Nodes (22): y(), q, Fa(), Qh(), B(), C(), D(), E() (+14 more)
 
 ### Community 25 - "m"
-Cohesion: 0.12
-Nodes (24): Ag(), B(), Cc(), cd(), df(), Gk(), $h(), hh() (+16 more)
+Cohesion: 0.09
+Nodes (35): Ag(), Cc(), cd(), df(), Eg(), Gk(), $h(), hc() (+27 more)
 
 ### Community 26 - "CheapSeats: Multi-Platform Porting & Distribution Plan"
 Cohesion: 0.12
@@ -211,12 +210,12 @@ Cohesion: 0.14
 Nodes (11): apply(), argv, COMPS, esc(), LANGS, only, POSTER_W, STR (+3 more)
 
 ### Community 29 - "be"
-Cohesion: 0.32
-Nodes (8): bc(), be(), ec(), Fg(), fj(), lc(), ub(), vj()
+Cohesion: 0.22
+Nodes (11): bc(), be(), ec(), Fg(), fj(), lc(), mc(), ub() (+3 more)
 
 ### Community 30 - "ye"
-Cohesion: 0.23
-Nodes (11): Hg(), mc(), nc(), ob(), re(), sh(), Ud(), Xc() (+3 more)
+Cohesion: 0.18
+Nodes (13): Bd(), di(), Gc(), Hg(), If(), jb(), nc(), ob() (+5 more)
 
 ### Community 31 - "build.mjs"
 Cohesion: 0.22
@@ -250,9 +249,9 @@ Nodes (7): Commands, Documentation, HyperFrames Composition Project, Key Rules, 
 Cohesion: 0.25
 Nodes (7): Commands, Documentation, HyperFrames Composition Project, Key Rules, Linting — ALWAYS RUN AFTER CHANGES, Project Structure, Skills — USE THESE FIRST
 
-### Community 39 - "ni"
-Cohesion: 0.16
-Nodes (19): Eg(), hc(), Hk(), ia(), jk(), Kk(), Li(), Lk() (+11 more)
+### Community 39 - "Rk"
+Cohesion: 0.40
+Nodes (5): Hk(), oj(), Rk(), uj(), Yg()
 
 ### Community 40 - "Brag plan — a cinematic tour of mika-jeske.de"
 Cohesion: 0.29
@@ -272,7 +271,7 @@ Nodes (12): Ce(), ed(), fc(), Ij(), Lb(), oh(), Rc(), tc() (+4 more)
 
 ### Community 48 - "_updateDotLottieInstanceState"
 Cohesion: 0.09
-Nodes (47): _animationLoop(), _cleanupCanvas(), _cleanupStateMachineListeners(), destroy(), _dispatchError(), _drainPlayerEvents(), _drainSmEvents(), _fetchData() (+39 more)
+Nodes (39): _animationLoop(), _cleanupStateMachineListeners(), destroy(), __destroy_into_raw(), _drainPlayerEvents(), _drainSmEvents(), free(), freeze() (+31 more)
 
 ### Community 49 - "x"
 Cohesion: 0.05
@@ -287,12 +286,12 @@ Cohesion: 0.11
 Nodes (23): clearSlot(), clearSlots(), _draw(), ee(), ie(), _isKeyframeArray(), n(), r() (+15 more)
 
 ### Community 52 - "e"
-Cohesion: 0.11
-Nodes (21): broadcastMessage(), D(), dispatch(), e(), getSlot(), getSlotIds(), getTransform(), h() (+13 more)
+Cohesion: 0.13
+Nodes (20): addEventListener(), broadcastMessage(), e(), getSlotIds(), getTransform(), getWorker(), h(), k (+12 more)
 
-### Community 53 - "constructor"
-Cohesion: 0.12
-Nodes (18): addEventListener(), assignAnimationToWorker(), constructor(), _create(), _createCore(), getWorker(), _initWasm(), J() (+10 more)
+### Community 53 - "_loadFromData"
+Cohesion: 0.14
+Nodes (22): assignAnimationToWorker(), B(), _cleanupCanvas(), constructor(), _create(), _createCore(), _dispatchError(), _fetchData() (+14 more)
 
 ### Community 54 - "base-dotlottie-wc.js"
 Cohesion: 0.20
@@ -326,9 +325,9 @@ Nodes (4): Contents, dotlottie-wc — vendored, Local patch — re-apply on any 
 Cohesion: 1.33
 Nodes (3): connectedCallback(), createRenderRoot(), enableUpdating()
 
-### Community 62 - "Bd"
-Cohesion: 0.67
-Nodes (3): Bd(), Fa(), Qh()
+### Community 62 - "t"
+Cohesion: 0.22
+Nodes (9): D(), dispatch(), getSlot(), manifest(), ne(), set_transform(), sm_start(), t() (+1 more)
 
 ### Community 63 - "ka"
 Cohesion: 0.67
@@ -338,20 +337,28 @@ Nodes (3): dd(), ka(), b()
 Cohesion: 1.00
 Nodes (3): gh(), mj(), Xg()
 
+### Community 65 - "sections-new.js"
+Cohesion: 0.47
+Nodes (3): h(), v(), x()
+
+### Community 66 - "xe"
+Cohesion: 0.40
+Nodes (5): Dg(), pd(), vd(), xe(), zh()
+
 ## Knowledge Gaps
 - **162 isolated node(s):** `presets`, `$schema`, `registry`, `blocks`, `components` (+157 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 379 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **17 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 377 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **14 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `F()` connect `xk` to `ri`, `dist-BMnS_qxa.js`, `ok`?**
-  _High betweenness centrality (0.093) - this node is a cross-community bridge._
-- **Why does `J()` connect `constructor` to `xk`, `ri`, `dist-BMnS_qxa.js`, `ok`, `_updateDotLottieInstanceState`?**
-  _High betweenness centrality (0.091) - this node is a cross-community bridge._
-- **Why does `xk()` connect `xk` to `fd`, `ri`, `ok`, `constructor`, `react-dom.production.min.js`, `react.production.min.js`, `m`, `be`?**
-  _High betweenness centrality (0.061) - this node is a cross-community bridge._
+- **Why does `F()` connect `xk` to `ri`, `dist-BMnS_qxa.js`, `ia`?**
+  _High betweenness centrality (0.088) - this node is a cross-community bridge._
+- **Why does `J()` connect `xk` to `_updateDotLottieInstanceState`, `dist-BMnS_qxa.js`, `_loadFromData`, `ri`?**
+  _High betweenness centrality (0.086) - this node is a cross-community bridge._
+- **Why does `xk()` connect `xk` to `fd`, `xe`, `ri`, `ia`, `react-dom.production.min.js`, `react.production.min.js`, `m`, `be`?**
+  _High betweenness centrality (0.060) - this node is a cross-community bridge._
 - **Are the 11 inferred relationships involving `xk()` (e.g. with `F()` and `J()`) actually correct?**
   _`xk()` has 11 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 3 inferred relationships involving `x()` (e.g. with `n()` and `o()`) actually correct?**

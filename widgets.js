@@ -111,7 +111,7 @@
       btn.className = "lang-option";
       btn.setAttribute("role", "menuitem");
       btn.style.transitionDelay = (i * 60) + "ms";
-      btn.innerHTML = '<span aria-hidden="true">' + lang.flag + "</span><span>" + lang.name + "</span>";
+      btn.textContent = lang.name;
       btn.addEventListener("click", function () {
         fadeSwitch(function () { I18N.setLang(lang.code); });
         closeMenu();
