@@ -3,7 +3,7 @@
 ## v2.0.0: The American Quartet
 Coming in 2027
 
-## v1.3.0: Sandlot to Sunday
+## v1.3.1: Sandlot to Sunday
 
 ### New
 - Added a View button next to Follow for every team in the team selector, and every row in the standings table now opens that team
@@ -18,6 +18,7 @@ Coming in 2027
 - Added Rule Book sections that explain every rating the app shows, with the actual formulas and the reasons they are built that way
 - Added a plain-language weather note to the next game panel when game day weather clears a real threshold (snow, heavy rain, strong wind, extreme cold or heat), and stays quiet otherwise
 - Added a quiet line that says when your team didn't make the playoffs, was knocked out (and in which round) or won it all, plus when the next season starts
+- Added support for metric units
 
 ### Improved
 - Now shows the playoff bracket during the postseason whether or not your team is in it
@@ -39,6 +40,7 @@ Coming in 2027
 - Fixed kickoff times using a hard-coded Berlin time instead of your device's time zone
 - Fixed the all-time series line and the title bar mascot label showing San Francisco text to followers of other teams
 - Fixed the remaining English labels in the German interface
+- Fixed the weather note showing only in English, it is now localized
 - Fixed the History archive for the 2012, 2013, 2021 and 2024 seasons and completed the 2024 entries
 - Fixed postponed games reading as live or as a 0-0 final, and handled MLB and theScore statuses
 
