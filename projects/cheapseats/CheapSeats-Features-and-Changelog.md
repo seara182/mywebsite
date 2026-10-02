@@ -1,10 +1,46 @@
 # Changelog
 
-## v.2.0.0 The American Quartet
+## v2.0.0: The American Quartet
 Coming in 2027
 
 ## v1.3.0: Sandlot to Sunday
-Coming somewhat soon
+
+### New
+- Added a View button next to Follow for every team in the team selector, and every row in the standings table now opens that team
+- Added browsing of any team with the full team page (schedule, roster, standings, playoffs) and the Watercooler for that team, without changing the team you follow
+- Added Instant Classic to the Watercooler: three games a week across the whole league that are worth a "did you see that?!", picked by a score built from closeness, overtime, lead changes and the largest deficit either team clawed back, with late-game swings weighted higher
+- Added a link from each Instant Classic to its official highlight clip, or to a YouTube search when no clip can be matched with confidence
+- Added the last five meetings against your next opponent as a rivalry line on the hero card
+- Added a milestone tracker to the Watercooler for when one of your team's key players is within a game or two of a round number, such as 3,000 passing yards, 500 home runs or 200 wins
+- Added a game your team played on today's date in a past season to the History section
+- Added an injury digest to the Watercooler that lists only the injured key players of your team
+- Added Spanish as a third app language, including the glossary, the Rule Book and the privacy statement
+- Added Rule Book sections that explain every rating the app shows, with the actual formulas and the reasons they are built that way
+- Added a plain-language weather note to the next game panel when game day weather clears a real threshold (snow, heavy rain, strong wind, extreme cold or heat), and stays quiet otherwise
+- Added a quiet line that says when your team didn't make the playoffs, was knocked out (and in which round) or won it all, plus when the next season starts
+
+### Improved
+- Now shows the playoff bracket during the postseason whether or not your team is in it
+- Now shows playoff series as series (2-1) instead of one slot per game
+- Now never polls live scores or sends notifications for a browsed team, and forgets it when you go back or switch tabs
+
+### Accessibility
+- Screen readers now get the right language in the German interface
+
+### Fixed
+- Fixed NFL highlight links: the NFL channel renamed its weekly playlists from Game Highlights (Week N) to Game Recaps (Week N) from week 2 on, so the app stopped finding recaps. It now recognises both names (with the season year), knows the Every Recap and MLB Postseason playlists and understands D-backs and A's
+- Fixed the MLB postseason view, which was built from a single scoreboard call that only returned today's games, so an off day was cached for a full day as no postseason
+- Fixed requests for the Athletics failing because ESPN no longer answers the old oak address
+- Fixed a refresh in which one request failed blanking that part of the page and the launch cache
+- Fixed a cached team from before a team switch showing under the new team at launch
+- Fixed settings being overwritten with defaults by a click during the first milliseconds after launch
+- Fixed sidebar section highlighting only working after switching tabs
+- Fixed the explicit light or dark theme flashing the system theme on launch
+- Fixed kickoff times using a hard-coded Berlin time instead of your device's time zone
+- Fixed the all-time series line and the title bar mascot label showing San Francisco text to followers of other teams
+- Fixed the remaining English labels in the German interface
+- Fixed the History archive for the 2012, 2013, 2021 and 2024 seasons and completed the 2024 entries
+- Fixed postponed games reading as live or as a 0-0 final, and handled MLB and theScore statuses
 
 ## v1.2.0: Watercooler Conversations
 
