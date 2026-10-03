@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light"><!-- pinned: a dark-mode browser would flip the tokens -->
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex">
+<title>Social preview cards (source)</title>
+<!-- Source for ci/assets/og/*.jpg. Open ?card=main|cheapseats|404 (&lang=de|en|fr|es|it for main),
+     screenshot the 1200x630 viewport at device scale 2 from a local server, then save as JPEG q85:
+       msedge --headless --hide-scrollbars --force-device-scale-factor=2 --window-size=1200,630 --screenshot=out.png "http://127.0.0.1:8765/ci/og/cards.html?card=main&lang=de"
+     Flat token surfaces only: no gradients, no glows, no emoji. -->
+<link rel="stylesheet" href="/ci/styles.css">
+<style>
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
+  .card { display: none; position: relative; width: 1200px; height: 630px; overflow: hidden; font-family: var(--font-display); }
+  body[data-card="main"] .card--main, body[data-card="cheapseats"] .card--cs, body[data-card="404"] .card--404 { display: block; }
+  .title { margin: 0; color: inherit; font-weight: 600; letter-spacing: -.035em; line-height: .95; }
+  .sub { margin: 0; font-size: 44px; font-weight: 500; line-height: 1.18; letter-spacing: -.015em; }
+  .meta { margin: 0; font-size: 30px; font-weight: 500; }
+
+  /* Main: paper + ink, portrait standing on a flat plum panel */
+  .card--main { background: var(--paper); color: var(--ink); }
+  .card--main .panel { position: absolute; top: 0; right: 0; bottom: 0; width: 430px; background: var(--plum); }
+  .card--main .portrait { position: absolute; top: -22px; left: 566px; height: 900px; width: auto; }
+  .card--main .text { position: absolute; left: 64px; top: 64px; bottom: 64px; width: 570px; display: flex; flex-direction: column; }
+  .card--main .title { font-size: 136px; }
+  .card--main .sub { margin-top: 30px; color: var(--text-body); }
+  .card--main .meta { margin-top: auto; color: var(--text-muted); }
+
+  /* CheapSeats: ink, real icon, real screenshot bleeding off right + bottom */
+  .card--cs { background: var(--ink); color: var(--on-dark-strong); }
+  .card--cs .text { position: absolute; left: 64px; top: 64px; bottom: 64px; width: 560px; display: flex; flex-direction: column; }
+  .card--cs .icon { width: 112px; height: 112px; margin: 0 0 22px -8px; }
+  .card--cs .title { font-size: 100px; }
+  .card--cs .sub { margin-top: 26px; color: var(--on-dark-body); }
+  .card--cs .meta { margin-top: auto; color: var(--on-dark-muted); }
+  .card--cs .shot { position: absolute; left: 650px; top: 120px; width: 1000px; height: auto; border-radius: var(--radius-md); border: 1px solid #3C3C45; }
+
+  /* 404: sage, the giraffes and their cable (art copied from /404.html, Schuko variant) */
+  .card--404 { background: var(--sage-deep); color: var(--on-dark-strong); }
+  .card--404 .scene { position: absolute; left: 40px; bottom: 44px; width: 640px; aspect-ratio: 632 / 490; }
+  .card--404 .scene img { position: absolute; left: 0; top: 0; width: 80.06%; height: auto; }
+  .card--404 .scene svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .card--404 .text { position: absolute; left: 730px; right: 64px; top: 64px; bottom: 64px; display: flex; flex-direction: column; justify-content: center; }
+  .card--404 .title { font-size: 230px; letter-spacing: -.045em; line-height: .85; }
+  .card--404 .meta { margin-top: 34px; font-size: 40px; color: var(--on-dark-body); }
+</style>
+</head>
+<body>
+
+<div class="card card--main">
+  <div class="panel"></div>
+  <div class="text">
+    <h1 class="title">Mika<br>Jeske</h1>
+    <p class="sub" id="role">Werkstoffwissenschaft &amp; Messtechnik</p>
+    <p class="meta">mika-jeske.de</p>
+  </div>
+  <img class="portrait" src="/ci/assets/Bilder/Weitere/site_header.webp" alt="">
+</div>
+
+<div class="card card--cs">
+  <div class="text">
+    <img class="icon" src="/projects/cheapseats/app-icon.webp" alt="">
+    <h1 class="title">CheapSeats</h1>
+    <p class="sub">Sport-Dashboard für NFL und MLB</p>
+    <p class="meta">Kostenlos im Microsoft Store</p>
+  </div>
+  <img class="shot" src="/ci/assets/og/src/cheapseats-screenshot.png" alt="">
+</div>
+
+<div class="card card--404">
+  <div class="scene">
+    <img src="/ci/assets/Bilder/Weitere/giraffen-diko-tessa.webp" alt="">
+    <svg viewBox="0 0 632 490" aria-hidden="true">
+      <g transform="translate(142 12)">
+        <rect x="426" y="250" width="44" height="60" rx="10" fill="#EDEAF0"/>
+        <circle cx="448" cy="280" r="18" fill="#DAD6DF"/>
+        <circle cx="439" cy="280" r="3.6" fill="#1E4A33"/><circle cx="457" cy="280" r="3.6" fill="#1E4A33"/>
+        <rect x="444" y="262" width="8" height="3.6" rx="1.5" fill="#B9B4C0"/><rect x="444" y="294.4" width="8" height="3.6" rx="1.5" fill="#B9B4C0"/>
+      </g>
+      <path d="M 590 -900 L 590 -30 C 590 50, 545 108, 490 93" fill="none" stroke="#15151A" stroke-width="6.5" stroke-linecap="round"/>
+      <path d="M 481 91.5 L 492 92.5" stroke="#15151A" stroke-width="6.5" stroke-linecap="round"/>
+      <path d="M 490 95 C 518 128, 522 192, 526 238" fill="none" stroke="#15151A" stroke-width="6.5" stroke-linecap="round"/>
+      <g transform="translate(526 238) rotate(12)">
+        <rect x="-11" y="0" width="22" height="26" rx="5" fill="#EDEAF0"/>
+        <rect x="-13" y="9" width="3" height="7" rx="1.2" fill="#B9B4C0"/><rect x="10" y="9" width="3" height="7" rx="1.2" fill="#B9B4C0"/>
+        <g fill="#B9B4C0"><rect x="-10.5" y="26" width="5" height="13" rx="2.5"/><rect x="5.5" y="26" width="5" height="13" rx="2.5"/></g>
+      </g>
+      <g stroke="#E8B04A" stroke-width="2" stroke-linecap="round">
+        <line x1="487" y1="89" x2="482" y2="81"/><line x1="491" y1="88" x2="490" y2="79"/>
+      </g>
+      <g transform="translate(142 12)" stroke="#FFE27A" stroke-width="3" stroke-linecap="round" fill="none">
+        <path d="M 404 266 l 8 -10 l -4 0 l 9 -12"/>
+        <path d="M 398 250 l -10 -4 M 420 268 l 10 4"/>
+      </g>
+    </svg>
+  </div>
+  <div class="text">
+    <h1 class="title">404</h1>
+    <p class="meta">mika-jeske.de</p>
+  </div>
+</div>
+
+<script>
+  var q = new URLSearchParams(location.search);
+  var ROLE = {
+    de: "Werkstoffwissenschaft & Messtechnik",
+    en: "Materials Science & Measurement",
+    fr: "Science des matériaux & métrologie",
+    es: "Ciencia de materiales y metrología",
+    it: "Scienza dei materiali e metrologia"
+  };
+  document.body.dataset.card = q.get("card") || "main";
+  document.getElementById("role").textContent = ROLE[q.get("lang")] || ROLE.de;
+</script>
+</body>
+</html>
