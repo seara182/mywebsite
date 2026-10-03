@@ -264,7 +264,7 @@
         screenshotNote: "Die Screenshots auf dieser Seite stammen aus der Entwicklung und können vom aktuellen Stand der App abweichen.",
         updateBanner: {
           pill: "Neu",
-          ticker: "+++ CheapSeats v1.3.1 ist da +++ Jetzt auch auf Spanisch +++ Andere Teams ansehen, ohne dein eigenes zu wechseln +++ Drei Instant Classics pro Woche im Watercooler +++ Es gibt jetzt einen Trailer +++ Versprochen: CheapSeats bleibt kostenlos +++",
+          ticker: "+++ CheapSeats v1.3.2 ist da +++ Jetzt auch auf Spanisch +++ Andere Teams ansehen, ohne dein eigenes zu wechseln +++ Drei Instant Classics pro Woche im Watercooler +++ Es gibt jetzt einen Trailer +++ Versprochen: CheapSeats bleibt kostenlos +++",
           cta: "Was ist neu →",
         },
         changelogHeading: "Was sich getan hat",
@@ -272,7 +272,7 @@
         changelog: {
           soon: { title: "Weitere Funktionen" },
           v13: {
-            tag: "v1.3.1 · Aktuell", title: "Sandlot to Sunday",
+            tag: "v1.3.2 · Aktuell", title: "Sandlot to Sunday",
             items: [
               "Spanisch als dritte App-Sprache, samt Glossar, Regelwerk und Datenschutzerklärung",
               "Andere Teams ansehen, ohne dein eigenes zu wechseln: Spielplan, Kader, Tabelle und Playoffs",
@@ -519,7 +519,7 @@
         screenshotNote: "Screenshots on this page are from development builds and may differ from the current version of the app.",
         updateBanner: {
           pill: "New",
-          ticker: "+++ CheapSeats v1.3.1 is here +++ Now in Spanish too +++ Browse other teams without switching your own +++ Three Instant Classics a week in the Watercooler +++ There is a trailer now +++ Promise: CheapSeats stays free +++",
+          ticker: "+++ CheapSeats v1.3.2 is here +++ Now in Spanish too +++ Browse other teams without switching your own +++ Three Instant Classics a week in the Watercooler +++ There is a trailer now +++ Promise: CheapSeats stays free +++",
           cta: "See what's new →",
         },
         changelogHeading: "What's changed",
@@ -527,7 +527,7 @@
         changelog: {
           soon: { title: "More features" },
           v13: {
-            tag: "v1.3.1 · Current", title: "Sandlot to Sunday",
+            tag: "v1.3.2 · Current", title: "Sandlot to Sunday",
             items: [
               "Spanish as a third app language, including the glossary, Rule Book and privacy statement",
               "Browse any team without changing the one you follow: schedule, roster, standings and playoffs",
@@ -774,7 +774,7 @@
         screenshotNote: "Les captures d'écran de cette page proviennent de versions de développement et peuvent différer de la version actuelle de l'application.",
         updateBanner: {
           pill: "Nouveau",
-          ticker: "+++ CheapSeats v1.3.1 est là +++ Maintenant aussi en espagnol +++ Consulter d'autres équipes sans changer la tienne +++ Trois Instant Classics par semaine dans le Watercooler +++ Il y a maintenant une bande-annonce +++ Promis : CheapSeats reste gratuite +++",
+          ticker: "+++ CheapSeats v1.3.2 est là +++ Maintenant aussi en espagnol +++ Consulter d'autres équipes sans changer la tienne +++ Trois Instant Classics par semaine dans le Watercooler +++ Il y a maintenant une bande-annonce +++ Promis : CheapSeats reste gratuite +++",
           cta: "Voir les nouveautés →",
         },
         changelogHeading: "Ce qui a changé",
@@ -782,7 +782,7 @@
         changelog: {
           soon: { title: "Plus de fonctionnalités" },
           v13: {
-            tag: "v1.3.1 · Actuelle", title: "Sandlot to Sunday",
+            tag: "v1.3.2 · Actuelle", title: "Sandlot to Sunday",
             items: [
               "L'espagnol comme troisième langue de l'application, avec le glossaire, le guide des règles et la déclaration de confidentialité",
               "Consulter n'importe quelle équipe sans changer celle que tu suis : calendrier, effectif, classement et playoffs",
@@ -1029,7 +1029,7 @@
         screenshotNote: "Las capturas de pantalla de esta página son de versiones en desarrollo y pueden diferir de la versión actual de la aplicación.",
         updateBanner: {
           pill: "Nuevo",
-          ticker: "+++ Ya está aquí CheapSeats v1.3.1 +++ Ahora también en español +++ Explora otros equipos sin cambiar el tuyo +++ Tres Instant Classics por semana en el Watercooler +++ Ahora hay tráiler +++ Promesa: CheapSeats sigue siendo gratis +++",
+          ticker: "+++ Ya está aquí CheapSeats v1.3.2 +++ Ahora también en español +++ Explora otros equipos sin cambiar el tuyo +++ Tres Instant Classics por semana en el Watercooler +++ Ahora hay tráiler +++ Promesa: CheapSeats sigue siendo gratis +++",
           cta: "Ver novedades →",
         },
         changelogHeading: "Qué ha cambiado",
@@ -1037,7 +1037,7 @@
         changelog: {
           soon: { title: "Más funciones" },
           v13: {
-            tag: "v1.3.1 · Actual", title: "Sandlot to Sunday",
+            tag: "v1.3.2 · Actual", title: "Sandlot to Sunday",
             items: [
               "El español como tercer idioma de la app, con el glosario, el reglamento y la declaración de privacidad",
               "Explora cualquier equipo sin cambiar el que sigues: calendario, plantilla, clasificación y playoffs",
@@ -1297,7 +1297,7 @@
         screenshotNote: "Gli screenshot in questa pagina provengono da versioni di sviluppo e potrebbero differire dalla versione attuale dell'app.",
         updateBanner: {
           pill: "Novità",
-          ticker: "+++ CheapSeats v1.3.1 è arrivata +++ Ora anche in spagnolo +++ Esplora altre squadre senza cambiare la tua +++ Tre Instant Classic a settimana nel Watercooler +++ Ora c'è un trailer +++ Promesso: CheapSeats resta gratuita +++",
+          ticker: "+++ CheapSeats v1.3.2 è arrivata +++ Ora anche in spagnolo +++ Esplora altre squadre senza cambiare la tua +++ Tre Instant Classic a settimana nel Watercooler +++ Ora c'è un trailer +++ Promesso: CheapSeats resta gratuita +++",
           cta: "Scopri le novità →",
         },
         changelogHeading: "Cosa è cambiato",
@@ -1305,7 +1305,7 @@
         changelog: {
           soon: { title: "Altre funzioni" },
           v13: {
-            tag: "v1.3.1 · Attuale", title: "Sandlot to Sunday",
+            tag: "v1.3.2 · Attuale", title: "Sandlot to Sunday",
             items: [
               "Lo spagnolo come terza lingua dell'app, con glossario, regolamento e informativa sulla privacy",
               "Esplora qualsiasi squadra senza cambiare quella che segui: calendario, rosa, classifica e playoff",

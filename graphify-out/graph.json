@@ -11061,13 +11061,13 @@
     },
     {
       "id": "projects_cheapseats_cheapseats_features_and_changelog_v1_3_1_sandlot_to_sunday",
-      "label": "v1.3.1: Sandlot to Sunday",
+      "label": "v1.3.2: Sandlot to Sunday",
       "_origin": "ast",
       "community": 27,
       "community_name": "Changelog",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "v1.3.1: sandlot to sunday",
+      "norm_label": "v1.3.2: sandlot to sunday",
       "source_file": "projects/cheapseats/CheapSeats-Features-and-Changelog.md",
       "source_location": "L6"
     },

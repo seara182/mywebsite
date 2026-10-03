@@ -3,7 +3,31 @@
 ## v2.0.0: The American Quartet
 Coming in 2027
 
-## v1.3.1: Sandlot to Sunday
+## v1.3.2: Redesigned the Settings Window to replace AI generated assets
+
+### New
+- Added a redesigned settings window styled as a game day ticket, with a striped header in your team's color, a ticket stub showing section, row (the app version) and season, and fine print with a QR code
+- Added dropdown menus for language, text size, theme and default team, with a short description next to each option
+- Added game day names for the text sizes (Cheap seats, Box seats, Front row) and the themes (Day game, Night game, Auto)
+
+### Improved
+- Settings are now grouped into Appearance, Teams, Notifications and app, and Legal, with one line per setting
+- Temperature is now a °C or °F switch: the unit is detected from your system once and then remembered
+- Demo Mode is now an on and off switch like the other settings
+- Sidebar backgrounds are now shown as larger color tiles
+
+### Fixed
+- Fixed the Team colors label in Settings turning dark on the team gradient when it was selected
+
+## v1.3.1: Weather Data Fix
+
+### New
+- Added support for metric units
+
+### Fixed
+- Fixed the weather note showing only in English, it is now localized
+
+## v1.3.0: 'Sandlot to Sunday'
 
 ### New
 - Added a View button next to Follow for every team in the team selector, and every row in the standings table now opens that team
@@ -40,11 +64,10 @@ Coming in 2027
 - Fixed kickoff times using a hard-coded Berlin time instead of your device's time zone
 - Fixed the all-time series line and the title bar mascot label showing San Francisco text to followers of other teams
 - Fixed the remaining English labels in the German interface
-- Fixed the weather note showing only in English, it is now localized
 - Fixed the History archive for the 2012, 2013, 2021 and 2024 seasons and completed the 2024 entries
 - Fixed postponed games reading as live or as a 0-0 final, and handled MLB and theScore statuses
 
-## v1.2.0: Watercooler Conversations
+## v1.2.0: 'Watercooler Conversations'
 
 ### New
 - Added the Watercooler, a panel with the talking points for your team's next game and last result
@@ -87,7 +110,7 @@ Coming in 2027
 - Fixed data of a previously selected team sometimes replacing the current team's data after a slow refresh
 - Fixed data of a team you stopped following still showing from saved data
 
-## v1.1.0: Yours, Live and in Color
+## v1.1.0: 'Yours, Live and in Color'
 
 ### New
 - Added live score tracking for your followed NFL and MLB teams
@@ -134,7 +157,7 @@ Coming in 2027
 - Fixed a game in progress sometimes being shown as the last completed game
 - Fixed live scores appearing frozen between updates
 
-## v1.0.0: First Kickoff
+## v1.0.0: 'First Kickoff'
 
 ### New
 - Released CheapSeats on the Microsoft Store
