@@ -584,7 +584,7 @@
              third-party request; the app itself talks to ESPN/MLB (Impressum §6). -->
         <div class="coming__actions">
           <a class="gh" href="https://apps.microsoft.com/detail/9N6JHBV7G033?hl=de-DE&amp;cid=mika-jeske-website" target="_blank" rel="noopener" data-store-link><span data-i18n="cheapseats.githubBtn">Zum Microsoft Store</span> <span aria-hidden>→</span></a>
-          <a class="gh gh--ghost" href="install/"><span data-i18n="cheapseats.install.btn">Auf iPhone, iPad &amp; Mac</span> <span aria-hidden>→</span></a>
+          <a class="gh gh--ghost" href="install/" data-lang-link><span data-i18n="cheapseats.install.btn">Auf iPhone, iPad &amp; Mac</span> <span aria-hidden>→</span></a>
         </div>
       </div>
     </div>
@@ -857,11 +857,21 @@
         var url = I18N.getLang() === "de" ? STORE_DE : STORE_EN;
         document.querySelectorAll("[data-store-link]").forEach(function (a) { a.href = url; });
       }
+      // The install guide is a single-URL page too: hand it the current language.
+      function applyLangLinks() {
+        var lang = I18N.getLang();
+        document.querySelectorAll("[data-lang-link]").forEach(function (a) {
+          var url = new URL(a.getAttribute("href"), location.href);
+          url.searchParams.set("lang", lang);
+          a.href = url.pathname + url.search + url.hash;
+        });
+      }
       Widgets.applyStaticTranslations(document);
       applyStoreLinks();
+      applyLangLinks();
       Widgets.mountLanguageSwitcher(document.getElementById("lang-switcher-root"));
       Widgets.mountContactChip(document.getElementById("contact-chip-root"));
-      window.addEventListener("langchange", function () { Widgets.applyStaticTranslations(document); applyStoreLinks(); });
+      window.addEventListener("langchange", function () { Widgets.applyStaticTranslations(document); applyStoreLinks(); applyLangLinks(); });
     })();
     // trailer: native player. No autoplay, volume 60%, nothing third-party.
     (function () {
