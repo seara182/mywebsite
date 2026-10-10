@@ -405,6 +405,10 @@
     .coming p { margin: 0; font-size: var(--fs-body); color: var(--on-dark-body); max-width: 46ch; }
     .gh { display: inline-flex; align-items: center; gap: 8px; padding: 13px 24px; background: var(--paper); color: var(--ink); border-radius: var(--radius-md); font-family: var(--font-text); font-size: var(--fs-body); font-weight: 600; text-decoration: none; flex: none; transition: transform .2s var(--ease-out), box-shadow .2s var(--ease-out); }
     .gh:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .gh--ghost { background: transparent; color: var(--on-dark-strong); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.28); }
+    .gh--ghost:hover { box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5); }
+    .coming__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .coming p.coming__hint { margin-top: 10px; font-size: var(--fs-caption); color: var(--on-dark-body); opacity: .8; }
 
     /* ---- store badges (not linked yet) ----
        Apple + Google brand guidelines forbid recoloring or changing the
@@ -592,9 +596,15 @@
       <div class="coming">
         <div>
           <span class="badge" data-i18n="cheapseats.comingBadge">Microsoft Store</span>
-          <p data-i18n="cheapseats.comingText">CheapSeats gibt es nur im Microsoft Store. Kostenlos, und das bleibt auch so.</p>
+          <p data-i18n="cheapseats.comingText">CheapSeats gibt es im Microsoft Store und als Web-App fürs iPhone und iPad. Kostenlos, und das bleibt auch so.</p>
+          <p class="coming__hint" data-i18n="cheapseats.webAppHint">Auf dem iPhone: in Safari öffnen, Teilen-Symbol, „Zum Home-Bildschirm“.</p>
         </div>
-        <a class="gh" href="https://apps.microsoft.com/detail/9N6JHBV7G033?hl=de-DE&amp;cid=mika-jeske-website" target="_blank" rel="noopener" data-store-link><span data-i18n="cheapseats.githubBtn">Zum Microsoft Store</span> <span aria-hidden>→</span></a>
+        <!-- The web app is same-origin (/app/), so linking it adds no third-party
+             request to this page; the app itself talks to ESPN/MLB, see its privacy statement. -->
+        <div class="coming__actions">
+          <a class="gh" href="https://apps.microsoft.com/detail/9N6JHBV7G033?hl=de-DE&amp;cid=mika-jeske-website" target="_blank" rel="noopener" data-store-link><span data-i18n="cheapseats.githubBtn">Zum Microsoft Store</span> <span aria-hidden>→</span></a>
+          <a class="gh gh--ghost" href="../../app/"><span data-i18n="cheapseats.webAppBtn">Web-App öffnen</span> <span aria-hidden>→</span></a>
+        </div>
       </div>
 
       <!-- Not links yet: <div>, not <a> - keeps them out of tab order and
