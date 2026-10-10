@@ -24,256 +24,240 @@
   <link rel="stylesheet" href="../../../ci/styles.css">
   <link rel="stylesheet" href="../../../ci/i18n-ui.css">
   <style>
+    /* Layout and type follow the CheapSeats page: mono sage labels (.tag .k,
+       .spec dt), "·"-separated text links (.skipper__link), the .spec list and
+       the ink button. No pills, no boxed cards, no gradients, colour-only hover. */
     html { scroll-behavior: smooth; }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
     body { background: var(--paper); color: var(--text); margin: 0; overflow-x: hidden; }
     .wrap { max-width: var(--content-wide); margin: 0 auto; padding: 0 var(--gutter, clamp(20px,5vw,64px)); }
-
-    /* ---- top bar + back link (same as the CheapSeats page) ---- */
-    .topbar { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; padding: clamp(20px,3vw,32px) 0; }
-    .lang-hint { top: calc(100% + 10px); left: 0; transform: none; }
-    .back-link {
-      display: inline-flex; align-items: center; gap: 8px; padding: 9px 18px;
-      border: 1px solid var(--border-strong); border-radius: var(--radius-pill);
-      font-family: var(--font-text); font-size: var(--fs-caption); font-weight: 600;
-      letter-spacing: 0.04em; text-transform: uppercase; color: var(--heading);
-      text-decoration: none; transition: all .24s var(--ease-out);
-    }
-    .back-link:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); transform: translateX(-3px); }
-    .topbar .back-link { margin-left: max(0px, calc(78px - max(0px, (100vw - var(--content-wide)) / 2) - var(--gutter))); }
     .made { font-family: var(--font-mono); font-size: var(--fs-caption); color: var(--text-faint); }
+    .k { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--sage); font-weight: 600; }
 
-    /* ---- hero ---- */
-    .hero { position: relative; padding: clamp(24px,5vw,72px) 0 clamp(40px,6vw,80px); overflow-x: clip; }
-    .hero-glow { position: absolute; width: 620px; height: 620px; top: -60px; right: -180px; z-index: 0; pointer-events: none; background: var(--glow-plum); filter: blur(70px); opacity: .5; border-radius: 50%; }
-    .eyebrow { position: relative; z-index: 1; display: inline-flex; padding: 5px 14px; font-family: var(--font-text); font-size: var(--fs-caption); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; border-radius: var(--radius-pill); background: var(--badge-accent-bg); border: 1px solid var(--badge-accent-border); color: var(--badge-accent-fg); }
-    h1 { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.025em; line-height: 1.02; font-size: var(--fs-h1); color: var(--ink); margin: 0; max-width: 16ch; position: relative; z-index: 1; }
-    .hero-id { position: relative; z-index: 1; display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
-    .hero-id .eyebrow { margin: 0; }
-    .app-icon { width: clamp(56px,6vw,72px); height: auto; flex: none; border-radius: 22%; box-shadow: var(--shadow-md); }
-    .hero-sub { font-size: var(--fs-lead); line-height: var(--lh-relaxed); color: var(--text-body); max-width: 60ch; margin: 22px 0 0; position: relative; z-index: 1; }
-    .hero-cta { position: relative; z-index: 1; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; margin-top: 32px; }
-    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 26px; border-radius: var(--radius-md); font-family: var(--font-text); font-size: var(--fs-body); font-weight: 600; text-decoration: none; background: var(--ink); color: var(--paper); transition: transform .2s var(--ease-out), box-shadow .2s var(--ease-out); }
-    .btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
-    .btn:focus-visible, .tab:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 3px; }
+    /* ---- top: back link + hero ---- */
+    .topbar { display: flex; align-items: center; padding: 32px 0 0; padding-left: max(0px, calc(78px - max(0px, (100vw - var(--content-wide)) / 2) - var(--gutter))); }
+    .lang-hint { top: calc(100% + 8px); left: 0; transform: none; }
+    .back { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--text-muted); text-decoration: none; transition: color var(--dur-fast) var(--ease-out); }
+    .back:hover { color: var(--heading); }
+    .back:focus-visible, .btn:focus-visible, .tab:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 4px; }
+    .hero { padding: 48px 0 64px; }
+    .hero-id { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+    .app-icon { width: 56px; height: 56px; border-radius: 22%; box-shadow: var(--shadow-sm); }
+    h1 { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.025em; line-height: 1.04; font-size: var(--fs-h1); color: var(--ink); margin: 0; max-width: 18ch; }
+    .hero-sub { font-size: var(--fs-lead); line-height: var(--lh-relaxed); color: var(--text-body); max-width: 60ch; margin: 24px 0 0; }
+    .hero-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px; margin-top: 32px; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 24px; border-radius: var(--radius-md); font-family: var(--font-text); font-size: var(--fs-body); font-weight: 600; text-decoration: none; background: var(--ink); color: var(--paper); transition: background-color var(--dur-fast) var(--ease-out); }
+    .btn:hover { background: var(--ink-soft); }
     .facts { font-family: var(--font-mono); font-size: var(--fs-caption); letter-spacing: .04em; color: var(--text-muted); }
 
     /* ---- tutorial ---- */
-    section { padding: clamp(40px,6vw,88px) 0; }
-    h2 { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h2); letter-spacing: var(--ls-heading); line-height: 1.12; color: var(--heading); margin: 0; max-width: 22ch; }
-    .lede { font-size: var(--fs-lead); line-height: var(--lh-relaxed); color: var(--text-body); max-width: 62ch; margin: 14px 0 0; }
+    section { padding: 64px 0; border-top: 1px solid var(--border); }
+    h2 { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h2); letter-spacing: var(--ls-heading); line-height: 1.12; color: var(--heading); margin: 8px 0 0; max-width: 24ch; }
+    .lede { font-size: var(--fs-lead); line-height: var(--lh-relaxed); color: var(--text-body); max-width: 62ch; margin: 16px 0 0; }
 
-    .tabs { display: inline-flex; gap: 4px; margin-top: 28px; padding: 4px; border-radius: var(--radius-pill); background: var(--surface-sunken); border: 1px solid var(--border); }
-    .tab { appearance: none; border: 0; background: transparent; color: var(--text-muted); font: 600 var(--fs-body)/1 var(--font-text); padding: 11px 22px; border-radius: var(--radius-pill); cursor: pointer; transition: background .2s var(--ease-out), color .2s var(--ease-out), box-shadow .2s var(--ease-out); }
-    .tab[aria-selected="true"] { background: var(--surface-card); color: var(--heading); box-shadow: var(--shadow-sm); }
-    .tab:hover:not([aria-selected="true"]) { color: var(--heading); }
+    /* Device switch: text links like the section skipper, "·" between them. */
+    .tabs { display: flex; flex-wrap: wrap; align-items: baseline; margin-top: 32px; }
+    .tab { appearance: none; border: 0; background: none; padding: 8px 0; font: 600 var(--fs-body)/1.2 var(--font-text); color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; transition: color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out); }
+    .tab + .tab::before { content: "\00B7"; display: inline-block; margin: 0 16px; color: var(--border-strong); font-weight: 400; pointer-events: none; }
+    .tab[aria-selected="true"] { color: var(--heading); }
+    .tab[aria-selected="true"] .tab__label { box-shadow: inset 0 -2px 0 var(--sage); }
+    .tab:hover .tab__label { color: var(--heading); }
+    .tab__label { padding-bottom: 6px; }
 
-    .panel { margin-top: clamp(28px,4vw,48px); }
+    .panel { margin-top: 40px; }
     .panel[hidden] { display: none; }
-    /* Steps: one row of five phones (or three across for iPad/Mac) on wide
-       screens; below that a sideways, snapping row you swipe through. */
-    .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(16px,2vw,28px); grid-template-columns: repeat(5, minmax(0,1fr)); counter-reset: step; }
-    .panel--wide .steps { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 32px 24px; grid-template-columns: repeat(5, minmax(0,1fr)); }
+    .panel--wide .steps { grid-template-columns: repeat(3, minmax(0,1fr)); gap: 40px 32px; }
     @media (max-width: 1060px) {
       .steps, .panel--wide .steps {
-        grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: min(68vw, 260px);
-        overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter, 20px);
-        margin-inline: calc(-1 * var(--gutter, 20px)); padding: 4px var(--gutter, 20px) 18px;
+        grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: min(64vw, 240px);
+        overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+        scroll-padding-inline: var(--gutter, 20px);
+        margin-inline: calc(-1 * var(--gutter, 20px)); padding: 8px var(--gutter, 20px) 24px;
         scrollbar-width: thin;
       }
       .panel--wide .steps { grid-auto-columns: min(84vw, 440px); }
       .steps > li { scroll-snap-align: start; }
     }
-    .step { margin: 0; display: flex; flex-direction: column; gap: 16px; counter-increment: step; height: 100%; }
-    .step__media { position: relative; border-radius: var(--radius-lg); background: var(--paper-2); border: 1px solid var(--border); padding: 7% 9%; display: grid; place-items: center; aspect-ratio: 9 / 16.5; overflow: hidden; }
-    .panel--wide .step__media { aspect-ratio: 4 / 3; padding: 5%; }
-    .step__media > img.shot { width: 100%; height: 100%; object-fit: contain; display: block; }
-    .step__num { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--ink); color: var(--paper); font: 700 var(--fs-caption)/1 var(--font-text); margin-right: 10px; flex: none; }
-    .step__num::before { content: counter(step); }
-    .step__title { display: flex; align-items: center; font-family: var(--font-display); font-weight: 600; font-size: var(--fs-title); color: var(--heading); margin: 0; }
+    .step { margin: 0; display: flex; flex-direction: column; gap: 24px; }
+    .step__media { display: flex; justify-content: center; align-items: flex-end; }
+    .step__media > img.shot { width: 100%; height: auto; display: block; border-radius: var(--radius-md); box-shadow: var(--shadow-md); }
+    .step__num { display: block; font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: .1em; color: var(--sage); margin-bottom: 8px; }
+    .step__title { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-title); line-height: 1.25; color: var(--heading); margin: 0; }
     .step__text { margin: 8px 0 0; font-size: var(--fs-small); line-height: var(--lh-relaxed); color: var(--text-body); }
 
-    /* ---- device mockups ----
-       Drawn, not photographed: the labels are real text (data-i18n), so every
-       language gets its own menus. Each screen is a size container and sizes
-       everything in cqw, so a mockup scales as one picture. Real screenshots
-       replace them per step, see the swap-in script at the bottom. */
-    .dev { position: relative; background: #121214; box-shadow: var(--shadow-lg); } /* device bezel: always dark, like the hardware, in both site themes */
-    .dev__screen { position: relative; overflow: hidden; background: var(--paper); container-type: inline-size; height: 100%; color: var(--text-strong); font-family: var(--font-text); }
-    .dev--phone { height: 100%; max-width: 100%; aspect-ratio: 9 / 19.5; border-radius: 15% / 7%; padding: 3.4%; }
-    .dev--phone .dev__screen { border-radius: 12% / 5.6%; }
-    .dev--tablet { width: 100%; aspect-ratio: 4 / 3; border-radius: 6%; padding: 3%; }
-    .dev--tablet .dev__screen { border-radius: 3%; }
-    .dev--mac { width: 100%; aspect-ratio: 16 / 11; border-radius: 3%; padding: 0; background: var(--paper-3); overflow: hidden; border: 1px solid var(--border-strong); }
-    .dev--mac .dev__screen { border-radius: 0; background: var(--paper-2); }
+    /* ---- good to know: the .spec list ---- */
+    .know { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px,100%),1fr)); gap: 0 40px; margin-top: 40px; }
+    .know dl { margin: 0; }
+    .know dt { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--sage); font-weight: 600; margin-bottom: 8px; }
+    .know dd { margin: 0 0 32px; font-size: var(--fs-small); line-height: 1.55; color: var(--text-body); }
+    .know a { color: var(--heading); text-decoration: underline; text-underline-offset: 2px; }
+    .shot-note { margin: 8px 0 0; font-size: var(--fs-caption); color: var(--text-faint); }
 
-    .m-shot { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center; }
-    .m-dim::after { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,.28); }
-    .m-dim > .m-pop, .m-dim > .m-sheet, .m-dim > .m-dialog, .m-dim > .m-menu { z-index: 2; }
+    footer { padding: 64px 0 40px; border-top: 1px solid var(--border); }
+    .footrow { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: center; }
 
-    /* status bar (phone) */
-    .m-status { position: absolute; top: 0; left: 0; right: 0; z-index: 3; display: flex; justify-content: space-between; align-items: center; padding: 3.2cqw 9cqw 0; font-weight: 600; font-size: 4.2cqw; background: var(--paper); height: 11cqw; box-sizing: border-box; }
-    .m-status__r { display: inline-flex; gap: 1.4cqw; }
-    .m-status__r i { display: block; width: 4cqw; height: 2.6cqw; border-radius: .8cqw; background: var(--text-strong); }
-    .m-screen-body { position: absolute; top: 11cqw; left: 0; right: 0; bottom: 0; }
+    /* ======================================================================
+       Device mockups: iOS 26, iPadOS 26 and macOS 26 Tahoe in their light
+       appearance, drawn in HTML so every label is translated. The colours in
+       this block depict Apple's UI (system blue, green, greys, glass), not the
+       site palette, and stay light in both site themes, like the screenshots
+       they frame. Each screen is a size container; --u is one "point", so a
+       mockup scales as one picture. Real screenshots replace them per step,
+       see the swap-in script at the bottom.
+       ====================================================================== */
+    .dev { position: relative; background: #121214; box-shadow: 0 24px 48px rgba(0,0,0,.18), 0 4px 12px rgba(0,0,0,.08); }
+    .dev__screen {
+      --u: 1cqw;
+      --ios-label: #1c1c1e; --ios-secondary: rgba(60,60,67,.6); --ios-sep: rgba(60,60,67,.14);
+      --ios-fill: rgba(120,120,128,.16); --ios-blue: #0a84ff; --ios-green: #34c759;
+      position: relative; overflow: hidden; height: 100%; container-type: inline-size;
+      background: #f2f2f7; color: var(--ios-label); font-family: var(--font-text); line-height: 1.25;
+    }
+    .dev--phone { width: 84%; aspect-ratio: 9 / 19.5; border-radius: 16% / 7.4%; padding: 3.2%; }
+    .dev--phone .dev__screen { border-radius: 13% / 6%; }
+    .dev--tablet { width: 100%; aspect-ratio: 4 / 3; border-radius: 5.5%; padding: 2.8%; }
+    .dev--tablet .dev__screen { --u: .44cqw; border-radius: 3%; }
+    .dev--mac { width: 100%; aspect-ratio: 16 / 10.4; border-radius: 2.4%; padding: 1.2%; }
+    .dev--mac .dev__screen { --u: .4cqw; border-radius: 1.6%; }
 
-    /* Safari toolbar, iPhone (iOS 26 bottom bar) */
-    .m-sbar { position: absolute; left: 3cqw; right: 3cqw; bottom: 3.5cqw; z-index: 3; display: flex; align-items: center; gap: 2.4cqw; }
-    .m-pill { background: var(--surface-card); border: 1px solid var(--hairline); box-shadow: var(--shadow-sm); border-radius: 99cqw; height: 12cqw; display: inline-flex; align-items: center; justify-content: center; color: var(--text-strong); }
-    .m-pill--round { width: 12cqw; flex: none; }
-    .m-field { flex: 1; gap: 2cqw; padding: 0 3.5cqw; font-size: 4cqw; justify-content: space-between; }
-    .m-field span { flex: 1; text-align: center; white-space: nowrap; }
-    .m-ico { width: 5cqw; height: 5cqw; flex: none; }
+    .m-shot { position: absolute; left: 0; top: 0; width: 100%; height: auto; display: block; }
+    .m-shot--under-bar { top: calc(var(--u) * 13); }
+    .m-dimmer { position: absolute; inset: 0; background: rgba(0,0,0,.22); }
 
-    /* Safari toolbar, iPad / Mac (top) */
-    .m-tbar { position: absolute; top: 0; left: 0; right: 0; z-index: 3; height: 7cqw; display: flex; align-items: center; gap: 1.4cqw; padding: 0 2cqw; background: var(--paper-2); border-bottom: 1px solid var(--hairline); box-sizing: border-box; }
-    .m-tbar .m-field { height: 4.4cqw; font-size: 1.7cqw; background: var(--surface-card); border-radius: 1.2cqw; border: 1px solid var(--hairline); display: inline-flex; align-items: center; max-width: 46%; margin: 0 auto; }
-    .m-tbar .m-ico { width: 2.4cqw; height: 2.4cqw; color: var(--text-muted); }
-    .m-tbar .m-btn { display: inline-grid; place-items: center; width: 4.4cqw; height: 4.4cqw; border-radius: 1.2cqw; color: var(--text-strong); }
-    .m-under-tbar { position: absolute; top: 7cqw; left: 0; right: 0; bottom: 0; }
+    /* Liquid Glass: translucent, blurred, a bright inner rim and a soft drop. */
+    .m-glass {
+      background: rgba(255,255,255,.66);
+      -webkit-backdrop-filter: blur(calc(var(--u) * 3)) saturate(1.8); backdrop-filter: blur(calc(var(--u) * 3)) saturate(1.8);
+      box-shadow: inset 0 0 0 calc(var(--u) * .3) rgba(255,255,255,.8), inset 0 calc(var(--u) * .5) calc(var(--u) * .8) rgba(255,255,255,.55), 0 calc(var(--u) * 1.5) calc(var(--u) * 5) rgba(0,0,0,.14);
+    }
+    .m-ico { width: calc(var(--u) * 5); height: calc(var(--u) * 5); flex: none; color: var(--ios-label); }
+    .m-circ { display: inline-grid; place-items: center; width: calc(var(--u) * 12); height: calc(var(--u) * 12); border-radius: 50%; flex: none; }
+    .m-circ--sm { width: calc(var(--u) * 8.5); height: calc(var(--u) * 8.5); }
+    .m-circ--sm .m-ico { width: calc(var(--u) * 4); height: calc(var(--u) * 4); }
+    .m-circ--blue { background: var(--ios-blue); }
+    .m-circ--blue .m-ico { color: #fff; }
 
-    /* popover menu (iPhone page menu, iPad share popover) */
-    .m-pop { position: absolute; background: var(--surface-card); border-radius: 5cqw; box-shadow: var(--shadow-lg); padding: 1.5cqw; display: flex; flex-direction: column; }
-    .m-row { display: flex; align-items: center; gap: 3cqw; padding: 2.8cqw 3.2cqw; border-radius: 3cqw; font-size: 4.2cqw; white-space: nowrap; }
-    .m-row + .m-row { border-top: 1px solid var(--hairline); }
-    .m-row .m-ico { width: 5.2cqw; height: 5.2cqw; }
-    .m-ph { display: block; height: 2.6cqw; border-radius: 1cqw; background: var(--paper-3); }
-    .m-ph-ico { display: block; width: 5.2cqw; height: 5.2cqw; border-radius: 1.4cqw; background: var(--paper-3); flex: none; }
+    /* status bar */
+    .m-status { position: absolute; top: 0; left: 0; right: 0; height: calc(var(--u) * 11); display: flex; justify-content: space-between; align-items: center; padding: calc(var(--u) * 2.4) calc(var(--u) * 8) 0; font-weight: 600; font-size: calc(var(--u) * 4.2); box-sizing: border-box; background: linear-gradient(#f2f2f7 60%, rgba(242,242,247,0)); }
+    .m-wall .m-status { background: none; }
+    .m-status__r { display: inline-flex; gap: calc(var(--u) * 1.2); }
+    .m-status__r i { width: calc(var(--u) * 4); height: calc(var(--u) * 2.4); border-radius: calc(var(--u) * .8); background: var(--ios-label); display: block; }
+    .dev--phone .m-shot { top: calc(var(--u) * 9); }
 
-    /* share sheet */
-    .m-sheet { position: absolute; left: 0; right: 0; bottom: 0; top: 30%; background: var(--paper-2); border-radius: 7cqw 7cqw 0 0; padding: 2.4cqw 4cqw 4cqw; display: flex; flex-direction: column; gap: 3.4cqw; }
-    .m-grabber { width: 11cqw; height: 1.3cqw; border-radius: 1cqw; background: var(--hairline-strong); margin: 0 auto .6cqw; }
-    .m-head { display: flex; align-items: center; gap: 3cqw; }
-    .m-head img { width: 11cqw; height: 11cqw; border-radius: 2.6cqw; }
-    .m-head b { display: block; font-size: 4.2cqw; }
-    .m-head small { display: block; font-size: 3.3cqw; color: var(--text-muted); }
-    .m-apps { display: flex; gap: 4cqw; }
-    .m-apps i { width: 14cqw; height: 14cqw; border-radius: 3.4cqw; background: var(--paper-3); display: block; }
-    .m-list { background: var(--surface-card); border-radius: 4cqw; display: flex; flex-direction: column; }
-    .m-list .m-row { justify-content: space-between; }
+    /* Safari, iPhone: the floating bottom bar */
+    .m-sbar { position: absolute; left: calc(var(--u) * 3.5); right: calc(var(--u) * 3.5); bottom: calc(var(--u) * 4); display: flex; align-items: center; gap: calc(var(--u) * 2.4); z-index: 2; }
+    .m-field { flex: 1; min-width: 0; height: calc(var(--u) * 12); border-radius: calc(var(--u) * 6); display: flex; align-items: center; gap: calc(var(--u) * 2); padding: 0 calc(var(--u) * 3.6); font-size: calc(var(--u) * 4); box-sizing: border-box; }
+    .m-field__url { flex: 1; text-align: center; white-space: nowrap; overflow: hidden; }
+    .m-field__ico { display: inline-grid; place-items: center; border-radius: 50%; padding: calc(var(--u) * .8); margin-left: calc(var(--u) * -.8); }
 
-    /* add dialog */
-    .m-dialog { position: absolute; left: 0; right: 0; bottom: 0; top: 7%; background: var(--paper-2); border-radius: 7cqw 7cqw 0 0; padding: 4cqw; display: flex; flex-direction: column; gap: 4cqw; }
-    .m-dialog__bar { display: flex; align-items: center; justify-content: space-between; font-size: 3.8cqw; gap: 2cqw; }
-    .m-dialog__bar b { font-size: 4cqw; text-align: center; flex: 1; }
-    .m-link { color: var(--plum); font-weight: 600; white-space: nowrap; padding: 1cqw 1.6cqw; border-radius: 2cqw; }
-    .m-card { background: var(--surface-card); border-radius: 4cqw; padding: 3.4cqw; display: flex; gap: 3.4cqw; align-items: flex-start; }
-    .m-card img { width: 15cqw; height: 15cqw; border-radius: 3.6cqw; box-shadow: var(--shadow-sm); }
-    .m-card b { display: block; font-size: 4.2cqw; padding-bottom: 1.6cqw; border-bottom: 1px solid var(--hairline); margin-bottom: 1.6cqw; }
-    .m-card small { display: block; font-size: 3.3cqw; color: var(--text-muted); }
-    .m-toggle-row { background: var(--surface-card); border-radius: 4cqw; padding: 3.4cqw; display: flex; align-items: center; justify-content: space-between; font-size: 4cqw; gap: 3cqw; }
-    .m-toggle { width: 12cqw; height: 7cqw; border-radius: 4cqw; background: var(--sage); position: relative; flex: none; }
-    .m-toggle::after { content: ""; position: absolute; right: .7cqw; top: .7cqw; width: 5.6cqw; height: 5.6cqw; border-radius: 50%; background: #fff; box-shadow: var(--shadow-sm); }
+    /* menus, popovers, sheets */
+    .m-pop { position: absolute; border-radius: calc(var(--u) * 6); padding: calc(var(--u) * 1.6); display: flex; flex-direction: column; z-index: 3; }
+    .m-pop--menu { left: calc(var(--u) * 4); bottom: calc(var(--u) * 19); width: 64%; }
+    .m-row { display: flex; align-items: center; gap: calc(var(--u) * 3); padding: calc(var(--u) * 2.8) calc(var(--u) * 3.2); border-radius: calc(var(--u) * 3.4); font-size: calc(var(--u) * 4.1); white-space: nowrap; }
+    .m-row--end { justify-content: space-between; }
+    .m-group > .m-row + .m-row { box-shadow: 0 calc(var(--u) * -.25) 0 var(--ios-sep); }
+    .m-ph { display: block; height: calc(var(--u) * 2.4); border-radius: calc(var(--u) * 1.2); background: var(--ios-fill); }
+    .m-ph-ico { display: block; width: calc(var(--u) * 5); height: calc(var(--u) * 5); border-radius: calc(var(--u) * 1.4); background: var(--ios-fill); flex: none; }
+    .m-sheet { position: absolute; left: calc(var(--u) * 2); right: calc(var(--u) * 2); bottom: calc(var(--u) * 2); top: 34%; border-radius: calc(var(--u) * 10); padding: calc(var(--u) * 4.5) calc(var(--u) * 4); display: flex; flex-direction: column; gap: calc(var(--u) * 4); z-index: 3; }
+    .m-sheet--tall { top: 8%; }
+    .m-sheet__head { display: flex; align-items: center; gap: calc(var(--u) * 3); }
+    .m-sheet__head img { width: calc(var(--u) * 11); height: calc(var(--u) * 11); border-radius: calc(var(--u) * 2.6); }
+    .m-sheet__head > div { flex: 1; min-width: 0; }
+    .m-sheet__head b, .m-card b { display: block; font-size: calc(var(--u) * 4.2); font-weight: 600; }
+    .m-sheet__head small, .m-card small { display: block; font-size: calc(var(--u) * 3.3); color: var(--ios-secondary); }
+    .m-sheet__bar { display: flex; align-items: center; justify-content: space-between; gap: calc(var(--u) * 2); }
+    .m-sheet__bar b { flex: 1; text-align: center; font-size: calc(var(--u) * 4.2); font-weight: 600; }
+    .m-apps { display: flex; gap: calc(var(--u) * 3.4); }
+    .m-apps i { width: calc(var(--u) * 13); height: calc(var(--u) * 13); border-radius: 50%; background: var(--ios-fill); display: block; flex: none; }
+    .m-group { background: rgba(255,255,255,.8); border-radius: calc(var(--u) * 5); display: flex; flex-direction: column; }
+    .m-card { flex-direction: row; align-items: center; gap: calc(var(--u) * 3.4); padding: calc(var(--u) * 3.4); }
+    .m-card img { width: calc(var(--u) * 14); height: calc(var(--u) * 14); border-radius: calc(var(--u) * 3.3); }
+    .m-toggle { width: calc(var(--u) * 12.5); height: calc(var(--u) * 7.2); border-radius: calc(var(--u) * 3.6); background: var(--ios-green); position: relative; flex: none; }
+    .m-toggle::after { content: ""; position: absolute; right: calc(var(--u) * .7); top: calc(var(--u) * .7); width: calc(var(--u) * 5.8); height: calc(var(--u) * 5.8); border-radius: 50%; background: #fff; box-shadow: 0 calc(var(--u) * .4) calc(var(--u) * 1) rgba(0,0,0,.18); }
 
     /* home screen */
-    .m-home { position: absolute; inset: 0; background: linear-gradient(160deg, color-mix(in srgb, var(--plum) 30%, var(--paper)), color-mix(in srgb, var(--sage) 30%, var(--paper))); padding: 16cqw 6cqw 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 6cqw 5cqw; align-content: start; }
-    .m-app-ico { display: flex; flex-direction: column; align-items: center; gap: 1.6cqw; font-size: 2.8cqw; color: var(--text-strong); }
-    .m-app-ico i { display: block; width: 100%; aspect-ratio: 1; border-radius: 24%; background: rgba(255,255,255,.55); }
-    .m-app-ico img { width: 100%; aspect-ratio: 1; border-radius: 24%; box-shadow: var(--shadow-md); }
-    .m-app-ico span { white-space: nowrap; font-weight: 500; }
-    .m-dock { position: absolute; left: 4cqw; right: 4cqw; bottom: 4cqw; height: 20cqw; border-radius: 7cqw; background: rgba(255,255,255,.4); display: flex; justify-content: space-around; align-items: center; padding: 0 3cqw; }
-    .m-dock i { width: 14cqw; height: 14cqw; border-radius: 24%; background: rgba(255,255,255,.6); display: block; }
+    .m-wall { background: linear-gradient(165deg, color-mix(in srgb, var(--sage) 38%, #eef1f1), color-mix(in srgb, var(--honey) 34%, #f5f1ea)); }
+    .m-home { position: absolute; inset: 0; padding: calc(var(--u) * 18) calc(var(--u) * 7) 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: calc(var(--u) * 7) calc(var(--u) * 6); align-content: start; }
+    .m-app { display: flex; flex-direction: column; align-items: center; gap: calc(var(--u) * 1.6); font-size: calc(var(--u) * 2.9); font-weight: 500; }
+    .m-app i { display: block; width: 100%; aspect-ratio: 1; border-radius: 24%; background: rgba(255,255,255,.5); box-shadow: inset 0 0 0 calc(var(--u) * .3) rgba(255,255,255,.7); }
+    .m-app img { width: 100%; aspect-ratio: 1; border-radius: 24%; box-shadow: 0 calc(var(--u) * 1) calc(var(--u) * 3) rgba(0,0,0,.15); }
+    .m-app span { white-space: nowrap; }
+    .m-dock { position: absolute; left: calc(var(--u) * 4); right: calc(var(--u) * 4); bottom: calc(var(--u) * 4); height: calc(var(--u) * 21); border-radius: calc(var(--u) * 9); display: flex; justify-content: space-around; align-items: center; }
+    .m-dock i { width: calc(var(--u) * 14.5); height: calc(var(--u) * 14.5); border-radius: 24%; background: rgba(255,255,255,.55); display: block; }
 
-    /* tablet variants: the same parts at tablet scale */
-    .dev--tablet .m-pop { border-radius: 2cqw; padding: .7cqw; }
-    .dev--tablet .m-row { font-size: 1.7cqw; padding: 1.1cqw 1.4cqw; gap: 1.2cqw; border-radius: 1.2cqw; }
-    .dev--tablet .m-row .m-ico { width: 2.2cqw; height: 2.2cqw; }
-    .dev--tablet .m-ph { height: 1.1cqw; }
-    .dev--tablet .m-ph-ico { width: 2.2cqw; height: 2.2cqw; border-radius: .6cqw; }
-    .dev--tablet .m-head img { width: 4.6cqw; height: 4.6cqw; border-radius: 1.1cqw; }
-    .dev--tablet .m-head b { font-size: 1.8cqw; }
-    .dev--tablet .m-head small { font-size: 1.4cqw; }
-    .dev--tablet .m-apps { gap: 1.6cqw; }
-    .dev--tablet .m-apps i { width: 5.6cqw; height: 5.6cqw; border-radius: 1.4cqw; }
-    .dev--tablet .m-list { border-radius: 1.6cqw; }
-    .m-pop--sheet { right: 1.6cqw; top: 6.4cqw; width: 34%; gap: 1.4cqw; padding: 1.6cqw; }
-    .m-modal { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: 46%; background: var(--paper-2); border-radius: 2cqw; padding: 1.8cqw; display: flex; flex-direction: column; gap: 1.6cqw; box-shadow: var(--shadow-lg); }
-    .m-modal .m-dialog__bar { font-size: 1.6cqw; }
-    .m-modal .m-dialog__bar b { font-size: 1.7cqw; }
-    .m-modal .m-link { padding: .4cqw .7cqw; border-radius: .8cqw; }
-    .m-modal .m-card { border-radius: 1.6cqw; padding: 1.4cqw; gap: 1.4cqw; }
-    .m-modal .m-card img { width: 6cqw; height: 6cqw; border-radius: 1.4cqw; }
-    .m-modal .m-card b { font-size: 1.7cqw; padding-bottom: .7cqw; margin-bottom: .7cqw; }
-    .m-modal .m-card small { font-size: 1.4cqw; }
-    .m-modal .m-toggle-row { border-radius: 1.6cqw; padding: 1.4cqw; font-size: 1.6cqw; }
-    .m-modal .m-toggle { width: 5cqw; height: 3cqw; border-radius: 1.6cqw; }
-    .m-modal .m-toggle::after { width: 2.4cqw; height: 2.4cqw; right: .3cqw; top: .3cqw; }
-    .dev--tablet .m-home { padding: 6cqw 8cqw 0; grid-template-columns: repeat(8, 1fr); gap: 3.6cqw 3.4cqw; }
-    .dev--tablet .m-app-ico { font-size: 1.2cqw; gap: .7cqw; }
-    .dev--tablet .m-dock { height: 8.4cqw; left: 22%; right: 22%; bottom: 1.6cqw; border-radius: 2.6cqw; }
-    .dev--tablet .m-dock i { width: 5.6cqw; height: 5.6cqw; }
+    /* iPadOS 26: window controls and a compact glass toolbar at the top */
+    .m-tbar { position: absolute; top: 0; left: 0; right: 0; height: calc(var(--u) * 13); display: flex; align-items: center; gap: calc(var(--u) * 3); padding: 0 calc(var(--u) * 4); z-index: 2; background: linear-gradient(#f2f2f7 55%, rgba(242,242,247,0)); }
+    .m-tbar .m-field { flex: 0 1 46%; margin: 0 auto; height: calc(var(--u) * 9); font-size: calc(var(--u) * 3.6); }
+    .m-tbar .m-circ { width: calc(var(--u) * 9); height: calc(var(--u) * 9); }
+    .m-tbar .m-ico { width: calc(var(--u) * 4.2); height: calc(var(--u) * 4.2); }
+    .m-tbar__end { display: flex; gap: calc(var(--u) * 2); }
+    .m-lights { display: inline-flex; gap: calc(var(--u) * 1.8); width: calc(var(--u) * 20); }
+    .m-lights i { width: calc(var(--u) * 3.2); height: calc(var(--u) * 3.2); border-radius: 50%; background: rgba(60,60,67,.3); display: block; }
+    .m-lights--color i:nth-child(1) { background: #ff5f57; }
+    .m-lights--color i:nth-child(2) { background: #febc2e; }
+    .m-lights--color i:nth-child(3) { background: #28c840; }
+    .m-pop--share { right: calc(var(--u) * 6); top: calc(var(--u) * 13); width: 40%; gap: calc(var(--u) * 3.2); padding: calc(var(--u) * 3.6); border-radius: calc(var(--u) * 7); }
+    .m-modal { position: absolute; left: 50%; top: 52%; transform: translate(-50%, -50%); width: 48%; border-radius: calc(var(--u) * 8); padding: calc(var(--u) * 4.5); display: flex; flex-direction: column; gap: calc(var(--u) * 4); z-index: 3; }
+    .dev--tablet .m-home { padding: calc(var(--u) * 20) calc(var(--u) * 26) 0; grid-template-columns: repeat(6, 1fr); gap: calc(var(--u) * 9) calc(var(--u) * 12); }
+    .dev--tablet .m-dock { left: 26%; right: 26%; bottom: calc(var(--u) * 5); }
 
-    /* Mac: menu bar, window, File menu, Dock */
-    .m-menubar { position: absolute; top: 0; left: 0; right: 0; height: 4.2cqw; display: flex; align-items: center; gap: 2.6cqw; padding: 0 2cqw; font-size: 1.7cqw; background: var(--surface-card); border-bottom: 1px solid var(--hairline); z-index: 4; }
+    /* macOS 26 Tahoe: menu bar straight on the wallpaper, glass Dock */
+    .m-menubar { position: absolute; top: 0; left: 0; right: 0; height: calc(var(--u) * 8); display: flex; align-items: center; gap: calc(var(--u) * 6); padding: 0 calc(var(--u) * 5); font-size: calc(var(--u) * 3.6); z-index: 4; }
     .m-menubar b { font-weight: 700; }
-    .m-menubar .m-sel { background: var(--plum); color: #fff; border-radius: .6cqw; padding: .3cqw .9cqw; margin: 0 -.9cqw; }
-    .m-win { position: absolute; top: 6.4cqw; left: 4%; right: 4%; bottom: 14cqw; border-radius: 1.4cqw; overflow: hidden; background: var(--surface-card); box-shadow: var(--shadow-lg); border: 1px solid var(--hairline-strong); container-type: inline-size; }
-    .m-win .m-tbar { height: 6.4cqw; }
-    .m-win .m-tbar .m-field { height: 4cqw; font-size: 1.8cqw; }
-    .m-win .m-under-tbar { top: 6.4cqw; }
-    .m-lights { display: inline-flex; gap: .9cqw; margin-right: 1.6cqw; }
-    .m-lights i { width: 1.5cqw; height: 1.5cqw; border-radius: 50%; background: var(--hairline-strong); display: block; }
-    .m-filemenu { position: absolute; top: 4.2cqw; left: 13.5cqw; z-index: 5; width: 30%; background: var(--surface-card); border-radius: 1cqw; box-shadow: var(--shadow-lg); padding: .6cqw; display: flex; flex-direction: column; gap: .2cqw; }
-    .m-filemenu .m-row { font-size: 1.6cqw; padding: .8cqw 1.2cqw; border-radius: .7cqw; border: 0; }
-    .m-filemenu .m-ph { height: 1cqw; width: 70%; }
-    .m-macdock { position: absolute; left: 50%; bottom: 1.4cqw; transform: translateX(-50%); height: 9cqw; padding: 0 1.4cqw; border-radius: 2.4cqw; background: rgba(255,255,255,.45); border: 1px solid var(--hairline); display: flex; align-items: center; gap: 1.2cqw; z-index: 4; }
-    .m-macdock i { display: block; width: 6.6cqw; height: 6.6cqw; border-radius: 24%; background: var(--paper-3); }
-    .m-macdock img { width: 6.6cqw; height: 6.6cqw; border-radius: 24%; box-shadow: var(--shadow-sm); }
-    .m-macsheet { position: absolute; left: 50%; top: 6.4cqw; transform: translateX(-50%); width: 46%; background: var(--paper-2); border-radius: 0 0 1.4cqw 1.4cqw; box-shadow: var(--shadow-lg); padding: 2cqw; display: flex; flex-direction: column; gap: 1.6cqw; z-index: 3; container-type: normal; }
-    .m-macsheet b.t { font-size: 1.8cqw; text-align: center; }
-    .m-macsheet .m-card { border-radius: 1.2cqw; padding: 1.2cqw; gap: 1.2cqw; }
-    .m-macsheet .m-card img { width: 5.4cqw; height: 5.4cqw; border-radius: 1.2cqw; }
-    .m-macsheet .m-card b { font-size: 1.7cqw; padding-bottom: .6cqw; margin-bottom: .6cqw; }
-    .m-macsheet .m-card small { font-size: 1.3cqw; }
-    .m-macbtns { display: flex; justify-content: flex-end; gap: 1cqw; }
-    .m-macbtns span { font-size: 1.5cqw; padding: .6cqw 1.6cqw; border-radius: .8cqw; background: var(--surface-card); border: 1px solid var(--hairline); }
-    .m-macbtns span.m-primary { background: var(--plum); color: #fff; border-color: transparent; }
+    .m-apple { width: calc(var(--u) * 3.4); height: calc(var(--u) * 4); border-radius: 50% 50% 45% 45%; background: var(--ios-label); display: block; }
+    .m-sel { background: rgba(255,255,255,.55); border-radius: calc(var(--u) * 1.6); padding: calc(var(--u) * .6) calc(var(--u) * 2.2); margin: 0 calc(var(--u) * -2.2); }
+    .m-win { position: absolute; left: 7%; right: 7%; top: calc(var(--u) * 14); bottom: calc(var(--u) * 30); border-radius: calc(var(--u) * 5); overflow: hidden; background: #fff; box-shadow: 0 calc(var(--u) * 4) calc(var(--u) * 14) rgba(0,0,0,.22), 0 0 0 calc(var(--u) * .3) rgba(0,0,0,.12); }
+    .m-wtbar { position: absolute; top: 0; left: 0; right: 0; height: calc(var(--u) * 13); display: flex; align-items: center; gap: calc(var(--u) * 3); padding: 0 calc(var(--u) * 4); z-index: 2; background: linear-gradient(#fff 55%, rgba(255,255,255,0)); }
+    .m-wtbar .m-field { flex: 0 1 50%; margin: 0 auto; height: calc(var(--u) * 8.5); font-size: calc(var(--u) * 3.6); }
+    .m-wtbar .m-circ { width: calc(var(--u) * 8.5); height: calc(var(--u) * 8.5); }
+    .m-wtbar .m-ico { width: calc(var(--u) * 4); height: calc(var(--u) * 4); }
+    .m-shot--win { top: calc(var(--u) * 13); }
+    .m-filemenu { position: absolute; top: calc(var(--u) * 8.5); left: calc(var(--u) * 26); width: 34%; border-radius: calc(var(--u) * 4); padding: calc(var(--u) * 1.6); display: flex; flex-direction: column; z-index: 5; }
+    .m-filemenu .m-row { font-size: calc(var(--u) * 3.6); padding: calc(var(--u) * 2) calc(var(--u) * 3); border-radius: calc(var(--u) * 2.4); }
+    .m-macsheet { position: absolute; left: 50%; top: calc(var(--u) * 16); transform: translateX(-50%); width: 58%; border-radius: calc(var(--u) * 6); padding: calc(var(--u) * 5); display: flex; flex-direction: column; gap: calc(var(--u) * 4); z-index: 3; }
+    .m-macsheet__t { text-align: center; font-size: calc(var(--u) * 4); font-weight: 600; }
+    .m-macbtns { display: flex; justify-content: flex-end; gap: calc(var(--u) * 2.4); }
+    .m-btn { font-size: calc(var(--u) * 3.6); padding: calc(var(--u) * 1.6) calc(var(--u) * 5); border-radius: calc(var(--u) * 5); background: var(--ios-fill); }
+    .m-btn--blue { background: var(--ios-blue); color: #fff; }
+    .m-macdock { position: absolute; left: 50%; bottom: calc(var(--u) * 5); transform: translateX(-50%); height: calc(var(--u) * 20); padding: 0 calc(var(--u) * 3.4); border-radius: calc(var(--u) * 7); display: flex; align-items: center; gap: calc(var(--u) * 3); z-index: 4; }
+    .m-macdock i { width: calc(var(--u) * 14); height: calc(var(--u) * 14); border-radius: 24%; background: rgba(255,255,255,.6); display: block; }
+    .m-macdock img { width: calc(var(--u) * 14); height: calc(var(--u) * 14); border-radius: 24%; }
 
-    /* the thing to tap: a ring plus a soft pulse */
-    .hl { position: relative; box-shadow: 0 0 0 .55cqw var(--plum); z-index: 1; }
-    .dev--tablet .hl, .dev--mac .hl { box-shadow: 0 0 0 .3cqw var(--plum); }
-    .hl::after { content: ""; position: absolute; inset: -1.6cqw; border-radius: inherit; border: .5cqw solid var(--plum); opacity: 0; animation: tap-pulse 2.2s var(--ease-out) infinite; pointer-events: none; }
-    @keyframes tap-pulse { 0% { opacity: .55; transform: scale(.92); } 70%, 100% { opacity: 0; transform: scale(1.12); } }
+    /* What to tap: a sage ring and a slow fade-out pulse. */
+    .hl { position: relative; box-shadow: 0 0 0 calc(var(--u) * .8) var(--sage) !important; z-index: 1; }
+    .hl::after { content: ""; position: absolute; inset: calc(var(--u) * -1.8); border-radius: inherit; border: calc(var(--u) * .6) solid var(--sage); opacity: 0; animation: tap-pulse 2.4s var(--ease-out) infinite; pointer-events: none; }
+    @keyframes tap-pulse { 0% { opacity: .5; transform: scale(.94); } 70%, 100% { opacity: 0; transform: scale(1.1); } }
     @media (prefers-reduced-motion: reduce) { .hl::after { animation: none; } }
-
-    /* ---- good to know ---- */
-    .know { list-style: none; margin: clamp(24px,3vw,36px) 0 0; padding: 0; display: grid; gap: clamp(14px,2vw,20px); grid-template-columns: repeat(auto-fit, minmax(min(300px,100%), 1fr)); }
-    .know li { padding: 20px 22px; border-radius: var(--radius-lg); background: var(--surface-card); border: 1px solid var(--border); font-size: var(--fs-small); line-height: var(--lh-relaxed); color: var(--text-body); }
-    .know strong { display: block; color: var(--heading); font-weight: 600; margin-bottom: 4px; }
-    .know a { color: var(--accent); }
-    .shot-note { margin-top: 28px; font-size: var(--fs-caption); color: var(--text-faint); }
-
-    footer { padding: clamp(48px,6vw,88px) 0 40px; border-top: 1px solid var(--border); }
-    .footrow { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: center; }
   </style>
 </head>
 <body>
   <div id="lang-switcher-root"></div>
   <div id="contact-chip-root"></div>
 
-  <!-- Shared SVG symbols for the mockups. -->
+  <!-- Shared symbols for the mockups. -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <symbol id="i-share" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M7 10H6a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2h-1"/></symbol>
     <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8.5v7M8.5 12h7"/></symbol>
-    <symbol id="i-page" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 7h9M5 12h14M5 17h14"/><rect x="15" y="4" width="5" height="5" rx="1"/></symbol>
+    <symbol id="i-page" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="5" width="16" height="14" rx="3"/><path d="M8 10h8M8 14h5"/></symbol>
     <symbol id="i-reload" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v5h-5"/></symbol>
     <symbol id="i-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></symbol>
     <symbol id="i-tabs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="8" width="12" height="12" rx="2.5"/><path d="M8 8V6.5A2.5 2.5 0 0 1 10.5 4H17.5A2.5 2.5 0 0 1 20 6.5V13.5A2.5 2.5 0 0 1 17.5 16H16"/></symbol>
     <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="11" width="12" height="9" rx="2"/><path d="M8.5 11V8a3.5 3.5 0 0 1 7 0v3"/></symbol>
-    <symbol id="i-dock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M6 16h12"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M7 7l10 10M17 7L7 17"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
   </svg>
 
-  <header class="hero">
-    <div class="hero-glow"></div>
-    <div class="wrap">
-      <div class="topbar">
-        <a class="back-link" href="../"><span aria-hidden>←</span> <span data-i18n="cheapseats.install.back">Zurück zu CheapSeats</span></a>
-      </div>
-      <div class="hero-id"><img class="app-icon" src="../app-icon.webp" width="256" height="256" alt="" aria-hidden="true"><span class="eyebrow" data-i18n="cheapseats.install.eyebrow">Web-App</span></div>
+  <header class="wrap">
+    <div class="topbar">
+      <a class="back" href="../" data-lang-link><span aria-hidden="true">←</span> <span data-i18n="cheapseats.install.back">Zurück zu CheapSeats</span></a>
+    </div>
+    <div class="hero">
+      <div class="hero-id"><img class="app-icon" src="../app-icon.webp" width="256" height="256" alt="" aria-hidden="true"><span class="k" data-i18n="cheapseats.install.eyebrow">Web-App</span></div>
       <h1 data-i18n="cheapseats.install.title">CheapSeats auf iPhone, iPad und Mac</h1>
       <p class="hero-sub" data-i18n="cheapseats.install.sub">Dieselbe App wie unter Windows, direkt aus dem Browser. Einmal zum Home-Bildschirm oder ins Dock hinzugefügt, öffnet sie sich wie jede andere App: im Vollbild, mit eigenem Symbol und ohne Browserleiste.</p>
       <div class="hero-cta">
-        <a class="btn" href="../../../app/"><span data-i18n="cheapseats.install.open">Web-App öffnen</span> <span aria-hidden>→</span></a>
+        <a class="btn" href="../../../app/" data-app-link><span data-i18n="cheapseats.install.open">Web-App öffnen</span> <span aria-hidden="true">→</span></a>
         <span class="facts" data-i18n="cheapseats.install.facts">Kostenlos · ohne App Store · startet auch offline</span>
       </div>
     </div>
@@ -282,13 +266,14 @@
   <main>
     <section id="anleitung" aria-labelledby="how-heading">
       <div class="wrap">
+        <span class="k" data-i18n="cheapseats.install.stepsK">Anleitung</span>
         <h2 id="how-heading" data-i18n="cheapseats.install.howHeading">So kommt CheapSeats auf dein Gerät</h2>
         <p class="lede" data-i18n="cheapseats.install.howLede">Das dauert keine Minute. Wähl dein Gerät:</p>
 
         <div class="tabs" role="tablist" data-i18n-attr="aria-label:cheapseats.install.tabsLabel" aria-label="Gerät">
-          <button class="tab" role="tab" id="tab-iphone" aria-controls="panel-iphone" aria-selected="true" data-i18n="cheapseats.install.tab.iphone">iPhone</button>
-          <button class="tab" role="tab" id="tab-ipad" aria-controls="panel-ipad" aria-selected="false" tabindex="-1" data-i18n="cheapseats.install.tab.ipad">iPad</button>
-          <button class="tab" role="tab" id="tab-mac" aria-controls="panel-mac" aria-selected="false" tabindex="-1" data-i18n="cheapseats.install.tab.mac">Mac</button>
+          <button class="tab" role="tab" id="tab-iphone" aria-controls="panel-iphone" aria-selected="true"><span class="tab__label" data-i18n="cheapseats.install.tab.iphone">iPhone</span></button>
+          <button class="tab" role="tab" id="tab-ipad" aria-controls="panel-ipad" aria-selected="false" tabindex="-1"><span class="tab__label" data-i18n="cheapseats.install.tab.ipad">iPad</span></button>
+          <button class="tab" role="tab" id="tab-mac" aria-controls="panel-mac" aria-selected="false" tabindex="-1"><span class="tab__label" data-i18n="cheapseats.install.tab.mac">Mac</span></button>
         </div>
 
         <!--
@@ -297,243 +282,89 @@
           ipad-1.webp … ipad-5.webp, mac-1.webp … mac-3.webp) and it replaces
           that step's drawing on the next load. No code change needed.
           Sizes: iPhone 1179×2556 (portrait), iPad 2360×1640 (landscape),
-          Mac about 1600×1100. Crop to the device screen, no frame.
+          Mac about 1600×1040. Whole screen, no device frame.
         -->
 
-        <!-- ================= iPhone ================= -->
         <div class="panel" role="tabpanel" id="panel-iphone" aria-labelledby="tab-iphone">
           <ol class="steps">
             <li><figure class="step" data-shot="iphone-1">
-              <div class="step__media">
-                <div class="dev dev--phone" aria-hidden="true"><div class="dev__screen">
-                  <div class="m-status"><span>9:41</span><span class="m-status__r"><i></i><i></i><i></i></span></div>
-                  <div class="m-screen-body"><img class="m-shot" src="../../../ci/assets/Bilder/CheapSeats/install/screen-iphone.webp" alt="" loading="lazy"></div>
-                  <div class="m-sbar">
-                    <span class="m-pill m-pill--round"><svg class="m-ico"><use href="#i-back"/></svg></span>
-                    <span class="m-pill m-field hl"><svg class="m-ico"><use href="#i-page"/></svg><span>mika-jeske.de</span><svg class="m-ico"><use href="#i-reload"/></svg></span>
-                    <span class="m-pill m-pill--round"><svg class="m-ico"><use href="#i-tabs"/></svg></span>
-                  </div>
-                </div></div>
-              </div>
-              <figcaption><h3 class="step__title"><span class="step__num" aria-hidden="true"></span><span data-i18n="cheapseats.install.s.open.t">In Safari öffnen</span></h3><p class="step__text" data-i18n="cheapseats.install.s.open.d">Öffne mika-jeske.de/app in Safari.</p></figcaption>
+              <div class="step__media"><div class="dev dev--phone" aria-hidden="true"><div class="dev__screen"><img class="m-shot" src="../../../ci/assets/Bilder/CheapSeats/install/screen-iphone.webp" alt="" loading="lazy"><div class="m-sbar"><span class="m-glass m-circ"><svg class="m-ico"><use href="#i-back"/></svg></span><span class="m-glass m-field hl"><span class="m-field__ico"><svg class="m-ico"><use href="#i-page"/></svg></span><span class="m-field__url">mika-jeske.de</span><svg class="m-ico"><use href="#i-reload"/></svg></span><span class="m-glass m-circ"><svg class="m-ico"><use href="#i-tabs"/></svg></span></div><div class="m-status"><span>9:41</span><span class="m-status__r"><i></i><i></i><i></i></span></div></div></div></div>
+              <figcaption><span class="step__num" aria-hidden="true">01</span><h3 class="step__title" data-i18n="cheapseats.install.s.open.t">In Safari öffnen</h3><p class="step__text" data-i18n="cheapseats.install.s.open.d">Öffne mika-jeske.de/app in Safari.</p></figcaption>
             </figure></li>
-
             <li><figure class="step" data-shot="iphone-2">
-              <div class="step__media">
-                <div class="dev dev--phone" aria-hidden="true"><div class="dev__screen m-dim">
-                  <div class="m-status"><span>9:41</span><span class="m-status__r"><i></i><i></i><i></i></span></div>
-                  <div class="m-screen-body"><img class="m-shot" src="../../../ci/assets/Bilder/CheapSeats/install/screen-iphone.webp" alt="" loading="lazy"></div>
-                  <div class="m-pop" style="left:4cqw; bottom:19cqw; width:62%">
-                    <div class="m-row"><span class="m-ph-ico"></span><span class="m-ph" style="width:60%"></span></div>
-                    <div class="m-row"><span class="m-ph-ico"></span><span class="m-ph" style="width:45%"></span></div>
-                    <div class="m-row hl"><svg class="m-ico"><use href="#i-share"/></svg><span data-i18n="cheapseats.install.ui.share">Teilen</span></div>
-                  </div>
-                  <div class="m-sbar" style="z-index:2">
-                    <span class="m-pill m-pill--round"><svg class="m-ico"><use href="#i-back"/></svg></span>
-                    <span class="m-pill m-field"><svg class="m-ico"><use href="#i-page"/></svg><span>mika-jeske.de</span><svg class="m-ico"><use href="#i-reload"/></svg></span>
-                    <span class="m-pill m-pill--round"><svg class="m-ico"><use href="#i-tabs"/></svg></span>
-                  </div>
-                </div></div>
-              </div>
-              <figcaption><h3 class="step__title"><span class="step__num" aria-hidden="true"></span><span data-i18n="cheapseats.install.s.shareIphone.t">Teilen öffnen</span></h3><p class="step__text" data-i18n="cheapseats.install.s.shareIphone.d">Tippe auf das Menüsymbol links in der Adressleiste (oder auf ⋯) und dann auf „Teilen“. Bei älteren iOS-Versionen sitzt das Teilen-Symbol direkt in der Leiste.</p></figcaption>
+              <div class="step__media"><div class="dev dev--phone" aria-hidden="true"><div class="dev__screen"><img class="m-shot" src="../../../ci/assets/Bilder/CheapSeats/install/screen-iphone.webp" alt="" loading="lazy"><div class="m-dimmer"></div><div class="m-glass m-pop m-pop--menu"><div class="m-row"><span class="m-ph-ico"></span><span class="m-ph" style="width:58%"></span></div><div class="m-row"><span class="m-ph-ico"></span><span class="m-ph" style="width:44%"></span></div><div class="m-row hl"><svg class="m-ico"><use href="#i-share"/></svg><span data-i18n="cheapseats.install.ui.share">Teilen</span></div></div><div class="m-sbar"><span class="m-glass m-circ"><svg class="m-ico"><use href="#i-back"/></svg></span><span class="m-glass m-field"><span class="m-field__ico hl"><svg class="m-ico"><use href="#i-page"/></svg></span><span class="m-field__url">mika-jeske.de</span><svg class="m-ico"><use href="#i-reload"/></svg></span><span class="m-glass m-circ"><svg class="m-ico"><use href="#i-tabs"/></svg></span></div><div class="m-status"><span>9:41</span><span class="m-status__r"><i></i><i></i><i></i></span></div></div></div></div>
+              <figcaption><span class="step__num" aria-hidden="true">02</span><h3 class="step__title" data-i18n="cheapseats.install.s.shareIphone.t">Teilen öffnen</h3><p class="step__text" data-i18n="cheapseats.install.s.shareIphone.d">Tippe auf das Menüsymbol links in der Adressleiste (oder auf ⋯) und dann auf „Teilen“. Bei älteren iOS-Versionen sitzt das Teilen-Symbol direkt in der Leiste.</p></figcaption>
             </figure></li>
-
             <li><figure class="step" data-shot="iphone-3">
-              <div class="step__media">
-                <div class="dev dev--phone" aria-hidden="true"><div class="dev__screen m-dim">
-                  <div class="m-status"><span>9:41</span><span class="m-status__r"><i></i><i></i><i></i></span></div>
-                  <div class="m-screen-body"><img class="m-shot" src="../../../ci/assets/Bilder/CheapSeats/install/screen-iphone.webp" alt="" loading="lazy"></div>
-                  <div class="m-sheet">
-                    <div class="m-grabber"></div>
-                    <div class="m-head"><img src="../../../app/icons/apple-touch-icon.png" alt=""><div><b>CheapSeats</b><small>mika-jeske.de</small></div></div>
-                    <div class="m-apps"><i></i><i></i><i></i><i></i></div>
-                    <div class="m-list">
-                      <div class="m-row"><span class="m-ph" style="width:46%"></span><span class="m-ph-ico"></span></div>
-                      <div class="m-row"><span class="m-ph" style="width:38%"></span><span class="m-ph-ico"></span></div>
-                      <div class="m-row hl"><span data-i18n="cheapseats.install.ui.addHome">Zum Home-Bildschirm</span><svg class="m-ico"><use href="#i-plus"/></svg></div>
-                      <div class="m-row"><span class="m-ph" style="width:52%"></span><span class="m-ph-ico"></span></div>
-                    </div>
-                  </div>
-                </div></div>
-              </div>
-              <figcaption><h3 class="step__title"><span class="step__num" aria-hidden="true"></span><span data-i18n="cheapseats.install.s.addHome.t">Zum Home-Bildschirm</span></h3><p class="step__text" data-i18n="cheapseats.install.s.addHome.d">Wähle in der Liste „Zum Home-Bildschirm“. Siehst du es nicht, scroll ein Stück nach unten.</p></figcaption>
+              <div class="step__media"><div class="dev dev--phone" aria-hidden="true"><div class="dev__screen"><img class="m-shot" src="../../../ci/assets/Bilder/CheapSeats/install/screen-iphone.webp" alt="" loading="lazy"><div class="m-dimmer"></div><div class="m-glass m-sheet"><div class="m-sheet__head"><img src="../../../app/icons/apple-touch-icon.png" alt=""><div><b>CheapSeats</b><small>mika-jeske.de</small></div><span class="m-glass m-circ m-circ--sm"><svg class="m-ico"><use href="#i-close"/></svg></span></div><div class="m-apps"><i></i><i></i><i></i><i></i><i></i></div><div class="m-group"><div class="m-row m-row--end"><span class="m-ph" style="width:46%"></span><span class="m-ph-ico"></span></div><div class="m-row m-row--end"><span class="m-ph" style="width:38%"></span><span class="m-ph-ico"></span></div><div class="m-row m-row--end hl"><span data-i18n="cheapseats.install.ui.addHome">Zum Home-Bildschirm</span><svg class="m-ico"><use href="#i-plus"/></svg></div><div class="m-row m-row--end"><span class="m-ph" style="width:52%"></span><span class="m-ph-ico"></span></div></div></div><div class="m-status"><span>9:41</span><span class="m-status__r"><i></i><i></i><i></i></span></div></div></div></div>
+              <figcaption><span class="step__num" aria-hidden="true">03</span><h3 class="step__title" data-i18n="cheapseats.install.s.addHome.t">Zum Home-Bildschirm</h3><p class="step__text" data-i18n="cheapseats.install.s.addHome.d">Wähle in der Liste „Zum Home-Bildschirm“. Siehst du es nicht, scroll ein Stück nach unten.</p></figcaption>
             </figure></li>
-
             <li><figure class="step" data-shot="iphone-4">
-              <div class="step__media">
-                <div class="dev dev--phone" aria-hidden="true"><div class="dev__screen m-dim">
-                  <div class="m-status"><span>9:41</span><span class="m-status__r"><i></i><i></i><i></i></span></div>
-                  <div class="m-screen-body"><img class="m-shot" src="../../../ci/assets/Bilder/CheapSeats/install/screen-iphone.webp" alt="" loading="lazy"></div>
-                  <div class="m-dialog">
-                    <div class="m-dialog__bar"><span class="m-link" data-i18n="cheapseats.install.ui.cancel">Abbrechen</span><b data-i18n="cheapseats.install.ui.addHome">Zum Home-Bildschirm</b><span class="m-link hl" data-i18n="cheapseats.install.ui.add">Hinzufügen</span></div>
-                    <div class="m-card"><img src="../../../app/icons/apple-touch-icon.png" alt=""><div style="flex:1"><b>CheapSeats</b><small>https://mika-jeske.de/app/</small></div></div>
-                    <div class="m-toggle-row"><span data-i18n="cheapseats.install.ui.openWeb">Als Web-App öffnen</span><span class="m-toggle"></span></div>
-                  </div>
-                </div></div>
-              </div>
-              <figcaption><h3 class="step__title"><span class="step__num" aria-hidden="true"></span><span data-i18n="cheapseats.install.s.confirm.t">Hinzufügen</span></h3><p class="step__text" data-i18n="cheapseats.install.s.confirm.d">Lass „Als Web-App öffnen“ eingeschaltet und tippe auf „Hinzufügen“.</p></figcaption>
+              <div class="step__media"><div class="dev dev--phone" aria-hidden="true"><div class="dev__screen"><img class="m-shot" src="../../../ci/assets/Bilder/CheapSeats/install/screen-iphone.webp" alt="" loading="lazy"><div class="m-dimmer"></div><div class="m-glass m-sheet m-sheet--tall"><div class="m-sheet__bar"><span class="m-glass m-circ m-circ--sm"><svg class="m-ico"><use href="#i-close"/></svg></span><b data-i18n="cheapseats.install.ui.addHome">Zum Home-Bildschirm</b><span class="m-circ m-circ--sm m-circ--blue hl"><svg class="m-ico"><use href="#i-check"/></svg></span></div><div class="m-group m-card"><img src="../../../app/icons/apple-touch-icon.png" alt=""><div><b>CheapSeats</b><small>mika-jeske.de/app/</small></div></div><div class="m-group"><div class="m-row m-row--end"><span data-i18n="cheapseats.install.ui.openWeb">Als Web-App öffnen</span><span class="m-toggle"></span></div></div></div><div class="m-status"><span>9:41</span><span class="m-status__r"><i></i><i></i><i></i></span></div></div></div></div>
+              <figcaption><span class="step__num" aria-hidden="true">04</span><h3 class="step__title" data-i18n="cheapseats.install.s.confirm.t">Hinzufügen</h3><p class="step__text" data-i18n="cheapseats.install.s.confirm.d">Lass „Als Web-App öffnen“ eingeschaltet und tippe oben rechts auf den Haken.</p></figcaption>
             </figure></li>
-
             <li><figure class="step" data-shot="iphone-5">
-              <div class="step__media">
-                <div class="dev dev--phone" aria-hidden="true"><div class="dev__screen">
-                  <div class="m-home">
-                    <span class="m-app-ico"><i></i></span><span class="m-app-ico"><i></i></span><span class="m-app-ico"><i></i></span><span class="m-app-ico"><i></i></span>
-                    <span class="m-app-ico"><i></i></span><span class="m-app-ico"><i></i></span><span class="m-app-ico"><i></i></span><span class="m-app-ico"><i></i></span>
-                    <span class="m-app-ico"><img class="hl" src="../../../app/icons/apple-touch-icon.png" alt=""><span>CheapSeats</span></span>
-                  </div>
-                  <div class="m-dock"><i></i><i></i><i></i><i></i></div>
-                </div></div>
-              </div>
-              <figcaption><h3 class="step__title"><span class="step__num" aria-hidden="true"></span><span data-i18n="cheapseats.install.s.done.t">Fertig</span></h3><p class="step__text" data-i18n="cheapseats.install.s.done.d">CheapSeats liegt jetzt auf deinem Home-Bildschirm und öffnet sich im Vollbild, ganz ohne Browser drumherum.</p></figcaption>
+              <div class="step__media"><div class="dev dev--phone" aria-hidden="true"><div class="dev__screen m-wall"><div class="m-home"><span class="m-app"><i></i></span><span class="m-app"><i></i></span><span class="m-app"><i></i></span><span class="m-app"><i></i></span><span class="m-app"><i></i></span><span class="m-app"><i></i></span><span class="m-app"><i></i></span><span class="m-app"><i></i></span><span class="m-app"><img class="hl" src="../../../app/icons/apple-touch-icon.png" alt=""><span>CheapSeats</span></span></div><div class="m-glass m-dock"><i></i><i></i><i></i><i></i></div><div class="m-status"><span>9:41</span><span class="m-status__r"><i></i><i></i><i></i></span></div></div></div></div>
+              <figcaption><span class="step__num" aria-hidden="true">05</span><h3 class="step__title" data-i18n="cheapseats.install.s.done.t">Fertig</h3><p class="step__text" data-i18n="cheapseats.install.s.done.d">CheapSeats liegt jetzt auf deinem Home-Bildschirm und öffnet sich im Vollbild, ganz ohne Browser drumherum.</p></figcaption>
             </figure></li>
           </ol>
         </div>
 
-        <!-- ================= iPad ================= -->
         <div class="panel panel--wide" role="tabpanel" id="panel-ipad" aria-labelledby="tab-ipad" hidden>
           <ol class="steps">
             <li><figure class="step" data-shot="ipad-1">
-              <div class="step__media">
-                <div class="dev dev--tablet" aria-hidden="true"><div class="dev__screen">
-                  <div class="m-tbar"><span class="m-btn"><svg class="m-ico"><use href="#i-back"/></svg></span><span class="m-field hl"><svg class="m-ico"><use href="#i-lock"/></svg><span>mika-jeske.de</span><svg class="m-ico"><use href="#i-reload"/></svg></span><span class="m-btn"><svg class="m-ico"><use href="#i-share"/></svg></span><span class="m-btn"><svg class="m-ico"><use href="#i-tabs"/></svg></span></div>
-                  <div class="m-under-tbar"><img class="m-shot" src="../../../ci/assets/Bilder/CheapSeats/install/screen-ipad.webp" alt="" loading="lazy"></div>
-                </div></div>
-              </div>
-              <figcaption><h3 class="step__title"><span class="step__num" aria-hidden="true"></span><span data-i18n="cheapseats.install.s.open.t">In Safari öffnen</span></h3><p class="step__text" data-i18n="cheapseats.install.s.open.d">Öffne mika-jeske.de/app in Safari.</p></figcaption>
+              <div class="step__media"><div class="dev dev--tablet" aria-hidden="true"><div class="dev__screen"><img class="m-shot m-shot--under-bar" src="../../../ci/assets/Bilder/CheapSeats/install/screen-ipad.webp" alt="" loading="lazy"><div class="m-tbar"><span class="m-lights"><i></i><i></i><i></i></span><span class="m-glass m-field hl"><svg class="m-ico"><use href="#i-lock"/></svg><span class="m-field__url">mika-jeske.de</span><svg class="m-ico"><use href="#i-reload"/></svg></span><span class="m-tbar__end"><span class="m-glass m-circ"><svg class="m-ico"><use href="#i-share"/></svg></span><span class="m-glass m-circ"><svg class="m-ico"><use href="#i-tabs"/></svg></span></span></div></div></div></div>
+              <figcaption><span class="step__num" aria-hidden="true">01</span><h3 class="step__title" data-i18n="cheapseats.install.s.open.t">In Safari öffnen</h3><p class="step__text" data-i18n="cheapseats.install.s.open.d">Öffne mika-jeske.de/app in Safari.</p></figcaption>
             </figure></li>
-
             <li><figure class="step" data-shot="ipad-2">
-              <div class="step__media">
-                <div class="dev dev--tablet" aria-hidden="true"><div class="dev__screen">
-                  <div class="m-tbar"><span class="m-btn"><svg class="m-ico"><use href="#i-back"/></svg></span><span class="m-field"><svg class="m-ico"><use href="#i-lock"/></svg><span>mika-jeske.de</span><svg class="m-ico"><use href="#i-reload"/></svg></span><span class="m-btn hl"><svg class="m-ico"><use href="#i-share"/></svg></span><span class="m-btn"><svg class="m-ico"><use href="#i-tabs"/></svg></span></div>
-                  <div class="m-under-tbar"><img class="m-shot" src="../../../ci/assets/Bilder/CheapSeats/install/screen-ipad.webp" alt="" loading="lazy"></div>
-                </div></div>
-              </div>
-              <figcaption><h3 class="step__title"><span class="step__num" aria-hidden="true"></span><span data-i18n="cheapseats.install.s.shareIpad.t">Auf Teilen tippen</span></h3><p class="step__text" data-i18n="cheapseats.install.s.shareIpad.d">Das Teilen-Symbol sitzt oben rechts neben der Adressleiste.</p></figcaption>
+              <div class="step__media"><div class="dev dev--tablet" aria-hidden="true"><div class="dev__screen"><img class="m-shot m-shot--under-bar" src="../../../ci/assets/Bilder/CheapSeats/install/screen-ipad.webp" alt="" loading="lazy"><div class="m-tbar"><span class="m-lights"><i></i><i></i><i></i></span><span class="m-glass m-field"><svg class="m-ico"><use href="#i-lock"/></svg><span class="m-field__url">mika-jeske.de</span><svg class="m-ico"><use href="#i-reload"/></svg></span><span class="m-tbar__end"><span class="m-glass m-circ hl"><svg class="m-ico"><use href="#i-share"/></svg></span><span class="m-glass m-circ"><svg class="m-ico"><use href="#i-tabs"/></svg></span></span></div></div></div></div>
+              <figcaption><span class="step__num" aria-hidden="true">02</span><h3 class="step__title" data-i18n="cheapseats.install.s.shareIpad.t">Auf Teilen tippen</h3><p class="step__text" data-i18n="cheapseats.install.s.shareIpad.d">Das Teilen-Symbol sitzt oben rechts neben der Adressleiste.</p></figcaption>
             </figure></li>
-
             <li><figure class="step" data-shot="ipad-3">
-              <div class="step__media">
-                <div class="dev dev--tablet" aria-hidden="true"><div class="dev__screen">
-                  <div class="m-tbar"><span class="m-btn"><svg class="m-ico"><use href="#i-back"/></svg></span><span class="m-field"><svg class="m-ico"><use href="#i-lock"/></svg><span>mika-jeske.de</span><svg class="m-ico"><use href="#i-reload"/></svg></span><span class="m-btn"><svg class="m-ico"><use href="#i-share"/></svg></span><span class="m-btn"><svg class="m-ico"><use href="#i-tabs"/></svg></span></div>
-                  <div class="m-under-tbar m-dim"><img class="m-shot" src="../../../ci/assets/Bilder/CheapSeats/install/screen-ipad.webp" alt="" loading="lazy"></div>
-                  <div class="m-pop m-pop--sheet" style="z-index:4">
-                    <div class="m-head"><img src="../../../app/icons/apple-touch-icon.png" alt=""><div><b>CheapSeats</b><small>mika-jeske.de</small></div></div>
-                    <div class="m-apps"><i></i><i></i><i></i><i></i></div>
-                    <div class="m-list">
-                      <div class="m-row"><span class="m-ph" style="width:46%"></span><span class="m-ph-ico"></span></div>
-                      <div class="m-row hl"><span data-i18n="cheapseats.install.ui.addHome">Zum Home-Bildschirm</span><svg class="m-ico"><use href="#i-plus"/></svg></div>
-                      <div class="m-row"><span class="m-ph" style="width:52%"></span><span class="m-ph-ico"></span></div>
-                    </div>
-                  </div>
-                </div></div>
-              </div>
-              <figcaption><h3 class="step__title"><span class="step__num" aria-hidden="true"></span><span data-i18n="cheapseats.install.s.addHome.t">Zum Home-Bildschirm</span></h3><p class="step__text" data-i18n="cheapseats.install.s.addHome.d">Wähle in der Liste „Zum Home-Bildschirm“. Siehst du es nicht, scroll ein Stück nach unten.</p></figcaption>
+              <div class="step__media"><div class="dev dev--tablet" aria-hidden="true"><div class="dev__screen"><img class="m-shot m-shot--under-bar" src="../../../ci/assets/Bilder/CheapSeats/install/screen-ipad.webp" alt="" loading="lazy"><div class="m-dimmer"></div><div class="m-tbar"><span class="m-lights"><i></i><i></i><i></i></span><span class="m-glass m-field"><svg class="m-ico"><use href="#i-lock"/></svg><span class="m-field__url">mika-jeske.de</span><svg class="m-ico"><use href="#i-reload"/></svg></span><span class="m-tbar__end"><span class="m-glass m-circ"><svg class="m-ico"><use href="#i-share"/></svg></span><span class="m-glass m-circ"><svg class="m-ico"><use href="#i-tabs"/></svg></span></span></div><div class="m-glass m-pop m-pop--share"><div class="m-sheet__head"><img src="../../../app/icons/apple-touch-icon.png" alt=""><div><b>CheapSeats</b><small>mika-jeske.de</small></div></div><div class="m-apps"><i></i><i></i><i></i><i></i></div><div class="m-group"><div class="m-row m-row--end"><span class="m-ph" style="width:46%"></span><span class="m-ph-ico"></span></div><div class="m-row m-row--end hl"><span data-i18n="cheapseats.install.ui.addHome">Zum Home-Bildschirm</span><svg class="m-ico"><use href="#i-plus"/></svg></div><div class="m-row m-row--end"><span class="m-ph" style="width:52%"></span><span class="m-ph-ico"></span></div></div></div></div></div></div>
+              <figcaption><span class="step__num" aria-hidden="true">03</span><h3 class="step__title" data-i18n="cheapseats.install.s.addHome.t">Zum Home-Bildschirm</h3><p class="step__text" data-i18n="cheapseats.install.s.addHome.d">Wähle in der Liste „Zum Home-Bildschirm“. Siehst du es nicht, scroll ein Stück nach unten.</p></figcaption>
             </figure></li>
-
             <li><figure class="step" data-shot="ipad-4">
-              <div class="step__media">
-                <div class="dev dev--tablet" aria-hidden="true"><div class="dev__screen">
-                  <div class="m-tbar"><span class="m-btn"><svg class="m-ico"><use href="#i-back"/></svg></span><span class="m-field"><svg class="m-ico"><use href="#i-lock"/></svg><span>mika-jeske.de</span><svg class="m-ico"><use href="#i-reload"/></svg></span><span class="m-btn"><svg class="m-ico"><use href="#i-share"/></svg></span><span class="m-btn"><svg class="m-ico"><use href="#i-tabs"/></svg></span></div>
-                  <div class="m-under-tbar m-dim"><img class="m-shot" src="../../../ci/assets/Bilder/CheapSeats/install/screen-ipad.webp" alt="" loading="lazy"></div>
-                  <div class="m-modal" style="z-index:4">
-                    <div class="m-dialog__bar"><span class="m-link" data-i18n="cheapseats.install.ui.cancel">Abbrechen</span><b data-i18n="cheapseats.install.ui.addHome">Zum Home-Bildschirm</b><span class="m-link hl" data-i18n="cheapseats.install.ui.add">Hinzufügen</span></div>
-                    <div class="m-card"><img src="../../../app/icons/apple-touch-icon.png" alt=""><div style="flex:1"><b>CheapSeats</b><small>https://mika-jeske.de/app/</small></div></div>
-                    <div class="m-toggle-row"><span data-i18n="cheapseats.install.ui.openWeb">Als Web-App öffnen</span><span class="m-toggle"></span></div>
-                  </div>
-                </div></div>
-              </div>
-              <figcaption><h3 class="step__title"><span class="step__num" aria-hidden="true"></span><span data-i18n="cheapseats.install.s.confirm.t">Hinzufügen</span></h3><p class="step__text" data-i18n="cheapseats.install.s.confirm.d">Lass „Als Web-App öffnen“ eingeschaltet und tippe auf „Hinzufügen“.</p></figcaption>
+              <div class="step__media"><div class="dev dev--tablet" aria-hidden="true"><div class="dev__screen"><img class="m-shot m-shot--under-bar" src="../../../ci/assets/Bilder/CheapSeats/install/screen-ipad.webp" alt="" loading="lazy"><div class="m-dimmer"></div><div class="m-tbar"><span class="m-lights"><i></i><i></i><i></i></span><span class="m-glass m-field"><svg class="m-ico"><use href="#i-lock"/></svg><span class="m-field__url">mika-jeske.de</span><svg class="m-ico"><use href="#i-reload"/></svg></span><span class="m-tbar__end"><span class="m-glass m-circ"><svg class="m-ico"><use href="#i-share"/></svg></span><span class="m-glass m-circ"><svg class="m-ico"><use href="#i-tabs"/></svg></span></span></div><div class="m-glass m-modal"><div class="m-sheet__bar"><span class="m-glass m-circ m-circ--sm"><svg class="m-ico"><use href="#i-close"/></svg></span><b data-i18n="cheapseats.install.ui.addHome">Zum Home-Bildschirm</b><span class="m-circ m-circ--sm m-circ--blue hl"><svg class="m-ico"><use href="#i-check"/></svg></span></div><div class="m-group m-card"><img src="../../../app/icons/apple-touch-icon.png" alt=""><div><b>CheapSeats</b><small>mika-jeske.de/app/</small></div></div><div class="m-group"><div class="m-row m-row--end"><span data-i18n="cheapseats.install.ui.openWeb">Als Web-App öffnen</span><span class="m-toggle"></span></div></div></div></div></div></div>
+              <figcaption><span class="step__num" aria-hidden="true">04</span><h3 class="step__title" data-i18n="cheapseats.install.s.confirm.t">Hinzufügen</h3><p class="step__text" data-i18n="cheapseats.install.s.confirm.d">Lass „Als Web-App öffnen“ eingeschaltet und tippe oben rechts auf den Haken.</p></figcaption>
             </figure></li>
-
             <li><figure class="step" data-shot="ipad-5">
-              <div class="step__media">
-                <div class="dev dev--tablet" aria-hidden="true"><div class="dev__screen">
-                  <div class="m-home">
-                    <span class="m-app-ico"><i></i></span><span class="m-app-ico"><i></i></span><span class="m-app-ico"><i></i></span><span class="m-app-ico"><i></i></span><span class="m-app-ico"><i></i></span><span class="m-app-ico"><i></i></span><span class="m-app-ico"><i></i></span><span class="m-app-ico"><i></i></span>
-                    <span class="m-app-ico"><i></i></span><span class="m-app-ico"><i></i></span><span class="m-app-ico"><img class="hl" src="../../../app/icons/apple-touch-icon.png" alt=""><span>CheapSeats</span></span>
-                  </div>
-                  <div class="m-dock"><i></i><i></i><i></i><i></i><i></i></div>
-                </div></div>
-              </div>
-              <figcaption><h3 class="step__title"><span class="step__num" aria-hidden="true"></span><span data-i18n="cheapseats.install.s.done.t">Fertig</span></h3><p class="step__text" data-i18n="cheapseats.install.s.done.d">CheapSeats liegt jetzt auf deinem Home-Bildschirm und öffnet sich im Vollbild, ganz ohne Browser drumherum.</p></figcaption>
+              <div class="step__media"><div class="dev dev--tablet" aria-hidden="true"><div class="dev__screen m-wall"><div class="m-home"><span class="m-app"><i></i></span><span class="m-app"><i></i></span><span class="m-app"><i></i></span><span class="m-app"><i></i></span><span class="m-app"><i></i></span><span class="m-app"><i></i></span><span class="m-app"><i></i></span><span class="m-app"><i></i></span><span class="m-app"><i></i></span><span class="m-app"><i></i></span><span class="m-app"><img class="hl" src="../../../app/icons/apple-touch-icon.png" alt=""><span>CheapSeats</span></span></div><div class="m-glass m-dock"><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div></div>
+              <figcaption><span class="step__num" aria-hidden="true">05</span><h3 class="step__title" data-i18n="cheapseats.install.s.done.t">Fertig</h3><p class="step__text" data-i18n="cheapseats.install.s.done.d">CheapSeats liegt jetzt auf deinem Home-Bildschirm und öffnet sich im Vollbild, ganz ohne Browser drumherum.</p></figcaption>
             </figure></li>
           </ol>
         </div>
 
-        <!-- ================= Mac ================= -->
         <div class="panel panel--wide" role="tabpanel" id="panel-mac" aria-labelledby="tab-mac" hidden>
           <ol class="steps">
             <li><figure class="step" data-shot="mac-1">
-              <div class="step__media">
-                <div class="dev dev--mac" aria-hidden="true"><div class="dev__screen">
-                  <div class="m-menubar"><b>Safari</b><span data-i18n="cheapseats.install.ui.file">Ablage</span><span data-i18n="cheapseats.install.ui.edit">Bearbeiten</span><span data-i18n="cheapseats.install.ui.view">Darstellung</span></div>
-                  <div class="m-win">
-                    <div class="m-tbar"><span class="m-lights"><i></i><i></i><i></i></span><span class="m-field hl"><svg class="m-ico"><use href="#i-lock"/></svg><span>mika-jeske.de</span><svg class="m-ico"><use href="#i-reload"/></svg></span><span class="m-btn"><svg class="m-ico"><use href="#i-share"/></svg></span></div>
-                    <div class="m-under-tbar"><img class="m-shot" src="../../../ci/assets/Bilder/CheapSeats/install/screen-mac.webp" alt="" loading="lazy"></div>
-                  </div>
-                  <div class="m-macdock"><i></i><i></i><i></i><i></i><i></i></div>
-                </div></div>
-              </div>
-              <figcaption><h3 class="step__title"><span class="step__num" aria-hidden="true"></span><span data-i18n="cheapseats.install.s.macOpen.t">In Safari öffnen</span></h3><p class="step__text" data-i18n="cheapseats.install.s.macOpen.d">Öffne mika-jeske.de/app in Safari. Du brauchst Safari 17 oder neuer, also macOS Sonoma oder später.</p></figcaption>
+              <div class="step__media"><div class="dev dev--mac" aria-hidden="true"><div class="dev__screen m-wall"><div class="m-menubar"><span class="m-apple"></span><b>Safari</b><span data-i18n="cheapseats.install.ui.file">Ablage</span><span data-i18n="cheapseats.install.ui.edit">Bearbeiten</span><span data-i18n="cheapseats.install.ui.view">Darstellung</span></div><div class="m-win"><div class="m-wtbar"><span class="m-lights m-lights--color"><i></i><i></i><i></i></span><span class="m-glass m-field hl"><svg class="m-ico"><use href="#i-lock"/></svg><span class="m-field__url">mika-jeske.de</span><svg class="m-ico"><use href="#i-reload"/></svg></span><span class="m-glass m-circ"><svg class="m-ico"><use href="#i-share"/></svg></span></div><img class="m-shot m-shot--win" src="../../../ci/assets/Bilder/CheapSeats/install/screen-mac.webp" alt="" loading="lazy"></div><div class="m-glass m-macdock"><i></i><i></i><i></i><i></i><i></i></div></div></div></div>
+              <figcaption><span class="step__num" aria-hidden="true">01</span><h3 class="step__title" data-i18n="cheapseats.install.s.macOpen.t">In Safari öffnen</h3><p class="step__text" data-i18n="cheapseats.install.s.macOpen.d">Öffne mika-jeske.de/app in Safari. Du brauchst Safari 17 oder neuer, also macOS Sonoma oder später.</p></figcaption>
             </figure></li>
-
             <li><figure class="step" data-shot="mac-2">
-              <div class="step__media">
-                <div class="dev dev--mac" aria-hidden="true"><div class="dev__screen">
-                  <div class="m-menubar"><b>Safari</b><span class="m-sel" data-i18n="cheapseats.install.ui.file">Ablage</span><span data-i18n="cheapseats.install.ui.edit">Bearbeiten</span><span data-i18n="cheapseats.install.ui.view">Darstellung</span></div>
-                  <div class="m-filemenu">
-                    <div class="m-row"><span class="m-ph"></span></div>
-                    <div class="m-row"><span class="m-ph" style="width:55%"></span></div>
-                    <div class="m-row"><span class="m-ph" style="width:62%"></span></div>
-                    <div class="m-row hl"><span data-i18n="cheapseats.install.ui.addDock">Zum Dock hinzufügen …</span></div>
-                    <div class="m-row"><span class="m-ph" style="width:48%"></span></div>
-                  </div>
-                  <div class="m-win">
-                    <div class="m-tbar"><span class="m-lights"><i></i><i></i><i></i></span><span class="m-field"><svg class="m-ico"><use href="#i-lock"/></svg><span>mika-jeske.de</span><svg class="m-ico"><use href="#i-reload"/></svg></span><span class="m-btn"><svg class="m-ico"><use href="#i-share"/></svg></span></div>
-                    <div class="m-under-tbar"><img class="m-shot" src="../../../ci/assets/Bilder/CheapSeats/install/screen-mac.webp" alt="" loading="lazy"></div>
-                  </div>
-                  <div class="m-macdock"><i></i><i></i><i></i><i></i><i></i></div>
-                </div></div>
-              </div>
-              <figcaption><h3 class="step__title"><span class="step__num" aria-hidden="true"></span><span data-i18n="cheapseats.install.s.macMenu.t">Zum Dock hinzufügen</span></h3><p class="step__text" data-i18n="cheapseats.install.s.macMenu.d">Wähle in der Menüleiste „Ablage“ › „Zum Dock hinzufügen …“. Über das Teilen-Symbol geht es auch.</p></figcaption>
+              <div class="step__media"><div class="dev dev--mac" aria-hidden="true"><div class="dev__screen m-wall"><div class="m-menubar"><span class="m-apple"></span><b>Safari</b><span class="m-sel" data-i18n="cheapseats.install.ui.file">Ablage</span><span data-i18n="cheapseats.install.ui.edit">Bearbeiten</span><span data-i18n="cheapseats.install.ui.view">Darstellung</span></div><div class="m-glass m-filemenu"><div class="m-row"><span class="m-ph" style="width:70%"></span></div><div class="m-row"><span class="m-ph" style="width:55%"></span></div><div class="m-row"><span class="m-ph" style="width:62%"></span></div><div class="m-row hl"><span data-i18n="cheapseats.install.ui.addDock">Zum Dock hinzufügen …</span></div><div class="m-row"><span class="m-ph" style="width:48%"></span></div></div><div class="m-win"><div class="m-wtbar"><span class="m-lights m-lights--color"><i></i><i></i><i></i></span><span class="m-glass m-field"><svg class="m-ico"><use href="#i-lock"/></svg><span class="m-field__url">mika-jeske.de</span><svg class="m-ico"><use href="#i-reload"/></svg></span><span class="m-glass m-circ"><svg class="m-ico"><use href="#i-share"/></svg></span></div><img class="m-shot m-shot--win" src="../../../ci/assets/Bilder/CheapSeats/install/screen-mac.webp" alt="" loading="lazy"></div><div class="m-glass m-macdock"><i></i><i></i><i></i><i></i><i></i></div></div></div></div>
+              <figcaption><span class="step__num" aria-hidden="true">02</span><h3 class="step__title" data-i18n="cheapseats.install.s.macMenu.t">Zum Dock hinzufügen</h3><p class="step__text" data-i18n="cheapseats.install.s.macMenu.d">Wähle in der Menüleiste „Ablage“ › „Zum Dock hinzufügen …“. Über das Teilen-Symbol geht es auch.</p></figcaption>
             </figure></li>
-
             <li><figure class="step" data-shot="mac-3">
-              <div class="step__media">
-                <div class="dev dev--mac" aria-hidden="true"><div class="dev__screen">
-                  <div class="m-menubar"><b>Safari</b><span data-i18n="cheapseats.install.ui.file">Ablage</span><span data-i18n="cheapseats.install.ui.edit">Bearbeiten</span><span data-i18n="cheapseats.install.ui.view">Darstellung</span></div>
-                  <div class="m-win">
-                    <div class="m-tbar"><span class="m-lights"><i></i><i></i><i></i></span><span class="m-field"><svg class="m-ico"><use href="#i-lock"/></svg><span>mika-jeske.de</span><svg class="m-ico"><use href="#i-reload"/></svg></span><span class="m-btn"><svg class="m-ico"><use href="#i-share"/></svg></span></div>
-                    <div class="m-under-tbar m-dim"><img class="m-shot" src="../../../ci/assets/Bilder/CheapSeats/install/screen-mac.webp" alt="" loading="lazy"></div>
-                  </div>
-                  <div class="m-macsheet">
-                    <b class="t" data-i18n="cheapseats.install.ui.addDockTitle">Zum Dock hinzufügen</b>
-                    <div class="m-card"><img src="../../../app/icons/apple-touch-icon.png" alt=""><div style="flex:1"><b>CheapSeats</b><small>https://mika-jeske.de/app/</small></div></div>
-                    <div class="m-macbtns"><span data-i18n="cheapseats.install.ui.cancel">Abbrechen</span><span class="m-primary hl" data-i18n="cheapseats.install.ui.add">Hinzufügen</span></div>
-                  </div>
-                  <div class="m-macdock"><i></i><i></i><i></i><i></i><img src="../../../app/icons/apple-touch-icon.png" alt=""></div>
-                </div></div>
-              </div>
-              <figcaption><h3 class="step__title"><span class="step__num" aria-hidden="true"></span><span data-i18n="cheapseats.install.s.macDone.t">Hinzufügen, fertig</span></h3><p class="step__text" data-i18n="cheapseats.install.s.macDone.d">Klick auf „Hinzufügen“. CheapSeats bekommt ein eigenes Fenster und ein Symbol im Dock und startet wie jede App, auch über Launchpad und Spotlight.</p></figcaption>
+              <div class="step__media"><div class="dev dev--mac" aria-hidden="true"><div class="dev__screen m-wall"><div class="m-menubar"><span class="m-apple"></span><b>Safari</b><span data-i18n="cheapseats.install.ui.file">Ablage</span><span data-i18n="cheapseats.install.ui.edit">Bearbeiten</span><span data-i18n="cheapseats.install.ui.view">Darstellung</span></div><div class="m-win"><div class="m-wtbar"><span class="m-lights m-lights--color"><i></i><i></i><i></i></span><span class="m-glass m-field"><svg class="m-ico"><use href="#i-lock"/></svg><span class="m-field__url">mika-jeske.de</span><svg class="m-ico"><use href="#i-reload"/></svg></span><span class="m-glass m-circ"><svg class="m-ico"><use href="#i-share"/></svg></span></div><img class="m-shot m-shot--win" src="../../../ci/assets/Bilder/CheapSeats/install/screen-mac.webp" alt="" loading="lazy"><div class="m-dimmer"></div><div class="m-glass m-macsheet"><b class="m-macsheet__t" data-i18n="cheapseats.install.ui.addDockTitle">Zum Dock hinzufügen</b><div class="m-group m-card"><img src="../../../app/icons/apple-touch-icon.png" alt=""><div><b>CheapSeats</b><small>mika-jeske.de/app/</small></div></div><div class="m-macbtns"><span class="m-btn" data-i18n="cheapseats.install.ui.cancel">Abbrechen</span><span class="m-btn m-btn--blue hl" data-i18n="cheapseats.install.ui.add">Hinzufügen</span></div></div></div><div class="m-glass m-macdock"><i></i><i></i><i></i><i></i><i></i><img class="hl" src="../../../app/icons/apple-touch-icon.png" alt=""></div></div></div></div>
+              <figcaption><span class="step__num" aria-hidden="true">03</span><h3 class="step__title" data-i18n="cheapseats.install.s.macDone.t">Hinzufügen, fertig</h3><p class="step__text" data-i18n="cheapseats.install.s.macDone.d">Klick auf „Hinzufügen“. CheapSeats bekommt ein eigenes Fenster und ein Symbol im Dock und startet wie jede App, auch über Launchpad und Spotlight.</p></figcaption>
             </figure></li>
           </ol>
         </div>
+        <p class="shot-note" data-i18n="cheapseats.install.shotNote">Die Abbildungen sind vereinfacht. Je nach iOS- oder macOS-Version sehen die Menüs etwas anders aus.</p>
       </div>
     </section>
 
-    <section id="gut-zu-wissen" aria-labelledby="know-heading" style="padding-top:0">
+    <section id="gut-zu-wissen" aria-labelledby="know-heading">
       <div class="wrap">
         <h2 id="know-heading" data-i18n="cheapseats.install.knowHeading">Gut zu wissen</h2>
-        <ul class="know">
-          <li data-i18n-html="cheapseats.install.know.0"><strong>Dieselbe App wie unter Windows.</strong> Gleiche Bereiche, gleiche Daten, auf Deutsch, Englisch oder Spanisch.</li>
-          <li data-i18n-html="cheapseats.install.know.1"><strong>Keine Spielstand-Benachrichtigungen.</strong> iOS lässt eine Web-App im Hintergrund keine Spielstände prüfen. Benachrichtigungen und Anstoß-Erinnerungen gibt es nur in der Windows-App.</li>
-          <li data-i18n-html="cheapseats.install.know.2"><strong>Updates kommen von selbst.</strong> Beim nächsten Öffnen lädt die App die neue Version.</li>
-          <li data-i18n-html="cheapseats.install.know.3"><strong>Deine Daten bleiben auf dem Gerät.</strong> Spielstände holt die App direkt bei ESPN, MLB und theScore. Mehr dazu im <a href="../../../impressum/">Datenschutz</a>.</li>
-          <li data-i18n-html="cheapseats.install.know.4"><strong>Wieder entfernen:</strong> Symbol gedrückt halten und „App entfernen“ wählen. Am Mac liegt die App im Ordner „Programme“ und lässt sich wie jede andere löschen.</li>
-        </ul>
-        <p class="shot-note" data-i18n="cheapseats.install.shotNote">Die Abbildungen sind vereinfacht. Je nach iOS- oder macOS-Version sehen die Menüs etwas anders aus.</p>
+        <div class="know">
+          <dl><dt data-i18n="cheapseats.install.know.0.dt">Dieselbe App wie unter Windows</dt><dd data-i18n-html="cheapseats.install.know.0.dd">Gleiche Bereiche, gleiche Daten, auf Deutsch, Englisch oder Spanisch.</dd></dl>
+          <dl><dt data-i18n="cheapseats.install.know.1.dt">Keine Spielstand-Benachrichtigungen</dt><dd data-i18n-html="cheapseats.install.know.1.dd">iOS lässt eine Web-App im Hintergrund keine Spielstände prüfen. Benachrichtigungen und Anstoß-Erinnerungen gibt es nur in der Windows-App.</dd></dl>
+          <dl><dt data-i18n="cheapseats.install.know.2.dt">Updates kommen von selbst</dt><dd data-i18n-html="cheapseats.install.know.2.dd">Beim nächsten Öffnen lädt die App die neue Version.</dd></dl>
+          <dl><dt data-i18n="cheapseats.install.know.3.dt">Deine Daten bleiben auf dem Gerät</dt><dd data-i18n-html="cheapseats.install.know.3.dd">Spielstände holt die App direkt bei ESPN, MLB und theScore. Mehr dazu im <a href="../../../impressum/">Datenschutz</a>.</dd></dl>
+          <dl><dt data-i18n="cheapseats.install.know.4.dt">Wieder entfernen</dt><dd data-i18n-html="cheapseats.install.know.4.dd">Symbol gedrückt halten und „App entfernen“ wählen. Am Mac liegt die App im Ordner „Programme“ und lässt sich wie jede andere löschen.</dd></dl>
+        </div>
       </div>
     </section>
   </main>
@@ -541,7 +372,7 @@
   <footer>
     <!-- mirrors Footer() in sections-b.jsx; keep both in sync -->
     <div class="wrap" style="margin-bottom:32px">
-      <a class="back-link" href="../"><span aria-hidden>←</span> <span data-i18n="cheapseats.install.back">Zurück zu CheapSeats</span></a>
+      <a class="back" href="../" data-lang-link><span aria-hidden="true">←</span> <span data-i18n="cheapseats.install.back">Zurück zu CheapSeats</span></a>
     </div>
     <div class="wrap footrow" style="gap:24px">
       <div style="font-family:var(--font-display); font-weight:600; font-size:var(--fs-h3); color:var(--heading); letter-spacing:var(--ls-heading)">Mika Jeske</div>
@@ -562,16 +393,31 @@
     <div class="wrap">
       <p class="i18n-disclaimer" data-i18n="footer.disclaimer">Das Porträtbild sowie einzelne Textpassagen und die Übersetzungen dieser Seite wurden mit KI-Unterstützung erstellt bzw. überarbeitet und von mir inhaltlich geprüft. Maßgeblich ist die deutsche Fassung.</p>
     </div>
+
   </footer>
 
   <script src="../../../widgets.min.js"></script>
   <script>
-    // i18n: apply translations, mount switcher + chip, re-apply on language change
+    // i18n: apply translations, mount switcher + chip, re-apply on language change.
+    // Links that leave this page carry the language along: ?lang= for the site's
+    // own pages, and for the web app only where the app speaks it (en/de/es).
     (function () {
+      var APP_LANGS = ["en", "de", "es"];
+      function withLang(href, lang) {
+        var url = new URL(href, location.href);
+        if (lang) url.searchParams.set("lang", lang); else url.searchParams.delete("lang");
+        return url.pathname + url.search + url.hash;
+      }
+      function applyLangLinks() {
+        var lang = I18N.getLang();
+        document.querySelectorAll("[data-lang-link]").forEach(function (a) { a.href = withLang(a.getAttribute("href"), lang); });
+        document.querySelectorAll("[data-app-link]").forEach(function (a) { a.href = withLang(a.getAttribute("href"), APP_LANGS.indexOf(lang) !== -1 ? lang : null); });
+      }
       Widgets.applyStaticTranslations(document);
+      applyLangLinks();
       Widgets.mountLanguageSwitcher(document.getElementById("lang-switcher-root"));
       Widgets.mountContactChip(document.getElementById("contact-chip-root"));
-      window.addEventListener("langchange", function () { Widgets.applyStaticTranslations(document); });
+      window.addEventListener("langchange", function () { Widgets.applyStaticTranslations(document); applyLangLinks(); });
     })();
 
     // Device tabs (WAI-ARIA tabs: arrows move, Home/End jump). Starts on the
@@ -590,7 +436,7 @@
       tabs.forEach(function (t, i) {
         t.addEventListener("click", function () {
           select(t);
-          history.replaceState(null, "", "#" + t.id.slice(4));
+          history.replaceState(null, "", location.pathname + location.search + "#" + t.id.slice(4));
         });
         t.addEventListener("keydown", function (e) {
           var j = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[e.key];

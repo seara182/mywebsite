@@ -13,7 +13,7 @@ The site must stay 100% cookie-free and static, with no consent banner.
 
 ## CheapSeats install guide
 
-`projects/cheapseats/install/` explains Add to Home Screen / Add to Dock with drawn mockups (labels are `cheapseats.install.*` i18n keys). To use real screenshots instead, drop `iphone-1…5.webp`, `ipad-1…5.webp` or `mac-1…3.webp` into `ci/assets/Bilder/CheapSeats/install/`; each replaces its step's drawing, no code change. `screen-*.webp` there are the app screens inside the drawings, captured from the web build.
+`projects/cheapseats/install/` explains Add to Home Screen / Add to Dock with drawn iOS/iPadOS/macOS 26 mockups (labels are `cheapseats.install.*` i18n keys; the light Apple-UI colours in its mockup block depict Apple's UI and are the only non-token colours allowed there). Links between the CheapSeats page, the guide and `/app/` carry `?lang=` (`i18n.js` reads it on sub-pages; the app honours en/de/es on first launch). To use real screenshots instead, drop `iphone-1…5.webp`, `ipad-1…5.webp` or `mac-1…3.webp` into `ci/assets/Bilder/CheapSeats/install/`; each replaces its step's drawing, no code change. `screen-*.webp` there are the app screens inside the drawings, captured from the web build.
 
 ## Design
 
