@@ -11,6 +11,10 @@ The site must stay 100% cookie-free and static, with no consent banner.
 3. **Zero cookies.**
 4. **Exception: `app/`** is the CheapSeats web app, built in `bay-window` (`npm run deploy:web`), never edited here. It fetches ESPN/MLB/theScore from the visitor's browser and stores data in IndexedDB (no cookies); that is disclosed in `impressum/` §6 and the app's own privacy statement. The rest of the site stays external-free, and nothing outside `app/` may load from it.
 
+## CheapSeats install guide
+
+`projects/cheapseats/install/` explains Add to Home Screen / Add to Dock with drawn mockups (labels are `cheapseats.install.*` i18n keys). To use real screenshots instead, drop `iphone-1…5.webp`, `ipad-1…5.webp` or `mac-1…3.webp` into `ci/assets/Bilder/CheapSeats/install/`; each replaces its step's drawing, no code change. `screen-*.webp` there are the app screens inside the drawings, captured from the web build.
+
 ## Design
 
 Follow the "Mika Jeske" design system (`ci/tokens/*.css`, skill in `.claude/skills/Mika Jeske Design System/`): reuse tokens, never invent fonts/palettes/motion. Aesthetic review: `design-critic` agent (`.claude/agents/`). Design/release briefs are local-only: `DESIGN_GUIDE_anti-vibecode.md`, `RELEASE_BRIEF_v1.1.md`, `_notes/`.

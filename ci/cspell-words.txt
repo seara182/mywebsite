@@ -273,3 +273,12 @@ Hollandmoritz
 filmverrückt
 auditeurs
 ascoltatori
+Browserleiste
+Sonoma
+filemenu
+macbtns
+macdock
+macsheet
+nell
+sbar
+tbar

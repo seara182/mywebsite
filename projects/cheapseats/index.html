@@ -408,24 +408,7 @@
     .gh--ghost { background: transparent; color: var(--on-dark-strong); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.28); }
     .gh--ghost:hover { box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5); }
     .coming__actions { display: flex; flex-wrap: wrap; gap: 12px; }
-    .coming p.coming__hint { margin-top: 10px; font-size: var(--fs-caption); color: var(--on-dark-body); opacity: .8; }
 
-    /* ---- store badges (not linked yet) ----
-       Apple + Google brand guidelines forbid recoloring or changing the
-       opacity of their badge artwork, so the "coming soon" / disabled read
-       comes from the COMING SOON note next to them and from the badges
-       being <div>s rather than <a>s - never from the artwork itself.
-       Clear space comes from the flex gap (>= 20px, at or above one-quarter
-       of each badge's displayed height, satisfying both platforms).
-       The two source files aren't cropped the same: Apple's SVG fills its
-       full 40px canvas, Google's PNG has ~16% built-in transparent margin -
-       so the <img> heights differ (40 vs 60) to make the two marks read as
-       the same size; sizing is a uniform scale of the whole asset, not a
-       crop or a redraw, which both guidelines allow. */
-    .store-badges { display: flex; flex-wrap: wrap; align-items: center; gap: clamp(20px,2.5vw,28px); margin-top: clamp(24px,3vw,32px); }
-    .store-badge { display: inline-flex; align-items: center; cursor: default; }
-    .store-badge img { display: block; }
-    .store-badges__note { font-family: var(--font-text); font-size: var(--fs-caption); font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--text-faint); }
 
     /* ---- changelog / version history (reuses .ticks for bullets) ----
        Horizontal snap-scroller so adding v1.3.2, v1.4 etc. later is just
@@ -499,7 +482,6 @@
       .row.wide-media { grid-template-columns: 1fr; }
       .feature-list { grid-template-columns: 1fr; }
       /* "coming soon" reads first, on its own line above the two badges */
-      .store-badges__note { order: -1; flex-basis: 100%; }
       .collage { display: grid; gap: 16px; padding: 0; }
       .collage .float { position: static; width: auto; }
       .collage .float .shot, .collage .float .shot:hover { transform: none; }
@@ -596,24 +578,14 @@
       <div class="coming">
         <div>
           <span class="badge" data-i18n="cheapseats.comingBadge">Microsoft Store</span>
-          <p data-i18n="cheapseats.comingText">CheapSeats gibt es im Microsoft Store und als Web-App fürs iPhone und iPad. Kostenlos, und das bleibt auch so.</p>
-          <p class="coming__hint" data-i18n="cheapseats.webAppHint">Auf dem iPhone: in Safari öffnen, Teilen-Symbol, „Zum Home-Bildschirm“.</p>
+          <p data-i18n="cheapseats.comingText">CheapSeats gibt es im Microsoft Store und als Web-App für iPhone, iPad und Mac. Kostenlos, und das bleibt auch so.</p>
         </div>
-        <!-- The web app is same-origin (/app/), so linking it adds no third-party
-             request to this page; the app itself talks to ESPN/MLB, see its privacy statement. -->
+        <!-- The install guide and the web app are same-origin, so this adds no
+             third-party request; the app itself talks to ESPN/MLB (Impressum §6). -->
         <div class="coming__actions">
           <a class="gh" href="https://apps.microsoft.com/detail/9N6JHBV7G033?hl=de-DE&amp;cid=mika-jeske-website" target="_blank" rel="noopener" data-store-link><span data-i18n="cheapseats.githubBtn">Zum Microsoft Store</span> <span aria-hidden>→</span></a>
-          <a class="gh gh--ghost" href="../../app/"><span data-i18n="cheapseats.webAppBtn">Web-App öffnen</span> <span aria-hidden>→</span></a>
+          <a class="gh gh--ghost" href="install/"><span data-i18n="cheapseats.install.btn">Auf iPhone, iPad &amp; Mac</span> <span aria-hidden>→</span></a>
         </div>
-      </div>
-
-      <!-- Not links yet: <div>, not <a> - keeps them out of tab order and
-           off click. Badge artwork is the unmodified official asset per
-           Apple/Google brand guidelines (self-hosted in ci/assets/badges/). -->
-      <div class="store-badges reveal">
-        <div class="store-badge"><img src="../../ci/assets/badges/app-store-badge.svg" alt="Download on the App Store" width="120" height="40" loading="lazy"></div>
-        <div class="store-badge"><img src="../../ci/assets/badges/google-play-badge.png" alt="Get it on Google Play" width="155" height="60" loading="lazy"></div>
-        <span class="store-badges__note" data-i18n="cheapseats.comingSoon">Bald verfügbar</span>
       </div>
     </div>
   </section>
