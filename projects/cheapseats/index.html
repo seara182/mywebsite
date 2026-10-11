@@ -10,11 +10,11 @@
   <script src="../../i18n.min.js"></script>
   <title>CheapSeats - Mika Jeske</title>
   <link rel="canonical" href="https://mika-jeske.de/projects/cheapseats/">
-  <meta name="description" content="CheapSeats ist ein persönliches Sport-Dashboard für Windows: nächstes Spiel, Live-Stand und Watercooler für dein NFL- und MLB-Team. Kostenlos im Microsoft Store.">
+  <meta name="description" content="CheapSeats ist ein persönliches Sport-Dashboard für Windows, Mac, Handy und Tablet: nächstes Spiel, Live-Stand und Watercooler für dein NFL- und MLB-Team. Kostenlos im Microsoft Store und als Web-App.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Mika Jeske">
   <meta property="og:title" content="CheapSeats - Mika Jeske">
-  <meta property="og:description" content="CheapSeats ist ein persönliches Sport-Dashboard für Windows: nächstes Spiel, Live-Stand und Watercooler für dein NFL- und MLB-Team. Kostenlos im Microsoft Store.">
+  <meta property="og:description" content="CheapSeats ist ein persönliches Sport-Dashboard für Windows, Mac, Handy und Tablet: nächstes Spiel, Live-Stand und Watercooler für dein NFL- und MLB-Team. Kostenlos im Microsoft Store und als Web-App.">
   <meta property="og:url" content="https://mika-jeske.de/projects/cheapseats/">
   <meta property="og:image" content="https://mika-jeske.de/ci/assets/og/og-cheapseats-v2.jpg">
   <meta property="og:image:width" content="2400">
@@ -22,13 +22,14 @@
   <meta property="og:image:alt" content="CheapSeats, Sport-Dashboard für NFL und MLB, mit App-Ansicht des nächsten Spiels und letzten Ergebnisses">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="CheapSeats - Mika Jeske">
-  <meta name="twitter:description" content="CheapSeats ist ein persönliches Sport-Dashboard für Windows: nächstes Spiel, Live-Stand und Watercooler für dein NFL- und MLB-Team. Kostenlos im Microsoft Store.">
+  <meta name="twitter:description" content="CheapSeats ist ein persönliches Sport-Dashboard für Windows, Mac, Handy und Tablet: nächstes Spiel, Live-Stand und Watercooler für dein NFL- und MLB-Team. Kostenlos im Microsoft Store und als Web-App.">
   <meta name="twitter:image" content="https://mika-jeske.de/ci/assets/og/og-cheapseats-v2.jpg">
   <link rel="icon" type="image/png" sizes="48x48" href="favicon-48.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="stylesheet" href="../../ci/styles.css">
   <link rel="stylesheet" href="../../ci/i18n-ui.css">
+  <link rel="stylesheet" href="shared.css">
   <style>
     html { scroll-behavior: smooth; }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
@@ -79,7 +80,7 @@
     .skipper__link {
       flex: none; scroll-snap-align: start;
       padding: 15px 0; white-space: nowrap; text-decoration: none;
-      font-family: var(--font-text); font-size: 12px; font-weight: 600;
+      font-family: var(--font-text); font-size: var(--fs-label); font-weight: 600;
       letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted);
       transition: color .2s var(--ease-out);
     }
@@ -89,7 +90,7 @@
     }
     .skipper__link:hover { color: var(--ink); }
     .skipper__link.is-active { color: var(--accent); }
-    .skipper__link:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+    .skipper__link:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 3px; border-radius: 4px; }
     /* One fixed offset that clears both the ticker (~45px) and the skipper
        (~46px), so the globe stays put through the handoff instead of nudging
        6px - one fewer thing moving at the seam. */
@@ -121,7 +122,7 @@
       transition: transform .22s cubic-bezier(.4, 0, 1, 1);
     }
     .update-banner__inner { display: flex; align-items: center; gap: 14px; padding: 11px 0; }
-    .update-banner__pill { display: inline-flex; flex: none; padding: 3px 10px; font-family: var(--font-text); font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; background: rgba(255,255,255,0.18); color: var(--on-dark-strong); border-radius: var(--radius-pill); }
+    .update-banner__tag { display: inline-flex; flex: none; padding: 3px 10px; font-family: var(--font-text); font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; background: rgba(255,255,255,0.18); color: var(--on-dark-strong); border-radius: var(--radius-xs); }
     /* Viewport onto the scrolling track. Mask fades text in/out at both
        edges so it never hard-clips against the container or the links. */
     .update-banner__ticker {
@@ -155,7 +156,7 @@
        dropdown behind a button beside the language globe. */
     .skipper-toggle { display: none; }
     @media (max-width: 700px) {
-      .update-banner__pill, .update-banner__links { display: none; }
+      .update-banner__tag, .update-banner__links { display: none; }
       .has-skipper .update-banner { transform: none; opacity: 1; pointer-events: auto; }
 
       /* Same material, size and blob shape as the globe (mirrored), so the
@@ -176,7 +177,7 @@
       .has-skipper .skipper-toggle { opacity: 1; transform: none; pointer-events: auto; }
       .skipper-toggle:active { transform: scale(.94); }
       .skipper-toggle[aria-expanded="true"] { background: var(--ink); color: var(--paper); }
-      .skipper-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+      .skipper-toggle:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 3px; }
 
       /* The skipper itself becomes the dropdown, growing out of the button
          (transform-origin = the button's centre) rather than a full-width bar. */
@@ -195,9 +196,9 @@
         transition: opacity .2s var(--ease-out), transform .36s var(--ease-spring), visibility 0s;
       }
       .skipper__track { flex-direction: column; align-items: stretch; padding: 6px; overflow: visible; }
-      .skipper__link { padding: 13px 14px; font-size: 13px; border-radius: var(--radius-sm); }
+      .skipper__link { padding: 13px 14px; font-size: var(--fs-caption); border-radius: var(--radius-sm); }
       .skipper__link + .skipper__link::before { content: none; }
-      .skipper__link.is-active { background: rgba(20,20,26,0.05); }
+      .skipper__link.is-active { background: var(--press-tint); }
     }
     @media (max-width: 700px) and (prefers-reduced-motion: reduce) {
       .skipper, .skipper.is-visible, .skipper.is-open, .has-skipper .skipper-toggle, .skipper-toggle:active { transform: none; }
@@ -206,19 +207,9 @@
     /* ---- top bar ---- */
     .topbar { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; padding: clamp(20px,3vw,32px) 0; }
     /* The shared hint sits beside the globe, which on this page is the Home
-       pill's row - so drop it underneath instead, into the hero's top padding. */
+       link's row - so drop it underneath instead, into the hero's top padding. */
     .lang-hint { top: calc(100% + 10px); left: 0; transform: none; }
-    .back-link {
-      display: inline-flex; align-items: center; gap: 8px; padding: 9px 18px;
-      border: 1px solid var(--border-strong); border-radius: var(--radius-pill);
-      font-family: var(--font-text); font-size: var(--fs-caption); font-weight: 600;
-      letter-spacing: 0.04em; text-transform: uppercase; color: var(--heading);
-      text-decoration: none; transition: all .24s var(--ease-out);
-    }
-    .back-link:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); transform: translateX(-3px); }
-    /* Keep the Home pill clear of the fixed language globe (left 18px, 48px
-       wide): nudge it right only by as much as the page margin falls short. */
-    .topbar .back-link { margin-left: max(0px, calc(78px - max(0px, (100vw - var(--content-wide)) / 2) - var(--gutter))); }
+    /* .back-link lives in shared.css. */
     .made { font-family: var(--font-mono); font-size: var(--fs-caption); color: var(--text-faint); }
 
     /* ---- hero ---- */
@@ -375,7 +366,7 @@
     .vp-range::-moz-range-track { height: 4px; border-radius: 2px; background: linear-gradient(to right, var(--accent) var(--p), var(--paper-3) var(--p)); }
     .vp-range::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; margin-top: -5px; border-radius: 4px; background: var(--accent); border: 0; }
     .vp-range::-moz-range-thumb { width: 14px; height: 14px; border-radius: 4px; background: var(--accent); border: 0; }
-    .vp-range:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+    .vp-range:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; border-radius: 2px; }
     .vp-seek { flex: 1 1 auto; min-width: 0; }
     .vp-vol { flex: none; width: 72px; }
     @media (max-width: 560px) { .vp-vol { display: none; } .vp-time { min-width: 0; } }
@@ -385,6 +376,9 @@
     .phones { background: var(--plum); color: var(--on-dark-body); position: relative; overflow: hidden; }
     .phones h2 { color: var(--on-dark-strong); }
     .phones .lede { color: var(--on-dark-body); }
+    .phones .lede a { color: var(--on-dark-strong); font-weight: 600; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+    .phones .lede a:hover { text-decoration-thickness: 2px; }
+    .phones .lede a:focus-visible { outline: 2px solid var(--on-dark-strong); outline-offset: 4px; border-radius: 4px; }
     .phone-row { display: flex; gap: clamp(16px,3vw,40px); justify-content: center; align-items: flex-end; flex-wrap: wrap; margin-top: clamp(40px,6vw,72px); }
     .phone { width: clamp(150px, 20vw, 220px); flex: none; filter: drop-shadow(0 30px 50px rgba(0,0,0,0.4)); }
     .phone img { display: block; width: 100%; height: auto; }
@@ -400,11 +394,7 @@
     .spec dd strong { color: var(--heading); font-weight: 600; }
 
     /* ---- coming soon ---- */
-    .coming { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; padding: clamp(28px,3.5vw,40px); background: #15151A; color: var(--on-dark-strong); border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); }
-    .coming .badge { display: inline-flex; padding: 5px 14px; font-family: var(--font-text); font-size: var(--fs-caption); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; border-radius: var(--radius-pill); background: rgba(255,255,255,0.12); color: var(--on-dark-strong); margin-bottom: 12px; }
-    .coming p { margin: 0; font-size: var(--fs-body); color: var(--on-dark-body); max-width: 46ch; }
-    .gh { display: inline-flex; align-items: center; gap: 8px; padding: 13px 24px; background: var(--paper); color: var(--ink); border-radius: var(--radius-md); font-family: var(--font-text); font-size: var(--fs-body); font-weight: 600; text-decoration: none; flex: none; transition: transform .2s var(--ease-out), box-shadow .2s var(--ease-out); }
-    .gh:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    /* .coming and .gh live in shared.css. */
     .gh--ghost { background: transparent; color: var(--on-dark-strong); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.28); }
     .gh--ghost:hover { box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5); }
     .coming__actions { display: flex; flex-wrap: wrap; gap: 12px; }
@@ -422,7 +412,7 @@
     .version-card { position: relative; flex: 0 0 clamp(300px,80vw,360px); scroll-snap-align: start; padding: clamp(24px,3vw,32px); background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); cursor: pointer; transition: transform .24s var(--ease-out), box-shadow .24s var(--ease-out); }
     /* Lift only where hover is real - on touch it sticks after a tap. */
     @media (hover: hover) { .version-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); } }
-    .version-card:focus-visible { box-shadow: var(--shadow-md); outline: 2px solid var(--sage); outline-offset: 2px; }
+    .version-card:focus-visible { box-shadow: var(--shadow-md); outline: 2px solid var(--focus-ring); outline-offset: 2px; }
 
     /* ---- "scroll for more" cue: the hero's scroll hint turned sideways.
        Drawn on whichever card is first, so a new release needs no markup
@@ -430,16 +420,16 @@
     .changelog.is-scrollable .version-card:first-child { margin-bottom: 44px; }
     .changelog.is-scrollable .version-card:first-child::before,
     .changelog.is-scrollable .version-card:first-child::after { position: absolute; top: calc(100% + 16px); left: 50%; pointer-events: none; }
-    .changelog.is-scrollable .version-card:first-child::before { transform: translateX(calc(-100% - 7px)); content: "Scroll"; content: "Scroll" / ""; font-family: var(--font-text); font-size: 13px; font-weight: 600; line-height: 16px; letter-spacing: .22em; text-transform: uppercase; color: var(--text-faint); }
+    .changelog.is-scrollable .version-card:first-child::before { transform: translateX(calc(-100% - 7px)); content: "Scroll"; content: "Scroll" / ""; font-family: var(--font-text); font-size: var(--fs-caption); font-weight: 600; line-height: 16px; letter-spacing: .22em; text-transform: uppercase; color: var(--text-faint); }
     .changelog.is-scrollable .version-card:first-child::after { content: ""; left: calc(50% + 7px); margin-top: 7px; width: 64px; height: 3px; border-radius: 3px; background: var(--hairline-strong); }
     @media (prefers-reduced-motion: no-preference) {
       .changelog.is-scrollable .version-card:first-child::after { background: linear-gradient(var(--sage), var(--sage)) no-repeat -22px 0 / 22px 100%, var(--hairline-strong); animation: changelogHint 1.8s var(--ease-in-out) infinite; }
       @keyframes changelogHint { 0% { background-position: -22px 0, 0 0; } 60%, 100% { background-position: calc(100% + 22px) 0, 0 0; } }
     }
-    .version-card__tag { display: inline-flex; margin-bottom: 12px; padding: 4px 12px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; border-radius: var(--radius-pill); background: var(--border); color: var(--text-body); }
-    .version-card__tag--current { background: var(--sage); color: #fff; }
+    .version-card__tag { display: inline-flex; margin-bottom: 12px; padding: 4px 12px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; border-radius: var(--radius-xs); background: var(--border); color: var(--text-body); }
+    .version-card__tag--current { background: var(--sage); color: var(--on-dark-strong); }
     .version-card h3 { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); color: var(--heading); margin: 0 0 16px; letter-spacing: var(--ls-heading); }
-    .version-card__soon { display: inline-flex; margin-left: 8px; padding: 4px 12px; font-family: var(--font-text); font-size: var(--fs-caption); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; border-radius: var(--radius-pill); background: var(--honey); color: var(--ink); }
+    .version-card__soon { display: inline-flex; margin-left: 8px; padding: 4px 12px; font-family: var(--font-text); font-size: var(--fs-caption); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; border-radius: var(--radius-xs); background: var(--honey); color: var(--ink); }
 
     /* ---- changelog popup (same fixed-overlay idiom as .lb) ---- */
     .changelog-modal { position: fixed; inset: 0; background: rgba(20,18,14,0.72); backdrop-filter: blur(6px); display: none; align-items: center; justify-content: center; z-index: 110; padding: 4vw; }
@@ -451,8 +441,8 @@
     }
     .changelog-modal__header { flex: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 20px; border-bottom: 1px solid var(--border); }
     .changelog-modal__header h2 { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-title); color: var(--heading); margin: 0; }
-    .changelog-modal__close { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border: none; border-radius: var(--radius-pill); background: var(--border); color: var(--text-body); font-size: 18px; line-height: 1; cursor: pointer; transition: background .2s var(--ease-out); }
-    .changelog-modal__close:hover, .changelog-modal__close:focus-visible { background: var(--sage); color: #fff; }
+    .changelog-modal__close { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border: none; border-radius: var(--radius-xs); background: var(--border); color: var(--text-body); font-size: 18px; line-height: 1; cursor: pointer; transition: background .2s var(--ease-out); }
+    .changelog-modal__close:hover, .changelog-modal__close:focus-visible { background: var(--sage); color: var(--on-dark-strong); }
     .changelog-modal__body { flex: 1 1 auto; overflow-y: auto; padding: 20px 24px; user-select: text; }
     .changelog-modal__body h1 { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); color: var(--heading); margin: 0 0 12px; }
     .changelog-modal__body h2 { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-title); color: var(--heading); margin: 28px 0 6px; }
@@ -506,7 +496,7 @@
        on purpose, so it doesn't read as stale later on. -->
   <div class="update-banner">
     <div class="wrap update-banner__inner">
-      <span class="update-banner__pill" data-i18n="cheapseats.updateBanner.pill">Neu</span>
+      <span class="update-banner__tag" data-i18n="cheapseats.updateBanner.pill">Neu</span>
       <!-- Scrolling news track: two identical copies back-to-back, animated
            from translateX(0) to translateX(-50%) so the loop is seamless
            regardless of how long the translated string runs. Mask fades
@@ -556,7 +546,7 @@
     <div class="hero-glow"></div>
     <div class="wrap">
       <h1>CheapSeats <img class="app-icon" src="app-icon.webp" width="256" height="256" alt="" aria-hidden="true"></h1>
-      <p class="hero-sub" data-i18n="cheapseats.heroSub">CheapSeats ist mein Sport-Dashboard für Windows. App auf, und du siehst, wann dein Team als Nächstes spielt und wie das letzte Spiel ausging. Die Daten vom letzten Mal stehen sofort da, neue lädt die App im Hintergrund nach. Du suchst dir aus 32 NFL- und 30 MLB-Teams eins pro Liga aus. Voreingestellt ist keins.</p>
+      <p class="hero-sub" data-i18n="cheapseats.heroSub">CheapSeats ist mein Sport-Dashboard für Windows, Mac, Handy und Tablet. App auf, und du siehst, wann dein Team als Nächstes spielt und wie das letzte Spiel ausging. Die Daten vom letzten Mal stehen sofort da, neue lädt die App im Hintergrund nach. Du suchst dir aus 32 NFL- und 30 MLB-Teams eins pro Liga aus. Voreingestellt ist keins.</p>
 
       <div class="showcase reveal">
         <div class="duo" id="duo" data-front="light">
@@ -577,7 +567,6 @@
     <div class="wrap">
       <div class="coming">
         <div>
-          <span class="badge" data-i18n="cheapseats.comingBadge">Microsoft Store</span>
           <p data-i18n="cheapseats.comingText">CheapSeats gibt es im Microsoft Store und als Web-App für iPhone, iPad, Mac und Android. Kostenlos, und das bleibt auch so.</p>
         </div>
         <!-- The install guide and the web app are same-origin, so this adds no
@@ -699,10 +688,11 @@
     <div class="wrap" style="position:relative;z-index:1">
       <h2 data-i18n="cheapseats.everywhereHeading">Passt auch aufs Handy</h2>
       <p class="lede" data-i18n="cheapseats.everywhereLede">Das Layout geht vom Desktop bis aufs Telefon mit, mit denselben Daten. Die Seitennavigation merkt sich, wo du warst, und springt direkt zu jedem Bereich.</p>
+      <p class="lede"><a href="install/" data-lang-link><span data-i18n="cheapseats.everywhereLink">So kommt die App aufs Handy</span> <span aria-hidden="true">→</span></a></p>
       <div class="phone-row">
-        <div class="phone reveal"><img src="../../ci/assets/Bilder/CheapSeats/phone_main_light.webp" width="1530" height="3036" loading="lazy" alt="CheapSeats Dashboard auf dem Smartphone" data-zoom></div>
+        <div class="phone reveal"><img src="../../ci/assets/Bilder/CheapSeats/phone_main_light.webp" width="1530" height="3036" loading="lazy" alt="CheapSeats auf dem Smartphone: nächstes Spiel, letztes Ergebnis und Player-Spotlight" data-zoom></div>
         <div class="phone reveal"><img src="../../ci/assets/Bilder/CheapSeats/phone_card_light.webp" width="1530" height="3036" loading="lazy" alt="Spieler-Karte auf dem Smartphone" data-zoom></div>
-        <div class="phone reveal"><img src="../../ci/assets/Bilder/CheapSeats/phone_playoffs_light.webp" width="1530" height="3036" loading="lazy" alt="Playoff-Bracket auf dem Smartphone" data-zoom></div>
+        <div class="phone reveal"><img src="../../ci/assets/Bilder/CheapSeats/phone_roster_light.webp" width="1530" height="3036" loading="lazy" alt="Kaderliste auf dem Smartphone, mit Suche und Positionsgruppen" data-zoom></div>
       </div>
     </div>
   </section>
@@ -711,11 +701,11 @@
   <section id="technik">
     <div class="wrap">
       <h2 data-i18n="cheapseats.techHeading">Unter der Haube</h2>
-      <p class="lede" data-i18n="cheapseats.techLede">Die App zeigt zuerst, was im Cache liegt, und holt dann neue Daten. Jeder API-Aufruf läuft für sich: fällt einer aus, funktioniert der Rest weiter. Updates kommen über den Microsoft Store.</p>
+      <p class="lede" data-i18n="cheapseats.techLede">Die App zeigt zuerst, was im Cache liegt, und holt dann neue Daten. Jeder API-Aufruf läuft für sich: fällt einer aus, funktioniert der Rest weiter.</p>
       <div class="spec">
         <dl>
           <dt data-i18n="cheapseats.spec.0.dt">Plattform</dt>
-          <dd data-i18n-html="cheapseats.spec.0.dd"><strong>Tauri 2</strong> auf Rust-Basis, also eine native App. Ein Binary für Windows, macOS und mobile Layouts.</dd>
+          <dd data-i18n-html="cheapseats.spec.0.dd"><strong>Tauri 2</strong> auf Rust-Basis, also eine native App unter Windows. Auf iPhone, iPad, Mac und Android läuft derselbe Code als Web-App.</dd>
           <dt data-i18n="cheapseats.spec.1.dt">Frontend</dt>
           <dd data-i18n-html="cheapseats.spec.1.dd"><strong>React 19 + TypeScript</strong>, gebaut mit <strong>Vite 7</strong>.</dd>
         </dl>
@@ -729,7 +719,7 @@
           <dt data-i18n="cheapseats.spec.4.dt">Sprache</dt>
           <dd data-i18n-html="cheapseats.spec.4.dd"><strong>i18next</strong> mit Deutsch, Englisch und Spanisch, jede Sportart mit eigenem Glossar. Tooltips erklären jede Abkürzung.</dd>
           <dt data-i18n="cheapseats.spec.5.dt">Updates</dt>
-          <dd data-i18n-html="cheapseats.spec.5.dd">Kommen automatisch über den <strong>Microsoft Store</strong>. Kein eigener Installer, nichts von Hand.</dd>
+          <dd data-i18n-html="cheapseats.spec.5.dd">Unter Windows kommen sie automatisch über den <strong>Microsoft Store</strong>. Die Web-App lädt eine neue Version beim nächsten Öffnen. Nichts von Hand.</dd>
           <dt data-i18n="cheapseats.spec.6.dt">Lizenzen</dt>
           <dd data-i18n-html="cheapseats.spec.6.dd">Keine Liga-Logos oder Spielerfotos; die Millionen dafür sind als Ein-Personen-Projekt schlicht nicht drin. Falls mir jemand einen Lizenzdeal schenken möchte: sehr gern ;)</dd>
         </dl>

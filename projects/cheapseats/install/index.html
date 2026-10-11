@@ -23,9 +23,10 @@
   <link rel="apple-touch-icon" href="../apple-touch-icon.png">
   <link rel="stylesheet" href="../../../ci/styles.css">
   <link rel="stylesheet" href="../../../ci/i18n-ui.css">
+  <link rel="stylesheet" href="../shared.css">
   <style>
     /* Type, spacing and components are the CheapSeats page's own: display-size
-       h1 with the app icon, the pill back link, the dark .coming band with its
+       h1 with the app icon, the text back link, the dark .coming band with its
        .gh buttons. Sections are separated by space, not rules. */
     html { scroll-behavior: smooth; }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
@@ -38,15 +39,8 @@
     .lang-hint { top: calc(100% + 8px); left: 0; transform: none; }
     /* No pills anywhere on this page: the back link and the device picker are
        plain text links, as on the section skipper of the home page. */
-    .back-link {
-      display: inline-flex; align-items: center; gap: 8px; min-height: 44px;
-      font-family: var(--font-text); font-size: var(--fs-small); font-weight: 600;
-      color: var(--text-muted); text-decoration: none; transition: color var(--dur-fast) var(--ease-out);
-    }
-    .back-link:hover { color: var(--heading); }
-    /* Keep the link clear of the fixed language globe (left 18px, 48px wide). */
-    .topbar .back-link { margin-left: max(0px, calc(78px - max(0px, (100vw - var(--content-wide)) / 2) - var(--gutter))); }
-    .back-link:focus-visible, .btn:focus-visible, .gh:focus-visible, .tab:focus-visible, .win__alt a:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 4px; }
+    /* .back-link, .coming and .gh live in ../shared.css. */
+    .btn:focus-visible, .tab:focus-visible, .win__alt a:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 4px; }
     .hero { position: relative; overflow-x: clip; }
     .hero-glow {
       position: absolute; width: 620px; height: 620px; top: -20px; right: -160px; z-index: 0; pointer-events: none;
@@ -98,13 +92,9 @@
     .shot-note { margin: 32px 0 0; font-size: var(--fs-caption); color: var(--text-muted); }
 
     /* ---- Windows: the Store band from the CheapSeats page ---- */
-    .coming { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; padding: clamp(28px,3.5vw,40px); background: #15151A; color: var(--on-dark-strong); border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); }
     .coming h3 { margin: 0 0 12px; font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); letter-spacing: var(--ls-heading); line-height: 1.15; color: var(--on-dark-strong); }
-    .coming p { margin: 0; font-size: var(--fs-body); line-height: 1.55; color: var(--on-dark-body); max-width: 52ch; }
-    .gh { display: inline-flex; align-items: center; gap: 8px; padding: 13px 24px; background: #F6F6F7; color: #15151A; border-radius: var(--radius-md); font-family: var(--font-text); font-size: var(--fs-body); font-weight: 600; text-decoration: none; flex: none; transition: transform .2s var(--ease-out), box-shadow .2s var(--ease-out); }
-    .gh:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
     .win__alt { margin: 24px 0 0; font-size: var(--fs-small); line-height: 1.55; color: var(--text-body); max-width: 62ch; }
-    .win__alt a, .know a { color: var(--heading); text-decoration: underline; text-underline-offset: 2px; }
+    .win__alt a, .know a { color: var(--heading); text-decoration: underline; text-underline-offset: 3px; }
 
     /* ---- what the web app does and doesn't do ---- */
     .know { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px,100%),1fr)); gap: 32px clamp(24px,3vw,40px); margin: clamp(32px,4vw,56px) 0 0; }
@@ -114,7 +104,7 @@
 
     footer { padding: 0 0 40px; }
     .footrow { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: center; }
-    @media (prefers-reduced-motion: reduce) { .back-link, .btn, .gh, .tab { transition: none; } .btn:hover, .gh:hover { transform: none; } }
+    @media (prefers-reduced-motion: reduce) { .btn, .tab { transition: none; } .btn:hover { transform: none; } }
 
     /* ======================================================================
        Device mockups: iOS 26, iPadOS 26, macOS 26 Tahoe and Chrome on Android
@@ -359,7 +349,7 @@
           <ol class="steps">
             <li><figure class="step">
               <div class="step__media"><div class="dev dev--mac" aria-hidden="true"><div class="dev__screen m-wall"><div class="m-menubar"><span class="m-apple"></span><b>Safari</b><span data-i18n="cheapseats.install.ui.file">Ablage</span><span data-i18n="cheapseats.install.ui.edit">Bearbeiten</span><span data-i18n="cheapseats.install.ui.view">Darstellung</span></div><div class="m-win"><div class="m-wtbar"><span class="m-lights m-lights--color"><i></i><i></i><i></i></span><span class="m-glass m-field hl"><svg class="m-ico"><use href="#i-lock"/></svg><span class="m-field__url">mika-jeske.de</span><svg class="m-ico"><use href="#i-reload"/></svg></span><span class="m-glass m-circ"><svg class="m-ico"><use href="#i-share"/></svg></span></div><img class="m-shot m-shot--win" src="../../../ci/assets/Bilder/CheapSeats/install/screen-mac.webp" alt="" loading="lazy"></div><div class="m-glass m-macdock"><i></i><i></i><i></i><i></i><i></i></div></div></div></div>
-              <figcaption><h3 class="step__title" data-i18n="cheapseats.install.s.macOpen.t">In Safari öffnen</h3><p class="step__text" data-i18n-html="cheapseats.install.s.macOpen.d">Öffne mika-jeske.de/<wbr>cheapseats/app in Safari. Du brauchst Safari 17 oder neuer, also macOS Sonoma oder später.</p></figcaption>
+              <figcaption><h3 class="step__title" data-i18n="cheapseats.install.s.macOpen.t">In Safari öffnen</h3><p class="step__text" data-i18n-html="cheapseats.install.s.macOpen.d">Öffne mika-jeske.de/<wbr>cheapseats/app in Safari. Du brauchst Safari 17 oder neuer, also mindestens macOS Sonoma.</p></figcaption>
             </figure></li>
             <li><figure class="step">
               <div class="step__media"><div class="dev dev--mac" aria-hidden="true"><div class="dev__screen m-wall"><div class="m-menubar"><span class="m-apple"></span><b>Safari</b><span class="m-sel" data-i18n="cheapseats.install.ui.file">Ablage</span><span data-i18n="cheapseats.install.ui.edit">Bearbeiten</span><span data-i18n="cheapseats.install.ui.view">Darstellung</span></div><div class="m-glass m-filemenu"><div class="m-row"><span class="m-ph" style="width:70%"></span></div><div class="m-row"><span class="m-ph" style="width:55%"></span></div><div class="m-row"><span class="m-ph" style="width:62%"></span></div><div class="m-row hl"><span data-i18n="cheapseats.install.ui.addDock">Zum Dock hinzufügen …</span></div><div class="m-row"><span class="m-ph" style="width:48%"></span></div></div><div class="m-win"><div class="m-wtbar"><span class="m-lights m-lights--color"><i></i><i></i><i></i></span><span class="m-glass m-field"><svg class="m-ico"><use href="#i-lock"/></svg><span class="m-field__url">mika-jeske.de</span><svg class="m-ico"><use href="#i-reload"/></svg></span><span class="m-glass m-circ"><svg class="m-ico"><use href="#i-share"/></svg></span></div><img class="m-shot m-shot--win" src="../../../ci/assets/Bilder/CheapSeats/install/screen-mac.webp" alt="" loading="lazy"></div><div class="m-glass m-macdock"><i></i><i></i><i></i><i></i><i></i></div></div></div></div>

@@ -1,0 +1,26 @@
+/* Shared by the CheapSeats page and its install guide (install/). */
+
+/* Back link: a plain text link, no pill. */
+.back-link {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 44px;
+  font-family: var(--font-text); font-size: var(--fs-small); font-weight: 600;
+  color: var(--text-muted); text-decoration: none; transition: color var(--dur-fast) var(--ease-out);
+}
+.back-link:hover { color: var(--heading); }
+.back-link:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 4px; }
+/* Keep the link clear of the fixed language globe (left 18px, 48px wide):
+   nudge it right only by as much as the page margin falls short. */
+.topbar .back-link { margin-left: max(0px, calc(78px - max(0px, (100vw - var(--content-wide)) / 2) - var(--gutter))); }
+
+/* Dark download band and its buttons. The band is dark in both colour
+   schemes, so its colours are fixed: --paper/--ink would flip the button
+   to black in dark mode. */
+.coming { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; padding: clamp(28px,3.5vw,40px); background: #15151A; color: var(--on-dark-strong); border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); }
+.coming p { margin: 0; font-size: var(--fs-body); line-height: 1.55; color: var(--on-dark-body); max-width: 52ch; }
+.gh { display: inline-flex; align-items: center; gap: 8px; padding: 13px 24px; background: #F6F6F7; color: #15151A; border-radius: var(--radius-md); font-family: var(--font-text); font-size: var(--fs-body); font-weight: 600; text-decoration: none; flex: none; transition: transform var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out); }
+.gh:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.gh:focus-visible { outline: 2px solid var(--on-dark-strong); outline-offset: 4px; }
+@media (prefers-reduced-motion: reduce) {
+  .back-link, .gh { transition: none; }
+  .gh:hover { transform: none; }
+}
