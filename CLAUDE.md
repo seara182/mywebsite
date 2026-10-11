@@ -9,11 +9,11 @@ The site must stay 100% cookie-free and static, with no consent banner.
 1. **No external CDNs.** Never add `<script src="https://...">` or `<link href="https://...">` (unpkg, Google Fonts, etc.).
 2. **Vendor locally.** Need a third-party lib (e.g. React)? Download the minified file into `ci/vendor/` and link it relatively.
 3. **Zero cookies.**
-4. **Exception: `app/`** is the CheapSeats web app, built in `bay-window` (`npm run deploy:web`), never edited here. It fetches ESPN/MLB/theScore from the visitor's browser and stores data in IndexedDB (no cookies); that is disclosed in `impressum/` §6 and the app's own privacy statement. The rest of the site stays external-free, and nothing outside `app/` may load from it.
+4. **Exception: `cheapseats/app/`** is the CheapSeats web app, built in `bay-window` (`npm run deploy:web`), never edited here. It fetches ESPN/MLB/theScore from the visitor's browser and stores data in IndexedDB (no cookies); that is disclosed in `impressum/` §6 and the app's own privacy statement. The rest of the site stays external-free, and nothing outside `cheapseats/app/` may load from it. `app/` only holds a redirect page and a self-unregistering `sw.js` for the old URL.
 
 ## CheapSeats install guide
 
-`projects/cheapseats/install/` explains Add to Home Screen / Add to Dock with drawn iOS/iPadOS/macOS 26 mockups (labels are `cheapseats.install.*` i18n keys; the light Apple-UI colours in its mockup block depict Apple's UI and are the only non-token colours allowed there). Links between the CheapSeats page, the guide and `/app/` carry `?lang=` (`i18n.js` reads it on sub-pages; the app honours en/de/es on first launch). To use real screenshots instead, drop `iphone-1…5.webp`, `ipad-1…5.webp` or `mac-1…3.webp` into `ci/assets/Bilder/CheapSeats/install/`; each replaces its step's drawing, no code change. `screen-*.webp` there are the app screens inside the drawings, captured from the web build.
+`projects/cheapseats/install/` is the install guide for all five platforms: iPhone, iPad, Mac and Android get Add to Home Screen / Add to Dock steps with drawn mockups (labels are `cheapseats.install.*` i18n keys; the light Apple/Google UI colours in its mockup block depict those systems' UI and are the only non-token colours allowed there), Windows gets the Microsoft Store band. The page guesses the device from the user agent, says which one it picked, and keeps all five one click away. Links between the CheapSeats page, the guide and `/cheapseats/app/` carry `?lang=` (`i18n.js` reads it on sub-pages; the app honours en/de/es on first launch). `screen-*.webp` in `ci/assets/Bilder/CheapSeats/install/` are the app screens inside the drawings, captured from the web build.
 
 ## Design
 

@@ -1,71 +1,26 @@
-// CheapSeats web build service worker (template: web/pwa.ts fills in the cache
-// name and the shell list at build time).
+// The CheapSeats web app moved from /app/ to /cheapseats/app/. This replaces
+// the service worker that used to live here: it removes what the old one
+// cached, unregisters itself and reloads open tabs, so they reach index.html
+// and get forwarded instead of being served the old copy.
 //
-// - App shell: precached on install, so the home-screen app starts offline.
-// - Page loads: network first, so a new release shows up on the next launch;
-//   the cached page is the fallback when offline.
-// - Everything else on this origin (hashed assets, player photos): cache first;
-//   their URLs never change content.
-// - Data requests to ESPN/MLB/theScore are not touched: the app keeps its own
-//   cache of the last good data in IndexedDB and shows it marked as stale.
+// Caches are shared per origin and the app at /cheapseats/app/ uses the same
+// cache names, so only entries under this worker's own scope are deleted.
 
-const CACHE = 'cheapseats-1.4.0-6d7475c682';
-// Player photos and any asset not in the shell, cached as first requested.
-const RUNTIME = 'cheapseats-runtime';
-const SHELL = ["./","assets/KaTeX_Caligraphic-Bold-Dq_IR9rO.woff2","assets/KaTeX_Caligraphic-Regular-Di6jR-x-.woff2","assets/KaTeX_AMS-Regular-BQhdFMY1.woff2","assets/KaTeX_Fraktur-Bold-CL6g_b3V.woff2","assets/KaTeX_Fraktur-Regular-CTYiF6lA.woff2","assets/KaTeX_Main-Bold-Cx986IdX.woff2","assets/KaTeX_Main-BoldItalic-DxDJ3AOS.woff2","assets/KaTeX_Main-Italic-NWA7e6Wa.woff2","assets/KaTeX_Main-Regular-B22Nviop.woff2","assets/KaTeX_Math-BoldItalic-CZnvNsCZ.woff2","assets/KaTeX_Math-Italic-t53AETM-.woff2","assets/KaTeX_SansSerif-Bold-D1sUS0GD.woff2","assets/KaTeX_SansSerif-Italic-C3H0VqGB.woff2","assets/KaTeX_SansSerif-Regular-DDBCnlJ7.woff2","assets/KaTeX_Script-Regular-D3wIWfF6.woff2","assets/KaTeX_Size1-Regular-mCD8mA8B.woff2","assets/KaTeX_Size4-Regular-Dl5lxZxV.woff2","assets/KaTeX_Typewriter-Regular-CO6r4hn1.woff2","assets/KaTeX_Size2-Regular-Dy4dx90m.woff2","assets/index-72Uv74xw.css","assets/web-CR8CQvvb.css","assets/index-DP3AozE9.js","assets/web-B3jxd_yl.js","manifest.webmanifest","icons/apple-touch-icon.png","icons/icon-192.png","icons/icon-512.png","icons/icon-maskable-512.png","app-icon.png","signature.png"];
-
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches
-      .open(CACHE)
-      .then((c) => c.addAll(SHELL))
-      .then(() => self.skipWaiting()),
-  );
-});
+self.addEventListener('install', () => self.skipWaiting());
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches
-      .keys()
-      .then((keys) =>
-        Promise.all(keys.filter((k) => k !== CACHE && k !== RUNTIME).map((k) => caches.delete(k))),
-      )
-      .then(() => self.clients.claim()),
-  );
-});
-
-self.addEventListener('fetch', (event) => {
-  const req = event.request;
-  if (req.method !== 'GET') return;
-  const url = new URL(req.url);
-  if (url.origin !== self.location.origin) return;
-
-  if (req.mode === 'navigate') {
-    event.respondWith(
-      fetch(req)
-        .then((res) => {
-          if (res.ok) {
-            const copy = res.clone();
-            void caches.open(CACHE).then((c) => c.put('./', copy));
-          }
-          return res;
-        })
-        .catch(() => caches.match('./', { cacheName: CACHE }).then((r) => r || Response.error())),
-    );
-    return;
-  }
-
-  event.respondWith(
-    caches.match(req).then(
-      (hit) =>
-        hit ||
-        fetch(req).then((res) => {
-          if (res.ok) {
-            const copy = res.clone();
-            void caches.open(RUNTIME).then((c) => c.put(req, copy));
-          }
-          return res;
-        }),
-    ),
+    (async () => {
+      const scope = self.registration.scope;
+      for (const name of await caches.keys()) {
+        const cache = await caches.open(name);
+        const stale = (await cache.keys()).filter((req) => req.url.startsWith(scope));
+        await Promise.all(stale.map((req) => cache.delete(req)));
+      }
+      await self.registration.unregister();
+      const tabs = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+      const mine = tabs.filter((tab) => tab.url.startsWith(scope));
+      await Promise.all(mine.map((tab) => tab.navigate(tab.url).catch(() => {})));
+    })(),
   );
 });

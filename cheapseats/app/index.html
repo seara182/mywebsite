@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Security-Policy" content="default-src &#39;self&#39;; script-src &#39;self&#39; &#39;sha256-WLrbzdDRj6h3xx5JTQoXkjtfhtNqLYCKiATmiphfSXY=&#39;; style-src &#39;self&#39; &#39;unsafe-inline&#39;; img-src &#39;self&#39; https://i.ytimg.com data:; connect-src &#39;self&#39; https://site.api.espn.com https://site.web.api.espn.com https://statsapi.mlb.com https://api.thescore.com https://www.youtube.com https://www.googleapis.com; font-src &#39;self&#39; data:">
+
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/cheapseats/app/app-icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>CheapSeats</title>
+    <!--
+      Pre-paint theme: the saved theme preference loads asynchronously from the
+      Tauri store, so without this the first frames always render the system
+      theme. ThemeProvider mirrors every applied theme to localStorage under
+      'cheapseats.theme' (THEME_MIRROR_KEY in src/lib/theme.ts); this sets it
+      before first paint and ThemeProvider takes over once settings load.
+      CSP: tauri.conf.json has script-src 'self', but Tauri hashes inline
+      scripts in bundled HTML at build time and adds them to the CSP
+      (dangerousDisableAssetCspModification is unset), so this is allowed.
+    -->
+    <script>
+      try {
+        var t = localStorage.getItem('cheapseats.theme');
+        if (t !== 'light' && t !== 'dark') {
+          t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.dataset.theme = t;
+      } catch (e) {
+        /* storage blocked: ThemeProvider applies the theme once React mounts */
+      }
+    </script>
+    <script type="module" crossorigin src="/cheapseats/app/assets/index-Ce6IEFaW.js"></script>
+    <link rel="stylesheet" crossorigin href="/cheapseats/app/assets/index-DagBavzl.css">
+    <meta name="referrer" content="no-referrer">
+    <meta name="description" content="Your NFL and MLB team at a glance: next game, live score, standings and roster.">
+    <link rel="manifest" href="/cheapseats/app/manifest.webmanifest">
+    <link rel="apple-touch-icon" href="/cheapseats/app/icons/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="CheapSeats">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0a0a0b" media="(prefers-color-scheme: dark)">
+  </head>
+
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
