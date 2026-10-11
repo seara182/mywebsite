@@ -361,9 +361,16 @@ function Collaborations() {
                 </h3>
                 <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: 0 }}>{e.note}</p>
                 {e.href && (
-                  <a href={e.href} target="_blank" rel="noopener" style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 16, fontFamily: "var(--font-text)", fontSize: "var(--fs-small)", fontWeight: 600, color: "var(--accent)", textDecoration: "none" }}>
-                    {e.linkLabel} <span aria-hidden>↗</span>
-                  </a>
+                  <div style={{ display: "flex", flexWrap: "wrap", columnGap: 24 }}>
+                    <a href={e.href} target="_blank" rel="noopener" style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 16, fontFamily: "var(--font-text)", fontSize: "var(--fs-small)", fontWeight: 600, color: "var(--accent)", textDecoration: "none" }}>
+                      {e.linkLabel} <span aria-hidden>↗</span>
+                    </a>
+                    {e.imdbLabel && (
+                      <a href="https://www.imdb.com/title/tt46065812/" target="_blank" rel="noopener" style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 16, fontFamily: "var(--font-text)", fontSize: "var(--fs-small)", fontWeight: 600, color: "var(--accent)", textDecoration: "none" }}>
+                        {e.imdbLabel} <span aria-hidden>↗</span>
+                      </a>
+                    )}
+                  </div>
                 )}
               </div>
             ))}

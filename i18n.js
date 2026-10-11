@@ -136,6 +136,7 @@
             note: "Ein paar Semester später hat Hendrik mich tatsächlich vor seine Kamera geholt. Der Hochsitz ist ein Kurzfilm von php, also Richard Hollandmoritz und Hendrik E. Peters. Richard hat Regie geführt, Hendrik stand hinter der Kamera, und ich durfte davor stehen (eigentlich meistens sitzen). Der Dreh hat einfach nur Spaß gemacht, und Hendriks andere Filme sind genauso gut.",
             href: "https://www.hendrik-e-peters.com/portfolio/filme/der-hochsitz/der-hochsitz.html",
             linkLabel: "Zum Film",
+            imdbLabel: "Auf IMDb",
           },
           {
             label: "Popcorngeraschel", genre: "Podcast",
@@ -393,6 +394,7 @@
             note: "A few semesters later Hendrik actually put me in front of his camera. Der Hochsitz is a short film by php, aka Richard Hollandmoritz and Hendrik E. Peters. Richard directed, Hendrik was behind the camera, and I got to stand in front of it (actually, mostly sit). The shoot was honestly a blast, and the rest of Hendrik's films are just as good.",
             href: "https://www.hendrik-e-peters.com/portfolio/filme/der-hochsitz/der-hochsitz.html",
             linkLabel: "Watch the film",
+            imdbLabel: "On IMDb",
           },
           {
             label: "Popcorngeraschel", genre: "Podcast",
@@ -650,6 +652,7 @@
             note: "Quelques semestres plus tard, Hendrik m'a vraiment mis devant sa caméra. Der Hochsitz est un court métrage de php, autrement dit Richard Hollandmoritz et Hendrik E. Peters. Richard a réalisé, Hendrik était derrière la caméra, et moi devant (surtout assis, en fait). Le tournage était vraiment hyper fun, et le reste des films d'Hendrik vaut tout autant le détour.",
             href: "https://www.hendrik-e-peters.com/portfolio/filme/der-hochsitz/der-hochsitz.html",
             linkLabel: "Voir le film",
+            imdbLabel: "Sur IMDb",
           },
           {
             label: "Popcorngeraschel", genre: "Podcast",
@@ -907,6 +910,7 @@
             note: "Unos semestres después, Hendrik me puso de verdad delante de su cámara. Der Hochsitz es un cortometraje de php, o sea, Richard Hollandmoritz y Hendrik E. Peters. Richard dirigió, Hendrik estuvo detrás de la cámara y yo delante (bueno, sobre todo sentado). El rodaje fue sencillamente muy divertido, y el resto del trabajo de Hendrik merece la pena igual.",
             href: "https://www.hendrik-e-peters.com/portfolio/filme/der-hochsitz/der-hochsitz.html",
             linkLabel: "Ver el cortometraje",
+            imdbLabel: "En IMDb",
           },
           {
             label: "Popcorngeraschel", genre: "Podcast",
@@ -1177,6 +1181,7 @@
             note: "Qualche semestre dopo Hendrik mi ha davvero messo davanti alla sua camera. Der Hochsitz è un cortometraggio di php, cioè Richard Hollandmoritz ed Hendrik E. Peters. Richard ha diretto, Hendrik era dietro la macchina da presa, e io davanti (anzi, per lo più seduto). Le riprese sono state semplicemente divertentissime, e anche il resto del lavoro di Hendrik vale la pena.",
             href: "https://www.hendrik-e-peters.com/portfolio/filme/der-hochsitz/der-hochsitz.html",
             linkLabel: "Guarda il film",
+            imdbLabel: "Su IMDb",
           },
           {
             label: "Popcorngeraschel", genre: "Podcast",
