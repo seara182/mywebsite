@@ -63,7 +63,7 @@
   padding: 9px 16px;
   background: var(--material-chrome);
   -webkit-backdrop-filter: var(--blur-chrome); backdrop-filter: var(--blur-chrome);
-  border: 1px solid var(--chrome-hairline); border-radius: var(--radius-pill);
+  border: 1px solid var(--chrome-hairline); border-radius: var(--radius-sm);
   box-shadow: var(--shadow-sm);
   font-family: var(--font-text); font-size: var(--fs-small); font-weight: 600; color: var(--text-body);
   cursor: pointer;
@@ -93,7 +93,7 @@
   padding: 7px 14px; margin: 0; cursor: pointer;
   background: var(--material-chrome);
   -webkit-backdrop-filter: var(--blur-chrome); backdrop-filter: var(--blur-chrome);
-  border: 1px solid var(--chrome-hairline); border-radius: var(--radius-pill);
+  border: 1px solid var(--chrome-hairline); border-radius: var(--radius-sm);
   font-family: var(--font-text); font-size: var(--fs-caption); font-weight: 600;
   color: var(--text-muted);
   transition: transform .24s var(--ease-out), box-shadow .24s var(--ease-out), color .15s ease;
@@ -128,7 +128,7 @@
    APPEARANCE ROW — inside the language popover
    ============================================================
    Reuses the popover's own vocabulary rather than introducing a second
-   one: same glass material, same hairline, same pill radius, same
+   one: same glass material, same hairline, same radius, same
    staggered entrance. It reads as the last item in the menu because it is
    built like the items above it.
    ============================================================ */

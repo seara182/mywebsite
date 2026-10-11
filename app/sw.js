@@ -1,9 +1,10 @@
-// The CheapSeats web app moved from /app/ to /cheapseats/app/. This replaces
-// the service worker that used to live here: it removes what the old one
-// cached, unregisters itself and reloads open tabs, so they reach index.html
-// and get forwarded instead of being served the old copy.
+// The CheapSeats web app moved to /projects/cheapseats/app/ (first from /app/,
+// then from /cheapseats/app/). This file sits at both old addresses and
+// replaces the service worker that used to live there: it removes what the
+// old one cached, unregisters itself and reloads open tabs, so they reach
+// index.html and get forwarded instead of being served the old copy.
 //
-// Caches are shared per origin and the app at /cheapseats/app/ uses the same
+// Caches are shared per origin and the app at its new address uses the same
 // cache names, so only entries under this worker's own scope are deleted.
 
 self.addEventListener('install', () => self.skipWaiting());
