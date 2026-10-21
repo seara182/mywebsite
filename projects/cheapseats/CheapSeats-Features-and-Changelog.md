@@ -3,6 +3,53 @@
 ## v2.0.0: The American Quartet
 Coming in 2027
 
+## v1.4.1: 'Stadium Renovations'
+
+### New
+- Added three widgets for the Windows 11 lock screen and the Widgets Board: Next game (opponent, time, countdown and venue), Latest score (the most recent result, which turns into the live score while a game is on) and Season summary (record, standing and the team's season numbers), each on the team's color
+- Added a team choice for every widget, so several widgets can show different teams side by side
+- Added a Lock screen widget button next to the team selector that sets the team on screen for the next widget and opens the Windows lock screen settings
+- Added a Widgets row to Settings with a link to the Windows lock screen settings, shown where widgets are available
+- Added a playoff projection for the last four weeks of the regular season: the first-round pairings and byes as they would be if the season ended today, based on ESPN's seeding
+- Added a detail view for every playoff series, with a picker for each game of the series
+- Added CheapSeats as a web app for iPhone, iPad, Android and Mac at mika-jeske.de/projects/cheapseats/app, with an illustrated install guide
+- Added a one-line tip in the web app on how to add it to the home screen or the Dock
+- Added swiping between NFL and MLB on phones
+- Added a calm first screen on phones: the first launch of the day opens on the next game alone
+
+### Improved
+- The Formation card now shows the real starters from ESPN's depth chart for offense, defense and special teams, with each player's backup, injury status and full line from the last game
+- The Formation card now adds the average age, rookies starting, players on the injury report and the average weight of the offensive and defensive line
+- The MLB Lineup card now shows the last game's batting order with each batter's hand and season AVG, OBP and SLG, plus the starting pitcher
+- The playoff bracket is now laid out round by round at normal text size, read left to right, and scrolls sideways in a narrow window instead of shrinking
+- Each playoff round now names its format (Best of 5, Single game) and has a glossary tooltip, and a caption explains the numbers
+- Teams with a first-round bye now appear in a bye box in the first column of the bracket
+- Playoff matchups now show team colors, short names, wins or score and one status line, with the winner in bold
+- Before the playoffs, the Playoffs section is now one quiet line that opens to show the empty bracket and its format
+- While playoff games are listed, the Playoffs section now sits above the standings
+- The game detail panel now has the highlight link, and ESPN's recap for MLB games as well as NFL games
+- Now finds highlight clips for NFL playoff games through the season's Every Recap playlist
+- Buttons, tags, switches and segmented controls now have a slanted shape instead of fully rounded pills, with the text kept upright
+- Screens now fade in with a calmer motion
+- The next game and last game cards now size their text to the card, so chips wrap onto a second line instead of being cut off
+- Dragging the pennants with a mouse now glides and slows down instead of stopping dead
+- Now finds players in the roster by a jersey number typed as #11
+- Below 900 pixels wide the sidebar is now a drawer, and the welcome screen and team selector use a full-height team list on phones
+- The app now loads Settings, the Rule Book, the welcome screen and the Watercooler only when they are opened
+- Opened from mika-jeske.de, the web app now starts in the language of the page you came from
+
+### Accessibility
+- Injury notes now use a darker amber that is readable in the light, dark and high contrast themes
+
+### Fixed
+- Fixed injury tags in the roster being cut off in narrow windows
+- Fixed finished MLB playoff series missing their earlier games
+- Fixed the Auto theme opening in the previous theme when the system switched between light and dark while the app was closed
+- Fixed the season bar in the player spotlight for negative values such as rushing yards
+- Fixed a click on a glossary term in the player spotlight also opening the player panel
+- Fixed the live score on the next game card breaking after the dash on phones
+- Fixed the phone status bar keeping the system color when a theme is set by hand
+
 ## v1.3.2: Redesigned the Settings Window to replace AI generated assets
 
 ### New

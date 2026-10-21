@@ -270,15 +270,25 @@
         screenshotNote: "Die Screenshots auf dieser Seite stammen aus der Entwicklung und können vom aktuellen Stand der App abweichen.",
         updateBanner: {
           pill: "Neu",
-          ticker: "+++ CheapSeats v1.3.2 ist da +++ Jetzt auch auf Spanisch +++ Andere Teams ansehen, ohne dein eigenes zu wechseln +++ Drei Instant Classics pro Woche im Watercooler +++ Es gibt jetzt einen Trailer +++ Versprochen: CheapSeats bleibt kostenlos +++",
+          ticker: "+++ CheapSeats v1.4 ist da +++ Widgets für den Windows-Sperrbildschirm +++ Jetzt auch auf iPhone, iPad, Android und Mac +++ Die echten Starter aus dem Depth Chart +++ Neues Playoff-Bracket mit Prognose +++ Versprochen: CheapSeats bleibt kostenlos +++",
           cta: "Was ist neu →",
         },
         changelogHeading: "Was sich getan hat",
         changelogLede: "Klick auf eine Karte, dann geht das komplette Changelog auf (nur auf Englisch).",
         changelog: {
           soon: { title: "Weitere Funktionen" },
+          v14: {
+            tag: "v1.4.0 · Aktuell", title: "Stadium Renovations",
+            items: [
+              "Drei Windows-Widgets für Sperrbildschirm und Widgets-Board: nächstes Spiel, letzter Spielstand und Saisonbilanz, jeweils in den Farben des Teams",
+              "CheapSeats als Web-App für iPhone, iPad, Android und Mac",
+              "Die Formation-Karte zeigt die echten Starter aus dem Depth Chart, mit Backups und der Statistik aus dem letzten Spiel",
+              "Neu gebautes Playoff-Bracket mit erklärten Runden, Freilosen, Seriendetails und einer Prognose gegen Ende der regulären Saison",
+              "Eine neue schräge Form für Knöpfe, Tags und Schalter, dazu ruhigere Animationen",
+            ],
+          },
           v13: {
-            tag: "v1.3.2 · Aktuell", title: "Sandlot to Sunday",
+            tag: "v1.3.2", title: "Sandlot to Sunday",
             items: [
               "Spanisch als dritte App-Sprache, samt Glossar, Regelwerk und Datenschutzerklärung",
               "Andere Teams ansehen, ohne dein eigenes zu wechseln: Spielplan, Kader, Tabelle und Playoffs",
@@ -531,15 +541,25 @@
         screenshotNote: "Screenshots on this page are from development builds and may differ from the current version of the app.",
         updateBanner: {
           pill: "New",
-          ticker: "+++ CheapSeats v1.3.2 is here +++ Now in Spanish too +++ Browse other teams without switching your own +++ Three Instant Classics a week in the Watercooler +++ There is a trailer now +++ Promise: CheapSeats stays free +++",
+          ticker: "+++ CheapSeats v1.4 is here +++ Widgets for the Windows lock screen +++ Now on iPhone, iPad, Android and Mac too +++ The real starters from the depth chart +++ A new playoff bracket with a projection +++ Promise: CheapSeats stays free +++",
           cta: "See what's new →",
         },
         changelogHeading: "What's changed",
         changelogLede: "Click a card and the full changelog opens.",
         changelog: {
           soon: { title: "More features" },
+          v14: {
+            tag: "v1.4.0 · Current", title: "Stadium Renovations",
+            items: [
+              "Three Windows widgets for the lock screen and the Widgets Board: next game, latest score and season summary, each in team colors",
+              "CheapSeats as a web app for iPhone, iPad, Android and Mac",
+              "The Formation card shows the real starters from the depth chart, with backups and each player's line from the last game",
+              "A rebuilt playoff bracket with explained rounds, byes, series details and a projection near the end of the regular season",
+              "A new slanted shape for buttons, tags and switches, and calmer animations",
+            ],
+          },
           v13: {
-            tag: "v1.3.2 · Current", title: "Sandlot to Sunday",
+            tag: "v1.3.2", title: "Sandlot to Sunday",
             items: [
               "Spanish as a third app language, including the glossary, Rule Book and privacy statement",
               "Browse any team without changing the one you follow: schedule, roster, standings and playoffs",
@@ -792,15 +812,25 @@
         screenshotNote: "Les captures d'écran de cette page proviennent de versions de développement et peuvent différer de la version actuelle de l'application.",
         updateBanner: {
           pill: "Nouveau",
-          ticker: "+++ CheapSeats v1.3.2 est là +++ Maintenant aussi en espagnol +++ Consulter d'autres équipes sans changer la tienne +++ Trois Instant Classics par semaine dans le Watercooler +++ Il y a maintenant une bande-annonce +++ Promis : CheapSeats reste gratuite +++",
+          ticker: "+++ CheapSeats v1.4 est là +++ Des widgets pour l'écran de verrouillage de Windows +++ Maintenant aussi sur iPhone, iPad, Android et Mac +++ Les vrais titulaires du depth chart +++ Un nouveau tableau des playoffs avec projection +++ Promis : CheapSeats reste gratuite +++",
           cta: "Voir les nouveautés →",
         },
         changelogHeading: "Ce qui a changé",
         changelogLede: "Clique sur une carte et le changelog complet s'ouvre (en anglais uniquement).",
         changelog: {
           soon: { title: "Plus de fonctionnalités" },
+          v14: {
+            tag: "v1.4.0 · Actuelle", title: "Stadium Renovations",
+            items: [
+              "Trois widgets Windows pour l'écran de verrouillage et le panneau Widgets : prochain match, dernier score et bilan de la saison, aux couleurs de l'équipe",
+              "CheapSeats en application web pour iPhone, iPad, Android et Mac",
+              "La carte Formation montre les vrais titulaires du depth chart, avec les remplaçants et la ligne de stats du dernier match",
+              "Un tableau des playoffs refait avec des tours expliqués, les exemptions, le détail des séries et une projection en fin de saison régulière",
+              "Une nouvelle forme inclinée pour les boutons, étiquettes et interrupteurs, et des animations plus calmes",
+            ],
+          },
           v13: {
-            tag: "v1.3.2 · Actuelle", title: "Sandlot to Sunday",
+            tag: "v1.3.2", title: "Sandlot to Sunday",
             items: [
               "L'espagnol comme troisième langue de l'application, avec le glossaire, le guide des règles et la déclaration de confidentialité",
               "Consulter n'importe quelle équipe sans changer celle que tu suis : calendrier, effectif, classement et playoffs",
@@ -1053,15 +1083,25 @@
         screenshotNote: "Las capturas de pantalla de esta página son de versiones en desarrollo y pueden diferir de la versión actual de la aplicación.",
         updateBanner: {
           pill: "Nuevo",
-          ticker: "+++ Ya está aquí CheapSeats v1.3.2 +++ Ahora también en español +++ Explora otros equipos sin cambiar el tuyo +++ Tres Instant Classics por semana en el Watercooler +++ Ahora hay tráiler +++ Promesa: CheapSeats sigue siendo gratis +++",
+          ticker: "+++ Ya está aquí CheapSeats v1.4 +++ Widgets para la pantalla de bloqueo de Windows +++ Ahora también en iPhone, iPad, Android y Mac +++ Los titulares reales del depth chart +++ Un nuevo cuadro de playoffs con proyección +++ Promesa: CheapSeats sigue siendo gratis +++",
           cta: "Ver novedades →",
         },
         changelogHeading: "Qué ha cambiado",
         changelogLede: "Haz clic en una tarjeta y se abre el changelog completo (solo en inglés).",
         changelog: {
           soon: { title: "Más funciones" },
+          v14: {
+            tag: "v1.4.0 · Actual", title: "Stadium Renovations",
+            items: [
+              "Tres widgets de Windows para la pantalla de bloqueo y el panel de widgets: próximo partido, último resultado y resumen de la temporada, con los colores del equipo",
+              "CheapSeats como app web para iPhone, iPad, Android y Mac",
+              "La tarjeta de formación muestra los titulares reales del depth chart, con suplentes y la línea de cada jugador en el último partido",
+              "Un cuadro de playoffs rehecho con rondas explicadas, equipos exentos, el detalle de cada serie y una proyección al final de la temporada regular",
+              "Una nueva forma inclinada para botones, etiquetas e interruptores, y animaciones más tranquilas",
+            ],
+          },
           v13: {
-            tag: "v1.3.2 · Actual", title: "Sandlot to Sunday",
+            tag: "v1.3.2", title: "Sandlot to Sunday",
             items: [
               "El español como tercer idioma de la app, con el glosario, el reglamento y la declaración de privacidad",
               "Explora cualquier equipo sin cambiar el que sigues: calendario, plantilla, clasificación y playoffs",
@@ -1327,15 +1367,25 @@
         screenshotNote: "Gli screenshot in questa pagina provengono da versioni di sviluppo e potrebbero differire dalla versione attuale dell'app.",
         updateBanner: {
           pill: "Novità",
-          ticker: "+++ CheapSeats v1.3.2 è arrivata +++ Ora anche in spagnolo +++ Esplora altre squadre senza cambiare la tua +++ Tre Instant Classic a settimana nel Watercooler +++ Ora c'è un trailer +++ Promesso: CheapSeats resta gratuita +++",
+          ticker: "+++ CheapSeats v1.4 è arrivata +++ Widget per la schermata di blocco di Windows +++ Ora anche su iPhone, iPad, Android e Mac +++ I veri titolari dal depth chart +++ Un nuovo tabellone playoff con proiezione +++ Promesso: CheapSeats resta gratuita +++",
           cta: "Scopri le novità →",
         },
         changelogHeading: "Cosa è cambiato",
         changelogLede: "Clicca su una scheda e si apre il changelog completo (solo in inglese).",
         changelog: {
           soon: { title: "Altre funzioni" },
+          v14: {
+            tag: "v1.4.0 · Attuale", title: "Stadium Renovations",
+            items: [
+              "Tre widget di Windows per la schermata di blocco e la bacheca Widget: prossima partita, ultimo risultato e riepilogo della stagione, nei colori della squadra",
+              "CheapSeats come web app per iPhone, iPad, Android e Mac",
+              "La scheda Formazione mostra i veri titolari dal depth chart, con le riserve e la riga statistica dell'ultima partita",
+              "Tabellone playoff rifatto con turni spiegati, squadre esentate, dettagli delle serie e una proiezione verso la fine della stagione regolare",
+              "Una nuova forma inclinata per pulsanti, etichette e interruttori, e animazioni più calme",
+            ],
+          },
           v13: {
-            tag: "v1.3.2 · Attuale", title: "Sandlot to Sunday",
+            tag: "v1.3.2", title: "Sandlot to Sunday",
             items: [
               "Lo spagnolo come terza lingua dell'app, con glossario, regolamento e informativa sulla privacy",
               "Esplora qualsiasi squadra senza cambiare quella che segui: calendario, rosa, classifica e playoff",
