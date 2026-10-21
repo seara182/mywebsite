@@ -40,7 +40,7 @@
     /* No pills anywhere on this page: the back link and the device picker are
        plain text links, as on the section skipper of the home page. */
     /* .back-link, .coming and .gh live in ../shared.css. */
-    .btn:focus-visible, .tab:focus-visible, .win__alt a:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 4px; }
+    .btn:focus-visible, .tab:focus-visible, .win__alt a:focus-visible, .app-note a:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 4px; }
     .hero { position: relative; overflow-x: clip; }
     .hero-glow {
       position: absolute; width: 620px; height: 620px; top: -20px; right: -160px; z-index: 0; pointer-events: none;
@@ -56,6 +56,8 @@
     .app-icon { height: .78em; width: auto; vertical-align: -0.1em; margin-left: .16em; }
     .hero-sub { font-size: var(--fs-lead); line-height: var(--lh-relaxed); color: var(--text-body); max-width: 60ch; margin: 22px 0 0; position: relative; z-index: 1; }
     .hero-cta { margin-top: 32px; position: relative; z-index: 1; }
+    .app-note { margin: 14px 0 0; font-size: var(--fs-caption); line-height: 1.5; color: var(--text-muted); max-width: 60ch; }
+    .app-note a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
     .btn { display: inline-flex; align-items: center; gap: 8px; padding: 13px 24px; border-radius: var(--radius-md); font-family: var(--font-text); font-size: var(--fs-body); font-weight: 600; text-decoration: none; background: var(--ink); color: var(--paper); transition: transform .2s var(--ease-out), box-shadow .2s var(--ease-out); }
     .btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
 
@@ -275,6 +277,7 @@
       <p class="hero-sub" data-i18n="cheapseats.install.sub">Unter Windows kommt CheapSeats aus dem Microsoft Store. Auf iPhone, iPad, Mac und Android läuft es als Web-App: Du öffnest sie im Browser und legst sie auf den Home-Bildschirm oder ins Dock. Danach startet sie im Vollbild mit eigenem Symbol, auch ohne Internetverbindung.</p>
       <div class="hero-cta">
         <a class="btn" href="../app/" data-app-link><span data-i18n="cheapseats.install.open">Web-App öffnen</span> <span aria-hidden="true">→</span></a>
+        <p class="app-note"><span data-i18n="cheapseats.install.appNote">Die Web-App lädt Daten direkt bei ESPN, MLB, theScore und YouTube, die dabei deine IP-Adresse erhalten.</span> <a href="../../../impressum/#web-app" data-i18n="notice.more">Datenschutz</a></p>
       </div>
     </div>
   </header>

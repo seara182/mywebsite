@@ -1,17 +1,17 @@
 # Graph Report - Mika-Jeske.de  (2026-10-21)
 
 ## Corpus Check
-- 63 files · ~4,415,099 words
+- 63 files · ~4,444,168 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 95 file(s) not represented in the graph (top: .woff2 21, .woff 20, .ttf 20)
 
 ## Summary
-- 2406 nodes · 6523 edges · 105 communities (83 shown, 15 thin omitted)
-- Extraction: 89% EXTRACTED · 11% INFERRED · 0% AMBIGUOUS · INFERRED: 719 edges (avg confidence: 0.85)
+- 2409 nodes · 6527 edges · 106 communities (84 shown, 14 thin omitted)
+- Extraction: 89% EXTRACTED · 11% INFERRED · 0% AMBIGUOUS · INFERRED: 720 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `b23b4afa`
+- Built from commit: `1978b2f3`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -31,7 +31,7 @@
 - scripts
 - scripts
 - i18n.js
-- Wb
+- ia
 - sections-b.jsx
 - scripts
 - babel.config.json
@@ -52,12 +52,12 @@
 - HyperFrames Composition Project
 - HyperFrames Composition Project
 - HyperFrames Composition Project
-- pi
+- mi
 - Brag plan — a cinematic tour of mika-jeske.de
 - dist-BMnS_qxa.js
 - CheapSeats
 - SettingsModal-Dsr7TPT3.js
-- S
+- u
 - z
 - _updateDotLottieInstanceState
 - x
@@ -85,29 +85,29 @@
 - Fa
 - i18n-CH7KrRlR.js
 - The Anti-Vibe-Code Checklist
-- ls
+- Ga
 - cancelAnimationFrame
 - hl
-- ws
-- x
+- zy
+- .changeLanguage
 - .init
 - Ea
-- pv
+- S
 - we
-- hy
+- Kv
 - Sd
 - jm
-- .t
-- e
-- Oe
+- zt
+- oh
+- x
 - wm
 - ae
-- pt
+- ht
 - build-changelog.mjs
 - ut
-- tj
+- Rk
 - ds
-- nb
+- ni
 - at
 - Te
 - l0
@@ -128,8 +128,6 @@
 10. `xk()` - 44 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `wd()` --indirect_call--> `gd()`  [INFERRED]
-  projects/cheapseats/app/assets/index-DK9gt02m.js → ci/vendor/react-dom.production.min.js
 - `bj()` --indirect_call--> `dg()`  [INFERRED]
   ci/vendor/react-dom.production.min.js → projects/cheapseats/app/assets/index-DK9gt02m.js
 - `bj()` --indirect_call--> `eg()`  [INFERRED]
@@ -138,15 +136,17 @@
   ci/vendor/react-dom.production.min.js → projects/cheapseats/app/assets/react-BAD3_aPq.js
 - `Db()` --indirect_call--> `db()`  [INFERRED]
   ci/vendor/react-dom.production.min.js → projects/cheapseats/app/assets/index-DK9gt02m.js
+- `ic()` --indirect_call--> `oe()`  [INFERRED]
+  projects/cheapseats/app/assets/index-DK9gt02m.js → ci/vendor/react-dom.production.min.js
 
 ## Import Cycles
 - None detected.
 
-## Communities (105 total, 15 thin omitted)
+## Communities (106 total, 14 thin omitted)
 
 ### Community 0 - "primitives.js"
-Cohesion: 0.10
-Nodes (25): c(), b(), d(), f(), g(), h(), i(), m() (+17 more)
+Cohesion: 0.12
+Nodes (25): b(), d(), f(), g(), h(), i(), m(), o() (+17 more)
 
 ### Community 1 - "primitives.jsx"
 Cohesion: 0.09
@@ -165,12 +165,12 @@ Cohesion: 0.24
 Nodes (9): css, dark, HERE, light, lum(), NON_TEXT, PAIRS, ratio() (+1 more)
 
 ### Community 5 - "mountLanguageSwitcher"
-Cohesion: 0.19
-Nodes (10): arm(), mountContactChip(), mountLanguageSwitcher(), closeMenu(), openMenu(), renderHint(), renderLabels(), renderTheme() (+2 more)
+Cohesion: 0.17
+Nodes (11): arm(), mountContactChip(), mountLanguageSwitcher(), closeMenu(), openMenu(), renderHint(), renderLabels(), renderTheme() (+3 more)
 
 ### Community 6 - "xk"
-Cohesion: 0.13
-Nodes (23): B(), bj(), $d(), Db(), Dc(), fi(), Ha(), ke() (+15 more)
+Cohesion: 0.08
+Nodes (45): F(), J(), Bf(), bj(), Bk(), cf(), $d(), Db() (+37 more)
 
 ### Community 7 - "sections-new.jsx"
 Cohesion: 0.17
@@ -204,25 +204,25 @@ Nodes (8): name, private, scripts, check, dev, publish, render, type
 Cohesion: 0.29
 Nodes (12): applyTheme(), getLang(), langFromPath(), langFromQuery(), onPrerenderedHome(), pathForLang(), readTheme(), resolvePath() (+4 more)
 
-### Community 15 - "Wb"
-Cohesion: 0.12
-Nodes (31): F(), J(), Bf(), Bk(), cf(), df(), ea(), eb() (+23 more)
+### Community 15 - "ia"
+Cohesion: 0.10
+Nodes (33): ah(), ai(), bi(), ef(), Eh(), fb(), $g(), gi() (+25 more)
 
 ### Community 17 - "scripts"
 Cohesion: 0.29
 Nodes (7): scripts, build, build:changelog, spellcheck, verify, verify:contrast, watch
 
 ### Community 23 - "react-dom.production.min.js"
-Cohesion: 0.04
-Nodes (71): $a(), Ab(), Ag(), bc(), Bd(), be(), Bg(), Cg() (+63 more)
+Cohesion: 0.05
+Nodes (57): $a(), Ab(), bc(), Bd(), be(), dd(), de(), di() (+49 more)
 
 ### Community 24 - "react.production.min.js"
 Cohesion: 0.14
 Nodes (20): y(), q, B(), C(), D(), E(), fa(), M() (+12 more)
 
 ### Community 25 - "m"
-Cohesion: 0.08
-Nodes (41): Cc(), cd(), Eg(), Gk(), $h(), hc(), hh(), Hk() (+33 more)
+Cohesion: 0.12
+Nodes (24): Ag(), B(), Bg(), Cc(), cd(), Cg(), Gk(), $h() (+16 more)
 
 ### Community 26 - "CheapSeats: Multi-Platform Porting & Distribution Plan"
 Cohesion: 0.12
@@ -238,11 +238,11 @@ Nodes (11): apply(), argv, COMPS, esc(), LANGS, only, POSTER_W, STR (+3 more)
 
 ### Community 29 - "index-DK9gt02m.js"
 Cohesion: 0.01
-Nodes (180): Yt, aa, al, ar, au, Bd, bg, bl (+172 more)
+Nodes (184): Bt, Yt, aa, Ac(), al, ar, at(), au (+176 more)
 
 ### Community 30 - "u"
 Cohesion: 0.08
-Nodes (96): he(), u(), a(), af(), ag(), ap(), bf(), bo() (+88 more)
+Nodes (97): he(), u(), a(), Ae(), af(), ag(), ap(), bf() (+89 more)
 
 ### Community 31 - "build.mjs"
 Cohesion: 0.17
@@ -250,7 +250,7 @@ Nodes (19): baseForLang(), buildAll(), bundleCSS(), compile(), emitPages(), escA
 
 ### Community 32 - "Ps"
 Cohesion: 0.05
-Nodes (84): hu, mb(), ou, Ps(), _1(), a1(), Am(), Ay() (+76 more)
+Nodes (81): Ps(), _1(), a1(), Am(), Au(), av(), Ay(), b0() (+73 more)
 
 ### Community 33 - "mywebsite — Mika Jeske"
 Cohesion: 0.20
@@ -276,9 +276,9 @@ Nodes (7): Commands, Documentation, HyperFrames Composition Project, Key Rules, 
 Cohesion: 0.25
 Nodes (7): Commands, Documentation, HyperFrames Composition Project, Key Rules, Linting — ALWAYS RUN AFTER CHANGES, Project Structure, Skills — USE THESE FIRST
 
-### Community 39 - "pi"
-Cohesion: 0.15
-Nodes (20): aa(), af(), gi(), hi(), Id(), ii(), ji(), ki() (+12 more)
+### Community 39 - "mi"
+Cohesion: 0.48
+Nodes (7): aa(), mf(), mi(), nf(), Sb(), Ue(), zf()
 
 ### Community 40 - "Brag plan — a cinematic tour of mika-jeske.de"
 Cohesion: 0.29
@@ -293,12 +293,12 @@ Cohesion: 0.29
 Nodes (6): Aufbau / Architektur, Bekannte Einschränkungen, CheapSeats, Funktionen / Features, Stack, Was ist das?
 
 ### Community 43 - "SettingsModal-Dsr7TPT3.js"
-Cohesion: 0.05
-Nodes (55): bi(), bm(), by(), cb(), cd(), $d, da, db() (+47 more)
+Cohesion: 0.06
+Nodes (52): qt(), $t(), ay(), by(), cb(), cd(), Ce(), $d (+44 more)
 
-### Community 44 - "S"
-Cohesion: 0.10
-Nodes (56): o(), i(), A0(), aa(), av(), Bs(), Ef(), es() (+48 more)
+### Community 44 - "u"
+Cohesion: 0.13
+Nodes (45): ot(), Bs(), by(), Ef(), ev(), fy(), g0(), gy() (+37 more)
 
 ### Community 45 - "z"
 Cohesion: 0.05
@@ -362,15 +362,15 @@ Nodes (3): connectedCallback(), createRenderRoot(), enableUpdating()
 
 ### Community 62 - "yv"
 Cohesion: 0.09
-Nodes (47): ac(), Af(), Bm(), Bu(), cc(), Cl(), Cm(), d0() (+39 more)
+Nodes (49): ac(), Af(), Bm(), Bu(), bv(), cc(), Cl(), Cm() (+41 more)
 
 ### Community 63 - "RuleBookOverlay-DqVi5_hB.js"
 Cohesion: 0.06
 Nodes (33): $n, qu(), ub, za, a(), an, ar, As() (+25 more)
 
 ### Community 64 - "A"
-Cohesion: 0.09
-Nodes (39): Be(), ya, A1(), D(), ad, E1(), ed, Fs() (+31 more)
+Cohesion: 0.08
+Nodes (40): Be(), hu, ou, ya, A1(), D(), ad, E1() (+32 more)
 
 ### Community 65 - "sections-new.js"
 Cohesion: 0.47
@@ -381,12 +381,12 @@ Cohesion: 0.14
 Nodes (15): Ai, kr, Bi(), Br(), Ct, Gt(), handler(), k (+7 more)
 
 ### Community 67 - "WatercoolerOverlay-CSGagDb3.js"
-Cohesion: 0.10
-Nodes (36): ad(), am(), de(), dg(), Do(), eo(), fg(), gm() (+28 more)
+Cohesion: 0.09
+Nodes (43): ad(), am(), de(), dg(), Do(), eo(), fg(), gm() (+35 more)
 
 ### Community 68 - "wd"
-Cohesion: 0.07
-Nodes (29): ra(), Bt, bh, ca(), Cu(), en(), Et(), Fn() (+21 more)
+Cohesion: 0.06
+Nodes (32): gd(), ra(), bh, ca(), Cu(), en(), Fn(), fo() (+24 more)
 
 ### Community 69 - "ms"
 Cohesion: 0.11
@@ -397,98 +397,102 @@ Cohesion: 0.11
 Nodes (6): xr, Ca(), De, htmlBuilder(), Ie, mathmlBuilder()
 
 ### Community 71 - "Fa"
-Cohesion: 0.11
-Nodes (29): an(), Au(), Be(), bf(), cv(), dc(), e1(), et() (+21 more)
+Cohesion: 0.12
+Nodes (25): an(), bf(), cv(), dc(), e1(), et(), Fa(), fv() (+17 more)
 
 ### Community 72 - "i18n-CH7KrRlR.js"
-Cohesion: 0.13
-Nodes (23): B(), D, ft(), G(), Ie, it, jt(), kt() (+15 more)
+Cohesion: 0.11
+Nodes (26): B(), D, dt(), et(), ft(), G(), Ge(), Ie (+18 more)
 
 ### Community 73 - "The Anti-Vibe-Code Checklist"
 Cohesion: 0.08
 Nodes (24): 10. Performance & Code Quality, 1. Color & Contrast, 2. Typography, 3. Spacing & Layout, 4. Focus & Keyboard Navigation, 5. Semantic HTML & ARIA, 6. Motion & Animation, 7. Component Consistency (+16 more)
 
-### Community 74 - "ls"
-Cohesion: 0.12
-Nodes (26): _0(), ba(), bn(), cy(), Da(), Dt(), dy(), E0() (+18 more)
+### Community 74 - "Ga"
+Cohesion: 0.11
+Nodes (29): vh(), _0(), ba(), Be(), bn(), cy(), Da(), Dt() (+21 more)
 
 ### Community 76 - "hl"
+Cohesion: 0.23
+Nodes (14): Fn(), ft(), Hi(), hl(), In(), iv(), Ku(), Ni() (+6 more)
+
+### Community 77 - "zy"
 Cohesion: 0.13
-Nodes (24): of(), bc(), Fn(), ft(), gc(), Hi(), hl(), Ht() (+16 more)
-
-### Community 77 - "ws"
-Cohesion: 0.12
-Nodes (23): qt(), Ae(), at(), bt(), cf(), dc(), df(), fs() (+15 more)
-
-### Community 78 - "x"
-Cohesion: 0.22
-Nodes (4): ee(), st(), Ue(), x()
+Nodes (19): bi(), bm(), dy(), eh(), fh(), gh(), $h, ky (+11 more)
 
 ### Community 79 - ".init"
-Cohesion: 0.16
-Nodes (7): ct(), fe(), ht, l(), je, ke(), vi()
+Cohesion: 0.26
+Nodes (3): ct(), fe(), je
 
 ### Community 80 - "Ea"
-Cohesion: 0.21
-Nodes (20): ba, $c(), ct(), Dn(), Ds(), Ea(), El(), Hs() (+12 more)
+Cohesion: 0.24
+Nodes (18): ba, $c(), ct(), Dn(), Ds(), Ea(), El(), Hs() (+10 more)
 
-### Community 81 - "pv"
-Cohesion: 0.14
-Nodes (20): ia(), bi(), cn(), gn(), h0(), Ia(), ja(), Jc() (+12 more)
+### Community 81 - "S"
+Cohesion: 0.09
+Nodes (37): of(), A0(), aa(), bc(), bi(), cn(), Du(), es() (+29 more)
 
-### Community 82 - "we"
-Cohesion: 0.18
-Nodes (5): Ce(), Q(), re(), we, Xe()
-
-### Community 83 - "hy"
-Cohesion: 0.20
-Nodes (18): vh(), by(), Ec(), ee(), fu(), gy(), hy(), Kv() (+10 more)
+### Community 83 - "Kv"
+Cohesion: 0.47
+Nodes (9): Ec(), ee(), fu(), Kv(), ly(), sa(), sn(), ty() (+1 more)
 
 ### Community 84 - "Sd"
-Cohesion: 0.15
-Nodes (17): ai(), bi(), ci(), Dg(), hb(), pd(), qk(), sc() (+9 more)
+Cohesion: 0.18
+Nodes (14): ci(), Dg(), hb(), pd(), sc(), Sd(), Td(), vd() (+6 more)
 
 ### Community 85 - "jm"
-Cohesion: 0.28
-Nodes (16): E(), _f(), fl(), gv(), jm(), Mf(), Pa(), qt() (+8 more)
+Cohesion: 0.17
+Nodes (24): E(), _f(), fl(), gv(), Jc(), jm(), Kn(), l0() (+16 more)
 
-### Community 86 - ".t"
-Cohesion: 0.26
-Nodes (8): et(), e(), Le(), Ve(), ye(), Z(), ze(), zt()
+### Community 86 - "zt"
+Cohesion: 0.33
+Nodes (6): e(), Le(), Ve(), ye(), ze(), zt()
 
-### Community 87 - "e"
-Cohesion: 0.14
-Nodes (14): Ac(), eb(), fh(), gc(), gh(), it(), jc(), ma() (+6 more)
+### Community 87 - "oh"
+Cohesion: 0.12
+Nodes (14): da, eb(), gc(), ic(), na(), nb, nh(), ob() (+6 more)
+
+### Community 88 - "x"
+Cohesion: 0.15
+Nodes (7): Ce(), Oe(), Q(), st(), x(), Xe(), Z()
 
 ### Community 89 - "wm"
-Cohesion: 0.21
-Nodes (13): ao(), Dm(), fm(), hm(), io(), lm(), mm(), Ne() (+5 more)
+Cohesion: 0.19
+Nodes (14): ao(), Dm(), fm(), hm(), io(), it(), lm(), mm() (+6 more)
+
+### Community 91 - "ht"
+Cohesion: 0.17
+Nodes (6): ht, l(), o(), ke(), pt, vi()
 
 ### Community 92 - "build-changelog.mjs"
 Cohesion: 0.22
 Nodes (7): dir, escapeHtml(), inline(), lines, md, ref_node_path, ref_node_url
 
-### Community 94 - "tj"
-Cohesion: 0.28
-Nodes (9): ah(), bh(), ch(), Ck(), Ie(), me(), Qc(), sj() (+1 more)
+### Community 94 - "Rk"
+Cohesion: 0.16
+Nodes (14): bh(), ch(), Ck(), Hk(), Ie(), me(), oj(), Qc() (+6 more)
+
+### Community 96 - "ni"
+Cohesion: 0.17
+Nodes (16): af(), Eg(), Gc(), hc(), Kk(), Li(), Lk(), Nd() (+8 more)
 
 ### Community 98 - "Te"
-Cohesion: 0.40
-Nodes (5): gt(), Te(), ay(), qn(), zo
+Cohesion: 0.29
+Nodes (7): gt(), Te(), jf(), qn(), xo, zo, Zt()
 
 ## Knowledge Gaps
 - **340 isolated node(s):** `presets`, `$schema`, `registry`, `blocks`, `components` (+335 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 652 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **15 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 654 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **14 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Ps()` connect `Ps` to `A`, `wd`, `Fa`, `ls`, `SettingsModal-Dsr7TPT3.js`, `S`, `ws`, `hl`, `Wb`, `Ea`, `pv`, `.init`, `hy`, `jm`, `e`, `yv`, `u`?**
-  _High betweenness centrality (0.136) - this node is a cross-community bridge._
-- **Why does `J()` connect `Wb` to `xk`, `ri`, `dist-BMnS_qxa.js`, `_updateDotLottieInstanceState`, `_loadFromData`?**
+- **Why does `Ps()` connect `Ps` to `A`, `Te`, `wd`, `xk`, `Fa`, `Ga`, `SettingsModal-Dsr7TPT3.js`, `u`, `hl`, `Ea`, `S`, `Kv`, `jm`, `oh`, `yv`, `ht`, `u`?**
+  _High betweenness centrality (0.135) - this node is a cross-community bridge._
+- **Why does `J()` connect `xk` to `ri`, `dist-BMnS_qxa.js`, `ia`, `_updateDotLottieInstanceState`, `_loadFromData`?**
   _High betweenness centrality (0.098) - this node is a cross-community bridge._
-- **Why does `F()` connect `Wb` to `dist-BMnS_qxa.js`, `xk`?**
+- **Why does `F()` connect `xk` to `dist-BMnS_qxa.js`?**
   _High betweenness centrality (0.097) - this node is a cross-community bridge._
 - **Are the 28 inferred relationships involving `Ps()` (e.g. with `cy()` and `on`) actually correct?**
   _`Ps()` has 28 INFERRED edges - model-reasoned connections that need verification._
