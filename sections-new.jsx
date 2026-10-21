@@ -365,6 +365,11 @@ function Collaborations() {
                     <a href={e.href} target="_blank" rel="noopener" style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 16, fontFamily: "var(--font-text)", fontSize: "var(--fs-small)", fontWeight: 600, color: "var(--accent)", textDecoration: "none" }}>
                       {e.linkLabel} <span aria-hidden>↗</span>
                     </a>
+                    {e.pageLabel && (
+                      <a href="https://www.hendrik-e-peters.com/portfolio/filme/der-hochsitz/der-hochsitz.html" target="_blank" rel="noopener" style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 16, fontFamily: "var(--font-text)", fontSize: "var(--fs-small)", fontWeight: 600, color: "var(--accent)", textDecoration: "none" }}>
+                        {e.pageLabel} <span aria-hidden>↗</span>
+                      </a>
+                    )}
                     {e.imdbLabel && (
                       <a href="https://www.imdb.com/title/tt46065812/" target="_blank" rel="noopener" style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 16, fontFamily: "var(--font-text)", fontSize: "var(--fs-small)", fontWeight: 600, color: "var(--accent)", textDecoration: "none" }}>
                         {e.imdbLabel} <span aria-hidden>↗</span>
