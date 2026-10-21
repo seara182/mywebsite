@@ -336,5 +336,47 @@
     });
   }
 
+  /* ---------- site notice ----------
+     Information, not consent: the site sets no cookies and loads nothing from
+     third parties, so there is nothing to opt into. It says so once, plus the
+     usual line about outbound links, and remembers the dismissal in
+     localStorage next to "lang" and "theme" (§ 25 Abs. 2 Nr. 2 TDDDG). It
+     mounts itself, outside #root, so React never reconciles it. */
+  function mountNotice() {
+    var ls = null;
+    /* "notice" holds the dismissal time; the note comes back after 30 days. */
+    var MONTH = 30 * 24 * 60 * 60 * 1000;
+    try { ls = window.localStorage; if (Date.now() - Number(ls.getItem("notice")) < MONTH) return; } catch (e) {}
+
+    var wrap = document.createElement("section");
+    wrap.className = "site-notice";
+    var text = document.createElement("p");
+    var more = document.createElement("a");
+    more.href = "/impressum/";
+    var ok = document.createElement("button");
+    ok.type = "button";
+    ok.addEventListener("click", function () {
+      try { if (ls) ls.setItem("notice", String(Date.now())); } catch (e) {}
+      wrap.classList.remove("is-ready");
+      setTimeout(function () { wrap.remove(); }, 400);
+    });
+
+    function render() {
+      wrap.setAttribute("aria-label", I18N.t("notice.aria"));
+      text.textContent = I18N.t("notice.text") + " ";
+      more.textContent = I18N.t("notice.more");
+      ok.textContent = I18N.t("notice.ok");
+      text.appendChild(more);
+    }
+    window.addEventListener("langchange", render);
+    render();
+
+    wrap.appendChild(text);
+    wrap.appendChild(ok);
+    document.body.appendChild(wrap);
+    arm(wrap);
+  }
+  if (typeof document !== "undefined" && document.body) mountNotice();
+
   window.Widgets = { mountLanguageSwitcher: mountLanguageSwitcher, mountContactChip: mountContactChip, applyStaticTranslations: applyStaticTranslations };
 })();

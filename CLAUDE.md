@@ -4,7 +4,7 @@ Static personal site on GitHub Pages (Strato domain). Source of truth: this fold
 
 ## GDPR: no external traffic (hard rule)
 
-The site must stay 100% cookie-free and static, with no consent banner.
+The site must stay 100% cookie-free and static, with no consent banner. The only banner is the informational site notice (`mountNotice` in `widgets.js`, copy in `notice.*`); it asks for nothing and stores only its dismissal in localStorage, next to `lang` and `theme` (disclosed in `impressum/` §7).
 
 1. **No external CDNs.** Never add `<script src="https://...">` or `<link href="https://...">` (unpkg, Google Fonts, etc.).
 2. **Vendor locally.** Need a third-party lib (e.g. React)? Download the minified file into `ci/vendor/` and link it relatively.

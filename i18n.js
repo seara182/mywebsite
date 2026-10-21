@@ -210,6 +210,8 @@
         privacyNote: "Einzelne Personen wurden aus Datenschutz- oder rechtlichen Gründen unkenntlich gemacht.",
       },
       contact: { chip: "Kontakt aufnehmen" },
+
+      notice: {"text":"Keine Cookies, kein Tracking, nichts von fremden Servern. Dein Browser merkt sich nur deine Sprache, die Darstellung und dass du diesen Hinweis gelesen hast. Links zu anderen Websites führen von hier weg, für deren Inhalte übernehme ich keine Verantwortung.","more":"Datenschutz","ok":"Verstanden","aria":"Hinweis zu dieser Website"},
       langSwitcher: { selectLabel: "Sprache wählen", globeAria: "Sprache und Erscheinungsbild", optionAria: "{lang} auswählen" },
       theme: { label: "Erscheinungsbild", auto: "Auto", light: "Hell", dark: "Dunkel", groupAria: "Erscheinungsbild wählen", autoAria: "Automatisch – dem Gerät folgen", lightAria: "Helles Erscheinungsbild", darkAria: "Dunkles Erscheinungsbild" },
       cheapseats: {
@@ -469,6 +471,8 @@
         privacyNote: "Some individuals have been blurred for privacy or legal reasons.",
       },
       contact: { chip: "Contact me now" },
+
+      notice: {"text":"No cookies, no tracking, nothing loaded from other servers. Your browser only remembers your language, the appearance and that you have read this note. Links to other websites take you away from here, and I take no responsibility for what you find there.","more":"Privacy","ok":"Got it","aria":"About this website"},
       langSwitcher: { selectLabel: "Select Language", globeAria: "Language and appearance", optionAria: "Select {lang}" },
       theme: { label: "Appearance", auto: "Auto", light: "Light", dark: "Dark", groupAria: "Choose appearance", autoAria: "Automatic – follow device", lightAria: "Light appearance", darkAria: "Dark appearance" },
       cheapseats: {
@@ -728,6 +732,8 @@
         privacyNote: "Certaines personnes ont été floutées pour des raisons de confidentialité ou juridiques.",
       },
       contact: { chip: "Me contacter" },
+
+      notice: {"text":"Pas de cookies, pas de suivi, rien n'est chargé depuis d'autres serveurs. Ton navigateur retient seulement ta langue, l'apparence et le fait que tu as lu cette note. Les liens vers d'autres sites t'emmènent ailleurs, et je décline toute responsabilité quant à leur contenu.","more":"Confidentialité","ok":"Compris","aria":"À propos de ce site"},
       langSwitcher: { selectLabel: "Choisir la langue", globeAria: "Langue et apparence", optionAria: "Sélectionner le {lang}" },
       theme: { label: "Apparence", auto: "Auto", light: "Clair", dark: "Sombre", groupAria: "Choisir l'apparence", autoAria: "Automatique – suivre l'appareil", lightAria: "Apparence claire", darkAria: "Apparence sombre" },
       cheapseats: {
@@ -987,6 +993,8 @@
         privacyNote: "Algunas personas han sido difuminadas por motivos de privacidad o legales.",
       },
       contact: { chip: "Contáctame" },
+
+      notice: {"text":"Sin cookies, sin rastreo, nada cargado desde otros servidores. Tu navegador solo recuerda tu idioma, la apariencia y que ya has leído este aviso. Los enlaces a otras webs te llevan fuera de aquí, y no me hago responsable de su contenido.","more":"Privacidad","ok":"Entendido","aria":"Sobre esta web"},
       langSwitcher: { selectLabel: "Elegir idioma", globeAria: "Idioma y apariencia", optionAria: "Seleccionar {lang}" },
       theme: { label: "Apariencia", auto: "Auto", light: "Claro", dark: "Oscuro", groupAria: "Elegir apariencia", autoAria: "Automático: seguir el dispositivo", lightAria: "Apariencia clara", darkAria: "Apariencia oscura" },
       cheapseats: {
@@ -1259,6 +1267,8 @@
         privacyNote: "Alcune persone sono state rese irriconoscibili per motivi di privacy o legali.",
       },
       contact: { chip: "Contattami" },
+
+      notice: {"text":"Niente cookie, niente tracciamento, nulla caricato da altri server. Il tuo browser ricorda solo la lingua, l'aspetto e che hai letto questo avviso. I link ad altri siti ti portano altrove, e non mi assumo alcuna responsabilità per il loro contenuto.","more":"Privacy","ok":"Ho capito","aria":"Informazioni su questo sito"},
       langSwitcher: { selectLabel: "Scegli la lingua", globeAria: "Lingua e aspetto", optionAria: "Seleziona {lang}" },
       theme: { label: "Aspetto", auto: "Auto", light: "Chiaro", dark: "Scuro", groupAria: "Scegli l'aspetto", autoAria: "Automatico – segui il dispositivo", lightAria: "Aspetto chiaro", darkAria: "Aspetto scuro" },
       cheapseats: {
