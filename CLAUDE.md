@@ -23,6 +23,10 @@ Follow the "Mika Jeske" design system (`ci/tokens/*.css`, skill in `.claude/skil
 
 `.claude/`, `_notes/`, `projects/*` (except `cheapseats`), `private/master/CLAUDE.md`, `PWChange.*`, briefs, `node_modules/`, lighthouse/audit reports, brag video masters. See `.gitignore`. `private/master/CLAUDE.md` is a separate, scoped directive for that sub-app.
 
+## Private pages
+
+`private/*` pages are StatiCrypt-encrypted (salt in `.staticrypt.json`) and carry `noindex`; `robots.txt` disallows `/private/` for every named bot. `private/knieorthese/index.html` is generated: never edit it here. Its source lives in the private repo `seara182/opehlias-project`, and pushing there republishes it (`tools/publish.mjs`).
+
 ## graphify
 
 Knowledge graph in `graphify-out/` (`/graphify` skill).
