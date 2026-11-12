@@ -3,24 +3,31 @@ Disallow: /private/
 
 User-agent: GPTBot
 Allow: /
+Disallow: /private/
 
 User-agent: ChatGPT-User
 Allow: /
+Disallow: /private/
 
 User-agent: ClaudeBot
 Allow: /
+Disallow: /private/
 
 User-agent: anthropic-ai
 Allow: /
+Disallow: /private/
 
 User-agent: Claude-Web
 Allow: /
+Disallow: /private/
 
 User-agent: PerplexityBot
 Allow: /
+Disallow: /private/
 
 User-agent: Google-Extended
 Allow: /
+Disallow: /private/
 
 Sitemap: https://mika-jeske.de/sitemap.xml
 # LLM-readable site summary: https://mika-jeske.de/llms.txt
