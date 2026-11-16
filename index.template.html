@@ -278,6 +278,13 @@
   .pressable:hover .cta-arrow { transform: translateX(3px); }
   .cta-ink:hover { box-shadow: var(--shadow-md); }
   .cta-outline { transition: border-color .24s var(--ease-out), background .24s var(--ease-out), color .24s var(--ease-out); }
+  /* the mixer CTA is a <button>: drop the UA chrome so it matches the anchor one */
+  button.cta-outline { background: none; cursor: pointer; line-height: inherit; }
+  /* mixer block: the "verify authorship" disclosure and its code blocks */
+  .proof-toggle { background: none; border: 0; cursor: pointer; min-height: 44px; padding: 0 4px; font-family: var(--font-text); font-size: var(--fs-body); font-weight: 600; color: var(--text-body); text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: 4px; transition: color .24s var(--ease-out), text-decoration-color .24s var(--ease-out); }
+  .proof-toggle:hover { color: var(--heading); text-decoration-color: currentColor; }
+  /* user-select: all, so one click selects a whole key, signature or command */
+  .proof-code { margin: 8px 0 0; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--paper); color: var(--text); font-family: var(--font-mono); font-size: var(--fs-caption); line-height: 1.6; white-space: pre-wrap; overflow-wrap: anywhere; user-select: all; -webkit-user-select: all; }
   .cta-outline:hover { border-color: rgb(var(--accent-2-rgb) / 0.55); color: var(--sage-deep); background: rgb(var(--accent-2-rgb) / 0.06); }
   .bay-preview:hover { box-shadow: var(--shadow-lg), 0 50px 90px -44px rgb(var(--accent-2-glow-rgb) / 0.42); }
   @media (prefers-reduced-motion: reduce) { .pressable:hover .cta-arrow { transform: none; } }

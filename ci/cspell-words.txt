@@ -304,3 +304,8 @@ Pastenmischer
 Kampagnenkennung
 Emotionserkennung
 Prinzenstraße
+Adminrechte
+Stummschalten
+equaliser
+ecualizador
+Signaturschlüssel

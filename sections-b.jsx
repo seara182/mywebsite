@@ -90,12 +90,100 @@ function Engagement() {
   );
 }
 
+/* The mixer's repository address, base64-encoded and only decoded on click.
+   Deliberate: the app's name and its GitHub account must not appear as plain
+   text in anything this site serves (markup, scripts, copy, file names), so
+   that a search for either never leads here. Keep it that way when editing
+   this block. noreferrer also keeps this site out of the Referer header. */
+const MIXER_REPO = "aHR0cHM6Ly9naXRodWIuY29tL0dpcmxGcm9tVGhlQmF5L05vdGNobWl4";
+function openMixerRepo() {
+  window.open(atob(MIXER_REPO), "_blank", "noopener,noreferrer");
+}
+/* Proof of authorship: key fingerprint, public key, signed statement, its SSH
+   signature and the command that checks them, as base64-encoded JSON. Encoded
+   for the same reason as MIXER_REPO, and decoded only once the visitor opens
+   the panel, so none of it is in the prerendered or hydrated page. */
+const MIXER_PROOF = "eyJmcCI6IlNIQTI1NjpVdWtzTmN3SFlpclNHWExRY01ZOE0wZGFkN0wvZFB2eUxXMERuRktlczVBIiwia2V5Ijoic3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUl1cVBzc1FTSmdwVTM3MlYxeUVOVW1HTko3c3FJdjJzNVBnMk05YWhFK0ogR2lybEZyb21UaGVCYXkiLCJzdGF0ZW1lbnQiOiJJIGFtIHRoZSBhdXRob3Igb2YgZ2l0aHViLmNvbS9HaXJsRnJvbVRoZUJheS9Ob3RjaG1peCAoaW5pdGlhbCBjb21taXQgZDEyODYwMDczNjc0OGZiNDNiOTU2NzA4YzBiYmU2ODg4ZDQzMDI4OCwgcmVsZWFzZSB0YWcgdjEuMC4wKS4iLCJzaWciOiItLS0tLUJFR0lOIFNTSCBTSUdOQVRVUkUtLS0tLVxuVTFOSVUwbEhBQUFBQVFBQUFETUFBQUFMYzNOb0xXVmtNalUxTVRrQUFBQWdpNm8reXhCSW1DbFRmdlpYWElRMVNZWTBudVxueW9pL2F6aytEWXoxcUVUNGtBQUFBSVRtOTBZMmh0YVhnQUFBQUFBQUFBQm5Ob1lUVXhNZ0FBQUZNQUFBQUxjM05vTFdWa1xuTWpVMU1Ua0FBQUJBNjN0cmc2ZEZCYlRFM056UkVyUTBoN1VGZnlNZVpWT0xrL295d2RSSmlRQWl4VkdQQ09WQk01T05YbVxuL1MydHBwSzh3dUIrblVCRURQOVhleWpNR0hCZz09XG4tLS0tLUVORCBTU0ggU0lHTkFUVVJFLS0tLS0iLCJjbWQiOiJwcmludGYgJ0kgYW0gdGhlIGF1dGhvciBvZiBnaXRodWIuY29tL0dpcmxGcm9tVGhlQmF5L05vdGNobWl4IChpbml0aWFsIGNvbW1pdCBkMTI4NjAwNzM2NzQ4ZmI0M2I5NTY3MDhjMGJiZTY4ODhkNDMwMjg4LCByZWxlYXNlIHRhZyB2MS4wLjApLlxcbicgfCBzc2gta2V5Z2VuIC1ZIHZlcmlmeSAtZiA8KGVjaG8gJ0dpcmxGcm9tVGhlQmF5IHNzaC1lZDI1NTE5IEFBQUFDM056YUMxbFpESTFOVEU1QUFBQUlJdXFQc3NRU0pncFUzNzJWMXlFTlVtR05KN3NxSXYyczVQZzJNOWFoRStKJykgLUkgR2lybEZyb21UaGVCYXkgLW4gTm90Y2htaXggLXMgcHJvb2YudHh0LnNpZyJ9";
+
+function MixerProof({ n, open }) {
+  const proof = open ? JSON.parse(atob(MIXER_PROOF)) : null;
+  const label = { fontFamily: "var(--font-text)", fontSize: "var(--fs-small)", fontWeight: 600, color: "var(--heading)", margin: "20px 0 0" };
+  const prose = { fontSize: "var(--fs-body)", lineHeight: "var(--lh-relaxed)", color: "var(--text-body)", maxWidth: "70ch" };
+  return (
+    /* sits below the two-column grid, not inside it: opening it must not move
+       the card, and a spanning item would keep auto-fit's spare track open.
+       No inline display here, or it would beat the hidden attribute. */
+    <div id="mixer-proof" className="mixer-proof" hidden={!open} style={{ marginTop: "clamp(24px,4vw,40px)", padding: "clamp(20px,3vw,32px)", border: "1px solid var(--border)", borderRadius: "var(--radius-lg)", background: "var(--paper-2)" }}>
+      {proof && (
+        <>
+          <p style={{ ...prose, margin: 0 }}>{n.proofIntro}</p>
+          <h3 style={label}>{n.proofFp}</h3>
+          <pre className="proof-code">{proof.fp}</pre>
+          <h3 style={label}>{n.proofKey}</h3>
+          <pre className="proof-code">{proof.key}</pre>
+          <h3 style={label}>{n.proofStatement}</h3>
+          <pre className="proof-code">{proof.statement}</pre>
+          <h3 style={label}>{n.proofSig}</h3>
+          <pre className="proof-code">{proof.sig}</pre>
+          <h3 style={label}>{n.proofCmd}</h3>
+          <p style={{ ...prose, margin: "6px 0 0" }}>{n.proofHow}</p>
+          <pre className="proof-code">{proof.cmd}</pre>
+          <p style={{ ...prose, margin: "20px 0 0" }}>{n.proofGit}</p>
+        </>
+      )}
+    </div>
+  );
+}
+
 function Projects() {
   const [, t] = useLang();
   const p = t("projects");
+  const n = t("mixer");
+  const [proofOpen, setProofOpen] = React.useState(false);
   return (
     <section id="projekt" data-section style={{ padding: "var(--section-y) 0" }}>
       <div className="container align-track">
+        <SectionHead title={n.title} />
+          <div style={{ marginBottom: "var(--section-y)" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(340px,100%),1fr))", gap: "clamp(28px,4vw,56px)", alignItems: "center" }}>
+            <div>
+              <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: 0, maxWidth: "46ch" }}>
+                {n.p1}
+              </p>
+              <p style={{ fontSize: "var(--fs-lead)", lineHeight: "var(--lh-relaxed)", color: "var(--text)", margin: "16px 0 0", maxWidth: "46ch" }}>
+                {n.p2}
+              </p>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "10px 24px", marginTop: 28 }}>
+                {n.features.map((f, i) => (
+                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-small)", color: "var(--text-body)" }}>
+                    <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--accent)" }} />{f}
+                  </div>
+                ))}
+              </div>
+              <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "8px 24px", marginTop: 32 }}>
+                <Pressable as="button" type="button" className="cta-outline" onClick={openMixerRepo} lift={-3} style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "13px 24px", border: "1px solid var(--border-strong)", borderRadius: "var(--radius-md)", fontFamily: "var(--font-text)", fontSize: "var(--fs-body)", fontWeight: 600, color: "var(--heading)" }}>
+                  {n.cta}<span className="sr-only"> ({t("nav.newTab")})</span> <span aria-hidden className="cta-arrow">↗</span>
+                </Pressable>
+                <button type="button" className="proof-toggle" aria-expanded={proofOpen} aria-controls="mixer-proof" onClick={() => setProofOpen((o) => !o)}>
+                  {n.proofToggle} <span aria-hidden>{proofOpen ? "−" : "+"}</span>
+                </button>
+              </div>
+            </div>
+            <Reveal className="bay-stage" style={{ perspective: 1200, minWidth: 0 }}>
+            <Pressable className="bay-preview" tilt={7} lift={-6} style={{ position: "relative", minWidth: 0, display: "grid", placeItems: "center", padding: "clamp(24px,5vw,44px)", borderRadius: "var(--radius-xl)", overflow: "hidden",
+              /* Theme-fixed literals, like the CheapSeats mock below: this is
+                 the desktop wallpaper behind the menu bar panel, i.e. product
+                 imagery, not site chrome. Brown and blue on purpose, so the
+                 two project cards do not share a ramp. No text sits on it. */
+              background: "linear-gradient(115deg, #7A4A2B, #1F4A7A)", boxShadow: "var(--shadow-lg)", border: "1px solid var(--border)" }}>
+              {/* The app's own screenshot, vendored so nothing loads from
+                  GitHub, and cropped above the row that spells out its name. */}
+              <img src={asset("ci/assets/Bilder/Mixer/panel.webp")} alt={n.imgAlt} width="300" height="280" loading="lazy" decoding="async" style={{ display: "block", width: "min(300px, 100%)", height: "auto", transform: "translateZ(28px)", borderRadius: "var(--radius-md)", boxShadow: "0 24px 48px -20px rgba(0,0,0,0.75)" }} />
+            </Pressable>
+            </Reveal>
+          </div>
+          <MixerProof n={n} open={proofOpen} />
+          </div>
         <SectionHead title={p.title} />
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(340px,100%),1fr))", gap: "clamp(28px,4vw,56px)", alignItems: "center" }}>
             <div>

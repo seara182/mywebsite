@@ -1,33 +1,41 @@
 User-agent: *
 Disallow: /private/
+Disallow: /ci/assets/Bilder/Mixer/
 
 User-agent: GPTBot
 Allow: /
 Disallow: /private/
+Disallow: /ci/assets/Bilder/Mixer/
 
 User-agent: ChatGPT-User
 Allow: /
 Disallow: /private/
+Disallow: /ci/assets/Bilder/Mixer/
 
 User-agent: ClaudeBot
 Allow: /
 Disallow: /private/
+Disallow: /ci/assets/Bilder/Mixer/
 
 User-agent: anthropic-ai
 Allow: /
 Disallow: /private/
+Disallow: /ci/assets/Bilder/Mixer/
 
 User-agent: Claude-Web
 Allow: /
 Disallow: /private/
+Disallow: /ci/assets/Bilder/Mixer/
 
 User-agent: PerplexityBot
 Allow: /
 Disallow: /private/
+Disallow: /ci/assets/Bilder/Mixer/
 
 User-agent: Google-Extended
 Allow: /
 Disallow: /private/
+Disallow: /ci/assets/Bilder/Mixer/
 
 Sitemap: https://mika-jeske.de/sitemap.xml
 # LLM-readable site summary: https://mika-jeske.de/llms.txt
