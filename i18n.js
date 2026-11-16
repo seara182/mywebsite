@@ -154,8 +154,11 @@
       resume: {
         title: "Lebenslauf",
         experienceHeading: "Berufserfahrung", educationHeading: "Bildungsweg",
-        skillsHeading: "Kompetenzen", awardLabel: "Auszeichnung",
-        awardName: "DGZfP Science Student Award 2025", linkedinLabel: "LinkedIn",
+        skillsHeading: "Kompetenzen", awardLabel: "Auszeichnungen",
+        awards: [
+          { name: "HENSOLDT ARGUS Science Award 2026, 4. Platz", href: "https://www.linkedin.com/posts/mika-jeske-835092313_metrologie-messtechnik-daesnnschichttechnik-share-7526240231876960256-0VYj/" },
+          { name: "DGZfP Science Student Award 2025" },
+        ], linkedinLabel: "LinkedIn",
       },
       experience: [
         { role: "Praktikant Industrial Engineering", org: "ifm prover gmbh", location: "Tettnang", period: "11.2025 – 04.2026", accent: true,
@@ -425,8 +428,11 @@
       resume: {
         title: "CV",
         experienceHeading: "Work Experience", educationHeading: "Education",
-        skillsHeading: "Skills", awardLabel: "Award",
-        awardName: "DGZfP Science Student Award 2025", linkedinLabel: "LinkedIn",
+        skillsHeading: "Skills", awardLabel: "Awards",
+        awards: [
+          { name: "HENSOLDT ARGUS Science Award 2026, 4th place", href: "https://www.linkedin.com/posts/mika-jeske-835092313_metrologie-messtechnik-daesnnschichttechnik-share-7526240231876960256-0VYj/" },
+          { name: "DGZfP Science Student Award 2025" },
+        ], linkedinLabel: "LinkedIn",
       },
       experience: [
         { role: "Industrial Engineering Intern", org: "ifm prover gmbh", location: "Tettnang", period: "11.2025 – 04.2026", accent: true,
@@ -696,8 +702,11 @@
       resume: {
         title: "Parcours",
         experienceHeading: "Expérience professionnelle", educationHeading: "Formation",
-        skillsHeading: "Compétences", awardLabel: "Distinction",
-        awardName: "DGZfP Science Student Award 2025", linkedinLabel: "LinkedIn",
+        skillsHeading: "Compétences", awardLabel: "Distinctions",
+        awards: [
+          { name: "HENSOLDT ARGUS Science Award 2026, 4e place", href: "https://www.linkedin.com/posts/mika-jeske-835092313_metrologie-messtechnik-daesnnschichttechnik-share-7526240231876960256-0VYj/" },
+          { name: "DGZfP Science Student Award 2025" },
+        ], linkedinLabel: "LinkedIn",
       },
       experience: [
         { role: "Stagiaire en ingénierie industrielle", org: "ifm prover gmbh", location: "Tettnang", period: "11.2025 – 04.2026", accent: true,
@@ -967,8 +976,11 @@
       resume: {
         title: "Trayectoria",
         experienceHeading: "Experiencia profesional", educationHeading: "Formación académica",
-        skillsHeading: "Competencias", awardLabel: "Distinción",
-        awardName: "DGZfP Science Student Award 2025", linkedinLabel: "LinkedIn",
+        skillsHeading: "Competencias", awardLabel: "Distinciones",
+        awards: [
+          { name: "HENSOLDT ARGUS Science Award 2026, 4.º puesto", href: "https://www.linkedin.com/posts/mika-jeske-835092313_metrologie-messtechnik-daesnnschichttechnik-share-7526240231876960256-0VYj/" },
+          { name: "DGZfP Science Student Award 2025" },
+        ], linkedinLabel: "LinkedIn",
       },
       experience: [
         { role: "Becario en ingeniería industrial", org: "ifm prover gmbh", location: "Tettnang", period: "11.2025 – 04.2026", accent: true,
@@ -1251,8 +1263,11 @@
       resume: {
         title: "Percorso",
         experienceHeading: "Esperienza professionale", educationHeading: "Formazione",
-        skillsHeading: "Competenze", awardLabel: "Riconoscimento",
-        awardName: "DGZfP Science Student Award 2025", linkedinLabel: "LinkedIn",
+        skillsHeading: "Competenze", awardLabel: "Riconoscimenti",
+        awards: [
+          { name: "HENSOLDT ARGUS Science Award 2026, 4° posto", href: "https://www.linkedin.com/posts/mika-jeske-835092313_metrologie-messtechnik-daesnnschichttechnik-share-7526240231876960256-0VYj/" },
+          { name: "DGZfP Science Student Award 2025" },
+        ], linkedinLabel: "LinkedIn",
       },
       experience: [
         { role: "Tirocinante in Industrial Engineering", org: "ifm prover gmbh", location: "Tettnang", period: "11.2025 – 04.2026", accent: true,

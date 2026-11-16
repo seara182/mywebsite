@@ -3,6 +3,8 @@ const { Hero, Intro, Seeking } = window.SECTIONS_A;
 const { Story, CleanroomTear, ConfiTear, Reunion, Collaborations } = window.SECTIONS_NEW;
 
 const LINKEDIN = "https://www.linkedin.com/in/mika-jeske-835092313/";
+/* job-seeking callout is hidden, not deleted: flip to true to bring it back */
+const SHOW_SEEKING = false;
 const EMAIL = "mailto:mikajeske@gmail.com";
 const PHONE = "tel:+491774866584";
 
@@ -47,10 +49,12 @@ function Resume() {
 
         <div style={{ marginTop: "clamp(40px,5vw,72px)" }}>
           <h3 className="t-h3" style={{ marginBottom: 12 }}>{r.awardLabel}</h3>
-          <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-normal)", color: "var(--text)", margin: 0 }}>
-            {r.awardName}{" · "}
-            <a href={LINKEDIN} target="_blank" rel="noopener" style={{ color: "var(--accent)", fontWeight: 600 }}>{r.linkedinLabel}</a>
-          </p>
+          {r.awards.map((a, i) => (
+            <p key={i} style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-normal)", color: "var(--text)", margin: i ? "8px 0 0" : 0 }}>
+              {a.name}{" · "}
+              <a href={a.href || LINKEDIN} target="_blank" rel="noopener" style={{ color: "var(--accent)", fontWeight: 600 }}>{r.linkedinLabel}</a>
+            </p>
+          ))}
         </div>
       </div>
     </section>
@@ -186,7 +190,7 @@ function useSkipperItems() {
   const [, t] = useLang();
   const nav = t("nav");
   return [
-    { id: "werkstudent", label: nav.werkstudent },
+    ...(SHOW_SEEKING ? [{ id: "werkstudent", label: nav.werkstudent }] : []),
     { id: "lebenslauf", label: nav.lebenslauf },
     { id: "ehrenamt", label: nav.ehrenamt },
     { id: "projekt", label: nav.projekt },
@@ -203,7 +207,7 @@ function App() {
       <SectionSkipper items={skipItems} label={t("nav").skipLabel} />
       <Hero />
       <Intro />
-      <Seeking />
+      {SHOW_SEEKING && <Seeking />}
       <Resume />
       <Engagement />
       <ConfiTear />
