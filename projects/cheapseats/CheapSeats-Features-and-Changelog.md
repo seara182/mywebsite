@@ -3,6 +3,27 @@
 ## v2.0.0: The American Quartet
 Coming in 2027
 
+## v1.4.2: Every Team in Color
+The date in the YouTube highlight search is the first change made on a suggestion from a user. Thank you to the community for its support!
+
+### New
+- Added a History section for every team, not just the 49ers and Giants: each season since 2012 with playoff and championship markers, the team's championship pennants, and points or runs scored and allowed per game
+- A team in the header of a game or next game panel now opens that team's page
+
+### Improved
+- Team colors now blend in OKLab, so a gradient between two team colors stays clean instead of turning dark or brown in the middle
+- The YouTube highlight search for the last game now includes the game date
+- The season bar in the next game panel now compares both teams' records
+- The win/loss trend now shows win percentage, so a shortened season such as MLB's 2020 no longer looks like a collapse
+
+### Fixed
+- Fixed every team other than the 49ers and Giants showing in grey in the web app: team colors are back
+- Fixed total, passing and rushing yards in the game panel always showing an even split
+- Fixed the venue card showing "unavailable" for many teams
+- Fixed the win/loss tag running into the date on narrow result cards
+- Fixed championship pennant labels being cut off
+- Fixed white text on light team colors in the team tabs
+
 ## v1.4.1: 'Stadium Renovations'
 
 ### New
